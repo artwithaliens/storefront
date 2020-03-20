@@ -1,0 +1,9 @@
+.next/
+.now/
+.vscode/
+node_modules/
+.env
+npm-debug.log
+yarn-error.log
+
+.now

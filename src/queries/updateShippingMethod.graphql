@@ -1,0 +1,9 @@
+mutation UpdateShippingMethod($shippingMethods: [String]) {
+  updateShippingMethod(
+    input: { clientMutationId: "UpdateShippingMethod", shippingMethods: $shippingMethods }
+  ) {
+    cart {
+      total
+    }
+  }
+}

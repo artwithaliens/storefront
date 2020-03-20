@@ -1,0 +1,5 @@
+mutation UpdateOrder($orderId: Int!) {
+  updateOrder(input: { clientMutationId: "UpdateOrder", orderId: $orderId, isPaid: true }) {
+    clientMutationId
+  }
+}

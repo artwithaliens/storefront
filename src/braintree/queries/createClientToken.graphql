@@ -1,0 +1,5 @@
+mutation CreateClientToken {
+  createClientToken {
+    clientToken
+  }
+}

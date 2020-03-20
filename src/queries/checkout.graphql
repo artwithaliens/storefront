@@ -1,0 +1,28 @@
+mutation Checkout(
+  $billing: CustomerAddressInput
+  $customerNote: String
+  $isPaid: Boolean = false
+  $metaData: [MetaDataInput]
+  $paymentMethod: String
+  $shipToDifferentAddress: Boolean = false
+  $shipping: CustomerAddressInput
+  $shippingMethod: String
+  $transactionId: String
+) {
+  checkout(
+    input: {
+      clientMutationId: "Checkout"
+      billing: $billing
+      customerNote: $customerNote
+      isPaid: $isPaid
+      metaData: $metaData
+      paymentMethod: $paymentMethod
+      shipToDifferentAddress: $shipToDifferentAddress
+      shipping: $shipping
+      shippingMethod: [$shippingMethod]
+      transactionId: $transactionId
+    }
+  ) {
+    redirect
+  }
+}

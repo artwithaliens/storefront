@@ -1,0 +1,20 @@
+query Order($orderId: Int!, $orderKey: String!) {
+  order(orderId: $orderId, orderKey: $orderKey) {
+    orderId
+    date
+    total(format: RAW)
+    paymentMethodTitle
+    lineItems {
+      edges {
+        node {
+          product {
+            productId
+            name
+          }
+          quantity
+          total
+        }
+      }
+    }
+  }
+}

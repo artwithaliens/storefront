@@ -1,0 +1,25 @@
+query Products($category: String, $tag: String) {
+  products(first: 100, where: { category: $category, tag: $tag, visibility: VISIBLE }) {
+    nodes {
+      id
+      productId
+      slug
+      name
+      image {
+        sourceUrl
+        srcSet
+        altText
+      }
+      ... on SimpleProduct {
+        price
+        stockStatus
+      }
+      ... on VariableProduct {
+        price
+      }
+      ... on ExternalProduct {
+        price
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+mutation UpdateCart($key: ID!, $quantity: Int!) {
+  updateItemQuantities(
+    input: { clientMutationId: "UpdateCart", items: [{ key: $key, quantity: $quantity }] }
+  ) {
+    items {
+      key
+      quantity
+    }
+  }
+}

@@ -1,0 +1,52 @@
+query Cart {
+  cart {
+    contents(first: 50) {
+      itemCount
+      nodes {
+        key
+        product {
+          id
+          productId
+          name
+          image {
+            sourceUrl
+            srcSet
+            altText
+          }
+          ... on SimpleProduct {
+            price
+            stockQuantity
+          }
+          ... on VariableProduct {
+            price
+            stockQuantity
+          }
+        }
+        variation {
+          stockQuantity
+          attributes {
+            nodes {
+              id
+              name
+              value
+            }
+          }
+        }
+        quantity
+        total
+      }
+    }
+    contentsTotal
+    subtotal
+    total
+    availableShippingMethods {
+      packageDetails
+      rates {
+        id
+        cost
+        label
+      }
+    }
+    chosenShippingMethod
+  }
+}

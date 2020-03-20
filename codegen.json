@@ -1,0 +1,43 @@
+{
+  "overwrite": true,
+  "config": {
+    "withComponent": false,
+    "withHOC": false
+  },
+  "generates": {
+    "./src/graphql.ts": {
+      "schema": "http://artwithaliens.test/wp/index.php?graphql",
+      "documents": "./src/queries/**/*.graphql",
+      "plugins": ["typescript", "typescript-operations", "typescript-react-apollo"],
+      "config": {
+        "namingConvention": {
+          "enumValues": "upper-case#upperCase"
+        },
+        "withHooks": true
+      }
+    },
+    "./src/fragmentTypes.ts": {
+      "schema": "http://artwithaliens.test/wp/index.php?graphql",
+      "documents": "./src/queries/**/*.graphql",
+      "plugins": ["fragment-matcher"]
+    },
+    "./src/braintree/graphql.ts": {
+      "schema": {
+        "https://payments.sandbox.braintree-api.com/graphql": {
+          "headers": {
+            "authorization": "Bearer sandbox_d5s3mjwn_2fb47qhtmvv3vk9d",
+            "braintree-version": "2020-05-07"
+          }
+        }
+      },
+      "documents": "./src/braintree/**/*.graphql",
+      "plugins": ["typescript", "typescript-operations", "typescript-react-apollo"],
+      "config": {
+        "namingConvention": "keep"
+      }
+    }
+  },
+  "hooks": {
+    "afterOneFileWrite": ["eslint --fix", "prettier --write"]
+  }
+}

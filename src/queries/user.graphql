@@ -1,0 +1,9 @@
+query User($id: ID!) {
+  user(id: $id, idType: ID) {
+    id
+    userId
+    firstName
+    lastName
+    nicename
+  }
+}

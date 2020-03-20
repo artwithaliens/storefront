@@ -1,0 +1,11 @@
+query Preview($id: ID!, $rev: Int!) {
+  page(id: $id, idType: DATABASE_ID) {
+    id
+    revisions(first: 1, where: { id: $rev }) {
+      nodes {
+        id
+        content
+      }
+    }
+  }
+}

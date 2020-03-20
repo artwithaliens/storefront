@@ -1,0 +1,29 @@
+query Page($slug: ID!) {
+  page(id: $slug, idType: URI) {
+    id
+    title
+    content
+    featuredImage {
+      sourceUrl
+      srcSet
+      altText
+    }
+    seo {
+      title
+      description
+      canonicalUrl
+      openGraphTitle
+      openGraphDescription
+      twitterTitle
+      twitterDescription
+      socialImage {
+        sourceUrl
+        altText
+        mediaDetails {
+          height
+          width
+        }
+      }
+    }
+  }
+}

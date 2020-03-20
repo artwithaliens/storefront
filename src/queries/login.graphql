@@ -1,0 +1,13 @@
+mutation Login($username: String!, $password: String!) {
+  login(input: { clientMutationId: "Login", username: $username, password: $password }) {
+    authToken
+    refreshToken
+    user {
+      id
+      userId
+      name
+      email
+      nicename
+    }
+  }
+}

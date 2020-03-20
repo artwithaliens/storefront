@@ -1,0 +1,16 @@
+mutation UpdateCustomer(
+  $billing: CustomerAddressInput
+  $shipping: CustomerAddressInput
+  $shippingSameAsBilling: Boolean
+) {
+  updateCustomer(
+    input: {
+      clientMutationId: "UpdateCustomer"
+      billing: $billing
+      shipping: $shipping
+      shippingSameAsBilling: $shippingSameAsBilling
+    }
+  ) {
+    clientMutationId
+  }
+}

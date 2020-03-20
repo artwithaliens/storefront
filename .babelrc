@@ -1,0 +1,10 @@
+{
+  "presets": ["next/babel"],
+  "plugins": ["inline-react-svg", "graphql-tag"],
+  "overrides": [
+    {
+      "test": "./src/graphql.ts",
+      "compact": true
+    }
+  ]
+}

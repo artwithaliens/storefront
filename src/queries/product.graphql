@@ -1,0 +1,117 @@
+query Product($slug: ID!) {
+  product(id: $slug, idType: SLUG) {
+    id
+    productId
+    slug
+    name
+    shortDescription
+    description
+    deliveryTime
+    sku
+    image {
+      sourceUrl
+      srcSet
+      altText
+    }
+    ... on SimpleProduct {
+      manageStock
+      stockQuantity
+      stockStatus
+      price
+      weight
+      length
+      width
+      height
+    }
+    ... on VariableProduct {
+      price
+      variations {
+        nodes {
+          id
+          variationId
+          name
+          manageStock
+          stockQuantity
+          stockStatus
+        }
+      }
+      weight
+      length
+      width
+      height
+    }
+    ... on ExternalProduct {
+      price
+      externalUrl
+    }
+    galleryImages {
+      nodes {
+        id
+        sourceUrl
+        srcSet
+        altText
+      }
+    }
+    productCategories {
+      nodes {
+        id
+        slug
+        name
+      }
+    }
+    productTags {
+      nodes {
+        id
+        slug
+        name
+      }
+    }
+    paPaperWeights {
+      nodes {
+        id
+        name
+      }
+    }
+    related(first: 4) {
+      nodes {
+        id
+        productId
+        slug
+        name
+        image {
+          uri
+          title
+          sourceUrl
+          srcSet
+        }
+        ... on SimpleProduct {
+          price
+          stockStatus
+        }
+        ... on VariableProduct {
+          price
+        }
+        ... on ExternalProduct {
+          price
+        }
+      }
+    }
+    seo {
+      title
+      description
+      canonicalUrl
+      openGraphTitle
+      openGraphDescription
+      twitterTitle
+      twitterDescription
+      socialImage {
+        sourceUrl
+        altText
+        mediaDetails {
+          height
+          width
+        }
+      }
+    }
+  }
+}
