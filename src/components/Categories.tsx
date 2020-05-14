@@ -1,83 +1,70 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
-import Link from 'next/link';
 import React from 'react';
+import { useCategoriesQuery } from '../graphql';
+import Link from './Link';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(({ spacing }) => ({
   title: {
     marginBottom: 24,
   },
 
-  categoryTitle: {
-    color: '#333',
-    fontSize: 18,
-    fontWeight: 400,
-    lineHeight: 1.222,
-    marginBottom: 8,
-    marginTop: 8,
-    textAlign: 'center',
+  category: {
+    height: '100%',
   },
-});
+
+  categoryLink: {
+    display: 'block',
+    textDecoration: 'none',
+  },
+
+  categoryImage: {
+    height: 430,
+    objectFit: 'cover',
+    verticalAlign: 'middle',
+    width: '100%',
+  },
+
+  categoryTitle: {
+    marginTop: spacing(2),
+  },
+}));
 
 const Categories: React.FC = () => {
   const styles = useStyles();
 
+  const { data: { categories } = { data: { categories: undefined } } } = useCategoriesQuery();
+
   return (
     <Container>
-      <Typography variant="h2" align="center" className={styles.title}>
-        Shop by Category
+      <Typography gutterBottom variant="h3">
+        Shop by category
       </Typography>
-      <Grid container component="ul" spacing={3}>
-        <Grid item component="li" md={4}>
-          <Link href="/">
-            <a>
-              <img
-                src="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/accessories.jpg"
-                alt="Accessories"
-                width="324"
-                height="324"
-                srcSet="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/accessories.jpg 801w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/accessories-150x150.jpg 150w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/accessories-300x300.jpg 300w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/accessories-768x768.jpg 768w"
-                sizes="(max-width: 324px) 100vw, 324px"
-              />
-              <Typography variant="h3" className={styles.categoryTitle}>
-                Accessories <mark className="count">(4)</mark>
-              </Typography>
-            </a>
-          </Link>
-        </Grid>
-        <Grid item component="li" md={4}>
-          <Link href="/">
-            <a>
-              <img
-                src="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/hoodies.jpg"
-                alt="Hoodies"
-                width="324"
-                height="324"
-                srcSet="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/hoodies.jpg 800w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/hoodies-150x150.jpg 150w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/hoodies-300x300.jpg 300w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/hoodies-768x768.jpg 768w"
-                sizes="(max-width: 324px) 100vw, 324px"
-              />
-              <Typography variant="h3" className={styles.categoryTitle}>
-                Hoodies <mark className="count">(4)</mark>
-              </Typography>
-            </a>
-          </Link>
-        </Grid>
-        <Grid item component="li" md={4}>
-          <Link href="/">
-            <a>
-              <img
-                src="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/tshirts.jpg"
-                alt="Tshirts"
-                width="324"
-                height="324"
-                srcSet="https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/tshirts.jpg 801w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/tshirts-150x150.jpg 150w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/tshirts-300x300.jpg 300w, https://woo-vsf.dev5.rt.gw/wp-content/uploads/2019/05/tshirts-768x768.jpg 768w"
-                sizes="(max-width: 324px) 100vw, 324px"
-              />
-              <Typography variant="h3" className={styles.categoryTitle}>
-                T-Shirts <mark className="count">(4)</mark>
-              </Typography>
-            </a>
-          </Link>
-        </Grid>
+      <Grid container spacing={4}>
+        {categories?.nodes?.map(
+          (category) =>
+            category != null && (
+              <Grid key={category.id} item xs={12} md={6}>
+                <div className={styles.category}>
+                  <Link
+                    className={styles.categoryLink}
+                    underline="none"
+                    href="/product-category/[slug]"
+                    as={`/product-category/${category.slug}`}
+                  >
+                    <img
+                      className={styles.categoryImage}
+                      src={category.image?.srcSet ?? undefined}
+                      srcSet={category.image?.sourceUrl ?? undefined}
+                      alt={category.image?.altText ?? ''}
+                    />
+                    <Typography variant="h4" className={styles.categoryTitle}>
+                      {category.name}
+                    </Typography>
+                  </Link>
+                </div>
+              </Grid>
+            ),
+        )}
       </Grid>
     </Container>
   );

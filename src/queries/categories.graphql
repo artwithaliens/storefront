@@ -1,0 +1,14 @@
+query Categories {
+  categories: productCategories {
+    nodes {
+      id
+      name
+      slug
+      image {
+        sourceUrl
+        srcSet
+        altText
+      }
+    }
+  }
+}
