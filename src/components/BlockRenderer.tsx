@@ -6,6 +6,7 @@ import styleToObject from 'style-to-object';
 import BlockCover from './blocks/BlockCover';
 import BlockGallery from './blocks/BlockGallery';
 import BlockImage from './blocks/BlockImage';
+import BlockParagraph from './blocks/BlockParagraph';
 import RichText from './RichText';
 
 export function parseWithBlocks(html: string) {
@@ -13,9 +14,11 @@ export function parseWithBlocks(html: string) {
     replace: ({
       attribs = {},
       children,
+      name,
     }: {
       attribs: { class?: string; style?: string };
       children: string[];
+      name: string;
     }) => {
       const classNames = attribs.class?.split(/\s/) ?? [];
       const style = mapKeys(styleToObject(attribs.style ?? ''), (_value, key) => camelCase(key));
@@ -32,6 +35,10 @@ export function parseWithBlocks(html: string) {
         <BlockImage className={clsx(classNames)} style={style}>
           {domToReact(children, options)}
         </BlockImage>
+      ) : name === 'p' ? (
+        <BlockParagraph className={clsx(classNames)}>
+          {domToReact(children, options)}
+        </BlockParagraph>
       ) : null;
     },
   };
