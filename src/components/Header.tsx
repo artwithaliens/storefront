@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { MenuLocationEnum, useMenuQuery } from '../graphql';
 import CartButton from './cart/CartButton';
 import Logo from './Logo';
 import Menu from './Menu';
@@ -77,6 +78,10 @@ const Header: React.FC = () => {
   const styles = useStyles();
   const [open, setOpen] = useState(false);
 
+  const { data: menu } = useMenuQuery({
+    variables: { location: MenuLocationEnum.PRIMARY_NAVIGATION },
+  });
+
   return (
     <AppBar className={styles.root} color="default" position="static">
       <Toolbar className={styles.toolbar}>
@@ -94,7 +99,7 @@ const Header: React.FC = () => {
         </Link>
         <div className={styles.toolbarRight}>
           <Hidden smDown>
-            <Menu />
+            <Menu menu={menu} />
           </Hidden>
           <CartButton />
         </div>
@@ -105,7 +110,7 @@ const Header: React.FC = () => {
         </Button>
       </div>
       <Collapse unmountOnExit in={open} timeout="auto">
-        <Menu />
+        <Menu menu={menu} />
       </Collapse>
     </AppBar>
   );

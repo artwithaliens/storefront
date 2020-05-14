@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
-import { MenuLocationEnum, useMenuQuery } from '../graphql';
+import { MenuQuery } from '../graphql';
 import prefetchURL from '../utils/prefetchURL';
 import relativeURL from '../utils/relativeURL';
 import { AuthContext } from './AuthProvider';
@@ -53,14 +53,14 @@ const useStyles = makeStyles(({ breakpoints, palette }) => ({
   },
 }));
 
-const Menu: React.FC = () => {
+type Props = {
+  menu?: MenuQuery;
+};
+
+const Menu: React.FC<Props> = ({ menu }) => {
   const router = useRouter();
   const styles = useStyles();
   const { authenticated, logout } = useContext(AuthContext);
-
-  const { data: menu } = useMenuQuery({
-    variables: { location: MenuLocationEnum.PRIMARY_NAVIGATION },
-  });
 
   const handleLogout = () => {
     logout();
