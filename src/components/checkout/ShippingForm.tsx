@@ -11,9 +11,9 @@ import {
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { mixed, object, string } from 'yup';
-import countries from '../../countryList';
 import { CountriesEnum, CustomerAddressInput, useUpdateCustomerMutation } from '../../graphql';
 import Button from '../Button';
+import CountrySelect from '../CountrySelect';
 
 const validationSchema = object().shape<CustomerAddressInput>({
   address1: string().label('Street address').max(100).required(),
@@ -154,26 +154,15 @@ const ShippingForm: React.FC<Props> = ({
         </FormGroup>
         {/* Country */}
         <FormGroup>
-          <TextField
-            select
+          <CountrySelect
             required
             label="Country"
             value={formik.values.country}
             name="country"
             error={'country' in formik.errors}
             helperText={formik.errors.country}
-            SelectProps={{
-              native: true,
-            }}
-            onChange={handleChange}
-          >
-            <option value="">Select a country...</option>
-            {Object.entries(countries).map(([value, country]) => (
-              <option key={value} value={value}>
-                {country}
-              </option>
-            ))}
-          </TextField>
+            onChange={formik.handleChange}
+          />
         </FormGroup>
         {/* Address */}
         <FormGroup>

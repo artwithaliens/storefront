@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import countries from '../countryList';
+import countries from '../countries';
 import { CustomerAddressInput } from '../graphql';
 
 const useStyles = makeStyles(
@@ -56,7 +56,7 @@ const AddressSummary: React.FC<Props> = ({ address, email }) => {
       )}
       {address.country != null && (
         <>
-          {countries[address.country]} <br />
+          {countries.find((country) => country.code === address.country)?.label} <br />
         </>
       )}
       {address.phone != null && (
