@@ -1,18 +1,5 @@
-import { makeStyles, Typography } from '@material-ui/core';
-import clsx from 'clsx';
+import { Typography } from '@material-ui/core';
 import React from 'react';
-
-const useStyles = makeStyles(
-  {
-    root: {
-      '& img': {
-        maxWidth: '100%',
-        verticalAlign: 'middle',
-      },
-    },
-  },
-  { name: 'BlockParagraph' },
-);
 
 type Props = {
   className?: string;
@@ -20,11 +7,11 @@ type Props = {
 };
 
 const BlockParagraph: React.FC<Props> = ({ children, className, style }) => {
-  const styles = useStyles();
-
   return (
     <Typography
-      className={clsx(styles.root, className)}
+      gutterBottom
+      className={className}
+      variant={className?.includes('is-small-text') ? 'body2' : 'body1'}
       align={
         className?.includes('has-text-align-center')
           ? 'center'

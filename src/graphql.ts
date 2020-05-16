@@ -16532,7 +16532,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                         product?: Maybe<
                           | ({ __typename?: 'VariableProduct' } & Pick<
                               VariableProduct,
-                              'price' | 'stockQuantity' | 'id' | 'productId' | 'name'
+                              'price' | 'stockQuantity' | 'id' | 'productId' | 'name' | 'sku'
                             > & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
@@ -16543,7 +16543,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                               })
                           | ({ __typename?: 'ExternalProduct' } & Pick<
                               ExternalProduct,
-                              'id' | 'productId' | 'name'
+                              'id' | 'productId' | 'name' | 'sku'
                             > & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
@@ -16554,7 +16554,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                               })
                           | ({ __typename?: 'GroupProduct' } & Pick<
                               GroupProduct,
-                              'id' | 'productId' | 'name'
+                              'id' | 'productId' | 'name' | 'sku'
                             > & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
@@ -16565,7 +16565,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                               })
                           | ({ __typename?: 'SimpleProduct' } & Pick<
                               SimpleProduct,
-                              'price' | 'stockQuantity' | 'id' | 'productId' | 'name'
+                              'price' | 'stockQuantity' | 'id' | 'productId' | 'name' | 'sku'
                             > & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
@@ -17634,6 +17634,7 @@ export const CartDocument = gql`
             id
             productId
             name
+            sku
             image {
               sourceUrl
               srcSet

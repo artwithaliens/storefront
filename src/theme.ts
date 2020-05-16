@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-import { adjustHue } from 'polished';
 
 const colors = {
   primary: '#af8245',
@@ -16,7 +15,7 @@ const palette: PaletteOptions = {
   },
   common: {
     white: '#feffff',
-    black: adjustHue(75, '#040809'),
+    black: '#060409',
   },
   grey: {
     // '50': adjustHue(75, '#040809'),
@@ -24,10 +23,11 @@ const palette: PaletteOptions = {
   },
   text: {
     primary: '#aeaeae',
+    secondary: '#feffff',
   },
   background: {
-    default: adjustHue(75, '#0a0c0e'),
-    paper: adjustHue(75, '#121515'),
+    default: '#0d0a0e',
+    paper: '#131215',
   },
 };
 
@@ -173,11 +173,6 @@ export default createMuiTheme({
     MuiSvgIcon: {
       root: {
         fontSize: 20,
-      },
-    },
-    MuiTypography: {
-      gutterBottom: {
-        marginBottom: 16,
       },
     },
   },

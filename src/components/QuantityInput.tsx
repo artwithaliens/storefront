@@ -27,7 +27,7 @@ type Props = {
 const QuantityInput: React.FC<Props> = ({
   disabled,
   max = Infinity,
-  min = 1,
+  min = 0,
   onChange,
   value: initialValue,
 }) => {

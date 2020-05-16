@@ -3,14 +3,14 @@ import React from 'react';
 
 type Props = {
   children: string | null | undefined;
-  color?: 'inherit' | 'primary';
+  color?: 'inherit' | 'primary' | 'textPrimary' | 'textSecondary';
   component?: 'p' | 'span';
   variant?: 'body1' | 'h5' | 'h4' | 'h3';
 };
 
 const Price: React.FC<Props> = ({
   children,
-  color = 'inherit',
+  color = 'textSecondary',
   component = 'p',
   variant = 'body1',
 }) => (
