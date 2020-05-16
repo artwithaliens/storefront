@@ -1,5 +1,8 @@
 query Products($category: String, $tag: String) {
-  products(first: 100, where: { category: $category, tag: $tag, visibility: VISIBLE }) {
+  products(
+    first: 100
+    where: { category: $category, tag: $tag, status: "publish", visibility: VISIBLE }
+  ) {
     nodes {
       id
       productId

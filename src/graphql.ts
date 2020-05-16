@@ -18380,7 +18380,10 @@ export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
 export type ProductQueryResult = ApolloReactCommon.QueryResult<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = gql`
   query Products($category: String, $tag: String) {
-    products(first: 100, where: { category: $category, tag: $tag, visibility: VISIBLE }) {
+    products(
+      first: 100
+      where: { category: $category, tag: $tag, status: "publish", visibility: VISIBLE }
+    ) {
       nodes {
         id
         productId
