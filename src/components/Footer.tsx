@@ -78,6 +78,7 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
+            aria-label="Facebook"
           >
             <SvgIcon fontSize="large" component={FacebookSvg} />
           </a>
@@ -86,6 +87,7 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
+            aria-label="Instagram"
           >
             <SvgIcon fontSize="large" component={InstagramSvg} />
           </a>

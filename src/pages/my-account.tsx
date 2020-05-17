@@ -1,4 +1,4 @@
-import { Box, Container, Icon, makeStyles, SvgIcon, Typography } from '@material-ui/core';
+import { Box, Container, makeStyles, SvgIcon, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
@@ -72,15 +72,12 @@ const MyAccount: NextPage = () => {
                 <span>Dashboard</span>
               </a>
               <a className={styles.sidebarLink} href="#orders">
-                <Icon className="fa fa-wrench" />
                 <span>Orders</span>
               </a>
               <a className={styles.sidebarLink} href="#addresses">
-                <Icon className="fa fa-user" />
                 <span>Addresses</span>
               </a>
               <a className={styles.sidebarLink} href="#account-details">
-                <Icon className="fa fa-envelope" />
                 <span>Account Details</span>
               </a>
             </div>

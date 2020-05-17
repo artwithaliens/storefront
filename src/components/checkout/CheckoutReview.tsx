@@ -6,8 +6,8 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
-  Icon,
   IconButton,
+  SvgIcon,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -15,6 +15,7 @@ import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery, MetaDataInput } from '../../graphql';
+import EditSvg from '../../icons/edit.svg';
 import AddressSummary from '../AddressSummary';
 import Link from '../Link';
 import Loader from '../Loader';
@@ -105,7 +106,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
             <Typography variant="h4">Billing Address</Typography>
             <NextLink passHref href="/checkout/[step]" as="/checkout/billing-address">
               <IconButton size="small">
-                <Icon className="fas fa-pencil-alt" fontSize="inherit" />
+                <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
             </NextLink>
           </Box>
@@ -125,7 +126,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
             <Typography variant="h4">Shipping Address</Typography>
             <NextLink passHref href="/checkout/[step]" as="/checkout/shipping-address">
               <IconButton size="small">
-                <Icon className="fas fa-pencil-alt" fontSize="inherit" />
+                <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
             </NextLink>
           </Box>
@@ -145,7 +146,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
             <Typography variant="h4">Shipping Method</Typography>
             <NextLink passHref href="/checkout/[step]" as="/checkout/shipping-options">
               <IconButton size="small">
-                <Icon className="fas fa-pencil-alt" fontSize="inherit" />
+                <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
             </NextLink>
           </Box>
@@ -168,7 +169,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
             <Typography variant="h4">Payment Method</Typography>
             <NextLink passHref href="/checkout/[step]" as="/checkout/payment">
               <IconButton size="small">
-                <Icon className="fas fa-pencil-alt" fontSize="inherit" />
+                <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
             </NextLink>
           </Box>

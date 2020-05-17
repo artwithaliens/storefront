@@ -1,6 +1,8 @@
-import { Icon, IconButton, makeStyles } from '@material-ui/core';
+import { IconButton, makeStyles, SvgIcon } from '@material-ui/core';
 import React from 'react';
 import { useCounter } from 'react-use';
+import MinusSvg from '../icons/minus.svg';
+import PlusSvg from '../icons/plus.svg';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({
@@ -52,7 +54,7 @@ const QuantityInput: React.FC<Props> = ({
         disabled={disabled || value === min}
         onClick={handleDecrement}
       >
-        <Icon className="fas fa-minus" fontSize="inherit" />
+        <SvgIcon fontSize="inherit" component={MinusSvg} />
       </IconButton>
       <div className={styles.value}>{value}</div>
       <IconButton
@@ -61,7 +63,7 @@ const QuantityInput: React.FC<Props> = ({
         disabled={disabled || value === max}
         onClick={handleIncrement}
       >
-        <Icon className="fas fa-plus" fontSize="inherit" />
+        <SvgIcon fontSize="inherit" component={PlusSvg} />
       </IconButton>
     </div>
   );

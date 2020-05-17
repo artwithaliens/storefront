@@ -3,14 +3,15 @@ import {
   Button,
   Collapse,
   Hidden,
-  Icon,
   IconButton,
   makeStyles,
+  SvgIcon,
   Toolbar,
 } from '@material-ui/core';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { MenuLocationEnum, useMenuQuery } from '../graphql';
+import MenuSvg from '../icons/menu.svg';
 import CartButton from './cart/CartButton';
 import Logo from './Logo';
 import Menu from './Menu';
@@ -88,7 +89,7 @@ const Header: React.FC = () => {
         <Hidden mdUp>
           <div className={styles.toolbarLeft}>
             <IconButton onClick={() => setOpen(!open)}>
-              <Icon className="fa fa-bars" />
+              <SvgIcon component={MenuSvg} />
             </IconButton>
           </div>
         </Hidden>

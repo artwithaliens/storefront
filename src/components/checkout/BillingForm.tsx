@@ -72,6 +72,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.firstName}
                 type="text"
                 name="firstName"
+                autoComplete="given-name"
                 error={'firstName' in formik.errors}
                 helperText={formik.errors.firstName}
                 onChange={formik.handleChange}
@@ -87,6 +88,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.lastName}
                 type="text"
                 name="lastName"
+                autoComplete="family-name"
                 error={'lastName' in formik.errors}
                 helperText={formik.errors.lastName}
                 onChange={formik.handleChange}
@@ -101,6 +103,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
             value={formik.values.company}
             type="text"
             name="company"
+            autoComplete="organization"
             error={'company' in formik.errors}
             helperText={formik.errors.company}
             onChange={formik.handleChange}
@@ -126,6 +129,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
             type="text"
             value={formik.values.address1}
             name="address1"
+            autoComplete="address-line1"
             placeholder="House number and street name"
             error={'address1' in formik.errors}
             helperText={formik.errors.address1}
@@ -137,6 +141,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
             type="text"
             value={formik.values.address2}
             name="address2"
+            autoComplete="address-line2"
             placeholder="Apartment, suite, unit etc. (optional)"
             error={'address2' in formik.errors}
             helperText={formik.errors.address2}
@@ -153,6 +158,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.postcode}
                 type="text"
                 name="postcode"
+                autoComplete="postal-code"
                 error={'postcode' in formik.errors}
                 helperText={formik.errors.postcode}
                 onChange={formik.handleChange}
@@ -168,6 +174,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.city}
                 type="text"
                 name="city"
+                autoComplete="address-level2"
                 error={'city' in formik.errors}
                 helperText={formik.errors.city}
                 onChange={formik.handleChange}
@@ -182,6 +189,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
             value={formik.values.state}
             type="text"
             name="state"
+            autoComplete="address-level1"
             error={'state' in formik.errors}
             helperText={formik.errors.state}
             onChange={formik.handleChange}
@@ -197,6 +205,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.phone}
                 type="text"
                 name="phone"
+                autoComplete="tel"
                 error={'phone' in formik.errors}
                 helperText={formik.errors.phone}
                 onChange={formik.handleChange}
@@ -212,6 +221,7 @@ const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
                 value={formik.values.email}
                 type="email"
                 name="email"
+                autoComplete="email"
                 error={'email' in formik.errors}
                 helperText={formik.errors.email}
                 onChange={formik.handleChange}
