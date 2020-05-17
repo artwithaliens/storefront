@@ -6,6 +6,7 @@ import ApolloClient, {
   IntrospectionFragmentMatcher,
   NormalizedCache,
 } from 'apollo-boost';
+import { register, unregister } from 'next-offline/runtime';
 import { DefaultSeo } from 'next-seo';
 import withApollo, { WithApolloProps } from 'next-with-apollo';
 import App from 'next/app';
@@ -36,6 +37,11 @@ export default withApollo(
       if (jssStyles != null) {
         jssStyles.remove();
       }
+      register();
+    }
+
+    componentWillUnmount() {
+      unregister();
     }
 
     render() {
