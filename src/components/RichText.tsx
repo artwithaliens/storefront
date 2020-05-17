@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { darken, fade, makeStyles } from '@material-ui/core';
 import parse from 'html-react-parser';
 import React from 'react';
 import sentenceCase from '../utils/sentenceCase';
@@ -37,6 +37,18 @@ const useStyles = makeStyles(
 
         '&:hover': {
           textDecoration: 'underline',
+        },
+      },
+
+      '& table': {
+        borderCollapse: 'collapse',
+        marginBottom: spacing(2),
+
+        '& th, & td': {
+          ...typography.body2,
+          borderBottom: `1px solid ${darken(fade(palette.divider, 1), 0.68)}`,
+          padding: spacing(1),
+          textAlign: 'left',
         },
       },
     },
