@@ -12,7 +12,6 @@ import {
   useCheckoutMutation,
   useCustomerQuery,
 } from '../../graphql';
-import withApollo from '../../withApollo';
 
 const Checkout: NextPage = () => {
   const router = useRouter();
@@ -74,4 +73,4 @@ const Checkout: NextPage = () => {
   );
 };
 
-export default withApollo(Checkout);
+export default Checkout;

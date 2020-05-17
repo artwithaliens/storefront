@@ -5,7 +5,6 @@ import ContactForm from '../components/contact/ContactForm';
 import Layout from '../components/Layout';
 import PageHeader from '../components/PageHeader';
 import PinSvg from '../icons/pin.svg';
-import withApollo from '../withApollo';
 
 const Contact: NextPage = () => (
   <Layout>
@@ -42,4 +41,4 @@ const Contact: NextPage = () => (
   </Layout>
 );
 
-export default withApollo(Contact);
+export default Contact;

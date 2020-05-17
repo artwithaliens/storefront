@@ -1,4 +1,3 @@
-import { getDataFromTree } from '@apollo/react-ssr';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -6,7 +5,6 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import ProductGrid from '../../components/ProductGrid';
 import { useProductsQuery } from '../../graphql';
-import withApollo from '../../withApollo';
 
 const ProductCategory: NextPage = () => {
   const router = useRouter();
@@ -28,4 +26,4 @@ const ProductCategory: NextPage = () => {
   );
 };
 
-export default withApollo(ProductCategory, { getDataFromTree });
+export default ProductCategory;

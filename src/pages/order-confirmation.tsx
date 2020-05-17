@@ -1,10 +1,8 @@
-import { getDataFromTree } from '@apollo/react-ssr';
 import { Box, Container, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
-import withApollo from '../withApollo';
 
 const OrderConfirmation: NextPage = () => (
   <Layout>
@@ -27,4 +25,4 @@ const OrderConfirmation: NextPage = () => (
   </Layout>
 );
 
-export default withApollo(OrderConfirmation, { getDataFromTree });
+export default OrderConfirmation;

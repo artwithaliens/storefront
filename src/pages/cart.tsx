@@ -7,7 +7,6 @@ import EmptyCart from '../components/cart/EmptyCart';
 import Layout from '../components/Layout';
 import Loader from '../components/Loader';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
-import withApollo from '../withApollo';
 
 const Cart: NextPage = () => {
   const { data: { cart } = { cart: undefined }, loading } = useCartQuery({ ssr: false });
@@ -51,4 +50,4 @@ const Cart: NextPage = () => {
   );
 };
 
-export default withApollo(Cart);
+export default Cart;

@@ -5,12 +5,12 @@ import React from 'react';
 import BlockRenderer from '../../../../../../components/BlockRenderer';
 import Layout from '../../../../../../components/Layout';
 import { usePreviewQuery } from '../../../../../../graphql';
-import withApollo from '../../../../../../withApollo';
 
 const Preview: NextPage = () => {
   const router = useRouter();
 
   const { data: { page } = { page: undefined } } = usePreviewQuery({
+    ssr: false,
     variables: {
       id: `${router.query.id}`,
       rev: parseInt(`${router.query.rev}`, 10),
@@ -26,4 +26,4 @@ const Preview: NextPage = () => {
   );
 };
 
-export default withApollo(Preview);
+export default Preview;

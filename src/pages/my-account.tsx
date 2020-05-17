@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../components/AuthProvider';
 import Layout from '../components/Layout';
 import HomeSvg from '../icons/home.svg';
-import withApollo from '../withApollo';
 
 const useStyles = makeStyles({
   container: {
@@ -97,4 +96,4 @@ const MyAccount: NextPage = () => {
   );
 };
 
-export default withApollo(MyAccount);
+export default MyAccount;

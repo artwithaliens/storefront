@@ -20,7 +20,6 @@ import { AppContext } from '../components/AppProvider';
 import { AuthContext } from '../components/AuthProvider';
 import Layout from '../components/Layout';
 import { RegisterUserMutation, useRegisterUserMutation } from '../graphql';
-import withApollo from '../withApollo';
 
 type RegisterValues = {
   username: string;
@@ -186,4 +185,4 @@ const Register: NextPage = () => {
   );
 };
 
-export default withApollo(Register);
+export default Register;

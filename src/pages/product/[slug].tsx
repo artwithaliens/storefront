@@ -1,4 +1,3 @@
-import { getDataFromTree } from '@apollo/react-ssr';
 import { Box, Container, Grid, Hidden, makeStyles, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -16,7 +15,6 @@ import ProductGrid from '../../components/ProductGrid';
 import RichText from '../../components/RichText';
 import { StockStatusEnum, useProductQuery } from '../../graphql';
 import isBlank from '../../utils/isBlank';
-import withApollo from '../../withApollo';
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   container: {
@@ -52,7 +50,6 @@ const Product: NextPage = () => {
       <NextSeo
         title={product?.seo?.title ?? undefined}
         description={product?.seo?.description ?? undefined}
-        canonical={product?.seo?.canonicalUrl ?? undefined}
         openGraph={{
           title: product?.seo?.openGraphTitle ?? undefined,
           description: product?.seo?.openGraphDescription ?? undefined,
@@ -145,4 +142,4 @@ const Product: NextPage = () => {
   );
 };
 
-export default withApollo(Product, { getDataFromTree });
+export default Product;

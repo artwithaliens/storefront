@@ -8,7 +8,6 @@ import BlockRenderer from '../components/BlockRenderer';
 import Layout from '../components/Layout';
 import PageHeader from '../components/PageHeader';
 import { PageDocument, PageQuery, PageQueryVariables } from '../graphql';
-import withApollo from '../withApollo';
 
 type Props = {
   page: PageQuery['page'];
@@ -56,4 +55,4 @@ Page.getInitialProps = async (context: ApolloPageContext) => {
   return { page };
 };
 
-export default withApollo(Page);
+export default Page;

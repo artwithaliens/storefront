@@ -1,4 +1,3 @@
-import { getDataFromTree } from '@apollo/react-ssr';
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
@@ -7,7 +6,6 @@ import Categories from '../components/Categories';
 import Layout from '../components/Layout';
 import PageHeader from '../components/PageHeader';
 import { usePageQuery } from '../graphql';
-import withApollo from '../withApollo';
 
 const Index: NextPage = () => {
   const { data: { page } = { page: undefined } } = usePageQuery({
@@ -33,4 +31,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default withApollo(Index, { getDataFromTree });
+export default Index;

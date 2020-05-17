@@ -19,7 +19,6 @@ import { AuthContext } from '../components/AuthProvider';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
 import { LoginMutation, useLoginMutation } from '../graphql';
-import withApollo from '../withApollo';
 
 type LoginValues = {
   username: string;
@@ -152,4 +151,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default withApollo(Login);
+export default Login;
