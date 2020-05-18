@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/artwithaliens/storefront.git"
+    "url": "git+https://github.com/efoken/artwithaliens-storefront.git"
   },
   "keywords": [
     "decoupled",
@@ -22,7 +22,7 @@
   "author": "Eike Foken <eikefoken@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/artwithaliens/storefront/issues"
+    "url": "https://github.com/efoken/artwithaliens-storefront/issues"
   },
   "homepage": "https://artwithaliens.com",
   "dependencies": {
@@ -54,7 +54,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-swipeable-views": "^0.13.9",
-    "react-use": "^15.0.1",
+    "react-use": "^15.0.2",
     "style-to-object": "^0.3.0",
     "yup": "^0.28.5"
   },
@@ -82,6 +82,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "jest": "^24.9.0",
     "prettier": "^2.0.5",
+    "shipit-cli": "^5.3.0",
+    "shipit-deploy": "^5.3.0",
     "typescript": "^3.9.2",
     "webpack": "^4.43.0"
   }
