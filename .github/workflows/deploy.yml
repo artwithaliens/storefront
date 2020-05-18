@@ -29,6 +29,10 @@ jobs:
             yarn-deps-${{ hashFiles('yarn.lock') }}
 
       - name: Deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          eval "$(ssh-agent -s)"
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
           yarn install --frozen-lockfile
           yarn shipit production deploy
