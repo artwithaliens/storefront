@@ -7,11 +7,12 @@
     "dev": "concurrently \"next dev\" \"yarn generate --watch\"",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" *.{js,ts}",
     "generate": "graphql-codegen",
-    "lint": "eslint \"src/**/*.{ts,tsx}\" *.{js,ts}"
+    "lint": "eslint \"src/**/*.{ts,tsx}\" *.{js,ts}",
+    "start": "next start -p 8080"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/efoken/artwithaliens-storefront.git"
+    "url": "git+https://github.com/artwithaliens/storefront.git"
   },
   "keywords": [
     "decoupled",
@@ -22,7 +23,7 @@
   "author": "Eike Foken <eikefoken@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/efoken/artwithaliens-storefront/issues"
+    "url": "https://github.com/artwithaliens/storefront/issues"
   },
   "homepage": "https://artwithaliens.com",
   "dependencies": {
@@ -54,7 +55,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-swipeable-views": "^0.13.9",
-    "react-use": "^15.0.2",
+    "react-use": "^15.1.0",
     "style-to-object": "^0.3.0",
     "yup": "^0.28.5"
   },
