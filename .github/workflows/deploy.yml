@@ -15,6 +15,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Add SSH known hosts
+        run: ssh-keyscan -H artwithaliens.com >> ~/.ssh/known_hosts
+
       - name: Setup Node.js 14.x
         uses: actions/setup-node@v1
         with:
@@ -32,7 +35,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
           yarn install --frozen-lockfile
           yarn shipit production deploy
