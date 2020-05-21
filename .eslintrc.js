@@ -14,7 +14,7 @@ module.exports = {
         alwaysTryTypes: true,
       },
     },
-    linkComponents: ['Link'],
+    linkComponents: ['Button', 'Link'],
   },
   rules: {
     camelcase: 'off',
