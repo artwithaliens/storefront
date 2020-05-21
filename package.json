@@ -8,7 +8,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" *.{js,ts}",
     "generate": "graphql-codegen",
     "lint": "eslint \"src/**/*.{ts,tsx}\" *.{js,ts}",
-    "start": "next start -p 8080"
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -33,10 +33,9 @@
     "@material-ui/core": "^4.9.14",
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/styles": "^4.9.14",
-    "@next/plugin-google-analytics": "^9.4.1",
-    "@next/plugin-sentry": "^9.4.1",
+    "@next/plugin-google-analytics": "^9.4.2",
+    "@next/plugin-sentry": "^9.4.2",
     "@sentry/webpack-plugin": "^1.11.1",
-    "@zeit/next-source-maps": "^0.0.4-canary.1",
     "apollo-boost": "^0.4.9",
     "apollo-client": "^2.6.10",
     "apollo-utilities": "^1.3.4",
@@ -48,7 +47,7 @@
     "html-react-parser": "^0.10.3",
     "idb-keyval": "^3.2.0",
     "lodash": "^4.17.15",
-    "next": "9.4.0",
+    "next": "^9.4.2",
     "next-offline": "^5.0.2",
     "next-seo": "^4.5.0",
     "next-with-apollo": "^5.0.1",
@@ -57,23 +56,23 @@
     "react-swipeable-views": "^0.13.9",
     "react-use": "^15.1.0",
     "style-to-object": "^0.3.0",
-    "yup": "^0.28.5"
+    "yup": "^0.29.0"
   },
   "devDependencies": {
     "@airbnb/config-eslint": "^3.1.0",
     "@babel/core": "^7.9.6",
-    "@graphql-codegen/cli": "^1.13.5",
-    "@graphql-codegen/fragment-matcher": "^1.13.5",
-    "@graphql-codegen/typescript-operations": "^1.13.5",
-    "@graphql-codegen/typescript-react-apollo": "^1.13.5",
-    "@next/eslint-plugin-next": "^9.4.1",
+    "@graphql-codegen/cli": "^1.14.0",
+    "@graphql-codegen/fragment-matcher": "^1.14.0",
+    "@graphql-codegen/typescript-operations": "^1.14.0",
+    "@graphql-codegen/typescript-react-apollo": "^1.14.0",
+    "@next/eslint-plugin-next": "^9.4.2",
     "@types/braintree-web": "^3.47.2",
-    "@types/lodash": "^4.14.151",
+    "@types/lodash": "^4.14.152",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-swipeable-views": "^0.13.0",
     "@types/workbox-sw": "^4.3.1",
-    "@types/yup": "^0.28.3",
+    "@types/yup": "^0.29.0",
     "babel-plugin-graphql-tag": "^2.5.0",
     "babel-plugin-inline-react-svg": "^1.1.1",
     "concurrently": "^5.2.0",
@@ -85,7 +84,8 @@
     "prettier": "^2.0.5",
     "shipit-cli": "^5.3.0",
     "shipit-deploy": "^5.3.0",
-    "typescript": "^3.9.2",
+    "shipit-shared": "^4.4.2",
+    "typescript": "^3.9.3",
     "webpack": "^4.43.0"
   }
 }
