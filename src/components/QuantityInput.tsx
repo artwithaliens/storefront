@@ -1,6 +1,6 @@
 import { IconButton, makeStyles, SvgIcon } from '@material-ui/core';
 import React from 'react';
-import { useCounter } from 'react-use';
+import { useCounter, useUpdateEffect } from 'react-use';
 import MinusSvg from '../icons/minus.svg';
 import PlusSvg from '../icons/plus.svg';
 
@@ -36,15 +36,9 @@ const QuantityInput: React.FC<Props> = ({
   const styles = useStyles();
   const [value, { inc, dec }] = useCounter(initialValue ?? 0, max, min);
 
-  const handleDecrement = () => {
-    dec();
+  useUpdateEffect(() => {
     onChange(value);
-  };
-
-  const handleIncrement = () => {
-    inc();
-    onChange(value);
-  };
+  }, [value]);
 
   return (
     <div className={styles.root}>
@@ -52,7 +46,7 @@ const QuantityInput: React.FC<Props> = ({
         aria-label="Minus"
         size="small"
         disabled={disabled || value === min}
-        onClick={handleDecrement}
+        onClick={() => dec()}
       >
         <SvgIcon fontSize="inherit" component={MinusSvg} />
       </IconButton>
@@ -61,7 +55,7 @@ const QuantityInput: React.FC<Props> = ({
         aria-label="Plus"
         size="small"
         disabled={disabled || value === max}
-        onClick={handleIncrement}
+        onClick={() => inc()}
       >
         <SvgIcon fontSize="inherit" component={PlusSvg} />
       </IconButton>

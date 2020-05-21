@@ -9,8 +9,8 @@ type ContactInput = {
   acceptance: boolean;
   fullName: string;
   email: string;
-  phone: string;
-  subject: string;
+  phone?: string;
+  subject?: string;
   message: string;
 };
 
@@ -37,7 +37,9 @@ const validationSchema = object().shape<ContactInput>({
 const ContactForm: React.FC = () => {
   const [, contact] = useAsyncFn(async (values?: ContactInput) => {
     const body = new FormData();
-    Object.entries(values ?? {}).forEach(([key, value]) => body.append(key, value.toString()));
+    Object.entries(values ?? {}).forEach(
+      ([key, value]) => value != null && body.append(key, value.toString()),
+    );
 
     const response = await fetch(
       `${process.env.REST_URL}/contact-form-7/v1/contact-forms/5/feedback`,

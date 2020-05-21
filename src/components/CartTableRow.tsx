@@ -10,10 +10,10 @@ import {
 import clsx from 'clsx';
 import { startCase } from 'lodash';
 import React from 'react';
-import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
-import DeleteSvg from '../../icons/delete.svg';
-import Price from '../Price';
-import QuantityInput from '../QuantityInput';
+import { CartQuery, UpdateCartMutationVariables } from '../graphql';
+import DeleteSvg from '../icons/delete.svg';
+import Price from './Price';
+import QuantityInput from './QuantityInput';
 
 const useStyles = makeStyles(
   ({ breakpoints }) => ({
@@ -124,7 +124,7 @@ type Props = {
 };
 
 const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
-  const styles = useStyles();
+  const styles = useStyles({ loading });
 
   /**
    * When user changes the quantity from product input update the cart.

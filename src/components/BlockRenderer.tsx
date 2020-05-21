@@ -3,10 +3,10 @@ import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import { camelCase, mapKeys } from 'lodash';
 import React from 'react';
 import styleToObject from 'style-to-object';
-import BlockCover from './blocks/BlockCover';
-import BlockGallery from './blocks/BlockGallery';
-import BlockImage from './blocks/BlockImage';
-import BlockParagraph from './blocks/BlockParagraph';
+import BlockCover from '../blocks/BlockCover';
+import BlockGallery from '../blocks/BlockGallery';
+import BlockImage from '../blocks/BlockImage';
+import BlockParagraph from '../blocks/BlockParagraph';
 import RichText from './RichText';
 
 export function parseWithBlocks(html: string) {

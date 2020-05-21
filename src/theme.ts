@@ -1,11 +1,12 @@
 import { createMuiTheme } from '@material-ui/core';
-import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import createPalette from '@material-ui/core/styles/createPalette';
+import createSpacing from '@material-ui/core/styles/createSpacing';
 
 const colors = {
   primary: '#af8245',
 };
 
-const palette: PaletteOptions = {
+const palette = createPalette({
   type: 'dark',
   primary: {
     main: colors.primary,
@@ -17,10 +18,6 @@ const palette: PaletteOptions = {
     white: '#feffff',
     black: '#060409',
   },
-  grey: {
-    // '50': adjustHue(75, '#040809'),
-    // '900': adjustHue(75, '#ebebeb'),
-  },
   text: {
     primary: '#aeaeae',
     secondary: '#feffff',
@@ -29,14 +26,19 @@ const palette: PaletteOptions = {
     default: '#0d0a0e',
     paper: '#131215',
   },
-};
+});
+
+const spacing = createSpacing(8);
 
 export default createMuiTheme({
   palette,
+  spacing,
   shape: {
     borderRadius: 0,
   },
   typography: {
+    fontWeightLight: 400,
+    fontWeightMedium: 700,
     allVariants: {
       fontFamily: "'Amatic SC', sans-serif",
     },
@@ -98,6 +100,16 @@ export default createMuiTheme({
         backgroundColor: palette.common?.black,
       },
     },
+    MuiBadge: {
+      badge: {
+        borderRadius: 16,
+        fontSize: 12,
+        fontWeight: 700,
+        height: 16,
+        minWidth: 16,
+        padding: 2,
+      },
+    },
     MuiButton: {
       root: {
         padding: '14px 20px',
@@ -114,7 +126,7 @@ export default createMuiTheme({
     },
     MuiFormGroup: {
       root: {
-        marginBottom: 16,
+        marginBottom: spacing(2),
       },
     },
     MuiFormHelperText: {

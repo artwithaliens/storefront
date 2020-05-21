@@ -10,8 +10,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import React from 'react';
-import { CartQuery } from '../../graphql';
-import Price from '../Price';
+import { CartQuery } from '../graphql';
+import Price from './Price';
 
 const useStyles = makeStyles(
   ({ palette, spacing }) => ({
