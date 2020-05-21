@@ -32,7 +32,7 @@ export default class extends Document {
           />
           <meta name="theme-color" content="#060409" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Amatic+SC:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Amatic+SC:wght@400;700&display=swap"
             rel="stylesheet"
           />
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
