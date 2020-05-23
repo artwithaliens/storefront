@@ -55,6 +55,10 @@ export type Scalars = {
   UsBankRoutingNumber: unknown;
   /** A US ZIP code. Supports DDDDD and DDDDD-DDDD formats. */
   UsZipCode: unknown;
+  /** A nine-digit Employer Identification Number or Social Security Number. */
+  USTaxIdentificationNumber: unknown;
+  /** An [ISO 18245](https://en.wikipedia.org/wiki/ISO_18245) Merchant Category Code. Four digits. */
+  MerchantCategoryCode: unknown;
 };
 
 /** Top-level input fields for accepting a dispute. */
@@ -72,6 +76,16 @@ export type AcceptDisputePayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** Information about the dispute that was accepted. */
   dispute?: Maybe<Dispute>;
+};
+
+/** Information abou the business's ACH configuration. */
+export type ACHConfigurationInput = {
+  /** The ACH/NACHA company ID. Included in the NACHA file to help identify the company. */
+  companyId: Scalars['String'];
+  /** The business's NACHA entry. Included in the NACHA file to help identify the company. */
+  entry: Scalars['String'];
+  /** Should ACH initiation be enabled? If true, any failed transaction will be retried. */
+  reinitiation: Scalars['Boolean'];
 };
 
 /** A NACHA standard entry class (SEC) code, which designates how an ACH transaction was authorized. */
@@ -173,6 +187,12 @@ export type AddressInput = {
   countryName?: Maybe<Scalars['String']>;
 };
 
+/** Information about the business's relationship with American Express. */
+export type AmericanExpressRelationshipInput = {
+  /** The business's American Express SE number. */
+  serviceEstablishmentNumber: Scalars['String'];
+};
+
 /** Configuration for Apple Pay on iOS. */
 export type ApplePayConfiguration = {
   __typename?: 'ApplePayConfiguration';
@@ -227,6 +247,52 @@ export type ApplePayWebConfiguration = {
   /** A list of card brands supported by the merchant for Apple Pay. */
   supportedCardBrands?: Maybe<Array<CreditCardBrandCode>>;
 };
+
+/** Input fields for a Merchant Account Application bank account object. */
+export type ApplicationBankAccountInput = {
+  /** The routing number of the bank that holds the account. */
+  routingNumber: Scalars['UsBankRoutingNumber'];
+  /** The account number of the bank account. */
+  accountNumber: Scalars['UsBankAccountNumber'];
+  /** The type of transfer setup on the account. */
+  transferType: ApplicationTransferType;
+  /** The type of account. */
+  accountType: ApplicationBankAccountType;
+  /** The purpose of account. */
+  accountPurpose: ApplicationBankAccountPurpose;
+  /** The type of entity that holds the account. */
+  entityType: ApplicationEntityType;
+};
+
+/** The purpose of the merchant application bank account. */
+export enum ApplicationBankAccountPurpose {
+  CHECKING = 'CHECKING',
+  SAVINGS = 'SAVINGS',
+}
+
+/** The type of merchant application bank account. */
+export enum ApplicationBankAccountType {
+  CORPORATION = 'CORPORATION',
+  PARTNERSHIP = 'PARTNERSHIP',
+}
+
+/** The entity that holds the merchant application bank account. */
+export enum ApplicationEntityType {
+  COMPANY = 'COMPANY',
+}
+
+/** The status of a merchant account application. */
+export enum ApplicationStatus {
+  APPROVED = 'APPROVED',
+  PROCESSING = 'PROCESSING',
+  REJECTED = 'REJECTED',
+}
+
+/** The type of transfer used for the bank account. */
+export enum ApplicationTransferType {
+  BANK_ACCOUNT_USA = 'BANK_ACCOUNT_USA',
+  BANK_ACCOUNT_WIRE_USA = 'BANK_ACCOUNT_WIRE_USA',
+}
 
 /**
  * Information about the [customer authentication regulation environment](https://developers.braintreepayments.com/guides/3d-secure/migration/javascript/v3#authentication-insight)
@@ -412,6 +478,96 @@ export type BraintreeApiConfiguration = {
   /** The authentication for tokenizing payment methods. */
   accessToken?: Maybe<Scalars['String']>;
 };
+
+/** The biller's ID type. */
+export enum BusinessIDType {
+  EMPLOYER_IDENTIFICATION_NUMBER = 'EMPLOYER_IDENTIFICATION_NUMBER',
+}
+
+/** General information about the business associated with the account. */
+export type BusinessInput = {
+  /** The biller's business type. */
+  type: BusinessType;
+  /** The DBA (Doing Business As) name of the business. */
+  dbaName: Scalars['String'];
+  /** The business's legal name. Max 100 characters. Valid characters: letters, numbers, spaces, ! & ' ( ) + , - / : . */
+  legalName: Scalars['String'];
+  /** The business's federal tax ID (EIN). Not required if business `type` is `SOLE_PROPRIETORSHIP`. */
+  federalTaxId?: Maybe<Scalars['USTaxIdentificationNumber']>;
+  /** The biller's ID type. */
+  idType?: Maybe<BusinessIDType>;
+  /** The country that issued the business's ID. */
+  idIssuer?: Maybe<Scalars['CountryCodeAlpha3']>;
+  /** The business's U.S. state of registration. */
+  stateOfRegistration: UsStateCode;
+  /** The business's merchant category code. */
+  merchantCategoryCode?: Maybe<Scalars['MerchantCategoryCode']>;
+  /** The business's start date. Must be after 1700. */
+  startDate: Scalars['Date'];
+  /** A URL to an logo image. Required for Venmo onboarding. Constraints TBD. */
+  logoUrl?: Maybe<Scalars['String']>;
+  /** The business's email address. */
+  email?: Maybe<Scalars['String']>;
+  /** The business's address. No P.O. Boxes. */
+  address: AddressInput;
+  /** The country code for the business's phone number. */
+  phoneCountryCode: Scalars['Int'];
+  /** The business's phone number. 9 digits. No extensions. Numbers only. */
+  phoneNumber: Scalars['String'];
+  /** The type of phone number for the business. */
+  phoneType: BusinessPhoneType;
+  /** The business's customer support email. */
+  supportEmail?: Maybe<Scalars['String']>;
+  /** The business's website. Must be a valid URL. */
+  website: Scalars['String'];
+  /** The business's annual processing volume. Must be less than 1 billion USD. */
+  annualVolume: Scalars['Int'];
+  /** The business's average transaction size. Must be less than 1 billion USD. */
+  averageTransactionSize: Scalars['Int'];
+  /** The business's largest transaction size. Must be less than 1 billion USD. */
+  largestTransactionSize: Scalars['Int'];
+  /** Whether payment is collected in arrears (after goods have been delivered). */
+  arrears?: Maybe<Scalars['Boolean']>;
+  /** Percentage of the business's transactions are billed in arrears. Must be between 0 and 100. */
+  percentageOneTime?: Maybe<Scalars['Int']>;
+  /** If the biller delivers goods, the number of days after charge they are delivered. */
+  deliveryDays?: Maybe<Scalars['Int']>;
+  /** The business's refund policy. */
+  refundPolicy?: Maybe<RefundPolicy>;
+  /** If applicable, the breakdown of monthly, quarterly, semi-annual, and annual subscriptions offered by the business. */
+  subscriptions?: Maybe<BusinessSubscriptionInput>;
+};
+
+/** The type of phone number for the business. */
+export enum BusinessPhoneType {
+  BUSINESS = 'BUSINESS',
+  CUSTOMER_SERVICE = 'CUSTOMER_SERVICE',
+  MOBILE = 'MOBILE',
+  WORK = 'WORK',
+}
+
+/** A breakdown of the business's subscription frequency. All percentages provided must add up to 100. */
+export type BusinessSubscriptionInput = {
+  /** The percentage of the business's subscriptions that are monthly. */
+  percentMonthly: Scalars['Int'];
+  /** The percentage of the business's subscriptions that are quarterly. */
+  percentQuarterly: Scalars['Int'];
+  /** The percentage of the business's subscriptions that are semi-annual. */
+  percentSemiAnnual: Scalars['Int'];
+  /** The percentage of the business's subscriptions that are annual. */
+  percentAnnual: Scalars['Int'];
+};
+
+/** The biller's business type. */
+export enum BusinessType {
+  PRIVATE_CORPORATION = 'PRIVATE_CORPORATION',
+  PUBLIC_CORPORATION = 'PUBLIC_CORPORATION',
+  TAX_EXEMPT = 'TAX_EXEMPT',
+  LIMITED_LIABILITY_CORPORATION = 'LIMITED_LIABILITY_CORPORATION',
+  SOLE_PROPRIETORSHIP = 'SOLE_PROPRIETORSHIP',
+  PARTNERSHIP_LLP = 'PARTNERSHIP_LLP',
+  GOVERNMENT_ENTITY = 'GOVERNMENT_ENTITY',
+}
 
 /** Top-level input fields for capturing an authorized transaction. */
 export type CaptureTransactionInput = {
@@ -742,6 +898,24 @@ export type CreateInStoreLocationPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The in-store location. */
   location?: Maybe<InStoreLocation>;
+};
+
+/** Input fields for applying for a merchant account. */
+export type CreateMerchantAccountApplicationInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** General information about the business associated with the account. */
+  business: BusinessInput;
+  /** A minimum of one and a maximum of five owners can be submitted. One owner must be the authorized signer on the account. */
+  owners: Array<OwnerInput>;
+  /** Information about the business's relationship with American Express. */
+  americanExpressRelationship?: Maybe<AmericanExpressRelationshipInput>;
+  /** The bank account to be used for sales. */
+  salesAccount: ApplicationBankAccountInput;
+  /** Configuration for businesses registered with various discount programs (MVV, VPP, Loans). */
+  discountProgramRegistration?: Maybe<DiscountProgramRegistrationInput>;
+  /** Configuration for processing via ACH. */
+  achConfiguration?: Maybe<ACHConfigurationInput>;
 };
 
 /** A code identifying the card brand. */
@@ -1160,6 +1334,24 @@ export type DisbursementDetails = {
   exchangeRate?: Maybe<Scalars['String']>;
   /** Indicates whether funds have been withheld from a disbursement to the merchant's account. */
   fundsHeld?: Maybe<Scalars['Boolean']>;
+};
+
+/** Information about the business's particpation in various discount programs. */
+export type DiscountProgramRegistrationInput = {
+  /** The business's MVV (Merchant Verification Value) registration type. */
+  registrationType: MVVRegistrationType;
+  /** The business's existing MVV (Merchant Verification Value) registration number, if they have one. */
+  registrationIdentifier?: Maybe<Scalars['String']>;
+  /** The number of customers the business has. Required if `registrationType` is `UTIL_RATE` or `LOAN_VPP`. */
+  numberOfCustomers?: Maybe<Scalars['Int']>;
+  /** The means by which customers pay their bills. Required if  `registrationType` is `UTIL_RATE` or `LOAN_VPP`. */
+  acceptanceChannel?: Maybe<Array<Maybe<MVVAcceptanceChannel>>>;
+  /** The business's MVV utility type. Required if `registrationType` is `UTIL_RATE`. */
+  utilityType?: Maybe<Array<Maybe<MVVUtilityType>>>;
+  /** Does the business accept payday loans? Required if `registrationType` is `LOAN_VPP`. */
+  loanPayday?: Maybe<Scalars['Boolean']>;
+  /** Does the business charge fees for debt repayment? Required if `registrationType` is `LOAN_VPP`. */
+  loanFee?: Maybe<Scalars['Boolean']>;
 };
 
 /**
@@ -1717,6 +1909,24 @@ export type Merchant = {
   timezone?: Maybe<Scalars['String']>;
 };
 
+/** A record of a merchant account application. */
+export type MerchantAccountApplication = {
+  __typename?: 'MerchantAccountApplication';
+  /** A unique ID for the account application. Can be used to query the status of the onboarding request in the future. */
+  id: Scalars['ID'];
+  /** The status of the application. */
+  status?: Maybe<ApplicationStatus>;
+};
+
+/** Top-level fields returned when submitting an application for a merchant account. */
+export type MerchantAccountApplicationPayload = {
+  __typename?: 'MerchantAccountApplicationPayload';
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The Merchant Account Application. */
+  merchantAccountApplication?: Maybe<MerchantAccountApplication>;
+};
+
 /** A monetary amount with currency. */
 export type MonetaryAmount = {
   __typename?: 'MonetaryAmount';
@@ -2047,6 +2257,30 @@ export type MutationgenerateInStoreReaderPairingCodeArgs = {
   input: GenerateInStoreReaderPairingCodeInput;
 };
 
+/** Means by which customers by their bills. */
+export enum MVVAcceptanceChannel {
+  FACE_TO_FACE = 'FACE_TO_FACE',
+  MAIL = 'MAIL',
+  PHONE = 'PHONE',
+  WEB = 'WEB',
+}
+
+/** Supported MVV (Merchant Verification Value) programs. */
+export enum MVVRegistrationType {
+  LOAN_VPP = 'LOAN_VPP',
+  TAX_DEBIT = 'TAX_DEBIT',
+  UTIL_RATE = 'UTIL_RATE',
+  UTIL_VPP = 'UTIL_VPP',
+}
+
+/** Supported MVV (Merchant Verification Value) utility types. */
+export enum MVVUtilityType {
+  ELECTRIC = 'ELECTRIC',
+  GAS = 'GAS',
+  TRASH = 'TRASH',
+  WATER = 'WATER',
+}
+
 /** Input fields for a network tokenized card. */
 export type NetworkTokenInput = {
   /** A one-time-use string generated by the token requester to validate the transaction. */
@@ -2083,6 +2317,79 @@ export type OAuthApplication = {
   /** The unique identifier of the OAuth application. */
   clientId?: Maybe<Scalars['String']>;
 };
+
+/** The owner's address type. */
+export enum OwnerAddressType {
+  HOME = 'HOME',
+  MAILING = 'MAILING',
+}
+
+/** The type of identity number provided for the owner. */
+export enum OwnerIDType {
+  INDIVIDUAL_TAX_IDENTIFICATION_NUMBER = 'INDIVIDUAL_TAX_IDENTIFICATION_NUMBER',
+  SOCIAL_SECURITY_NUMBER = 'SOCIAL_SECURITY_NUMBER',
+}
+
+/**
+ * An owner of the business. A minimum of one and a maximum of five owners can be
+ * submitted. One owner must be the authorized signer on the account.
+ */
+export type OwnerInput = {
+  /** Whether this owner acts as the authorized signer on the account. This should only be true for one owner. */
+  authorizedSigner?: Maybe<Scalars['Boolean']>;
+  /** The role that the owner holds. */
+  role: OwnerRole;
+  /** The position that the owner holds. */
+  position: OwnerPosition;
+  /** The % of the business that the owner owns. Must be between 0 and 100. */
+  ownershipPercentage: Scalars['Int'];
+  /** The owner's first name. */
+  firstName: Scalars['String'];
+  /** The owner's last name. */
+  lastName: Scalars['String'];
+  /** The owner's email address. */
+  email: Scalars['String'];
+  /** The owner's address. */
+  address: AddressInput;
+  /** The owner's address type. */
+  addressType: OwnerAddressType;
+  /** The owner's date of birth. Format: YYYY-MM-DD. */
+  dateOfBirth: Scalars['Date'];
+  /** The country code for the owner's phone number. */
+  phoneCountryCode: Scalars['Int'];
+  /** The owner's phone number. No extensions, numbers only. */
+  phoneNumber: Scalars['String'];
+  /** The phone number type for the owner's phone number. */
+  phoneType: OwnerPhoneType;
+  /** The owner's ID type. Required for authorized signer. */
+  idType?: Maybe<OwnerIDType>;
+  /** The owner's ID number. Must be a valid US SSN or TIN. */
+  idNumber?: Maybe<Scalars['USTaxIdentificationNumber']>;
+  /** The country that issued the owner's ID. */
+  idIssuer?: Maybe<Scalars['CountryCodeAlpha3']>;
+};
+
+/** The owner's phone type. */
+export enum OwnerPhoneType {
+  HOME = 'HOME',
+  MOBILE = 'MOBILE',
+}
+
+/** The position that the owner holds in the business. */
+export enum OwnerPosition {
+  BENEFICIAL_OWNER = 'BENEFICIAL_OWNER',
+  CHAIRMAN = 'CHAIRMAN',
+  DIRECTOR = 'DIRECTOR',
+  PARTNER = 'PARTNER',
+  SECRETARY = 'SECRETARY',
+  TREASURER = 'TREASURER',
+}
+
+/** The role that the owner holds in the business. */
+export enum OwnerRole {
+  BENEFICIAL_OWNER = 'BENEFICIAL_OWNER',
+  SIGNIFICANT_RESPONSIBILITY = 'SIGNIFICANT_RESPONSIBILITY',
+}
 
 /** The page information for a connection. */
 export type PageInfo = {
@@ -2905,6 +3212,13 @@ export type RefundInput = {
 
 /** A union of all possible payment method refund details. */
 export type RefundPaymentMethodDetails = PayPalRefundDetails | PayPalLocalPaymentRefundDetails;
+
+/** Supported refund policies. */
+export enum RefundPolicy {
+  EXCHANGE_ONLY = 'EXCHANGE_ONLY',
+  NO_REFUND_OR_EXCHANGE = 'NO_REFUND_OR_EXCHANGE',
+  REFUND_CARDHOLDER = 'REFUND_CARDHOLDER',
+}
 
 /** Input fields for searching for refunds. */
 export type RefundSearchInput = {
