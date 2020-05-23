@@ -8,11 +8,11 @@ import {
   SvgIcon,
   Toolbar,
 } from '@material-ui/core';
-import Link from 'next/link';
 import React, { useState } from 'react';
 import { MenuLocationEnum, useMenuQuery } from '../graphql';
 import MenuSvg from '../icons/menu.svg';
 import CartButton from './cart/CartButton';
+import Link from './Link';
 import Logo from './Logo';
 import Menu from './Menu';
 
@@ -88,15 +88,13 @@ const Header: React.FC = () => {
       <Toolbar className={styles.toolbar}>
         <Hidden mdUp>
           <div className={styles.toolbarLeft}>
-            <IconButton onClick={() => setOpen(!open)}>
+            <IconButton aria-label="Menu" onClick={() => setOpen(!open)}>
               <SvgIcon component={MenuSvg} />
             </IconButton>
           </div>
         </Hidden>
-        <Link passHref href="/">
-          <a className={styles.logo}>
-            <Logo height={46} />
-          </a>
+        <Link className={styles.logo} href="/" underline="none">
+          <Logo height={46} />
         </Link>
         <div className={styles.toolbarRight}>
           <Hidden smDown>

@@ -47,9 +47,9 @@ const Categories: React.FC = () => {
                 <div className={styles.category}>
                   <Link
                     className={styles.categoryLink}
-                    underline="none"
                     href="/product-category/[slug]"
                     as={`/product-category/${category.slug}`}
+                    underline="none"
                   >
                     <img
                       className={styles.categoryImage}

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   CircularProgress,
   Container,
   FormGroup,
@@ -12,12 +11,12 @@ import { ApolloError } from 'apollo-boost';
 import { useFormik } from 'formik';
 import { ExecutionResult } from 'graphql';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { object, string } from 'yup';
 import { AppContext } from '../components/AppProvider';
 import { AuthContext } from '../components/AuthProvider';
+import Button from '../components/Button';
 import Layout from '../components/Layout';
 import { RegisterUserMutation, useRegisterUserMutation } from '../graphql';
 
@@ -170,9 +169,9 @@ const Register: NextPage = () => {
                 Register
               </Button>
               <Box ml={1}>
-                <Link passHref href="/login">
-                  <Button color="default">Login</Button>
-                </Link>
+                <Button color="default" href="/login">
+                  Login
+                </Button>
               </Box>
             </FormGroup>
 
