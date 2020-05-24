@@ -157,7 +157,9 @@ const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
         <img
           src={item.product?.image?.sourceUrl ?? undefined}
           srcSet={item.product?.image?.srcSet ?? undefined}
+          sizes={item.product?.image?.sizes ?? undefined}
           alt={item.product?.image?.altText ?? ''}
+          loading="lazy"
         />
       </TableCell>
       <TableCell className={styles.description}>

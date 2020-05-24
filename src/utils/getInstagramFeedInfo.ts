@@ -63,7 +63,7 @@ export default async function getInstagramFeedInfo(
         {
           id: get(node, 'id'),
           displayImage: get(node, 'display_url'),
-          thumbnail: get(node, 'thumbnail_src'),
+          thumbnail: get(node, 'thumbnail_resources[3].src'),
           likes: get(node, 'edge_liked_by.count'),
           caption: get(node, 'edge_media_to_caption.edges[0].node.text'),
           commentsNumber: get(node, 'edge_media_to_comment.count'),

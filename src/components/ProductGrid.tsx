@@ -63,7 +63,9 @@ const ProductGrid: React.FC<Props> = ({ products }) => {
                     className={styles.productImage}
                     src={product.image?.sourceUrl ?? undefined}
                     srcSet={product.image?.srcSet ?? undefined}
+                    sizes={product.image?.sizes ?? undefined}
                     alt={product.image?.altText ?? ''}
+                    loading="lazy"
                   />
                   <Typography variant="h4" className={styles.productName}>
                     {product.name}

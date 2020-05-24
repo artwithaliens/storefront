@@ -1,15 +1,7 @@
-import {
-  Box,
-  Button,
-  Grid,
-  makeStyles,
-  Paper,
-  Radio,
-  RadioGroup,
-  Typography,
-} from '@material-ui/core';
+import { Box, Grid, makeStyles, Paper, Radio, RadioGroup, Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, useUpdateShippingMethodMutation } from '../../graphql';
+import Button from '../Button';
 import Price from '../Price';
 
 const useStyles = makeStyles(
@@ -75,10 +67,11 @@ const ShippingMethods: React.FC<Props> = ({
         <Button
           type="submit"
           color="primary"
-          disabled={loading || chosenShippingMethod == null}
+          disabled={chosenShippingMethod == null}
+          loading={loading}
           onClick={onSubmit}
         >
-          {loading ? 'Loading' : 'Continue to Payment Method'}
+          Continue to Payment Method
         </Button>
       </Box>
     </>

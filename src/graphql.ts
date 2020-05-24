@@ -16537,7 +16537,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
                                     MediaItem,
-                                    'sourceUrl' | 'srcSet' | 'altText'
+                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                                   >
                                 >;
                               })
@@ -16548,7 +16548,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
                                     MediaItem,
-                                    'sourceUrl' | 'srcSet' | 'altText'
+                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                                   >
                                 >;
                               })
@@ -16559,7 +16559,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
                                     MediaItem,
-                                    'sourceUrl' | 'srcSet' | 'altText'
+                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                                   >
                                 >;
                               })
@@ -16570,7 +16570,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                                 image?: Maybe<
                                   { __typename?: 'MediaItem' } & Pick<
                                     MediaItem,
-                                    'sourceUrl' | 'srcSet' | 'altText'
+                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                                   >
                                 >;
                               })
@@ -16902,7 +16902,10 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
             }
           >;
           image?: Maybe<
-            { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'altText'>
+            { __typename?: 'MediaItem' } & Pick<
+              MediaItem,
+              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+            >
           >;
           galleryImages?: Maybe<
             { __typename?: 'ProductToMediaItemConnection' } & {
@@ -16911,7 +16914,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'sourceUrl' | 'srcSet' | 'altText'
+                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -16960,7 +16963,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -16971,7 +16974,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -16982,7 +16985,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -16993,7 +16996,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17037,7 +17040,10 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
         | 'sku'
       > & {
           image?: Maybe<
-            { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'altText'>
+            { __typename?: 'MediaItem' } & Pick<
+              MediaItem,
+              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+            >
           >;
           galleryImages?: Maybe<
             { __typename?: 'ProductToMediaItemConnection' } & {
@@ -17046,7 +17052,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'sourceUrl' | 'srcSet' | 'altText'
+                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -17095,7 +17101,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17106,7 +17112,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17117,7 +17123,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17128,7 +17134,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17170,7 +17176,10 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
         | 'sku'
       > & {
           image?: Maybe<
-            { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'altText'>
+            { __typename?: 'MediaItem' } & Pick<
+              MediaItem,
+              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+            >
           >;
           galleryImages?: Maybe<
             { __typename?: 'ProductToMediaItemConnection' } & {
@@ -17179,7 +17188,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'sourceUrl' | 'srcSet' | 'altText'
+                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -17228,7 +17237,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17239,7 +17248,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17250,7 +17259,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17261,7 +17270,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17311,7 +17320,10 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
         | 'sku'
       > & {
           image?: Maybe<
-            { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'altText'>
+            { __typename?: 'MediaItem' } & Pick<
+              MediaItem,
+              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+            >
           >;
           galleryImages?: Maybe<
             { __typename?: 'ProductToMediaItemConnection' } & {
@@ -17320,7 +17332,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'sourceUrl' | 'srcSet' | 'altText'
+                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -17369,7 +17381,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17380,7 +17392,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17391,7 +17403,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17402,7 +17414,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
                               MediaItem,
-                              'uri' | 'title' | 'sourceUrl' | 'srcSet'
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                             >
                           >;
                         })
@@ -17453,7 +17465,7 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'sourceUrl' | 'srcSet' | 'altText'
+                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >;
                 })
@@ -17464,7 +17476,7 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'sourceUrl' | 'srcSet' | 'altText'
+                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >;
                 })
@@ -17475,7 +17487,7 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'sourceUrl' | 'srcSet' | 'altText'
+                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >;
                 })
@@ -17486,7 +17498,7 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'sourceUrl' | 'srcSet' | 'altText'
+                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >;
                 })
@@ -17636,9 +17648,10 @@ export const CartDocument = gql`
             name
             sku
             image {
-              sourceUrl
-              srcSet
               altText
+              sizes(size: SHOP_THUMBNAIL)
+              sourceUrl(size: SHOP_THUMBNAIL)
+              srcSet(size: SHOP_THUMBNAIL)
             }
             ... on SimpleProduct {
               price
@@ -18235,9 +18248,10 @@ export const ProductDocument = gql`
       deliveryTime
       sku
       image {
-        sourceUrl
-        srcSet
         altText
+        sizes(size: SHOP_SINGLE)
+        sourceUrl(size: SHOP_SINGLE)
+        srcSet(size: SHOP_SINGLE)
       }
       ... on SimpleProduct {
         manageStock
@@ -18273,9 +18287,10 @@ export const ProductDocument = gql`
       galleryImages {
         nodes {
           id
-          sourceUrl
-          srcSet
           altText
+          sizes(size: SHOP_SINGLE)
+          sourceUrl(size: SHOP_SINGLE)
+          srcSet(size: SHOP_SINGLE)
         }
       }
       productCategories {
@@ -18305,10 +18320,10 @@ export const ProductDocument = gql`
           slug
           name
           image {
-            uri
-            title
-            sourceUrl
-            srcSet
+            altText
+            sizes(size: SHOP_CATALOG)
+            sourceUrl(size: SHOP_CATALOG)
+            srcSet(size: SHOP_CATALOG)
           }
           ... on SimpleProduct {
             price
@@ -18390,9 +18405,10 @@ export const ProductsDocument = gql`
         slug
         name
         image {
-          sourceUrl
-          srcSet
           altText
+          sizes(size: SHOP_CATALOG)
+          sourceUrl(size: SHOP_CATALOG)
+          srcSet(size: SHOP_CATALOG)
         }
         ... on SimpleProduct {
           price

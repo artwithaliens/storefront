@@ -99,9 +99,10 @@ const Footer: React.FC = () => {
                 <GridListTile key={medium.id}>
                   <a href={medium.postLink} target="_blank" rel="noopener noreferrer">
                     <img
-                      src={medium.displayImage}
-                      alt={medium.accessibilityCaption ?? ''}
                       className={styles.feedImage}
+                      src={medium.thumbnail}
+                      alt={medium.accessibilityCaption ?? ''}
+                      loading="lazy"
                     />
                   </a>
                 </GridListTile>

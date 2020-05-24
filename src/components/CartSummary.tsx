@@ -60,10 +60,12 @@ const CartSummary: React.FC<Props> = ({ cart }) => {
                 <TableRow key={item.key} className={styles.tableRow}>
                   <TableCell>
                     <img
-                      width="64"
                       src={item.product?.image?.sourceUrl ?? undefined}
                       srcSet={item.product?.image?.srcSet ?? undefined}
+                      sizes={item.product?.image?.sizes ?? undefined}
                       alt={item.product?.image?.altText ?? ''}
+                      loading="lazy"
+                      width="64"
                     />
                   </TableCell>
                   <TableCell>{item.product?.name}</TableCell>

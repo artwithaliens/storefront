@@ -9,9 +9,10 @@ query Products($category: String, $tag: String) {
       slug
       name
       image {
-        sourceUrl
-        srcSet
         altText
+        sizes(size: SHOP_CATALOG)
+        sourceUrl(size: SHOP_CATALOG)
+        srcSet(size: SHOP_CATALOG)
       }
       ... on SimpleProduct {
         price

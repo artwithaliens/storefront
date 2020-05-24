@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Checkbox,
   Divider,
   FormControlLabel,
@@ -17,6 +16,7 @@ import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery, MetaDataInput } from '../../graphql';
 import EditSvg from '../../icons/edit.svg';
 import AddressSummary from '../AddressSummary';
+import Button from '../Button';
 import Link from '../Link';
 import Loader from '../Loader';
 import PayPalButton from '../PayPalButton';

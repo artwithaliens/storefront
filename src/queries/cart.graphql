@@ -10,9 +10,10 @@ query Cart {
           name
           sku
           image {
-            sourceUrl
-            srcSet
             altText
+            sizes(size: SHOP_THUMBNAIL)
+            sourceUrl(size: SHOP_THUMBNAIL)
+            srcSet(size: SHOP_THUMBNAIL)
           }
           ... on SimpleProduct {
             price

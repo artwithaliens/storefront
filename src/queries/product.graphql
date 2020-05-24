@@ -9,9 +9,10 @@ query Product($slug: ID!) {
     deliveryTime
     sku
     image {
-      sourceUrl
-      srcSet
       altText
+      sizes(size: SHOP_SINGLE)
+      sourceUrl(size: SHOP_SINGLE)
+      srcSet(size: SHOP_SINGLE)
     }
     ... on SimpleProduct {
       manageStock
@@ -47,9 +48,10 @@ query Product($slug: ID!) {
     galleryImages {
       nodes {
         id
-        sourceUrl
-        srcSet
         altText
+        sizes(size: SHOP_SINGLE)
+        sourceUrl(size: SHOP_SINGLE)
+        srcSet(size: SHOP_SINGLE)
       }
     }
     productCategories {
@@ -79,10 +81,10 @@ query Product($slug: ID!) {
         slug
         name
         image {
-          uri
-          title
-          sourceUrl
-          srcSet
+          altText
+          sizes(size: SHOP_CATALOG)
+          sourceUrl(size: SHOP_CATALOG)
+          srcSet(size: SHOP_CATALOG)
         }
         ... on SimpleProduct {
           price

@@ -39,6 +39,7 @@ const GalleryStepper: React.FC<Props> = ({ product }) => {
             className={styles.image}
             src={product.image?.sourceUrl ?? undefined}
             srcSet={product.image?.srcSet ?? undefined}
+            sizes={product.image?.sizes ?? undefined}
             alt={product.image?.altText ?? ''}
           />
         </div>
@@ -50,6 +51,7 @@ const GalleryStepper: React.FC<Props> = ({ product }) => {
                   className={styles.image}
                   src={mediaItem.sourceUrl ?? undefined}
                   srcSet={mediaItem.srcSet ?? undefined}
+                  sizes={mediaItem.sizes ?? undefined}
                   alt={mediaItem.altText ?? ''}
                 />
               </div>
