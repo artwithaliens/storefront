@@ -37,11 +37,15 @@ export default withApollo(
       if (jssStyles != null) {
         jssStyles.remove();
       }
-      register();
+      if (process.env.NODE_ENV === 'production') {
+        register();
+      }
     }
 
     componentWillUnmount() {
-      unregister();
+      if (process.env.NODE_ENV === 'production') {
+        unregister();
+      }
     }
 
     render() {

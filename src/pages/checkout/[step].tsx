@@ -24,15 +24,15 @@ const Checkout: NextPage = () => {
     loading: customerLoading,
   } = useCustomerQuery({ ssr: false });
 
-  const [checkout, { loading: checkoutLoading }] = useCheckoutMutation({
+  const [checkout, { loading: checkoutLoading, called: checkoutCalled }] = useCheckoutMutation({
     refetchQueries: ['Cart', 'Customer'],
   });
 
   useEffect(() => {
-    if (!cartLoading && cart != null && (cart.contents?.itemCount ?? 0) === 0) {
+    if (!cartLoading && !checkoutCalled && cart != null && (cart.contents?.itemCount ?? 0) === 0) {
       router.push('/');
     }
-  }, [cart, cartLoading, router]);
+  }, [cart, cartLoading, checkoutCalled, router]);
 
   const handleSubmit = (
     values: Pick<
@@ -63,7 +63,7 @@ const Checkout: NextPage = () => {
             <CheckoutForm
               cart={cart}
               customer={customer}
-              loading={checkoutLoading}
+              loading={checkoutLoading || checkoutCalled}
               onSubmit={handleSubmit}
             />
           </Box>

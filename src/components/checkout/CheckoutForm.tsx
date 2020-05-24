@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useLocalStorage } from 'react-use';
@@ -62,10 +62,6 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
       });
     }
   };
-
-  if (!loading && (cart.contents?.itemCount ?? 0) === 0) {
-    return <Typography>Your cart is empty.</Typography>;
-  }
 
   return (
     <Grid container spacing={4}>

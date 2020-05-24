@@ -7,19 +7,18 @@ import Layout from '../components/Layout';
 const OrderConfirmation: NextPage = () => (
   <Layout>
     <Container>
-      <Box textAlign="center">
+      <Box p={4} textAlign="center">
         <Typography gutterBottom variant="h1">
           Thank you for your order!
         </Typography>
         <Typography gutterBottom>
-          We’ve emailed you an order confirmation.
+          I’ve emailed you an order confirmation.
           <br />
-          We’ll notify you when the order has been shipped.
+          I’ll notify you when the order has been shipped.
         </Typography>
-        <Button href="/shop">Continue shopping</Button>{' '}
-        <Button href="/order-history/[orderId]" as="/order-history/1234">
-          Order details
-        </Button>
+        <Box mt={4}>
+          <Button href="/shop">Continue shopping</Button>
+        </Box>
       </Box>
     </Container>
   </Layout>

@@ -3,7 +3,7 @@ import React from 'react';
 import Button from '../Button';
 
 const EmptyCart: React.FC = () => (
-  <Box textAlign="center">
+  <Box mb={4} textAlign="center">
     <Typography gutterBottom variant="h4">
       Your cart is empty
     </Typography>

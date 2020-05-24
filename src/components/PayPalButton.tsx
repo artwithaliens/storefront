@@ -2,13 +2,10 @@ import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import braintree from 'braintree-web';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useMount } from 'react-use';
 import { createClient } from '../braintree';
 import { CartQuery, CustomerAddress } from '../graphql';
-import Emitter from '../utils/Emitter';
-
-const disabledEmitter = new Emitter<boolean>();
 
 const useStyles = makeStyles(
   () => ({
@@ -21,6 +18,7 @@ const useStyles = makeStyles(
 
     disabled: {
       opacity: 0.3,
+      pointerEvents: 'none',
     },
 
     loader: {
@@ -50,12 +48,8 @@ const PayPalButton: React.FC<Props> = ({
   const styles = useStyles();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    disabledEmitter.emit(!!disabled);
-  }, [disabled]);
-
   useMount(() => {
-    if (process.browser && loading) {
+    if (process.browser && loading && document.getElementById('paypal-button') != null) {
       createClient(paymentClientToken)
         .then((client) => braintree.paypalCheckout.create({ client }))
         .then((paypalCheckoutInstance) => {
@@ -93,18 +87,9 @@ const PayPalButton: React.FC<Props> = ({
                     state: shipping?.state,
                   },
                 }),
-              validate: (actions) => {
+              validate: () => {
                 // We can enable or disable the button here, but without visual feedback
-                if (disabled) {
-                  actions.disable();
-                }
-                disabledEmitter.subscribe((value) => {
-                  if (value) {
-                    actions.disable();
-                  } else {
-                    actions.enable();
-                  }
-                });
+                // actions.disable();
               },
               onAuthorize: (data) =>
                 paypalCheckoutInstance.tokenizePayment(data).then((payload) => {

@@ -1,4 +1,4 @@
-import { Box, Button, makeStyles, Radio, RadioGroup, SvgIcon, Typography } from '@material-ui/core';
+import { Box, makeStyles, Radio, RadioGroup, SvgIcon, Typography } from '@material-ui/core';
 import React from 'react';
 import { usePaymentGatewaysQuery } from '../../graphql';
 import AmexSvg from '../../icons/payment-gateways/amex.svg';
@@ -6,6 +6,7 @@ import PaypalSvg from '../../icons/payment-gateways/paypal.svg';
 import SofortSvg from '../../icons/payment-gateways/sofort.svg';
 import VisaSvg from '../../icons/payment-gateways/visa.svg';
 import isBlank from '../../utils/isBlank';
+import Button from '../Button';
 
 const icons: { [id: string]: React.ReactElement } = {
   braintree_cc: (
@@ -76,8 +77,8 @@ const PaymentMethods: React.FC<Props> = ({ onChange, onFinish, paymentMethod }) 
         )}
       </RadioGroup>
       <Box mt={2}>
-        <Button type="submit" color="primary" disabled={loading} onClick={onFinish}>
-          {loading ? 'Loading' : 'Continue to Review Your Order'}
+        <Button type="submit" color="primary" loading={loading} onClick={onFinish}>
+          Continue to Review Your Order
         </Button>
       </Box>
     </>

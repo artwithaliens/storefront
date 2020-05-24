@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Button,
   Collapse,
   Hidden,
   IconButton,
@@ -58,19 +57,6 @@ const useStyles = makeStyles(
         },
       },
     },
-
-    contact: {
-      alignItems: 'center',
-      display: 'flex',
-      height: '100%',
-      position: 'absolute',
-      right: 24,
-    },
-
-    contactButton: {
-      borderRadius: 54,
-      display: 'none',
-    },
   }),
   { name: 'Header' },
 );
@@ -103,11 +89,6 @@ const Header: React.FC = () => {
           <CartButton />
         </div>
       </Toolbar>
-      <div className={styles.contact}>
-        <Button className={styles.contactButton} variant="contained" color="primary">
-          Book an appointment
-        </Button>
-      </div>
       <Collapse unmountOnExit in={open} timeout="auto">
         <Menu menu={menu} />
       </Collapse>
