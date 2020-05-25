@@ -342,6 +342,10 @@ export type Category = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -373,6 +377,22 @@ export type CategoryChildrenArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<CategoryToCategoryConnectionWhereArgs>;
+};
+
+/** The category type */
+export type CategoryEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The category type */
+export type CategoryEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The category type */
@@ -844,6 +864,10 @@ export type ContentNode = {
   editLock?: Maybe<EditLock>;
   /** The RSS enclosure for the object */
   enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /**
    * The global unique identifier for this post. This currently matches the value
    * stored in WP_Post->guid and the guid column in the "post_objects" database table.
@@ -876,6 +900,22 @@ export type ContentNode = {
   uri: Scalars['String'];
 };
 
+/** Nodes used to manage content */
+export type ContentNodeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** Nodes used to manage content */
+export type ContentNodeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum ContentNodeIdTypeEnum {
   /** Identify a resource by the Database ID. */
@@ -885,6 +925,46 @@ export enum ContentNodeIdTypeEnum {
   /** Identify a resource by the URI. */
   URI = 'URI',
 }
+
+/** Connection between the ContentNode type and the EnqueuedScript type */
+export type ContentNodeToEnqueuedScriptConnection = {
+  __typename?: 'ContentNodeToEnqueuedScriptConnection';
+  /** Edges for the ContentNodeToEnqueuedScriptConnection connection */
+  edges?: Maybe<Array<Maybe<ContentNodeToEnqueuedScriptConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ContentNodeToEnqueuedScriptConnectionEdge = {
+  __typename?: 'ContentNodeToEnqueuedScriptConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedScript>;
+};
+
+/** Connection between the ContentNode type and the EnqueuedStylesheet type */
+export type ContentNodeToEnqueuedStylesheetConnection = {
+  __typename?: 'ContentNodeToEnqueuedStylesheetConnection';
+  /** Edges for the ContentNodeToEnqueuedStylesheetConnection connection */
+  edges?: Maybe<Array<Maybe<ContentNodeToEnqueuedStylesheetConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ContentNodeToEnqueuedStylesheetConnectionEdge = {
+  __typename?: 'ContentNodeToEnqueuedStylesheetConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedStylesheet>;
+};
 
 export type ContentRevisionUnion = Post | Page;
 
@@ -901,10 +981,8 @@ export type ContentType = Node & {
   __typename?: 'ContentType';
   /** Whether this content type should can be exported. */
   canExport?: Maybe<Scalars['Boolean']>;
-  /** List of Taxonomies connected to the Post Type */
-  connectedTaxonomies?: Maybe<Array<Maybe<Taxonomy>>>;
-  /** A list of Taxonomies associated with the post type */
-  connectedTaxonomyNames?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Connection between the ContentType type and the Taxonomy type */
+  connectedTaxonomies?: Maybe<ContentTypeToTaxonomyConnection>;
   /** Whether delete this type of content when the author of it is deleted from the system. */
   deleteWithUser?: Maybe<Scalars['Boolean']>;
   /** Description of the content type. */
@@ -969,12 +1047,10 @@ export type ContentType = Node & {
 
 /** An Post Type object */
 export type ContentTypeConnectedTaxonomiesArgs = {
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-};
-
-/** An Post Type object */
-export type ContentTypeConnectedTaxonomyNamesArgs = {
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** Allowed Content Types */
@@ -994,6 +1070,26 @@ export enum ContentTypeIdTypeEnum {
   /** The name of the content type. */
   NAME = 'NAME',
 }
+
+/** Connection between the ContentType type and the Taxonomy type */
+export type ContentTypeToTaxonomyConnection = {
+  __typename?: 'ContentTypeToTaxonomyConnection';
+  /** Edges for the ContentTypeToTaxonomyConnection connection */
+  edges?: Maybe<Array<Maybe<ContentTypeToTaxonomyConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<Taxonomy>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ContentTypeToTaxonomyConnectionEdge = {
+  __typename?: 'ContentTypeToTaxonomyConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<Taxonomy>;
+};
 
 /** Countries enumeration */
 export enum CountriesEnum {
@@ -2961,6 +3057,64 @@ export type EmptyCartPayload = {
   clientMutationId: Scalars['String'];
 };
 
+/** Asset enqueued by the CMS */
+export type EnqueuedAsset = {
+  /** @todo */
+  args?: Maybe<Scalars['Boolean']>;
+  /** Dependencies needed to use this asset */
+  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /** Extra information needed for the script */
+  extra?: Maybe<Scalars['String']>;
+  /** The handle of the enqueued asset */
+  handle?: Maybe<Scalars['String']>;
+  /** The ID of the enqueued asset */
+  id: Scalars['ID'];
+  /** The source of the asset */
+  src?: Maybe<Scalars['String']>;
+  /** The version of the enqueued asset */
+  version?: Maybe<Scalars['String']>;
+};
+
+/** Script enqueued by the CMS */
+export type EnqueuedScript = Node &
+  EnqueuedAsset & {
+    __typename?: 'EnqueuedScript';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']>;
+    /** The globally unique ID for the object */
+    id: Scalars['ID'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']>;
+  };
+
+/** Stylesheet enqueued by the CMS */
+export type EnqueuedStylesheet = Node &
+  EnqueuedAsset & {
+    __typename?: 'EnqueuedStylesheet';
+    /** @todo */
+    args?: Maybe<Scalars['Boolean']>;
+    /** Dependencies needed to use this asset */
+    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
+    /** Extra information needed for the script */
+    extra?: Maybe<Scalars['String']>;
+    /** The handle of the enqueued asset */
+    handle?: Maybe<Scalars['String']>;
+    /** The globally unique ID for the object */
+    id: Scalars['ID'];
+    /** The source of the asset */
+    src?: Maybe<Scalars['String']>;
+    /** The version of the enqueued asset */
+    version?: Maybe<Scalars['String']>;
+  };
+
 /** A external product object */
 export type ExternalProduct = Node &
   Product & {
@@ -3845,6 +3999,10 @@ export type GroupProductToVariationAttributeConnectionEdge = {
 export type HierarchicalContentNode = {
   /** The parent of the object. The parent object can be of various types */
   parent?: Maybe<PostObjectUnion>;
+  /** Database id of the parent object */
+  parentDatabaseId?: Maybe<Scalars['Int']>;
+  /** The globally unique identifier of the parent object. */
+  parentId?: Maybe<Scalars['ID']>;
 };
 
 /** a line item object */
@@ -4030,6 +4188,10 @@ export type MediaItem = Node &
     editLock?: Maybe<EditLock>;
     /** The RSS enclosure for the object */
     enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
     /**
      * The global unique identifier for this post. This currently matches the value
      * stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot;
@@ -4067,6 +4229,10 @@ export type MediaItem = Node &
     modifiedGmt?: Maybe<Scalars['String']>;
     /** The parent of the object. The parent object can be of various types */
     parent?: Maybe<PostObjectUnion>;
+    /** Database id of the parent object */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent object. */
+    parentId?: Maybe<Scalars['ID']>;
     /** The SEO data of the MediaItem */
     seo?: Maybe<Seo>;
     /** The sizes attribute value for an image. */
@@ -4111,6 +4277,22 @@ export type MediaItemCommentsArgs = {
 /** The mediaItem type */
 export type MediaItemDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** The mediaItem type */
+export type MediaItemEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The mediaItem type */
+export type MediaItemEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The mediaItem type */
@@ -5156,6 +5338,10 @@ export type PaBrand = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -5184,6 +5370,22 @@ export type PaBrand = Node &
     /** Connection between the PaBrand type and the ProductVariation type */
     variations?: Maybe<PaBrandToProductVariationConnection>;
   };
+
+/** The paBrand type */
+export type PaBrandEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The paBrand type */
+export type PaBrandEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The paBrand type */
 export type PaBrandProductsArgs = {
@@ -5468,6 +5670,10 @@ export type Page = Node &
     editLock?: Maybe<EditLock>;
     /** The RSS enclosure for the object */
     enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
     /** The featured image for the object */
     featuredImage?: Maybe<MediaItem>;
     /**
@@ -5508,6 +5714,10 @@ export type Page = Node &
     pageId: Scalars['Int'];
     /** The parent of the object. The parent object can be of various types */
     parent?: Maybe<PostObjectUnion>;
+    /** Database id of the parent object */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /** The globally unique identifier of the parent object. */
+    parentId?: Maybe<Scalars['ID']>;
     /**
      * If the current node is a revision, this field exposes the node this is a
      * revision of. Returns null if the node is not a revision of another node.
@@ -5554,6 +5764,22 @@ export type PageCommentsArgs = {
 /** The page type */
 export type PageContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** The page type */
+export type PageEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The page type */
+export type PageEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The page type */
@@ -5829,6 +6055,10 @@ export type PaMaterial = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -5857,6 +6087,22 @@ export type PaMaterial = Node &
     /** Connection between the PaMaterial type and the ProductVariation type */
     variations?: Maybe<PaMaterialToProductVariationConnection>;
   };
+
+/** The paMaterial type */
+export type PaMaterialEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The paMaterial type */
+export type PaMaterialEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The paMaterial type */
 export type PaMaterialProductsArgs = {
@@ -6104,6 +6350,10 @@ export type PaPaperWeight = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -6132,6 +6382,22 @@ export type PaPaperWeight = Node &
     /** Connection between the PaPaperWeight type and the ProductVariation type */
     variations?: Maybe<PaPaperWeightToProductVariationConnection>;
   };
+
+/** The paPaperWeight type */
+export type PaPaperWeightEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The paPaperWeight type */
+export type PaPaperWeightEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The paPaperWeight type */
 export type PaPaperWeightProductsArgs = {
@@ -6396,6 +6662,8 @@ export type Plugin = Node & {
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** Display name of the plugin. */
   name?: Maybe<Scalars['String']>;
+  /** Plugin path. */
+  path?: Maybe<Scalars['String']>;
   /** URI for the plugin website. This is useful for directing users for support requests etc. */
   pluginUri?: Maybe<Scalars['String']>;
   /** Current version of the plugin. */
@@ -6450,6 +6718,10 @@ export type Post = Node &
     editLock?: Maybe<EditLock>;
     /** The RSS enclosure for the object */
     enclosure?: Maybe<Scalars['String']>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
     /** The excerpt of the post. */
     excerpt?: Maybe<Scalars['String']>;
     /** The featured image for the object */
@@ -6545,6 +6817,22 @@ export type PostCommentsArgs = {
 /** The post type */
 export type PostContentArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** The post type */
+export type PostEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The post type */
+export type PostEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The post type */
@@ -6654,6 +6942,10 @@ export type PostFormat = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -6680,6 +6972,22 @@ export type PostFormat = Node &
     /** The unique resource identifier path */
     uri: Scalars['String'];
   };
+
+/** The postFormat type */
+export type PostFormatEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The postFormat type */
+export type PostFormatEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The postFormat type */
 export type PostFormatPostsArgs = {
@@ -7793,6 +8101,10 @@ export type ProductCategory = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Product category image */
@@ -7831,6 +8143,22 @@ export type ProductCategoryChildrenArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<ProductCategoryToProductCategoryConnectionWhereArgs>;
+};
+
+/** The productCategory type */
+export type ProductCategoryEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The productCategory type */
+export type ProductCategoryEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The productCategory type */
@@ -8124,6 +8452,10 @@ export type ProductTag = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -8150,6 +8482,22 @@ export type ProductTag = Node &
     /** The unique resource identifier path */
     uri: Scalars['String'];
   };
+
+/** The productTag type */
+export type ProductTagEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The productTag type */
+export type ProductTagEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The productTag type */
 export type ProductTagProductsArgs = {
@@ -9306,6 +9654,10 @@ export type ProductType = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -9330,6 +9682,22 @@ export type ProductType = Node &
     /** The unique resource identifier path */
     uri: Scalars['String'];
   };
+
+/** The productType type */
+export type ProductTypeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The productType type */
+export type ProductTypeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum ProductTypeIdType {
@@ -10688,6 +11056,10 @@ export type RootQuery = {
   refund?: Maybe<Refund>;
   /** Connection between the RootQuery type and the Refund type */
   refunds?: Maybe<RootQueryToRefundConnection>;
+  /** Connection between the RootQuery type and the EnqueuedScript type */
+  registeredScripts?: Maybe<RootQueryToEnqueuedScriptConnection>;
+  /** Connection between the RootQuery type and the EnqueuedStylesheet type */
+  registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
   /** Connection between the RootQuery type and the ContentRevisionUnion type */
   revisions?: Maybe<RootQueryToContentRevisionUnionConnection>;
   /** A 0bject */
@@ -11141,6 +11513,22 @@ export type RootQueryRefundsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<RootQueryToRefundConnectionWhereArgs>;
+};
+
+/** The root entry point into the Graph */
+export type RootQueryRegisteredScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The root entry point into the Graph */
+export type RootQueryRegisteredStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** The root entry point into the Graph */
@@ -11715,6 +12103,46 @@ export type RootQueryToCustomerConnectionWhereArgs = {
   roleNotIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
   /** Limit results to those matching a string. */
   search?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the RootQuery type and the EnqueuedScript type */
+export type RootQueryToEnqueuedScriptConnection = {
+  __typename?: 'RootQueryToEnqueuedScriptConnection';
+  /** Edges for the RootQueryToEnqueuedScriptConnection connection */
+  edges?: Maybe<Array<Maybe<RootQueryToEnqueuedScriptConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToEnqueuedScriptConnectionEdge = {
+  __typename?: 'RootQueryToEnqueuedScriptConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedScript>;
+};
+
+/** Connection between the RootQuery type and the EnqueuedStylesheet type */
+export type RootQueryToEnqueuedStylesheetConnection = {
+  __typename?: 'RootQueryToEnqueuedStylesheetConnection';
+  /** Edges for the RootQueryToEnqueuedStylesheetConnection connection */
+  edges?: Maybe<Array<Maybe<RootQueryToEnqueuedStylesheetConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type RootQueryToEnqueuedStylesheetConnectionEdge = {
+  __typename?: 'RootQueryToEnqueuedStylesheetConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedStylesheet>;
 };
 
 /** Connection between the RootQuery type and the mediaItem type */
@@ -13341,6 +13769,10 @@ export type ShippingClass = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -13365,6 +13797,22 @@ export type ShippingClass = Node &
     /** The unique resource identifier path */
     uri: Scalars['String'];
   };
+
+/** The shippingClass type */
+export type ShippingClassEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The shippingClass type */
+export type ShippingClassEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum ShippingClassIdType {
@@ -13946,6 +14394,10 @@ export type Tag = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -13972,6 +14424,22 @@ export type Tag = Node &
     /** The unique resource identifier path */
     uri: Scalars['String'];
   };
+
+/** The tag type */
+export type TagEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The tag type */
+export type TagEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The tag type */
 export type TagPostsArgs = {
@@ -14284,6 +14752,10 @@ export type TermNode = {
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
+  /** Connection between the TermNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+  /** Connection between the TermNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** Unique identifier for the term */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
@@ -14302,6 +14774,22 @@ export type TermNode = {
   uri: Scalars['String'];
 };
 
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNodeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNodeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
 /** The Type of Identifier used to fetch a single resource. Default is "ID". To be used along with the "id" field. */
 export enum TermNodeIdTypeEnum {
   /** The Database ID for the node */
@@ -14315,6 +14803,46 @@ export enum TermNodeIdTypeEnum {
   /** The URI for the node */
   URI = 'URI',
 }
+
+/** Connection between the TermNode type and the EnqueuedScript type */
+export type TermNodeToEnqueuedScriptConnection = {
+  __typename?: 'TermNodeToEnqueuedScriptConnection';
+  /** Edges for the TermNodeToEnqueuedScriptConnection connection */
+  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedScriptConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TermNodeToEnqueuedScriptConnectionEdge = {
+  __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedScript>;
+};
+
+/** Connection between the TermNode type and the EnqueuedStylesheet type */
+export type TermNodeToEnqueuedStylesheetConnection = {
+  __typename?: 'TermNodeToEnqueuedStylesheetConnection';
+  /** Edges for the TermNodeToEnqueuedStylesheetConnection connection */
+  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedStylesheetConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TermNodeToEnqueuedStylesheetConnectionEdge = {
+  __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedStylesheet>;
+};
 
 /** Options for ordering the connection by */
 export enum TermObjectsConnectionOrderbyEnum {
@@ -14379,7 +14907,7 @@ export type Theme = Node & {
    */
   themeUri?: Maybe<Scalars['String']>;
   /** The current version of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Version&quot; ). */
-  version?: Maybe<Scalars['Float']>;
+  version?: Maybe<Scalars['String']>;
 };
 
 /** Any node that has a URI */
@@ -15225,6 +15753,10 @@ export type User = Node &
     description?: Maybe<Scalars['String']>;
     /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
     email?: Maybe<Scalars['String']>;
+    /** Connection between the User type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
+    /** Connection between the User type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<UserToEnqueuedStylesheetConnection>;
     /**
      * A complete list of capabilities including capabilities inherited from a role.
      * This is equivalent to the array keys of WP_User-&gt;allcaps.
@@ -15310,6 +15842,22 @@ export type UserCommentsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<UserToCommentConnectionWhereArgs>;
+};
+
+/** A User object */
+export type UserEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** A User object */
+export type UserEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** A User object */
@@ -15581,6 +16129,46 @@ export type UserToContentRevisionUnionConnectionWhereArgs = {
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the User type and the EnqueuedScript type */
+export type UserToEnqueuedScriptConnection = {
+  __typename?: 'UserToEnqueuedScriptConnection';
+  /** Edges for the UserToEnqueuedScriptConnection connection */
+  edges?: Maybe<Array<Maybe<UserToEnqueuedScriptConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type UserToEnqueuedScriptConnectionEdge = {
+  __typename?: 'UserToEnqueuedScriptConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedScript>;
+};
+
+/** Connection between the User type and the EnqueuedStylesheet type */
+export type UserToEnqueuedStylesheetConnection = {
+  __typename?: 'UserToEnqueuedStylesheetConnection';
+  /** Edges for the UserToEnqueuedStylesheetConnection connection */
+  edges?: Maybe<Array<Maybe<UserToEnqueuedStylesheetConnectionEdge>>>;
+  /** The nodes of the connection, without the edges */
+  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  /** Information about pagination in a connection. */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type UserToEnqueuedStylesheetConnectionEdge = {
+  __typename?: 'UserToEnqueuedStylesheetConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor?: Maybe<Scalars['String']>;
+  /** The item at the end of the edge */
+  node?: Maybe<EnqueuedStylesheet>;
 };
 
 /** Connection between the User type and the mediaItem type */
@@ -16384,6 +16972,10 @@ export type VisibleProduct = Node &
     databaseId: Scalars['Int'];
     /** The description of the object */
     description?: Maybe<Scalars['String']>;
+    /** Connection between the TermNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+    /** Connection between the TermNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
     /** The globally unique ID for the object */
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
@@ -16408,6 +17000,22 @@ export type VisibleProduct = Node &
      */
     visibleProductId?: Maybe<Scalars['Int']>;
   };
+
+/** The visibleProduct type */
+export type VisibleProductEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** The visibleProduct type */
+export type VisibleProductEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
 export enum VisibleProductIdType {

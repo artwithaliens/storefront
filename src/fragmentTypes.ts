@@ -29,6 +29,12 @@ const result: IntrospectionResultData = {
             name: 'ProductCategory',
           },
           {
+            name: 'EnqueuedScript',
+          },
+          {
+            name: 'EnqueuedStylesheet',
+          },
+          {
             name: 'MediaItem',
           },
           {
@@ -159,6 +165,18 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'ShippingClass',
+          },
+        ],
+      },
+      {
+        kind: 'INTERFACE',
+        name: 'EnqueuedAsset',
+        possibleTypes: [
+          {
+            name: 'EnqueuedScript',
+          },
+          {
+            name: 'EnqueuedStylesheet',
           },
         ],
       },
