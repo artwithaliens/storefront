@@ -19,7 +19,15 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'no-nested-ternary': 'off',
-    'no-underscore-dangle': ['error', { allow: ['__typename'] }],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: ['__typename'],
+        allowAfterThis: false,
+        allowAfterSuper: false,
+        enforceInMethodNames: true,
+      },
+    ],
     'spaced-comment': ['error', 'always', { markers: ['/'] }],
     'jsx-a11y/anchor-is-valid': 'off',
     'react/jsx-no-literals': 'off',
