@@ -33,34 +33,53 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
     !isShippingSameAsBilling(customer.shipping, customer.billing),
   );
 
+  /**
+   * Handle changing steps.
+   *
+   * @param step The current step
+   */
   const handleChangeStep = (step: Partial<{ path: string }>) => {
+    // Everytime we change steps we have to check if both addresses match
+    setShipToDifferentAddress(!isShippingSameAsBilling(customer.shipping, customer.billing));
+
     if (router.query.step != null && router.query.step !== step.path) {
       router.push('/checkout/[step]', `/checkout/${step.path}`, { shallow: true });
     }
   };
 
+  /**
+   * Called when the payment method changes.
+   *
+   * @param ev Event
+   */
   const handlePaymentMethodChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setPaymentMethod(ev.target.value);
   };
 
+  /**
+   * Called when the user wants both addresses to be the same.
+   *
+   * @param shippingSameAsBilling Whether addresses should match or not
+   */
   const handleShippingSameAsBillingChange = (shippingSameAsBilling: boolean) => {
     setShipToDifferentAddress(!shippingSameAsBilling);
   };
 
+  /**
+   * Handle submit of last step.
+   */
   const handleSubmit = ({
     customerNote,
     metaData,
     transactionId,
   }: Pick<CheckoutMutationVariables, 'customerNote' | 'metaData' | 'transactionId'>) => {
-    if (paymentMethod != null) {
-      onSubmit({
-        customerNote,
-        metaData,
-        paymentMethod,
-        shipToDifferentAddress,
-        transactionId,
-      });
-    }
+    onSubmit({
+      customerNote,
+      metaData,
+      paymentMethod,
+      shipToDifferentAddress,
+      transactionId,
+    });
   };
 
   return (
