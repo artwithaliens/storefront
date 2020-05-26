@@ -43,7 +43,7 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
     setShipToDifferentAddress(!isShippingSameAsBilling(customer.shipping, customer.billing));
 
     if (router.query.step != null && router.query.step !== step.path) {
-      router.push('/checkout/[step]', `/checkout/${step.path}`, { shallow: true });
+      router.replace('/checkout/[step]', `/checkout/${step.path}`, { shallow: true });
     }
   };
 
