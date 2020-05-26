@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
-
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -13,52 +12,52 @@ export type Scalars = {
    * An [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
    * country code. Braintree only accepts [specific alpha-2 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries).
    */
-  CountryCodeAlpha2: unknown;
+  CountryCodeAlpha2: any;
   /**
    * An [ISO 4217 alpha](https://en.wikipedia.org/wiki/ISO_4217) currency code.
    * Braintree only accepts [specific alpha
    * values](https://developers.braintreepayments.com/reference/general/currencies).
    */
-  CurrencyCodeAlpha: unknown;
+  CurrencyCodeAlpha: any;
   /** A date in the format YYYY-MM-DD. */
-  Date: unknown;
+  Date: any;
   /** An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) timestamp with microsecond precision, in UTC. */
-  Timestamp: unknown;
+  Timestamp: any;
   /** A monetary amount, either a whole number or a number with exactly two or three decimal places. */
-  Amount: unknown;
+  Amount: any;
   /**
    * An [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
    * country code. Braintree only accepts [specific alpha-3 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries).
    */
-  CountryCodeAlpha3: unknown;
+  CountryCodeAlpha3: any;
   /** A card brand-specific two-digit string describing the mode of the transaction. */
-  ECommerceIndicator: unknown;
+  ECommerceIndicator: any;
   /** A four-digit string. */
-  CreditCardLast4: unknown;
+  CreditCardLast4: any;
   /** A string representing a custom field value. Contains letters, numbers, and underscores. */
-  CustomFieldName: unknown;
+  CustomFieldName: any;
   /** A 3D Secure authentication version. Must be composed of digits separated by periods (e.g. '1.0.2'). */
-  ThreeDSecureVersion: unknown;
+  ThreeDSecureVersion: any;
   /** A raw 3D Secure PARes or VARes response code (e.g. 'Y'). */
-  ThreeDSecureStatusCode: unknown;
+  ThreeDSecureStatusCode: any;
   /** A 3D Secure CAVV algorithm. Possible Values: 2 - CVV with ATN, 3 - Mastercard SPA algorithm. */
-  ThreeDSecureCavvAlgorithm: unknown;
+  ThreeDSecureCavvAlgorithm: any;
   /** A two-digit, zero-padded month. */
-  Month: unknown;
+  Month: any;
   /** A four-digit year. */
-  Year: unknown;
+  Year: any;
   /** A number that passes Luhn validation. */
-  CreditCardNumber: unknown;
+  CreditCardNumber: any;
   /** An account number containing 4-17 digits. */
-  UsBankAccountNumber: unknown;
+  UsBankAccountNumber: any;
   /** A routing number containing 8 or 9 digits. */
-  UsBankRoutingNumber: unknown;
+  UsBankRoutingNumber: any;
   /** A US ZIP code. Supports DDDDD and DDDDD-DDDD formats. */
-  UsZipCode: unknown;
+  UsZipCode: any;
   /** A nine-digit Employer Identification Number or Social Security Number. */
-  USTaxIdentificationNumber: unknown;
+  USTaxIdentificationNumber: any;
   /** An [ISO 18245](https://en.wikipedia.org/wiki/ISO_18245) Merchant Category Code. Four digits. */
-  MerchantCategoryCode: unknown;
+  MerchantCategoryCode: any;
 };
 
 /** Top-level input fields for accepting a dispute. */
@@ -97,7 +96,7 @@ export enum ACHStandardEntryClassCode {
   /** Telephone-initiated. */
   TEL = 'TEL',
   /** Internet-initiated/mobile. */
-  WEB = 'WEB',
+  WEB = 'WEB'
 }
 
 /** Representation of an address. */
@@ -151,37 +150,37 @@ export type AddressInput = {
    * Postal code in any country's format, otherwise known as CAP, CEP, Eircode,
    * NPA, PIN, PLZ, or ZIP code. Nine alphanumeric characters maximum, may also
    * contain spaces and hyphens.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   postalCode?: Maybe<Scalars['String']>;
   /**
    * Country code for the address in ISO 3166-1 alpha-3 format.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   countryCode?: Maybe<Scalars['CountryCodeAlpha3']>;
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `countryCode` instead.
-   *
+   * 
    * Country code for the address in ISO 3166-1 alpha-3 format.
    */
   countryCodeAlpha3?: Maybe<Scalars['String']>;
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `countryCode` instead.
-   *
+   * 
    * Country code for the address in ISO 3166-1 alpha-2 format.
    */
   countryCodeAlpha2?: Maybe<Scalars['String']>;
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `countryCode` instead.
-   *
+   * 
    * Country code for the address in ISO 3166-1 numeric format.
    */
   countryCodeNumeric?: Maybe<Scalars['String']>;
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `countryCode` instead.
-   *
+   * 
    * Country name for the address.
    */
   countryName?: Maybe<Scalars['String']>;
@@ -192,6 +191,7 @@ export type AmericanExpressRelationshipInput = {
   /** The business's American Express SE number. */
   serviceEstablishmentNumber: Scalars['String'];
 };
+
 
 /** Configuration for Apple Pay on iOS. */
 export type ApplePayConfiguration = {
@@ -232,7 +232,7 @@ export enum ApplePayStatus {
   PRODUCTION = 'PRODUCTION',
   mock = 'mock',
   off = 'off',
-  production = 'production',
+  production = 'production'
 }
 
 /** Configuration for Apple Pay on web. */
@@ -267,31 +267,31 @@ export type ApplicationBankAccountInput = {
 /** The purpose of the merchant application bank account. */
 export enum ApplicationBankAccountPurpose {
   CHECKING = 'CHECKING',
-  SAVINGS = 'SAVINGS',
+  SAVINGS = 'SAVINGS'
 }
 
 /** The type of merchant application bank account. */
 export enum ApplicationBankAccountType {
   CORPORATION = 'CORPORATION',
-  PARTNERSHIP = 'PARTNERSHIP',
+  PARTNERSHIP = 'PARTNERSHIP'
 }
 
 /** The entity that holds the merchant application bank account. */
 export enum ApplicationEntityType {
-  COMPANY = 'COMPANY',
+  COMPANY = 'COMPANY'
 }
 
 /** The status of a merchant account application. */
 export enum ApplicationStatus {
   APPROVED = 'APPROVED',
   PROCESSING = 'PROCESSING',
-  REJECTED = 'REJECTED',
+  REJECTED = 'REJECTED'
 }
 
 /** The type of transfer used for the bank account. */
 export enum ApplicationTransferType {
   BANK_ACCOUNT_USA = 'BANK_ACCOUNT_USA',
-  BANK_ACCOUNT_WIRE_USA = 'BANK_ACCOUNT_WIRE_USA',
+  BANK_ACCOUNT_WIRE_USA = 'BANK_ACCOUNT_WIRE_USA'
 }
 
 /**
@@ -431,7 +431,7 @@ export enum AvsCvvResponseCode {
   NOT_APPLICABLE = 'NOT_APPLICABLE',
   NOT_PROVIDED = 'NOT_PROVIDED',
   NOT_VERIFIED = 'NOT_VERIFIED',
-  SYSTEM_ERROR = 'SYSTEM_ERROR',
+  SYSTEM_ERROR = 'SYSTEM_ERROR'
 }
 
 /** Information about the credit card based on its BIN. */
@@ -467,7 +467,7 @@ export enum BinRecordValue {
   YES = 'YES',
   No = 'No',
   Unknown = 'Unknown',
-  Yes = 'Yes',
+  Yes = 'Yes'
 }
 
 /** Configuration for payment methods in legacy clients. */
@@ -481,7 +481,7 @@ export type BraintreeApiConfiguration = {
 
 /** The biller's ID type. */
 export enum BusinessIDType {
-  EMPLOYER_IDENTIFICATION_NUMBER = 'EMPLOYER_IDENTIFICATION_NUMBER',
+  EMPLOYER_IDENTIFICATION_NUMBER = 'EMPLOYER_IDENTIFICATION_NUMBER'
 }
 
 /** General information about the business associated with the account. */
@@ -543,7 +543,7 @@ export enum BusinessPhoneType {
   BUSINESS = 'BUSINESS',
   CUSTOMER_SERVICE = 'CUSTOMER_SERVICE',
   MOBILE = 'MOBILE',
-  WORK = 'WORK',
+  WORK = 'WORK'
 }
 
 /** A breakdown of the business's subscription frequency. All percentages provided must add up to 100. */
@@ -566,7 +566,7 @@ export enum BusinessType {
   LIMITED_LIABILITY_CORPORATION = 'LIMITED_LIABILITY_CORPORATION',
   SOLE_PROPRIETORSHIP = 'SOLE_PROPRIETORSHIP',
   PARTNERSHIP_LLP = 'PARTNERSHIP_LLP',
-  GOVERNMENT_ENTITY = 'GOVERNMENT_ENTITY',
+  GOVERNMENT_ENTITY = 'GOVERNMENT_ENTITY'
 }
 
 /** Top-level input fields for capturing an authorized transaction. */
@@ -577,7 +577,7 @@ export type CaptureTransactionInput = {
   transactionId: Scalars['ID'];
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `transaction.amount` instead.
-   *
+   * 
    * The amount to capture on the transaction. Must be greater than 0. You can't
    * capture more than the authorized amount unless your industry and processor
    * support settlement adjustment (capturing a certain percentage over the
@@ -621,7 +621,7 @@ export enum Challenge {
   CVV = 'CVV',
   POSTAL_CODE = 'POSTAL_CODE',
   cvv = 'cvv',
-  postal_code = 'postal_code',
+  postal_code = 'postal_code'
 }
 
 /** Top-level input fields for creating a transaction by charging a payment method. */
@@ -787,13 +787,13 @@ export enum ClientConfigurationEnvironment {
   production = 'production',
   qa = 'qa',
   sandbox = 'sandbox',
-  test = 'test',
+  test = 'test'
 }
 
 /** A value used by Braintree client SDKs to determine what operations are supported through this GraphQL API. */
 export enum ClientFeature {
   TOKENIZE_CREDIT_CARDS = 'TOKENIZE_CREDIT_CARDS',
-  tokenize_credit_cards = 'tokenize_credit_cards',
+  tokenize_credit_cards = 'tokenize_credit_cards'
 }
 
 /** Input fields for creating a client token. */
@@ -833,8 +833,10 @@ export type ConfirmMicroTransferAmountsPayload = {
 export enum ConfirmMicroTransferAmountsStatus {
   AMOUNTS_DO_NOT_MATCH = 'AMOUNTS_DO_NOT_MATCH',
   CONFIRMED = 'CONFIRMED',
-  TOO_MANY_ATTEMPTS = 'TOO_MANY_ATTEMPTS',
+  TOO_MANY_ATTEMPTS = 'TOO_MANY_ATTEMPTS'
 }
+
+
 
 /** Top-level input field for generating a client token. */
 export type CreateClientTokenInput = {
@@ -941,7 +943,7 @@ export enum CreditCardBrandCode {
   uk_maestro = 'uk_maestro',
   union_pay = 'union_pay',
   unknown = 'unknown',
-  visa = 'visa',
+  visa = 'visa'
 }
 
 /** Configuration for credit card tokenization. */
@@ -1033,12 +1035,15 @@ export type CreditCardInput = {
   billingAddress?: Maybe<AddressInput>;
 };
 
+
+
 /** Information specific to verifications of credit card payment methods. */
 export type CreditCardVerificationDetails = {
   __typename?: 'CreditCardVerificationDetails';
   /** The amount used when performing the verification. May be 0. */
   amount?: Maybe<MonetaryAmount>;
 };
+
 
 /** Top-level fields returned from a Custom Actions payment context. */
 export type CustomActionsPaymentContext = Node & {
@@ -1148,11 +1153,13 @@ export type Customer = Node & {
   transactions?: Maybe<TransactionConnection>;
 };
 
+
 /** Information about a customer and their associated payment methods and transactions. */
 export type CustomerpaymentMethodsArgs = {
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
 };
+
 
 /** Information about a customer and their associated payment methods and transactions. */
 export type CustomertransactionsArgs = {
@@ -1167,7 +1174,7 @@ export enum CustomerAuthenticationIndicator {
   /** Indicates further authentication is optional. */
   OPTIONAL = 'OPTIONAL',
   /** Customer authentication indicator information is unavailable at this time. */
-  UNAVAILABLE = 'UNAVAILABLE',
+  UNAVAILABLE = 'UNAVAILABLE'
 }
 
 /**
@@ -1185,7 +1192,7 @@ export enum CustomerAuthenticationRegulationEnvironment {
   /** Customer authentication regulation environment information is unavailable for this transaction at this time. */
   UNAVAILABLE = 'UNAVAILABLE',
   /** No customer authentication regulations apply to this transaction. */
-  UNREGULATED = 'UNREGULATED',
+  UNREGULATED = 'UNREGULATED'
 }
 
 /** A paginated list of customers. */
@@ -1266,6 +1273,8 @@ export type CustomFieldInput = {
   /** Value for the named custom field. A null value will ignore (on create) or remove (on update) the custom field. */
   value?: Maybe<Scalars['String']>;
 };
+
+
 
 /** Top-level input fields for deleting a customer. */
 export type DeleteCustomerInput = {
@@ -1480,7 +1489,7 @@ export enum DisputeReason {
   PRODUCT_NOT_RECEIVED = 'PRODUCT_NOT_RECEIVED',
   PRODUCT_UNSATISFACTORY = 'PRODUCT_UNSATISFACTORY',
   RETRIEVAL = 'RETRIEVAL',
-  TRANSACTION_AMOUNT_DIFFERS = 'TRANSACTION_AMOUNT_DIFFERS',
+  TRANSACTION_AMOUNT_DIFFERS = 'TRANSACTION_AMOUNT_DIFFERS'
 }
 
 /** Input fields for searching for Disputes. */
@@ -1518,7 +1527,7 @@ export enum DisputeStatus {
   EXPIRED = 'EXPIRED',
   LOST = 'LOST',
   OPEN = 'OPEN',
-  WON = 'WON',
+  WON = 'WON'
 }
 
 /** A record of a status the dispute has passed through. */
@@ -1577,8 +1586,9 @@ export enum DisputeType {
    * in the case that you have won an initial chargeback.
    */
   PRE_ARBITRATION = 'PRE_ARBITRATION',
-  RETRIEVAL = 'RETRIEVAL',
+  RETRIEVAL = 'RETRIEVAL'
 }
+
 
 /**
  * Fields capturing information about a third party that provided payment
@@ -1621,7 +1631,7 @@ export type FraudProviderConfiguration = {
 /** The third-party provider used to generate the risk decision. */
 export enum FraudServiceProvider {
   FRAUD_PROTECTION = 'FRAUD_PROTECTION',
-  KOUNT = 'KOUNT',
+  KOUNT = 'KOUNT'
 }
 
 /** Accompanying information for a gateway rejected transaction. */
@@ -1659,7 +1669,7 @@ export enum GatewayRejectionReason {
   DUPLICATE = 'DUPLICATE',
   FRAUD = 'FRAUD',
   THREE_D_SECURE = 'THREE_D_SECURE',
-  TOKEN_ISSUANCE = 'TOKEN_ISSUANCE',
+  TOKEN_ISSUANCE = 'TOKEN_ISSUANCE'
 }
 
 /** Input fields for generating a pairing code to pair an in store reader. */
@@ -1708,7 +1718,7 @@ export enum GooglePayEnvironment {
   PRODUCTION = 'PRODUCTION',
   SANDBOX = 'SANDBOX',
   production = 'production',
-  sandbox = 'sandbox',
+  sandbox = 'sandbox'
 }
 
 /** Additional information about the payment method specific to Google Pay. */
@@ -1838,7 +1848,7 @@ export enum LegacyIdType {
   REFUND = 'REFUND',
   TRANSACTION = 'TRANSACTION',
   US_BANK_ACCOUNT_VERIFICATION = 'US_BANK_ACCOUNT_VERIFICATION',
-  VERIFICATION = 'VERIFICATION',
+  VERIFICATION = 'VERIFICATION'
 }
 
 /** Local payment specific details on a transaction. */
@@ -1872,7 +1882,7 @@ export enum LocalPaymentMethodType {
   TRUSTLY = 'TRUSTLY',
   VERKKOPANKKI = 'VERKKOPANKKI',
   VIPPS = 'VIPPS',
-  WECHAT_PAY = 'WECHAT_PAY',
+  WECHAT_PAY = 'WECHAT_PAY'
 }
 
 /** Configuration for Masterpass. */
@@ -1927,6 +1937,7 @@ export type MerchantAccountApplicationPayload = {
   merchantAccountApplication?: Maybe<MerchantAccountApplication>;
 };
 
+
 /** A monetary amount with currency. */
 export type MonetaryAmount = {
   __typename?: 'MonetaryAmount';
@@ -1943,6 +1954,7 @@ export type MonetaryAmountSearchInput = {
   /** Find transactions with a given currency. */
   currencyIsoCode?: Maybe<SearchTextInput>;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type Mutation = {
@@ -2067,190 +2079,228 @@ export type Mutation = {
   generateInStoreReaderPairingCode?: Maybe<GenerateInStoreReaderPairingCodePayload>;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationauthorizePaymentMethodArgs = {
   input: AuthorizePaymentMethodInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationauthorizePayPalAccountArgs = {
   input: AuthorizePayPalAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationauthorizeVenmoAccountArgs = {
   input: AuthorizeVenmoAccountInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationcaptureTransactionArgs = {
   input: CaptureTransactionInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationchargePaymentMethodArgs = {
   input: ChargePaymentMethodInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationchargeUsBankAccountArgs = {
   input: ChargeUsBankAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationchargePayPalAccountArgs = {
   input: ChargePayPalAccountInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationchargeVenmoAccountArgs = {
   input: ChargeVenmoAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationvaultPaymentMethodArgs = {
   input: VaultPaymentMethodInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationvaultUsBankAccountArgs = {
   input: VaultUsBankAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationrefundTransactionArgs = {
   input: RefundTransactionInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationreverseTransactionArgs = {
   input: ReverseTransactionInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationreverseRefundArgs = {
   input: ReverseRefundInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationupdateTransactionCustomFieldsArgs = {
   input: UpdateTransactionCustomFieldsInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationverifyPaymentMethodArgs = {
   input: VerifyPaymentMethodInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationverifyUsBankAccountArgs = {
   input: VerifyUsBankAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationconfirmMicroTransferAmountsArgs = {
   input: ConfirmMicroTransferAmountsInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationdeletePaymentMethodFromVaultArgs = {
   input: DeletePaymentMethodFromVaultInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationcreateClientTokenArgs = {
   input?: Maybe<CreateClientTokenInput>;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationpartialCaptureTransactionArgs = {
   input: PartialCaptureTransactionInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeCustomActionsPaymentMethodArgs = {
   input: TokenizeCustomActionsPaymentMethodInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeCreditCardArgs = {
   input: TokenizeCreditCardInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeCvvArgs = {
   input: TokenizeCvvInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeNetworkTokenArgs = {
   input: TokenizeNetworkTokenInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeSamsungPayCardArgs = {
   input: TokenizeSamsungPayCardInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeUsBankAccountArgs = {
   input: TokenizeUsBankAccountInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationtokenizeUsBankLoginArgs = {
   input: TokenizeUsBankLoginInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationcreateCustomerArgs = {
   input?: Maybe<CreateCustomerInput>;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationupdateCustomerArgs = {
   input: UpdateCustomerInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationdeleteCustomerArgs = {
   input: DeleteCustomerInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationdeletePaymentMethodFromSingleUseTokenArgs = {
   input: DeletePaymentMethodFromSingleUseTokenInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationperformThreeDSecureLookupArgs = {
   input: PerformThreeDSecureLookupInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationacceptDisputeArgs = {
   input: AcceptDisputeInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationvaultPayPalBillingAgreementArgs = {
   input: VaultPayPalBillingAgreementInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationsandboxSettleTransactionArgs = {
   input: SandboxSettleTransactionInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationcreateInStoreLocationArgs = {
   input: CreateInStoreLocationInput;
 };
 
+
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationpairInStoreReaderArgs = {
   input: PairInStoreReaderInput;
 };
+
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationgenerateInStoreReaderPairingCodeArgs = {
@@ -2262,7 +2312,7 @@ export enum MVVAcceptanceChannel {
   FACE_TO_FACE = 'FACE_TO_FACE',
   MAIL = 'MAIL',
   PHONE = 'PHONE',
-  WEB = 'WEB',
+  WEB = 'WEB'
 }
 
 /** Supported MVV (Merchant Verification Value) programs. */
@@ -2270,7 +2320,7 @@ export enum MVVRegistrationType {
   LOAN_VPP = 'LOAN_VPP',
   TAX_DEBIT = 'TAX_DEBIT',
   UTIL_RATE = 'UTIL_RATE',
-  UTIL_VPP = 'UTIL_VPP',
+  UTIL_VPP = 'UTIL_VPP'
 }
 
 /** Supported MVV (Merchant Verification Value) utility types. */
@@ -2278,7 +2328,7 @@ export enum MVVUtilityType {
   ELECTRIC = 'ELECTRIC',
   GAS = 'GAS',
   TRASH = 'TRASH',
-  WATER = 'WATER',
+  WATER = 'WATER'
 }
 
 /** Input fields for a network tokenized card. */
@@ -2321,13 +2371,13 @@ export type OAuthApplication = {
 /** The owner's address type. */
 export enum OwnerAddressType {
   HOME = 'HOME',
-  MAILING = 'MAILING',
+  MAILING = 'MAILING'
 }
 
 /** The type of identity number provided for the owner. */
 export enum OwnerIDType {
   INDIVIDUAL_TAX_IDENTIFICATION_NUMBER = 'INDIVIDUAL_TAX_IDENTIFICATION_NUMBER',
-  SOCIAL_SECURITY_NUMBER = 'SOCIAL_SECURITY_NUMBER',
+  SOCIAL_SECURITY_NUMBER = 'SOCIAL_SECURITY_NUMBER'
 }
 
 /**
@@ -2372,7 +2422,7 @@ export type OwnerInput = {
 /** The owner's phone type. */
 export enum OwnerPhoneType {
   HOME = 'HOME',
-  MOBILE = 'MOBILE',
+  MOBILE = 'MOBILE'
 }
 
 /** The position that the owner holds in the business. */
@@ -2382,13 +2432,13 @@ export enum OwnerPosition {
   DIRECTOR = 'DIRECTOR',
   PARTNER = 'PARTNER',
   SECRETARY = 'SECRETARY',
-  TREASURER = 'TREASURER',
+  TREASURER = 'TREASURER'
 }
 
 /** The role that the owner holds in the business. */
 export enum OwnerRole {
   BENEFICIAL_OWNER = 'BENEFICIAL_OWNER',
-  SIGNIFICANT_RESPONSIBILITY = 'SIGNIFICANT_RESPONSIBILITY',
+  SIGNIFICANT_RESPONSIBILITY = 'SIGNIFICANT_RESPONSIBILITY'
 }
 
 /** The page information for a connection. */
@@ -2554,6 +2604,7 @@ export type PaymentMethod = Node & {
   customer?: Maybe<Customer>;
 };
 
+
 /** Top-level field representing a payment method. */
 export type PaymentMethodverificationsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -2582,13 +2633,7 @@ export type PaymentMethodConnectionEdge = {
  * A union of all possible payment method details. PaymentMethodDetails contain
  * information for display purposes, payment method management, and processing.
  */
-export type PaymentMethodDetails =
-  | CustomActionsPaymentMethodDetails
-  | CreditCardDetails
-  | PayPalAccountDetails
-  | SamsungPayCardDetails
-  | VenmoAccountDetails
-  | UsBankAccountDetails;
+export type PaymentMethodDetails = CustomActionsPaymentMethodDetails | CreditCardDetails | PayPalAccountDetails | SamsungPayCardDetails | VenmoAccountDetails | UsBankAccountDetails;
 
 /** Information about how the customer provided a payment method, such as via a digital wallet. */
 export type PaymentMethodOrigin = {
@@ -2604,14 +2649,7 @@ export type PaymentMethodOrigin = {
  * PaymentMethodOriginDetails contain additional information specific to the third
  * party the payment method was provided by.
  */
-export type PaymentMethodOriginDetails =
-  | ApplePayOriginDetails
-  | GooglePayOriginDetails
-  | MasterpassOriginDetails
-  | NetworkTokenOriginDetails
-  | SamsungPayOriginDetails
-  | VisaCheckoutOriginDetails
-  | PayPalLocalPaymentOriginDetails;
+export type PaymentMethodOriginDetails = ApplePayOriginDetails | GooglePayOriginDetails | MasterpassOriginDetails | NetworkTokenOriginDetails | SamsungPayOriginDetails | VisaCheckoutOriginDetails | PayPalLocalPaymentOriginDetails;
 
 /** A value identifying the third-party origin from which a customer provided their payment method. */
 export enum PaymentMethodOriginType {
@@ -2621,7 +2659,7 @@ export enum PaymentMethodOriginType {
   NETWORK_TOKEN = 'NETWORK_TOKEN',
   PAYPAL = 'PAYPAL',
   SAMSUNG_PAY = 'SAMSUNG_PAY',
-  VISA_CHECKOUT = 'VISA_CHECKOUT',
+  VISA_CHECKOUT = 'VISA_CHECKOUT'
 }
 
 /**
@@ -2629,13 +2667,7 @@ export enum PaymentMethodOriginType {
  * transaction or verification. PaymentMethodSnapshot preserves values used to
  * create a given transaction or verify a payment method at that moment in time.
  */
-export type PaymentMethodSnapshot =
-  | CustomActionsPaymentMethodDetails
-  | CreditCardDetails
-  | PayPalTransactionDetails
-  | VenmoAccountDetails
-  | UsBankAccountDetails
-  | LocalPaymentDetails;
+export type PaymentMethodSnapshot = CustomActionsPaymentMethodDetails | CreditCardDetails | PayPalTransactionDetails | VenmoAccountDetails | UsBankAccountDetails | LocalPaymentDetails;
 
 /**
  * A value identifying the type of payment method used for a transaction. For
@@ -2652,13 +2684,13 @@ export enum PaymentMethodSnapshotSearchType {
   CREDIT_CARD_VIA_VISA_CHECKOUT = 'CREDIT_CARD_VIA_VISA_CHECKOUT',
   PAYPAL = 'PAYPAL',
   US_BANK_ACCOUNT = 'US_BANK_ACCOUNT',
-  VENMO_ACCOUNT = 'VENMO_ACCOUNT',
+  VENMO_ACCOUNT = 'VENMO_ACCOUNT'
 }
 
 /** Possible usages for payment methods. */
 export enum PaymentMethodUsage {
   MULTI_USE = 'MULTI_USE',
-  SINGLE_USE = 'SINGLE_USE',
+  SINGLE_USE = 'SINGLE_USE'
 }
 
 /** Input fields for searching for any type of Payment. */
@@ -2706,7 +2738,7 @@ export enum PaymentSearchType {
    * The payment is a Refund, and represents a refund of a transaction not
    * processed through your Braintree account.
    */
-  DETACHED_REFUND = 'DETACHED_REFUND',
+  DETACHED_REFUND = 'DETACHED_REFUND'
 }
 
 /** The origin of a request that created or changed a transaction or refund. */
@@ -2714,7 +2746,7 @@ export enum PaymentSource {
   API = 'API',
   CONTROL_PANEL = 'CONTROL_PANEL',
   RECURRING = 'RECURRING',
-  UNKNOWN = 'UNKNOWN',
+  UNKNOWN = 'UNKNOWN'
 }
 
 /**
@@ -2790,7 +2822,7 @@ export enum PaymentStatus {
    * use the `captureTransaction` mutation on this transaction. For refunds, it
    * means the customer will not receive the funds from the refund.
    */
-  VOIDED = 'VOIDED',
+  VOIDED = 'VOIDED'
 }
 
 /** Status event in the [lifecycle of a payment](https://articles.braintreepayments.com/get-started/transaction-lifecycle). */
@@ -2882,7 +2914,7 @@ export enum PayPalEnvironment {
   OFFLINE = 'OFFLINE',
   custom = 'custom',
   live = 'live',
-  offline = 'offline',
+  offline = 'offline'
 }
 
 /** Additional information about the local payment method specific to PayPal. */
@@ -3071,7 +3103,7 @@ export enum ProcessorDeclineType {
    * Soft declines result from a temporary issue and can be retried; subsequent
    * charges on the same payment method may be successful.
    */
-  SOFT = 'SOFT',
+  SOFT = 'SOFT'
 }
 
 /** The top-level Query type. Queries are used to fetch data. */
@@ -3098,10 +3130,12 @@ export type Query = {
   preferredPaymentMethods?: Maybe<PreferredPaymentMethodsPayload>;
 };
 
+
 /** The top-level Query type. Queries are used to fetch data. */
 export type QuerynodeArgs = {
   id: Scalars['ID'];
 };
+
 
 /** The top-level Query type. Queries are used to fetch data. */
 export type QueryidFromLegacyIdArgs = {
@@ -3112,74 +3146,73 @@ export type QueryidFromLegacyIdArgs = {
 /** Indicates the status of a Reader. */
 export enum ReaderStatus {
   ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
+  OFFLINE = 'OFFLINE'
 }
 
 /** The type of recurring payment a transaction represents. */
 export enum RecurringType {
   FIRST = 'FIRST',
   SUBSEQUENT = 'SUBSEQUENT',
-  UNSCHEDULED = 'UNSCHEDULED',
+  UNSCHEDULED = 'UNSCHEDULED'
 }
 
 /**
  * A refund of a charge on a payment method, representing an attempt to send money
  * from a previous transaction back to the customer.
  */
-export type Refund = Node &
-  Payment & {
-    __typename?: 'Refund';
-    /** Unique identifier. */
-    id: Scalars['ID'];
-    /** Legacy unique identifier. */
-    legacyId: Scalars['ID'];
-    /** Date and time when the refund was created. */
-    createdAt?: Maybe<Scalars['Timestamp']>;
-    /** The amount that will be refunded, which can be less than or equal to the original charge amount. */
-    amount?: Maybe<MonetaryAmount>;
-    /** The order ID for this refund. For PayPal transactions, the PayPal Invoice ID. */
-    orderId?: Maybe<Scalars['String']>;
-    /** The current status of this refund. */
-    status?: Maybe<PaymentStatus>;
-    /**
-     * The records of all statuses this refund has passed through, with additional
-     * information on why each status occurred. Returned in reverse chronological
-     * order, with the most recent event first in the list.
-     */
-    statusHistory?: Maybe<Array<PaymentStatusEvent>>;
-    /** Payment method specific details about the refund. */
-    details?: Maybe<RefundPaymentMethodDetails>;
-    /** The ID of the merchant account that processed this refund. */
-    merchantAccountId?: Maybe<Scalars['ID']>;
-    /** How the refund was created. */
-    source?: Maybe<PaymentSource>;
-    /**
-     * The original transaction that this refunds. If this is not present, then this
-     * refund represents a refund of a transaction that does not belong to this
-     * Braintree gateway account.
-     */
-    refundedTransaction?: Maybe<Transaction>;
-    /**
-     * Snapshot of payment method details that will receive the refund, typically
-     * based on the original transaction. This will always be present. Equivalent to
-     * `refundedTransaction.paymentMethodSnapshot`.
-     */
-    paymentMethodSnapshot?: Maybe<PaymentMethodSnapshot>;
-    /**
-     * The multi-use payment method that will receive the refund. Only present if a
-     * multi-use payment method was used to create the original transaction and it
-     * has not been since deleted. The details of this PaymentMethod may have changed
-     * since the transaction was created; details used for the transaction can be
-     * found in the `paymentMethodSnapshot` field. Equivalent to
-     * `refundedTransaction.paymentMethod` (if present).
-     */
-    paymentMethod?: Maybe<PaymentMethod>;
-    /**
-     * The customer that the vaulted payment method (if it exists) belongs to.
-     * Equivalent to `refundedTransaction.customer` (if present).
-     */
-    customer?: Maybe<Customer>;
-  };
+export type Refund = Node & Payment & {
+  __typename?: 'Refund';
+  /** Unique identifier. */
+  id: Scalars['ID'];
+  /** Legacy unique identifier. */
+  legacyId: Scalars['ID'];
+  /** Date and time when the refund was created. */
+  createdAt?: Maybe<Scalars['Timestamp']>;
+  /** The amount that will be refunded, which can be less than or equal to the original charge amount. */
+  amount?: Maybe<MonetaryAmount>;
+  /** The order ID for this refund. For PayPal transactions, the PayPal Invoice ID. */
+  orderId?: Maybe<Scalars['String']>;
+  /** The current status of this refund. */
+  status?: Maybe<PaymentStatus>;
+  /**
+   * The records of all statuses this refund has passed through, with additional
+   * information on why each status occurred. Returned in reverse chronological
+   * order, with the most recent event first in the list.
+   */
+  statusHistory?: Maybe<Array<PaymentStatusEvent>>;
+  /** Payment method specific details about the refund. */
+  details?: Maybe<RefundPaymentMethodDetails>;
+  /** The ID of the merchant account that processed this refund. */
+  merchantAccountId?: Maybe<Scalars['ID']>;
+  /** How the refund was created. */
+  source?: Maybe<PaymentSource>;
+  /**
+   * The original transaction that this refunds. If this is not present, then this
+   * refund represents a refund of a transaction that does not belong to this
+   * Braintree gateway account.
+   */
+  refundedTransaction?: Maybe<Transaction>;
+  /**
+   * Snapshot of payment method details that will receive the refund, typically
+   * based on the original transaction. This will always be present. Equivalent to
+   * `refundedTransaction.paymentMethodSnapshot`.
+   */
+  paymentMethodSnapshot?: Maybe<PaymentMethodSnapshot>;
+  /**
+   * The multi-use payment method that will receive the refund. Only present if a
+   * multi-use payment method was used to create the original transaction and it
+   * has not been since deleted. The details of this PaymentMethod may have changed
+   * since the transaction was created; details used for the transaction can be
+   * found in the `paymentMethodSnapshot` field. Equivalent to
+   * `refundedTransaction.paymentMethod` (if present).
+   */
+  paymentMethod?: Maybe<PaymentMethod>;
+  /**
+   * The customer that the vaulted payment method (if it exists) belongs to.
+   * Equivalent to `refundedTransaction.customer` (if present).
+   */
+  customer?: Maybe<Customer>;
+};
 
 /** A paginated list of refunds. */
 export type RefundConnection = {
@@ -3217,7 +3250,7 @@ export type RefundPaymentMethodDetails = PayPalRefundDetails | PayPalLocalPaymen
 export enum RefundPolicy {
   EXCHANGE_ONLY = 'EXCHANGE_ONLY',
   NO_REFUND_OR_EXCHANGE = 'NO_REFUND_OR_EXCHANGE',
-  REFUND_CARDHOLDER = 'REFUND_CARDHOLDER',
+  REFUND_CARDHOLDER = 'REFUND_CARDHOLDER'
 }
 
 /** Input fields for searching for refunds. */
@@ -3282,11 +3315,13 @@ export type Report = {
   paymentLevelFees?: Maybe<PaymentLevelFeeReport>;
 };
 
+
 /** Top-level fields returned for a report query. */
 export type ReporttransactionLevelFeesArgs = {
   date: Scalars['Date'];
   merchantAccountId?: Maybe<Scalars['ID']>;
 };
+
 
 /** Top-level fields returned for a report query. */
 export type ReportpaymentLevelFeesArgs = {
@@ -3369,7 +3404,7 @@ export enum RiskDecision {
   APPROVE = 'APPROVE',
   DECLINE = 'DECLINE',
   NOT_EVALUATED = 'NOT_EVALUATED',
-  REVIEW = 'REVIEW',
+  REVIEW = 'REVIEW'
 }
 
 /** Groups of rights assigned to the user. */
@@ -3440,7 +3475,7 @@ export type SamsungPayConfiguration = {
 /** The environment being used for Samsung Pay. */
 export enum SamsungPayEnvironment {
   PRODUCTION = 'PRODUCTION',
-  SANDBOX = 'SANDBOX',
+  SANDBOX = 'SANDBOX'
 }
 
 /** Additional information about the payment method specific to Samsung Pay. */
@@ -3478,12 +3513,14 @@ export type Search = {
   customers?: Maybe<CustomerConnection>;
 };
 
+
 /** Top-level fields returned for a search query. */
 export type SearchtransactionsArgs = {
   input: TransactionSearchInput;
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
 };
+
 
 /** Top-level fields returned for a search query. */
 export type SearchrefundsArgs = {
@@ -3492,12 +3529,14 @@ export type SearchrefundsArgs = {
   after?: Maybe<Scalars['String']>;
 };
 
+
 /** Top-level fields returned for a search query. */
 export type SearchpaymentsArgs = {
   input: PaymentSearchInput;
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
 };
+
 
 /** Top-level fields returned for a search query. */
 export type SearchdisputesArgs = {
@@ -3506,12 +3545,14 @@ export type SearchdisputesArgs = {
   after?: Maybe<Scalars['String']>;
 };
 
+
 /** Top-level fields returned for a search query. */
 export type SearchverificationsArgs = {
   input: VerificationSearchInput;
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
 };
+
 
 /** Top-level fields returned for a search query. */
 export type SearchcustomersArgs = {
@@ -3842,7 +3883,7 @@ export enum ThreeDSecureAuthenticationAcsWindowSize {
   W250_H400 = 'W250_H400',
   W390_H400 = 'W390_H400',
   W500_H600 = 'W500_H600',
-  W600_H400 = 'W600_H400',
+  W600_H400 = 'W600_H400'
 }
 
 /** Indicates the delivery timeframe if applicable. */
@@ -3850,7 +3891,7 @@ export enum ThreeDSecureAuthenticationDeliveryTimeframe {
   ELECTRONIC_DELIVERY = 'ELECTRONIC_DELIVERY',
   OVERNIGHT_SHIPPING = 'OVERNIGHT_SHIPPING',
   SAME_DAY_SHIPPING = 'SAME_DAY_SHIPPING',
-  TWO_OR_MORE_DAY_SHIPPING = 'TWO_OR_MORE_DAY_SHIPPING',
+  TWO_OR_MORE_DAY_SHIPPING = 'TWO_OR_MORE_DAY_SHIPPING'
 }
 
 /** Merchant product code. */
@@ -3866,7 +3907,7 @@ export enum ThreeDSecureAuthenticationMerchantProductCode {
   OTHER = 'OTHER',
   RESTAURANT = 'RESTAURANT',
   SERVICES = 'SERVICES',
-  TRAVEL = 'TRAVEL',
+  TRAVEL = 'TRAVEL'
 }
 
 /** Indicates the shipping type for the transaction. */
@@ -3877,7 +3918,7 @@ export enum ThreeDSecureAuthenticationShippingType {
   SHIP_TO_BILLING_ADDRESS = 'SHIP_TO_BILLING_ADDRESS',
   SHIP_TO_OTHER_ADDRESS = 'SHIP_TO_OTHER_ADDRESS',
   SHIP_TO_STORE = 'SHIP_TO_STORE',
-  TICKETS_NOT_SHIPPED = 'TICKETS_NOT_SHIPPED',
+  TICKETS_NOT_SHIPPED = 'TICKETS_NOT_SHIPPED'
 }
 
 /** The 3D Secure authentication status of the card. */
@@ -3897,7 +3938,7 @@ export enum ThreeDSecureAuthenticationStatus {
   LOOKUP_ENROLLED = 'LOOKUP_ENROLLED',
   LOOKUP_ERROR = 'LOOKUP_ERROR',
   LOOKUP_NOT_ENROLLED = 'LOOKUP_NOT_ENROLLED',
-  UNSUPPORTED_CARD = 'UNSUPPORTED_CARD',
+  UNSUPPORTED_CARD = 'UNSUPPORTED_CARD'
 }
 
 /** Indicates the current status of the 3D Secure authentication. */
@@ -3909,7 +3950,7 @@ export enum ThreeDSecureAuthenticationStatusIndicator {
   INFORMATIONAL_CHALLENGE_PREFERENCE_ACKNOWLEDGED = 'INFORMATIONAL_CHALLENGE_PREFERENCE_ACKNOWLEDGED',
   SUCCESSFUL_ATTEMPTS_TRANSACTION = 'SUCCESSFUL_ATTEMPTS_TRANSACTION',
   SUCCESSFUL_AUTHENTICATION = 'SUCCESSFUL_AUTHENTICATION',
-  UNABLE_TO_COMPLETE_AUTHENTICATION = 'UNABLE_TO_COMPLETE_AUTHENTICATION',
+  UNABLE_TO_COMPLETE_AUTHENTICATION = 'UNABLE_TO_COMPLETE_AUTHENTICATION'
 }
 
 /** Indicates the type of transaction for 3D Secure authentication. */
@@ -3919,7 +3960,7 @@ export enum ThreeDSecureAuthenticationTransactionType {
   INSTALLMENT = 'INSTALLMENT',
   MAINTAIN_CARD = 'MAINTAIN_CARD',
   PAYMENT = 'PAYMENT',
-  RECURRING = 'RECURRING',
+  RECURRING = 'RECURRING'
 }
 
 /** Indicates whether the card is enrolled in a 3D Secure program. */
@@ -3936,8 +3977,9 @@ export enum ThreeDSecureCardEnrolled {
   /** The DS (directory server) or ACS (access control server) is not available for authentication at the time of the request. */
   UNAVAILABLE = 'UNAVAILABLE',
   /** The card is enrolled. */
-  YES = 'YES',
+  YES = 'YES'
 }
+
 
 /** Configuration for 3D Secure. */
 export type ThreeDSecureConfiguration = {
@@ -4042,7 +4084,7 @@ export enum ThreeDSecureLookupShippingMethod {
   OVERNIGHT_EXPEDITED = 'OVERNIGHT_EXPEDITED',
   PRIORITY = 'PRIORITY',
   SAME_DAY = 'SAME_DAY',
-  SHIP_TO_STORE = 'SHIP_TO_STORE',
+  SHIP_TO_STORE = 'SHIP_TO_STORE'
 }
 
 /** Additional information about the transaction when authenticating through 3D Secure. */
@@ -4195,6 +4237,9 @@ export type ThreeDSecurePassThroughInput = {
   cavvAlgorithm?: Maybe<Scalars['ThreeDSecureCavvAlgorithm']>;
 };
 
+
+
+
 /** Top-level input fields for tokenizing a credit card. */
 export type TokenizeCreditCardInput = {
   /** An identifier used to reconcile requests and responses. */
@@ -4241,6 +4286,7 @@ export type TokenizeCreditCardPayload = {
    */
   authenticationInsight?: Maybe<AuthenticationInsight>;
 };
+
 
 /** Top-level fields returned from a tokenized credit card. */
 export type TokenizeCreditCardPayloadauthenticationInsightArgs = {
@@ -4349,101 +4395,100 @@ export type TokenizeUsBankLoginInput = {
 };
 
 /** A charge on a payment method. */
-export type Transaction = Node &
-  Payment & {
-    __typename?: 'Transaction';
-    /** Unique identifier. */
-    id: Scalars['ID'];
-    /** Legacy unique identifier. */
-    legacyId: Scalars['ID'];
-    /** Date and time when the transaction was created. */
-    createdAt?: Maybe<Scalars['Timestamp']>;
-    /**
-     * Snapshot of payment method details used to create the transaction, preserved
-     * at the time the transaction was created. This will always be present.
-     */
-    paymentMethodSnapshot?: Maybe<PaymentMethodSnapshot>;
-    /**
-     * The multi-use payment method associated with the transaction. Only present if
-     * a multi-use payment method was used to create the transaction and it has not
-     * been deleted. The details of this PaymentMethod may have changed since the
-     * transaction was created; details used for the transaction can be found in the
-     * `paymentMethodSnapshot` field.
-     */
-    paymentMethod?: Maybe<PaymentMethod>;
-    /**
-     * The amount charged in this transaction. For transactions that are partially
-     * captured, this amount will be the cummulative amount captured on this transaction.
-     */
-    amount?: Maybe<MonetaryAmount>;
-    /** Collection of custom field/value pairs. Custom fields are [defined in the Control Panel](https://articles.braintreepayments.com/control-panel/custom-fields#store-and-pass-back-fields). */
-    customFields?: Maybe<Array<CustomField>>;
-    /** The ID of the merchant account that processed this transaction. */
-    merchantAccountId?: Maybe<Scalars['ID']>;
-    /** The order ID for this transaction. For PayPal transactions, the PayPal Invoice ID. */
-    orderId?: Maybe<Scalars['String']>;
-    /** A purchase order identification value you associate with this transaction. */
-    purchaseOrderNumber?: Maybe<Scalars['String']>;
-    /** The current status of this transaction. */
-    status?: Maybe<PaymentStatus>;
-    /**
-     * Fields describing the payment processor response.
-     * @deprecated Use relevant events in `statusEvents` instead.
-     */
-    processorResponse?: Maybe<TransactionAuthorizationProcessorResponse>;
-    /** Risk data evaluated for this transaction. */
-    riskData?: Maybe<RiskData>;
-    /** Fields used to define what will appear on customers' credit card statements for a specific purchase. */
-    descriptor?: Maybe<TransactionDescriptor>;
-    /**
-     * The records of all statuses this transaction has passed through, with
-     * additional information on why each status occurred. Returned in reverse
-     * chronological order, with the most recent event first in the list.
-     */
-    statusHistory?: Maybe<Array<PaymentStatusEvent>>;
-    /**
-     * If the transaction request was performed through a shopping cart provider or
-     * Braintree partner, this field will have a string identifier for that shopping
-     * cart provider or partner. For PayPal transactions, this maps to the PayPal
-     * account's bn_code.
-     */
-    channel?: Maybe<Scalars['String']>;
-    /** How the transaction was created. */
-    source?: Maybe<PaymentSource>;
-    /** Customer associated with the transaction, if applicable. */
-    customer?: Maybe<Customer>;
-    /** Shipping information. */
-    shipping?: Maybe<TransactionShipping>;
-    /** Tax information. */
-    tax?: Maybe<TransactionTaxInformation>;
-    /** Discount amount that was included in the total transaction amount. */
-    discountAmount?: Maybe<Scalars['String']>;
-    /** Line items for this transaction. */
-    lineItems?: Maybe<Array<TransactionLineItem>>;
-    /** The list of refunds issued against this transaction. */
-    refunds?: Maybe<Array<Refund>>;
-    /**
-     * For transactions created or captured using the `partialCaptureTransaction`
-     * mutation. This field links a given transaction to its original authorization
-     * or all its partial captures.
-     */
-    partialCaptureDetails?: Maybe<PartialCaptureDetails>;
-    /** A collection of disputes associated with the transaction. */
-    disputes?: Maybe<Array<Dispute>>;
-    /**
-     * If the transaction request was performed using payment information from a
-     * third party via the Grant API, Shared Vault or Google Pay, these fields will
-     * capture information about the third party. These fields are primarily useful
-     * for the merchant of record.
-     */
-    facilitatorDetails?: Maybe<FacilitatorDetails>;
-    /**
-     * The disbursement details associated with this transaction. This field is only
-     * available after the transaction is SETTLED and if you have an eligible
-     * merchant account.
-     */
-    disbursementDetails?: Maybe<DisbursementDetails>;
-  };
+export type Transaction = Node & Payment & {
+  __typename?: 'Transaction';
+  /** Unique identifier. */
+  id: Scalars['ID'];
+  /** Legacy unique identifier. */
+  legacyId: Scalars['ID'];
+  /** Date and time when the transaction was created. */
+  createdAt?: Maybe<Scalars['Timestamp']>;
+  /**
+   * Snapshot of payment method details used to create the transaction, preserved
+   * at the time the transaction was created. This will always be present.
+   */
+  paymentMethodSnapshot?: Maybe<PaymentMethodSnapshot>;
+  /**
+   * The multi-use payment method associated with the transaction. Only present if
+   * a multi-use payment method was used to create the transaction and it has not
+   * been deleted. The details of this PaymentMethod may have changed since the
+   * transaction was created; details used for the transaction can be found in the
+   * `paymentMethodSnapshot` field.
+   */
+  paymentMethod?: Maybe<PaymentMethod>;
+  /**
+   * The amount charged in this transaction. For transactions that are partially
+   * captured, this amount will be the cummulative amount captured on this transaction.
+   */
+  amount?: Maybe<MonetaryAmount>;
+  /** Collection of custom field/value pairs. Custom fields are [defined in the Control Panel](https://articles.braintreepayments.com/control-panel/custom-fields#store-and-pass-back-fields). */
+  customFields?: Maybe<Array<CustomField>>;
+  /** The ID of the merchant account that processed this transaction. */
+  merchantAccountId?: Maybe<Scalars['ID']>;
+  /** The order ID for this transaction. For PayPal transactions, the PayPal Invoice ID. */
+  orderId?: Maybe<Scalars['String']>;
+  /** A purchase order identification value you associate with this transaction. */
+  purchaseOrderNumber?: Maybe<Scalars['String']>;
+  /** The current status of this transaction. */
+  status?: Maybe<PaymentStatus>;
+  /**
+   * Fields describing the payment processor response.
+   * @deprecated Use relevant events in `statusEvents` instead.
+   */
+  processorResponse?: Maybe<TransactionAuthorizationProcessorResponse>;
+  /** Risk data evaluated for this transaction. */
+  riskData?: Maybe<RiskData>;
+  /** Fields used to define what will appear on customers' credit card statements for a specific purchase. */
+  descriptor?: Maybe<TransactionDescriptor>;
+  /**
+   * The records of all statuses this transaction has passed through, with
+   * additional information on why each status occurred. Returned in reverse
+   * chronological order, with the most recent event first in the list.
+   */
+  statusHistory?: Maybe<Array<PaymentStatusEvent>>;
+  /**
+   * If the transaction request was performed through a shopping cart provider or
+   * Braintree partner, this field will have a string identifier for that shopping
+   * cart provider or partner. For PayPal transactions, this maps to the PayPal
+   * account's bn_code.
+   */
+  channel?: Maybe<Scalars['String']>;
+  /** How the transaction was created. */
+  source?: Maybe<PaymentSource>;
+  /** Customer associated with the transaction, if applicable. */
+  customer?: Maybe<Customer>;
+  /** Shipping information. */
+  shipping?: Maybe<TransactionShipping>;
+  /** Tax information. */
+  tax?: Maybe<TransactionTaxInformation>;
+  /** Discount amount that was included in the total transaction amount. */
+  discountAmount?: Maybe<Scalars['String']>;
+  /** Line items for this transaction. */
+  lineItems?: Maybe<Array<TransactionLineItem>>;
+  /** The list of refunds issued against this transaction. */
+  refunds?: Maybe<Array<Refund>>;
+  /**
+   * For transactions created or captured using the `partialCaptureTransaction`
+   * mutation. This field links a given transaction to its original authorization
+   * or all its partial captures.
+   */
+  partialCaptureDetails?: Maybe<PartialCaptureDetails>;
+  /** A collection of disputes associated with the transaction. */
+  disputes?: Maybe<Array<Dispute>>;
+  /**
+   * If the transaction request was performed using payment information from a
+   * third party via the Grant API, Shared Vault or Google Pay, these fields will
+   * capture information about the third party. These fields are primarily useful
+   * for the merchant of record.
+   */
+  facilitatorDetails?: Maybe<FacilitatorDetails>;
+  /**
+   * The disbursement details associated with this transaction. This field is only
+   * available after the transaction is SETTLED and if you have an eligible
+   * merchant account.
+   */
+  disbursementDetails?: Maybe<DisbursementDetails>;
+};
 
 /** Detailed response information from the processor when attempting to authorize a transaction. */
 export type TransactionAuthorizationProcessorResponse = {
@@ -4528,7 +4573,7 @@ export type TransactionInput = {
   orderId?: Maybe<Scalars['String']>;
   /**
    * A purchase order identification value you associate with this transaction.
-   *
+   * 
    * *Required for Level 2 processing*.
    */
   purchaseOrderNumber?: Maybe<Scalars['String']>;
@@ -4553,26 +4598,26 @@ export type TransactionInput = {
   customerId?: Maybe<Scalars['ID']>;
   /**
    * Shipping information.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   shipping?: Maybe<TransactionShippingInput>;
   /**
    * Tax information about the transaction.
-   *
+   * 
    * *Required for Level 2 processing*.
    */
   tax?: Maybe<TransactionTaxInput>;
   /**
    * Discount amount that was included in the total transaction amount. Does not
    * add to the total amount the payment method will be charged. This value can't be negative.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   discountAmount?: Maybe<Scalars['String']>;
   /**
    * Line items for this transaction. Up to 249 line items may be specified.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   lineItems?: Maybe<Array<TransactionLineItemInput>>;
@@ -4636,62 +4681,62 @@ export type TransactionLineItem = {
 export type TransactionLineItemInput = {
   /**
    * Item name. Maximum 35 characters, or 127 characters for PayPal transactions.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   name: Scalars['String'];
   /**
    * Indicates whether the line item is a sale or refund.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   kind: TransactionLineItemType;
   /**
    * Number of units of the item purchased. Can include up to 4 decimal places. This value can't be negative or zero.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   quantity: Scalars['String'];
   /**
    * Per-unit price of the item. Maximum 4 decimal places, or 2 decimal places for
    * PayPal transactions. This value can't be negative or zero.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   unitAmount: Scalars['String'];
   /**
    * Total price amount for the line item: quantity multiplied by unitAmount. Can include up to 2 decimal places.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   totalAmount: Scalars['String'];
   /**
    * Per-unit tax price of the item. Can include up to 2 decimal places. This value can't be negative or zero.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   unitTaxAmount?: Maybe<Scalars['String']>;
   /**
    * Tax amount for the line item. Can include up to 2 decimal places. This value can't be negative.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   taxAmount?: Maybe<Scalars['String']>;
   /**
    * Amount of discount for the line item. Can include up to 2 decimal places. This value can't be negative.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   discountAmount?: Maybe<Scalars['String']>;
   /**
    * The unit of measure or the unit of measure code. Maximum 12 characters.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   unitOfMeasure?: Maybe<Scalars['String']>;
   /**
    * Product or UPC code for the item. Maximum 12 characters, or 127 characters for PayPal transactions.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   productCode?: Maybe<Scalars['String']>;
@@ -4701,19 +4746,19 @@ export type TransactionLineItemInput = {
    * organizations may use different standards, but the [United Nations Standard
    * Products and Services Code (UNSPSC)](https://www.unspsc.org/) is frequently
    * used. Maximum 12 characters.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   commodityCode?: Maybe<Scalars['String']>;
   /**
    * Item description. Maximum 127 characters.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   description?: Maybe<Scalars['String']>;
   /**
    * A URL to information about the product.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   url?: Maybe<Scalars['String']>;
@@ -4722,7 +4767,7 @@ export type TransactionLineItemInput = {
 /** Indicates whether a transaction line item is a debit (sale) or credit (refund). */
 export enum TransactionLineItemType {
   CREDIT = 'CREDIT',
-  DEBIT = 'DEBIT',
+  DEBIT = 'DEBIT'
 }
 
 /** Top-level output field from creating a transaction. */
@@ -4816,19 +4861,19 @@ export type TransactionShipping = {
 export type TransactionShippingInput = {
   /**
    * Shipping destination address information.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   shippingAddress?: Maybe<AddressInput>;
   /**
    * Shipping cost on the entire transaction.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   shippingAmount?: Maybe<Scalars['String']>;
   /**
    * The postal code of the source shipping location, in any country's format.
-   *
+   * 
    * *Required for Level 3 processing*.
    */
   shipsFromPostalCode?: Maybe<Scalars['String']>;
@@ -4848,13 +4893,13 @@ export type TransactionTaxInput = {
   /**
    * Amount of tax that was included in the total transaction amount. Does not add
    * to the total amount the payment method will be charged.
-   *
+   * 
    * *Required for Level 2 processing* unless `taxExempt` is `true`.
    */
   taxAmount?: Maybe<Scalars['Amount']>;
   /**
    * Whether the transaction should be considered eligible for tax exemption.
-   *
+   * 
    * *Required for Level 2 processing*.
    */
   taxExempt?: Maybe<Scalars['Boolean']>;
@@ -4999,16 +5044,17 @@ export type UsBankAccountInput = {
   achMandate: Scalars['String'];
 };
 
+
 /** The ownership type of US Bank Account. */
 export enum UsBankAccountOwnershipType {
   BUSINESS = 'BUSINESS',
-  PERSONAL = 'PERSONAL',
+  PERSONAL = 'PERSONAL'
 }
 
 /** The type of US Bank Account. */
 export enum UsBankAccountType {
   CHECKING = 'CHECKING',
-  SAVINGS = 'SAVINGS',
+  SAVINGS = 'SAVINGS'
 }
 
 /** Information specific to verifications of US bank account payment methods. */
@@ -5045,7 +5091,7 @@ export enum UsBankAccountVerificationMethod {
    * account logins, and is not supported when re-verifying a US bank account
    * payment method.
    */
-  TOKENIZED_CHECK = 'TOKENIZED_CHECK',
+  TOKENIZED_CHECK = 'TOKENIZED_CHECK'
 }
 
 /** Input fields for a US bank login object. */
@@ -5065,6 +5111,7 @@ export type UsBankLoginInput = {
   /** Language used to prove that you have the customer's explicit permission to debit their bank account. */
   achMandate: Scalars['String'];
 };
+
 
 /** Details about the user. */
 export type User = {
@@ -5087,7 +5134,7 @@ export enum UserStatus {
   DELETED = 'DELETED',
   PASSIVE = 'PASSIVE',
   PENDING = 'PENDING',
-  SUSPENDED = 'SUSPENDED',
+  SUSPENDED = 'SUSPENDED'
 }
 
 /** A two-letter code representing a US state or territory. */
@@ -5148,8 +5195,10 @@ export enum UsStateCode {
   WA = 'WA',
   WI = 'WI',
   WV = 'WV',
-  WY = 'WY',
+  WY = 'WY'
 }
+
+
 
 /** Top-level input field for vaulting a limited use PayPal account. */
 export type VaultLimitedUsePayPalAccountInput = {
@@ -5189,7 +5238,7 @@ export type VaultPaymentMethodInput = {
   paymentMethodId: Scalars['ID'];
   /**
    * Deprecated: This field is included for supporting legacy clients. Please use `verification.merchantAccountId` instead.
-   *
+   * 
    * ID of the merchant account to use when verifying the payment method.
    */
   verificationMerchantAccountId?: Maybe<Scalars['ID']>;
@@ -5302,7 +5351,7 @@ export enum VenmoEnvironment {
   PRODUCTION = 'PRODUCTION',
   SANDBOX = 'SANDBOX',
   production = 'production',
-  sandbox = 'sandbox',
+  sandbox = 'sandbox'
 }
 
 /**
@@ -5420,7 +5469,7 @@ export enum VerificationStatus {
   /** Indicates that the verification was successful. */
   VERIFIED = 'VERIFIED',
   /** Indicates that the verification is in the process of verifying. */
-  VERIFYING = 'VERIFYING',
+  VERIFYING = 'VERIFYING'
 }
 
 /** Verifone specific in-store reader information. */
@@ -5535,99 +5584,84 @@ export type VoidedEvent = PaymentStatusEvent & {
   terminal?: Maybe<Scalars['Boolean']>;
 };
 
+
 export type AuthorizePaymentMethodMutationVariables = {
   input: AuthorizePaymentMethodInput;
 };
 
-export type AuthorizePaymentMethodMutation = { __typename?: 'Mutation' } & {
-  authorizePaymentMethod?: Maybe<
-    { __typename?: 'TransactionPayload' } & {
-      transaction?: Maybe<
-        { __typename?: 'Transaction' } & Pick<Transaction, 'legacyId' | 'status'>
-      >;
-    }
-  >;
-};
+
+export type AuthorizePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { authorizePaymentMethod?: Maybe<(
+    { __typename?: 'TransactionPayload' }
+    & { transaction?: Maybe<(
+      { __typename?: 'Transaction' }
+      & Pick<Transaction, 'legacyId' | 'status'>
+    )> }
+  )> }
+);
 
 export type ChargePaymentMethodMutationVariables = {
   input: ChargePaymentMethodInput;
 };
 
-export type ChargePaymentMethodMutation = { __typename?: 'Mutation' } & {
-  chargePaymentMethod?: Maybe<
-    { __typename?: 'TransactionPayload' } & {
-      transaction?: Maybe<
-        { __typename?: 'Transaction' } & Pick<Transaction, 'legacyId' | 'status'>
-      >;
-    }
-  >;
-};
+
+export type ChargePaymentMethodMutation = (
+  { __typename?: 'Mutation' }
+  & { chargePaymentMethod?: Maybe<(
+    { __typename?: 'TransactionPayload' }
+    & { transaction?: Maybe<(
+      { __typename?: 'Transaction' }
+      & Pick<Transaction, 'legacyId' | 'status'>
+    )> }
+  )> }
+);
 
 export type CreateClientTokenMutationVariables = {};
 
-export type CreateClientTokenMutation = { __typename?: 'Mutation' } & {
-  createClientToken?: Maybe<
-    { __typename?: 'CreateClientTokenPayload' } & Pick<CreateClientTokenPayload, 'clientToken'>
-  >;
-};
+
+export type CreateClientTokenMutation = (
+  { __typename?: 'Mutation' }
+  & { createClientToken?: Maybe<(
+    { __typename?: 'CreateClientTokenPayload' }
+    & Pick<CreateClientTokenPayload, 'clientToken'>
+  )> }
+);
+
 
 export const AuthorizePaymentMethodDocument = gql`
-  mutation AuthorizePaymentMethod($input: AuthorizePaymentMethodInput!) {
-    authorizePaymentMethod(input: $input) {
-      transaction {
-        legacyId
-        status
-      }
+    mutation AuthorizePaymentMethod($input: AuthorizePaymentMethodInput!) {
+  authorizePaymentMethod(input: $input) {
+    transaction {
+      legacyId
+      status
     }
   }
-`;
-export type AuthorizePaymentMethodMutationFn = ApolloReactCommon.MutationFunction<
-  AuthorizePaymentMethodMutation,
-  AuthorizePaymentMethodMutationVariables
->;
-export type AuthorizePaymentMethodMutationResult = ApolloReactCommon.MutationResult<
-  AuthorizePaymentMethodMutation
->;
-export type AuthorizePaymentMethodMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  AuthorizePaymentMethodMutation,
-  AuthorizePaymentMethodMutationVariables
->;
+}
+    `;
+export type AuthorizePaymentMethodMutationFn = ApolloReactCommon.MutationFunction<AuthorizePaymentMethodMutation, AuthorizePaymentMethodMutationVariables>;
+export type AuthorizePaymentMethodMutationResult = ApolloReactCommon.MutationResult<AuthorizePaymentMethodMutation>;
+export type AuthorizePaymentMethodMutationOptions = ApolloReactCommon.BaseMutationOptions<AuthorizePaymentMethodMutation, AuthorizePaymentMethodMutationVariables>;
 export const ChargePaymentMethodDocument = gql`
-  mutation ChargePaymentMethod($input: ChargePaymentMethodInput!) {
-    chargePaymentMethod(input: $input) {
-      transaction {
-        legacyId
-        status
-      }
+    mutation ChargePaymentMethod($input: ChargePaymentMethodInput!) {
+  chargePaymentMethod(input: $input) {
+    transaction {
+      legacyId
+      status
     }
   }
-`;
-export type ChargePaymentMethodMutationFn = ApolloReactCommon.MutationFunction<
-  ChargePaymentMethodMutation,
-  ChargePaymentMethodMutationVariables
->;
-export type ChargePaymentMethodMutationResult = ApolloReactCommon.MutationResult<
-  ChargePaymentMethodMutation
->;
-export type ChargePaymentMethodMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  ChargePaymentMethodMutation,
-  ChargePaymentMethodMutationVariables
->;
+}
+    `;
+export type ChargePaymentMethodMutationFn = ApolloReactCommon.MutationFunction<ChargePaymentMethodMutation, ChargePaymentMethodMutationVariables>;
+export type ChargePaymentMethodMutationResult = ApolloReactCommon.MutationResult<ChargePaymentMethodMutation>;
+export type ChargePaymentMethodMutationOptions = ApolloReactCommon.BaseMutationOptions<ChargePaymentMethodMutation, ChargePaymentMethodMutationVariables>;
 export const CreateClientTokenDocument = gql`
-  mutation CreateClientToken {
-    createClientToken {
-      clientToken
-    }
+    mutation CreateClientToken {
+  createClientToken {
+    clientToken
   }
-`;
-export type CreateClientTokenMutationFn = ApolloReactCommon.MutationFunction<
-  CreateClientTokenMutation,
-  CreateClientTokenMutationVariables
->;
-export type CreateClientTokenMutationResult = ApolloReactCommon.MutationResult<
-  CreateClientTokenMutation
->;
-export type CreateClientTokenMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  CreateClientTokenMutation,
-  CreateClientTokenMutationVariables
->;
+}
+    `;
+export type CreateClientTokenMutationFn = ApolloReactCommon.MutationFunction<CreateClientTokenMutation, CreateClientTokenMutationVariables>;
+export type CreateClientTokenMutationResult = ApolloReactCommon.MutationResult<CreateClientTokenMutation>;
+export type CreateClientTokenMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateClientTokenMutation, CreateClientTokenMutationVariables>;
