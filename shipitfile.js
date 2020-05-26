@@ -21,6 +21,7 @@ module.exports = (shipit) => {
     default: {
       branch: 'master',
       deployTo: '/var/www/storefront',
+      keepReleases: 5,
       repositoryUrl: 'https://github.com/artwithaliens/storefront.git',
       shared: {
         dirs: [],
