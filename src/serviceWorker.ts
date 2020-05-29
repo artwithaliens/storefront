@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* global workbox */
 import * as idbKeyval from 'idb-keyval';
 
 if (typeof idbKeyval === 'undefined') {
@@ -66,7 +64,7 @@ async function getCache(request: Request) {
 
     // Load response from cache.
     return new Response(JSON.stringify(data.response.body), data.response);
-  } catch (error) {
+  } catch {
     return null;
   }
 }
