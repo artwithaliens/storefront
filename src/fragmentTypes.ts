@@ -1,533 +1,507 @@
-
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
-      }
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": [
+export interface IntrospectionResultData {
+  __schema: {
+    types: {
+      kind: string;
+      name: string;
+      possibleTypes: {
+        name: string;
+      }[];
+    }[];
+  };
+}
+const result: IntrospectionResultData = {
+  __schema: {
+    types: [
       {
-        "kind": "INTERFACE",
-        "name": "Node",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'Node',
+        possibleTypes: [
           {
-            "name": "Coupon"
+            name: 'Coupon',
           },
           {
-            "name": "ContentType"
+            name: 'ContentType',
           },
           {
-            "name": "Taxonomy"
+            name: 'Taxonomy',
           },
           {
-            "name": "ProductCategory"
+            name: 'ProductCategory',
           },
           {
-            "name": "EnqueuedScript"
+            name: 'EnqueuedScript',
           },
           {
-            "name": "EnqueuedStylesheet"
+            name: 'EnqueuedStylesheet',
           },
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "User"
+            name: 'User',
           },
           {
-            "name": "Comment"
+            name: 'Comment',
           },
           {
-            "name": "CommentAuthor"
+            name: 'CommentAuthor',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Category"
+            name: 'Category',
           },
           {
-            "name": "PostFormat"
+            name: 'PostFormat',
           },
           {
-            "name": "Tag"
+            name: 'Tag',
           },
           {
-            "name": "ProductType"
+            name: 'ProductType',
           },
           {
-            "name": "VisibleProduct"
+            name: 'VisibleProduct',
           },
           {
-            "name": "ProductTag"
+            name: 'ProductTag',
           },
           {
-            "name": "PaBrand"
+            name: 'PaBrand',
           },
           {
-            "name": "ProductVariation"
+            name: 'ProductVariation',
           },
           {
-            "name": "VariableProduct"
+            name: 'VariableProduct',
           },
           {
-            "name": "PaMaterial"
+            name: 'PaMaterial',
           },
           {
-            "name": "PaPaperWeight"
+            name: 'PaPaperWeight',
           },
           {
-            "name": "ShippingClass"
+            name: 'ShippingClass',
           },
           {
-            "name": "Page"
+            name: 'Page',
           },
           {
-            "name": "UserRole"
+            name: 'UserRole',
           },
           {
-            "name": "Customer"
+            name: 'Customer',
           },
           {
-            "name": "Order"
+            name: 'Order',
           },
           {
-            "name": "TaxRate"
+            name: 'TaxRate',
           },
           {
-            "name": "Refund"
+            name: 'Refund',
           },
           {
-            "name": "ShippingMethod"
+            name: 'ShippingMethod',
           },
           {
-            "name": "ExternalProduct"
+            name: 'ExternalProduct',
           },
           {
-            "name": "GroupProduct"
+            name: 'GroupProduct',
           },
           {
-            "name": "Menu"
+            name: 'Menu',
           },
           {
-            "name": "MenuItem"
+            name: 'MenuItem',
           },
           {
-            "name": "Plugin"
+            name: 'Plugin',
           },
           {
-            "name": "SimpleProduct"
+            name: 'SimpleProduct',
           },
           {
-            "name": "Theme"
-          }
-        ]
+            name: 'Theme',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "TermNode",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'TermNode',
+        possibleTypes: [
           {
-            "name": "ProductCategory"
+            name: 'ProductCategory',
           },
           {
-            "name": "Category"
+            name: 'Category',
           },
           {
-            "name": "PostFormat"
+            name: 'PostFormat',
           },
           {
-            "name": "Tag"
+            name: 'Tag',
           },
           {
-            "name": "ProductType"
+            name: 'ProductType',
           },
           {
-            "name": "VisibleProduct"
+            name: 'VisibleProduct',
           },
           {
-            "name": "ProductTag"
+            name: 'ProductTag',
           },
           {
-            "name": "PaBrand"
+            name: 'PaBrand',
           },
           {
-            "name": "PaMaterial"
+            name: 'PaMaterial',
           },
           {
-            "name": "PaPaperWeight"
+            name: 'PaPaperWeight',
           },
           {
-            "name": "ShippingClass"
-          }
-        ]
+            name: 'ShippingClass',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "EnqueuedAsset",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'EnqueuedAsset',
+        possibleTypes: [
           {
-            "name": "EnqueuedScript"
+            name: 'EnqueuedScript',
           },
           {
-            "name": "EnqueuedStylesheet"
-          }
-        ]
+            name: 'EnqueuedStylesheet',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "UniformResourceIdentifiable",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'UniformResourceIdentifiable',
+        possibleTypes: [
           {
-            "name": "ProductCategory"
+            name: 'ProductCategory',
           },
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "User"
+            name: 'User',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Category"
+            name: 'Category',
           },
           {
-            "name": "PostFormat"
+            name: 'PostFormat',
           },
           {
-            "name": "Tag"
+            name: 'Tag',
           },
           {
-            "name": "ProductType"
+            name: 'ProductType',
           },
           {
-            "name": "VisibleProduct"
+            name: 'VisibleProduct',
           },
           {
-            "name": "ProductTag"
+            name: 'ProductTag',
           },
           {
-            "name": "PaBrand"
+            name: 'PaBrand',
           },
           {
-            "name": "PaMaterial"
+            name: 'PaMaterial',
           },
           {
-            "name": "PaPaperWeight"
+            name: 'PaPaperWeight',
           },
           {
-            "name": "ShippingClass"
+            name: 'ShippingClass',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "ContentNode",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'ContentNode',
+        possibleTypes: [
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "UNION",
-        "name": "CommentAuthorUnion",
-        "possibleTypes": [
+        kind: 'UNION',
+        name: 'CommentAuthorUnion',
+        possibleTypes: [
           {
-            "name": "User"
+            name: 'User',
           },
           {
-            "name": "CommentAuthor"
-          }
-        ]
+            name: 'CommentAuthor',
+          },
+        ],
       },
       {
-        "kind": "UNION",
-        "name": "PostObjectUnion",
-        "possibleTypes": [
+        kind: 'UNION',
+        name: 'PostObjectUnion',
+        possibleTypes: [
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
+            name: 'Page',
           },
           {
-            "name": "MediaItem"
-          }
-        ]
+            name: 'MediaItem',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithTitle",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithTitle',
+        possibleTypes: [
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithContentEditor",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithContentEditor',
+        possibleTypes: [
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithAuthor",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithAuthor',
+        possibleTypes: [
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithFeaturedImage",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithFeaturedImage',
+        possibleTypes: [
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithExcerpt",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithExcerpt',
+        possibleTypes: [
           {
-            "name": "Post"
-          }
-        ]
+            name: 'Post',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithComments",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithComments',
+        possibleTypes: [
           {
-            "name": "MediaItem"
+            name: 'MediaItem',
           },
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithTrackbacks",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithTrackbacks',
+        possibleTypes: [
           {
-            "name": "Post"
-          }
-        ]
+            name: 'Post',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithRevisions",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithRevisions',
+        possibleTypes: [
           {
-            "name": "Post"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "UNION",
-        "name": "ContentTemplateUnion",
-        "possibleTypes": [
+        kind: 'UNION',
+        name: 'TermObjectUnion',
+        possibleTypes: [
           {
-            "name": "DefaultTemplate"
+            name: 'Category',
           },
           {
-            "name": "CustomTemplateTemplate"
-          }
-        ]
+            name: 'Tag',
+          },
+          {
+            name: 'PostFormat',
+          },
+          {
+            name: 'ProductType',
+          },
+          {
+            name: 'VisibleProduct',
+          },
+          {
+            name: 'ProductCategory',
+          },
+          {
+            name: 'ProductTag',
+          },
+          {
+            name: 'ShippingClass',
+          },
+          {
+            name: 'PaBrand',
+          },
+          {
+            name: 'PaMaterial',
+          },
+          {
+            name: 'PaPaperWeight',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "ContentTemplate",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'Product',
+        possibleTypes: [
           {
-            "name": "DefaultTemplate"
+            name: 'VariableProduct',
           },
           {
-            "name": "CustomTemplateTemplate"
-          }
-        ]
+            name: 'ExternalProduct',
+          },
+          {
+            name: 'GroupProduct',
+          },
+          {
+            name: 'SimpleProduct',
+          },
+        ],
       },
       {
-        "kind": "UNION",
-        "name": "TermObjectUnion",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'ProductAttribute',
+        possibleTypes: [
           {
-            "name": "Category"
+            name: 'GlobalProductAttribute',
           },
           {
-            "name": "Tag"
+            name: 'LocalProductAttribute',
           },
-          {
-            "name": "PostFormat"
-          },
-          {
-            "name": "ProductType"
-          },
-          {
-            "name": "VisibleProduct"
-          },
-          {
-            "name": "ProductCategory"
-          },
-          {
-            "name": "ProductTag"
-          },
-          {
-            "name": "ShippingClass"
-          },
-          {
-            "name": "PaBrand"
-          },
-          {
-            "name": "PaMaterial"
-          },
-          {
-            "name": "PaPaperWeight"
-          }
-        ]
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "Product",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'NodeWithPageAttributes',
+        possibleTypes: [
           {
-            "name": "VariableProduct"
+            name: 'Page',
           },
-          {
-            "name": "ExternalProduct"
-          },
-          {
-            "name": "GroupProduct"
-          },
-          {
-            "name": "SimpleProduct"
-          }
-        ]
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "ProductAttribute",
-        "possibleTypes": [
+        kind: 'INTERFACE',
+        name: 'HierarchicalContentNode',
+        possibleTypes: [
           {
-            "name": "GlobalProductAttribute"
+            name: 'MediaItem',
           },
           {
-            "name": "LocalProductAttribute"
-          }
-        ]
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "NodeWithPageAttributes",
-        "possibleTypes": [
+        kind: 'UNION',
+        name: 'ContentRevisionUnion',
+        possibleTypes: [
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Post',
+          },
+          {
+            name: 'Page',
+          },
+        ],
       },
       {
-        "kind": "INTERFACE",
-        "name": "HierarchicalContentNode",
-        "possibleTypes": [
+        kind: 'UNION',
+        name: 'MenuItemObjectUnion',
+        possibleTypes: [
           {
-            "name": "MediaItem"
+            name: 'Post',
           },
           {
-            "name": "Page"
-          }
-        ]
+            name: 'Page',
+          },
+          {
+            name: 'Category',
+          },
+          {
+            name: 'Tag',
+          },
+          {
+            name: 'ProductCategory',
+          },
+          {
+            name: 'ProductTag',
+          },
+          {
+            name: 'MenuItem',
+          },
+        ],
       },
-      {
-        "kind": "UNION",
-        "name": "ContentRevisionUnion",
-        "possibleTypes": [
-          {
-            "name": "Post"
-          },
-          {
-            "name": "Page"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "MenuItemObjectUnion",
-        "possibleTypes": [
-          {
-            "name": "Post"
-          },
-          {
-            "name": "Page"
-          },
-          {
-            "name": "Category"
-          },
-          {
-            "name": "Tag"
-          },
-          {
-            "name": "ProductCategory"
-          },
-          {
-            "name": "ProductTag"
-          },
-          {
-            "name": "MenuItem"
-          }
-        ]
-      }
-    ]
-  }
+    ],
+  },
 };
-      export default result;
-    
+export default result;
