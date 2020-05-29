@@ -51,28 +51,20 @@ export default async function getInstagramFeedInfo(
       options.numberOfMediaElements,
     );
 
-    media = mediaArray.reduce((result, { node }) => {
+    media = mediaArray
       // Process only if is an image
-      if (options.discardVideos && node.__typename && node.__typename !== 'GraphImage') {
-        return result;
-      }
-
-      // Return node
-      return [
-        ...result,
-        {
-          id: get(node, 'id'),
-          displayImage: get(node, 'display_url'),
-          thumbnail: get(node, 'thumbnail_resources[3].src'),
-          likes: get(node, 'edge_liked_by.count'),
-          caption: get(node, 'edge_media_to_caption.edges[0].node.text'),
-          commentsNumber: get(node, 'edge_media_to_comment.count'),
-          accessibilityCaption: get(node, 'accessibility_caption'),
-          dimensions: get(node, 'dimensions'),
-          postLink: `https://www.instagram.com/p/${get(node, 'shortcode')}/`,
-        },
-      ];
-    }, media);
+      .filter(({ node }) => !(options.discardVideos && node.__typename !== 'GraphImage'))
+      .map(({ node }) => ({
+        id: get(node, 'id'),
+        displayImage: get(node, 'display_url'),
+        thumbnail: get(node, 'thumbnail_resources[3].src'),
+        likes: get(node, 'edge_liked_by.count'),
+        caption: get(node, 'edge_media_to_caption.edges[0].node.text'),
+        commentsNumber: get(node, 'edge_media_to_comment.count'),
+        accessibilityCaption: get(node, 'accessibility_caption'),
+        dimensions: get(node, 'dimensions'),
+        postLink: `https://www.instagram.com/p/${get(node, 'shortcode')}/`,
+      }));
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     throw new Error(`Unable to retrieve info. Reason: ${error.toString()}`);

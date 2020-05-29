@@ -49,7 +49,7 @@ const PayPalButton: React.FC<Props> = ({
   const [loading, setLoading] = useState(true);
 
   useMount(() => {
-    if (process.browser && loading && document.getElementById('paypal-button') != null) {
+    if (process.browser && loading && document.querySelector('#paypal-button') != null) {
       createClient(paymentClientToken)
         .then((client) => braintree.paypalCheckout.create({ client }))
         .then((paypalCheckoutInstance) => {

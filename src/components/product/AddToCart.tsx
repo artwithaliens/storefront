@@ -26,23 +26,26 @@ const AddToCart: React.FC<Props> = ({ product }) => {
   const [variationId, setVariationId] = useState<number>();
 
   const [addToCart, { loading }] = useAddToCartMutation({
-    variables: {
-      productId: product.productId!,
-      variationId,
-    },
     refetchQueries: ['Cart'],
   });
 
   /** Handles adding items to the cart. */
   const handleAddToCartClick = () => {
-    addToCart()
-      .then(() => {
-        // Show View Cart Button
-        setShowViewCart(true);
+    if (product.productId != null) {
+      addToCart({
+        variables: {
+          productId: product.productId,
+          variationId,
+        },
       })
-      .catch((error: ApolloError) => {
-        addAlert(error.message, { severity: 'error' });
-      });
+        .then(() => {
+          // Show View Cart Button
+          setShowViewCart(true);
+        })
+        .catch((error: ApolloError) => {
+          addAlert(error.message, { severity: 'error' });
+        });
+    }
   };
 
   /** Handles changing the variation. */
