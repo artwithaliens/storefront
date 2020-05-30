@@ -1,4 +1,3 @@
-/* eslint-env node */
 /* eslint-disable import/no-extraneous-dependencies */
 const deploy = require('shipit-deploy');
 const shared = require('shipit-shared');

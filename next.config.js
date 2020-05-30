@@ -1,4 +1,3 @@
-/* eslint-env node */
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const withOffline = require('next-offline');
 const { merge } = require('lodash');
