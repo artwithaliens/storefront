@@ -1,13 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  GridList,
-  GridListTile,
-  makeStyles,
-  SvgIcon,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, Grid, makeStyles, SvgIcon, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAsync } from 'react-use';
 import { MenuLocationEnum, useMenuQuery } from '../graphql';
@@ -94,9 +85,9 @@ const Footer: React.FC = () => {
         </Box>
         {instagram?.media != null && (
           <Box mb={3}>
-            <GridList cellHeight="auto" cols={8} spacing={8}>
+            <Grid container spacing={1}>
               {instagram?.media.map((medium) => (
-                <GridListTile key={medium.id}>
+                <Grid item key={medium.id} xs={4} sm={2}>
                   <a href={medium.postLink} target="_blank" rel="noopener noreferrer">
                     <img
                       className={styles.feedImage}
@@ -105,9 +96,9 @@ const Footer: React.FC = () => {
                       loading="lazy"
                     />
                   </a>
-                </GridListTile>
+                </Grid>
               ))}
-            </GridList>
+            </Grid>
           </Box>
         )}
         <Grid container spacing={4}>

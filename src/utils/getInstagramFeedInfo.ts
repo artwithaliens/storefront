@@ -17,7 +17,7 @@ export default async function getInstagramFeedInfo(
     numberOfMediaElements: number;
     discardVideos: boolean;
   } = {
-    numberOfMediaElements: 8,
+    numberOfMediaElements: 6,
     discardVideos: false,
   },
 ): Promise<{
