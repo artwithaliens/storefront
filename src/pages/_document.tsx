@@ -1,6 +1,7 @@
 import { ServerStyleSheets } from '@material-ui/styles';
 import Document, { DocumentContext, Head, Main, NextScript } from 'next/document';
 import React from 'react';
+import theme from '../theme';
 
 export default class extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -30,7 +31,7 @@ export default class extends Document {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
           />
-          <meta name="theme-color" content="#060409" />
+          <meta name="theme-color" content={theme.palette.common.black} />
           <link
             href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Amatic+SC:wght@400;700&display=swap"
             rel="stylesheet"

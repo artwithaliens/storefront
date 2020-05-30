@@ -12,6 +12,7 @@ import { startCase } from 'lodash';
 import React from 'react';
 import { CartQuery, UpdateCartMutationVariables } from '../graphql';
 import DeleteSvg from '../icons/delete.svg';
+import Link from './Link';
 import Price from './Price';
 import QuantityInput from './QuantityInput';
 
@@ -112,7 +113,7 @@ const useStyles = makeStyles(
       },
     },
   }),
-  { name: 'CartItem' },
+  { name: 'CartTableRow' },
 );
 
 type Props = {
@@ -123,7 +124,7 @@ type Props = {
   onUpdate?: (variables: UpdateCartMutationVariables) => void;
 };
 
-const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
+const CartTableRow: React.FC<Props> = ({ item, loading, onUpdate }) => {
   const styles = useStyles({ loading });
 
   /**
@@ -142,8 +143,6 @@ const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
 
   /**
    * Handle remove item.
-   *
-   * @param key Cart item key
    */
   const handleRemoveItem = () => {
     if (onUpdate != null) {
@@ -164,14 +163,17 @@ const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
       </TableCell>
       <TableCell className={styles.description}>
         <Typography gutterBottom variant="h5">
-          {item.product?.name}
+          <Link href="/product/[slug]" as={`/product/${item.product?.slug}`} underline="none">
+            {item.product?.name}
+          </Link>
         </Typography>
         <Typography gutterBottom variant="body2">
           SKU: {item.product?.sku ?? 'N/A'}
         </Typography>
         <Typography variant="body2">
           {item.variation?.attributes?.nodes?.map(
-            (node) => `${startCase(node?.name ?? 'Variation')}: ${node?.value}`,
+            (node) =>
+              `${startCase(node?.name?.replace(/^pa_/, '') ?? 'Variation')}: ${node?.value}`,
           )}
         </Typography>
       </TableCell>
@@ -212,4 +214,4 @@ const CartItem: React.FC<Props> = ({ item, loading, onUpdate }) => {
   );
 };
 
-export default CartItem;
+export default CartTableRow;

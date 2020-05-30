@@ -34,6 +34,14 @@ const ProductAttributes: React.FC<Props> = ({ product }) => (
             )}
           </>
         )}
+        {(product.paMaterials?.nodes?.length ?? 0) > 0 && (
+          <TableRow>
+            <TableCell>Material</TableCell>
+            <TableCell>
+              {product.paMaterials?.nodes?.map((paMaterial) => paMaterial?.name)}
+            </TableCell>
+          </TableRow>
+        )}
         {(product.paPaperWeights?.nodes?.length ?? 0) > 0 && (
           <TableRow>
             <TableCell>Paper Weight</TableCell>

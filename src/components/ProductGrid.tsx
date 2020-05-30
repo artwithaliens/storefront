@@ -20,8 +20,9 @@ const useStyles = makeStyles(
     },
 
     productImage: {
-      maxWidth: '100%',
+      height: 'auto',
       verticalAlign: 'middle',
+      width: '100%',
     },
 
     productName: {

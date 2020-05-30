@@ -1,5 +1,6 @@
 import { Box, makeStyles, TextField } from '@material-ui/core';
 import { ApolloError } from 'apollo-boost';
+import { startCase } from 'lodash';
 import React, { useContext, useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
 import { AppContext } from '../AppProvider';
@@ -89,7 +90,10 @@ const AddToCart: React.FC<Props> = ({ product }) => {
       <TextField
         select
         margin="normal"
-        label="Variation"
+        label={startCase(
+          product.variations?.nodes?.[0]?.attributes?.nodes?.[0]?.name?.replace(/^pa_/, '') ??
+            'Variation',
+        )}
         name="variation"
         SelectProps={{
           native: true,
@@ -97,13 +101,16 @@ const AddToCart: React.FC<Props> = ({ product }) => {
         onChange={handleVariationChange}
       >
         <option value="">Select a variation...</option>
-        {product.variations?.nodes?.map(
-          (variation) =>
-            variation?.variationId != null && (
-              <option key={variation.id} value={variation.variationId}>
-                {variation.name?.replace(`${product.name} - `, '')}
-              </option>
-            ),
+        {product.variations?.nodes?.map((variation) =>
+          variation?.attributes?.nodes?.map(
+            (attribute) =>
+              attribute?.value != null &&
+              variation?.variationId != null && (
+                <option key={variation.id} value={variation.variationId}>
+                  {attribute.value}
+                </option>
+              ),
+          ),
         )}
       </TextField>
       <Box mt={2}>

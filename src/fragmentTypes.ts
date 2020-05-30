@@ -68,7 +68,7 @@ const result: IntrospectionResultData = {
             name: 'ProductTag',
           },
           {
-            name: 'PaBrand',
+            name: 'PaColor',
           },
           {
             name: 'ProductVariation',
@@ -81,6 +81,9 @@ const result: IntrospectionResultData = {
           },
           {
             name: 'PaPaperWeight',
+          },
+          {
+            name: 'PaSize',
           },
           {
             name: 'ShippingClass',
@@ -155,13 +158,16 @@ const result: IntrospectionResultData = {
             name: 'ProductTag',
           },
           {
-            name: 'PaBrand',
+            name: 'PaColor',
           },
           {
             name: 'PaMaterial',
           },
           {
             name: 'PaPaperWeight',
+          },
+          {
+            name: 'PaSize',
           },
           {
             name: 'ShippingClass',
@@ -215,13 +221,16 @@ const result: IntrospectionResultData = {
             name: 'ProductTag',
           },
           {
-            name: 'PaBrand',
+            name: 'PaColor',
           },
           {
             name: 'PaMaterial',
           },
           {
             name: 'PaPaperWeight',
+          },
+          {
+            name: 'PaSize',
           },
           {
             name: 'ShippingClass',
@@ -401,13 +410,16 @@ const result: IntrospectionResultData = {
             name: 'ShippingClass',
           },
           {
-            name: 'PaBrand',
+            name: 'PaColor',
           },
           {
             name: 'PaMaterial',
           },
           {
             name: 'PaPaperWeight',
+          },
+          {
+            name: 'PaSize',
           },
         ],
       },
