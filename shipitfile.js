@@ -28,7 +28,7 @@ module.exports = (shipit) => {
       },
     },
     production: {
-      servers: 'deploy@45.9.61.163',
+      servers: 'deploy@artwithaliens.com',
     },
   });
 };
