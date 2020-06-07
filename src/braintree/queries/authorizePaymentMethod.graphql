@@ -1,8 +1,0 @@
-mutation AuthorizePaymentMethod($input: AuthorizePaymentMethodInput!) {
-  authorizePaymentMethod(input: $input) {
-    transaction {
-      legacyId
-      status
-    }
-  }
-}

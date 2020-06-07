@@ -1,11 +1,35 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import ApolloClient from 'apollo-boost';
+import gql from 'graphql-tag';
 import { NextApiRequest, NextApiResponse } from 'next';
-import client from '../../braintree/apollo';
-import {
-  ChargePaymentMethodDocument,
-  ChargePaymentMethodMutation,
-  ChargePaymentMethodMutationVariables,
-} from '../../braintree/graphql';
+
+type ChargePaymentMethodVariables = {
+  input: {
+    paymentMethodId: string;
+    transaction: {
+      amount: number;
+    };
+  };
+};
+
+type ChargePaymentMethodMutation = {
+  chargePaymentMethod?: {
+    transaction?: {
+      legacyId: string;
+      status?: string | null;
+    };
+  };
+};
+
+const ChargePaymentMethodDocument = gql`
+  mutation ChargePaymentMethod($input: ChargePaymentMethodInput!) {
+    chargePaymentMethod(input: $input) {
+      transaction {
+        legacyId
+        status
+      }
+    }
+  }
+`;
 
 type Data = {
   transaction?: {
@@ -16,8 +40,18 @@ type Data = {
 };
 
 export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  client
-    .mutate<ChargePaymentMethodMutation, ChargePaymentMethodMutationVariables>({
+  new ApolloClient({
+    uri:
+      process.env.NODE_ENV === 'production'
+        ? 'https://payments.braintree-api.com/graphql'
+        : 'https://payments.sandbox.braintree-api.com/graphql',
+    headers: {
+      authorization: `Bearer ${process.env.BRAINTREE_API_KEY}`,
+      'braintree-version': '2020-05-07',
+      'content-type': 'application/json',
+    },
+  })
+    .mutate<ChargePaymentMethodMutation, ChargePaymentMethodVariables>({
       mutation: ChargePaymentMethodDocument,
       variables: {
         input: {
