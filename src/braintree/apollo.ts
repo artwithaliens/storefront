@@ -1,7 +1,10 @@
 import ApolloClient, { InMemoryCache, NormalizedCacheObject } from 'apollo-boost';
 
 const client = new ApolloClient<NormalizedCacheObject>({
-  uri: 'https://payments.sandbox.braintree-api.com/graphql',
+  uri:
+    process.env.NODE_ENV === 'production'
+      ? 'https://payments.braintree-api.com/graphql'
+      : 'https://payments.sandbox.braintree-api.com/graphql',
   credentials: 'include',
   headers: {
     authorization: `Bearer ${process.env.BRAINTREE_API_KEY}`,
