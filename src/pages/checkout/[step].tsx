@@ -3,7 +3,7 @@ import { omit } from 'lodash';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import CheckoutForm from '../../components/checkout/CheckoutForm';
+import CheckoutForm from '../../components/CheckoutForm';
 import Layout from '../../components/Layout';
 import Loader from '../../components/Loader';
 import {

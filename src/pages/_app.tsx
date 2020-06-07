@@ -11,7 +11,8 @@ import { DefaultSeo } from 'next-seo';
 import withApollo, { WithApolloProps } from 'next-with-apollo';
 import App from 'next/app';
 import React from 'react';
-import AppProvider from '../components/AppProvider';
+import AlertProvider from '../components/AlertProvider';
+import SettingsProvider, { SettingsContext } from '../components/SettingsProvider';
 import introspectionQueryResultData from '../fragmentTypes';
 import theme from '../theme';
 import absoluteURL from '../utils/absoluteURL';
@@ -53,26 +54,33 @@ export default withApollo(
 
       return (
         <ApolloProvider client={apollo}>
-          <DefaultSeo
-            title="Art With Aliens"
-            canonical={absoluteURL(router.asPath)}
-            openGraph={{
-              type: 'website',
-              locale: 'en_US',
-              url: absoluteURL(router.asPath),
-              site_name: 'Art With Aliens',
-            }}
-            twitter={{
-              handle: '@artwithaliens',
-              cardType: 'summary_large_image',
-            }}
-          />
-          <AppProvider>
+          <SettingsProvider>
+            <SettingsContext.Consumer>
+              {(settings) => (
+                <DefaultSeo
+                  title={settings.title ?? undefined}
+                  description={settings.description ?? undefined}
+                  canonical={absoluteURL(router.asPath)}
+                  openGraph={{
+                    type: 'website',
+                    locale: 'en_US',
+                    url: absoluteURL(router.asPath),
+                    site_name: settings.title ?? undefined,
+                  }}
+                  twitter={{
+                    handle: '@artwithaliens',
+                    cardType: 'summary_large_image',
+                  }}
+                />
+              )}
+            </SettingsContext.Consumer>
             <ThemeProvider theme={theme}>
               <CssBaseline />
-              <Component {...pageProps} />
+              <AlertProvider>
+                <Component {...pageProps} />
+              </AlertProvider>
             </ThemeProvider>
-          </AppProvider>
+          </SettingsProvider>
         </ApolloProvider>
       );
     }

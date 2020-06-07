@@ -1,7 +1,7 @@
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import ContactForm from '../components/contact/ContactForm';
+import ContactForm from '../components/ContactForm';
 import Layout from '../components/Layout';
 import PageHeader from '../components/PageHeader';
 import PinSvg from '../icons/pin.svg';

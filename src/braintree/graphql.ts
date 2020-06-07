@@ -9,16 +9,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * An [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
-   * country code. Braintree only accepts [specific alpha-2 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries).
-   */
+  /** An [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code. Braintree only accepts [specific alpha-2 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries). */
   CountryCodeAlpha2: unknown;
-  /**
-   * An [ISO 4217 alpha](https://en.wikipedia.org/wiki/ISO_4217) currency code.
-   * Braintree only accepts [specific alpha
-   * values](https://developers.braintreepayments.com/reference/general/currencies).
-   */
+  /** An [ISO 4217 alpha](https://en.wikipedia.org/wiki/ISO_4217) currency code. Braintree only accepts [specific alpha values](https://developers.braintreepayments.com/reference/general/currencies). */
   CurrencyCodeAlpha: unknown;
   /** A date in the format YYYY-MM-DD. */
   Date: unknown;
@@ -26,10 +19,7 @@ export type Scalars = {
   Timestamp: unknown;
   /** A monetary amount, either a whole number or a number with exactly two or three decimal places. */
   Amount: unknown;
-  /**
-   * An [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
-   * country code. Braintree only accepts [specific alpha-3 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries).
-   */
+  /** An [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) country code. Braintree only accepts [specific alpha-3 values](https://developers.braintreepayments.com/reference/general/countries#list-of-countries). */
   CountryCodeAlpha3: unknown;
   /** A card brand-specific two-digit string describing the mode of the transaction. */
   ECommerceIndicator: unknown;
@@ -76,6 +66,28 @@ export type AcceptDisputePayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** Information about the dispute that was accepted. */
   dispute?: Maybe<Dispute>;
+};
+
+/** An OAuth access token. */
+export type AccessToken = {
+  __typename?: 'AccessToken';
+  /** The access token. */
+  accessToken?: Maybe<Scalars['String']>;
+  /** The refresh token for getting a new access token. */
+  refreshToken?: Maybe<Scalars['String']>;
+  /** The type of token. */
+  tokenType?: Maybe<OAuthTokenType>;
+  /** Expiration in ISO time format. */
+  expiresAt?: Maybe<Scalars['String']>;
+};
+
+/** Top-level fields returned when obtaining an OAuth access token. */
+export type AccessTokenPayload = {
+  __typename?: 'AccessTokenPayload';
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The access token. */
+  accessToken?: Maybe<AccessToken>;
 };
 
 /** Information abou the business's ACH configuration. */
@@ -338,6 +350,18 @@ export type AuthorizationExpiredEvent = PaymentStatusEvent & {
   terminal?: Maybe<Scalars['Boolean']>;
 };
 
+/** Top-level input fields for creating a transaction by authorizing a credit card. */
+export type AuthorizeCreditCardInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** ID of a credit card payment method to be authorized. */
+  paymentMethodId: Scalars['ID'];
+  /** Input fields related to the credit card being authorized. */
+  options?: Maybe<CreditCardTransactionOptionsInput>;
+  /** Input fields for the authorization, with details that will define the resulting transaction. */
+  transaction: TransactionInput;
+};
+
 /** Accompanying information for an authorized transaction. */
 export type AuthorizedEvent = PaymentStatusEvent & {
   __typename?: 'AuthorizedEvent';
@@ -375,13 +399,13 @@ export type AuthorizePaymentMethodInput = {
   transaction: TransactionInput;
 };
 
-/** Top-level input fields for creating a transaction by authorizing a payment method. */
+/** Top-level input fields for creating a transaction by authorizing a PayPal account. */
 export type AuthorizePayPalAccountInput = {
   /** An identifier used to reconcile requests and responses. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** ID of a payment method to be authorized. */
+  /** ID of a PayPal payment method to be authorized. */
   paymentMethodId: Scalars['ID'];
-  /** Input fields related to the PayPal account being charged. */
+  /** Input fields related to the PayPal account being authorized. */
   options?: Maybe<AuthorizePayPalAccountOptionsInput>;
   /** Input fields for the authorization, with details that will define the resulting transaction. */
   transaction: TransactionInput;
@@ -404,13 +428,13 @@ export type AuthorizePayPalAccountOptionsInput = {
   payee?: Maybe<PayPalPayeeOptionsInput>;
 };
 
-/** Top-level input fields for creating a transaction by authorizing a payment method. */
+/** Top-level input fields for creating a transaction by authorizing a Venmo account. */
 export type AuthorizeVenmoAccountInput = {
   /** An identifier used to reconcile requests and responses. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** ID of a payment method to be authorized. */
+  /** ID of a Venmo payment method to be authorized. */
   paymentMethodId: Scalars['ID'];
-  /** Input fields related to the Venmo account being charged. */
+  /** Input fields related to the Venmo account being authorized. */
   options?: Maybe<AuthorizeVenmoAccountOptionsInput>;
   /** Input fields for the authorization, with details that will define the resulting transaction. */
   transaction: TransactionInput;
@@ -624,6 +648,18 @@ export enum Challenge {
   postal_code = 'postal_code',
 }
 
+/** Top-level input fields for creating a transaction by charging a credit card. */
+export type ChargeCreditCardInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** ID of a credit card payment method to be charged. */
+  paymentMethodId: Scalars['ID'];
+  /** Input fields for creating a credit card transaction. */
+  options?: Maybe<CreditCardTransactionOptionsInput>;
+  /** Input fields for the charge, with details that will define the resulting transaction. */
+  transaction: TransactionInput;
+};
+
 /** Top-level input fields for creating a transaction by charging a payment method. */
 export type ChargePaymentMethodInput = {
   /** An identifier used to reconcile requests and responses. */
@@ -836,6 +872,24 @@ export enum ConfirmMicroTransferAmountsStatus {
   TOO_MANY_ATTEMPTS = 'TOO_MANY_ATTEMPTS',
 }
 
+/** Input fields for obtaining an OAuth access token for an in-store reader. */
+export type CreateAccessTokenForReaderInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A reader specific identification code. */
+  deviceCode: Scalars['String'];
+  /**  A globally unique reader device id generated by the reader. */
+  deviceId: Scalars['ID'];
+};
+
+/** Input fields for obtaining an OAuth access token using an authorization grant. */
+export type CreateAccessTokenFromAuthorizationCodeInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A authorization code. */
+  authorizationCode: Scalars['String'];
+};
+
 /** Top-level input field for generating a client token. */
 export type CreateClientTokenInput = {
   /** An identifier used to reconcile requests and responses. */
@@ -1031,6 +1085,29 @@ export type CreditCardInput = {
   cardholderName?: Maybe<Scalars['String']>;
   /** The billing address for the credit card. */
   billingAddress?: Maybe<AddressInput>;
+};
+
+/** Credit card specific details on a transaction or verification. */
+export type CreditCardTransactionDetails = {
+  __typename?: 'CreditCardTransactionDetails';
+  /** The details of the credit card itself. */
+  creditCard?: Maybe<CreditCardDetails>;
+  /**
+   * The network transaction identifier provided by the payment network. If this
+   * transaction was created in order to verify a payment method before storing it
+   * in an external vault, then this value can be pased when creating subsequent
+   * transactions with the same payment method.
+   */
+  networkTransactionId?: Maybe<Scalars['String']>;
+};
+
+/** Input fields for creating a transaction by authorizing or charging a credit card. */
+export type CreditCardTransactionOptionsInput = {
+  /**
+   * Details about this transaction if it's being created from a credit card that
+   * is or will be stored in an non-Braintree vault.
+   */
+  externalVault?: Maybe<TransactionExternalVaultOptionsInput>;
 };
 
 /** Information specific to verifications of credit card payment methods. */
@@ -1580,6 +1657,14 @@ export enum DisputeType {
   RETRIEVAL = 'RETRIEVAL',
 }
 
+/** A credit card's assocation with an external vault. */
+export enum ExternalVaultStatus {
+  /** The payment method has not been vaulted in an exernal vault, but it will be if this transaction is successfully processed. */
+  WILL_VAULT = 'WILL_VAULT',
+  /** The payment method for this transaction has been vaulted in an external vault. */
+  VAULTED = 'VAULTED',
+}
+
 /**
  * Fields capturing information about a third party that provided payment
  * information for this transaction via the Grant API, Shared Vault, or Google Pay.
@@ -1666,8 +1751,8 @@ export enum GatewayRejectionReason {
 export type GenerateInStoreReaderPairingCodeInput = {
   /** An identifier used to reconcile requests and responses. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The reader device ID. */
-  deviceId: Scalars['String'];
+  /** The reader device id. */
+  deviceId: Scalars['ID'];
 };
 
 /** Top-level fields returned when generating a pairing code for an in-store reader. */
@@ -1791,8 +1876,8 @@ export type InStoreReader = {
   id: Scalars['ID'];
   /** Name given to the reader. */
   name?: Maybe<Scalars['String']>;
-  /** The unique serial number for the reader. */
-  serialNumber?: Maybe<Scalars['String']>;
+  /** A globally unique reader device id generated by the reader. */
+  deviceId?: Maybe<Scalars['ID']>;
   /** Vendor-specific information about the reader. */
   vendor?: Maybe<InStoreReaderVendor>;
   /** The in-store location the reader is attached to. */
@@ -1815,9 +1900,7 @@ export type InStoreReaderSetupInput = {
   /** In-Store Location to attach Reader to. */
   locationId: Scalars['ID'];
   /** Name given to the Reader. */
-  name: Scalars['String'];
-  /** Merchant Account to use to process payments. */
-  merchantAccountId: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
 };
 
 /** A union of all possible in-store reader vendors. */
@@ -1953,6 +2036,8 @@ export type Mutation = {
   authorizePayPalAccount?: Maybe<TransactionPayload>;
   /** Authorize an eligible Venmo account and return a payload that includes details of the resulting transaction. */
   authorizeVenmoAccount?: Maybe<TransactionPayload>;
+  /** Authorize a credit card of any origin and return a payload that includes details of the resulting transaction. */
+  authorizeCreditCard?: Maybe<TransactionPayload>;
   /** Capture an authorized transaction and return a payload that includes details of the transaction. */
   captureTransaction?: Maybe<TransactionPayload>;
   /** Charge any payment method and return a payload that includes details of the resulting transaction. */
@@ -1973,6 +2058,8 @@ export type Mutation = {
    * information on eligibility and setup.
    */
   chargeVenmoAccount?: Maybe<TransactionPayload>;
+  /** Charge a credit card of any origin and return a payload that includes details of the resulting transaction. */
+  chargeCreditCard?: Maybe<TransactionPayload>;
   /**
    * Vault payment information from a single-use payment method and return a
    * payload that includes a new multi-use payment method. When vaulting a credit
@@ -1984,6 +2071,12 @@ export type Mutation = {
    * return a payload that includes a new multi-use payment method.
    */
   vaultUsBankAccount?: Maybe<VaultPaymentMethodPayload>;
+  /**
+   * Vault payment information from a single-use credit card and return a payload
+   * that includes a new multi-use payment method. By default, this mutation will
+   * also verify the card.
+   */
+  vaultCreditCard?: Maybe<VaultPaymentMethodPayload>;
   /** Refund a settled transaction and return a payload that includes details of the refund. */
   refundTransaction?: Maybe<RefundTransactionPayload>;
   /** Reverse a transaction and return a payload that includes either the voided transaction or a refund. */
@@ -2063,8 +2156,6 @@ export type Mutation = {
   createInStoreLocation?: Maybe<CreateInStoreLocationPayload>;
   /** Pairs a Reader to an account and In-Store Location. */
   pairInStoreReader?: Maybe<InStoreReaderPayload>;
-  /** Creates a new InStoreReader. */
-  generateInStoreReaderPairingCode?: Maybe<GenerateInStoreReaderPairingCodePayload>;
 };
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
@@ -2080,6 +2171,11 @@ export type MutationauthorizePayPalAccountArgs = {
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationauthorizeVenmoAccountArgs = {
   input: AuthorizeVenmoAccountInput;
+};
+
+/** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
+export type MutationauthorizeCreditCardArgs = {
+  input: AuthorizeCreditCardInput;
 };
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
@@ -2108,6 +2204,11 @@ export type MutationchargeVenmoAccountArgs = {
 };
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
+export type MutationchargeCreditCardArgs = {
+  input: ChargeCreditCardInput;
+};
+
+/** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationvaultPaymentMethodArgs = {
   input: VaultPaymentMethodInput;
 };
@@ -2115,6 +2216,11 @@ export type MutationvaultPaymentMethodArgs = {
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
 export type MutationvaultUsBankAccountArgs = {
   input: VaultUsBankAccountInput;
+};
+
+/** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
+export type MutationvaultCreditCardArgs = {
+  input: VaultCreditCardInput;
 };
 
 /** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
@@ -2252,11 +2358,6 @@ export type MutationpairInStoreReaderArgs = {
   input: PairInStoreReaderInput;
 };
 
-/** The top-level Mutation type. Mutations are used to make requests that create or modify data. */
-export type MutationgenerateInStoreReaderPairingCodeArgs = {
-  input: GenerateInStoreReaderPairingCodeInput;
-};
-
 /** Means by which customers by their bills. */
 export enum MVVAcceptanceChannel {
   FACE_TO_FACE = 'FACE_TO_FACE',
@@ -2317,6 +2418,11 @@ export type OAuthApplication = {
   /** The unique identifier of the OAuth application. */
   clientId?: Maybe<Scalars['String']>;
 };
+
+/** OAuth access token type. */
+export enum OAuthTokenType {
+  BEARER = 'BEARER',
+}
 
 /** The owner's address type. */
 export enum OwnerAddressType {
@@ -2409,7 +2515,7 @@ export type PairInStoreReaderInput = {
   /** An identifier used to reconcile requests and responses. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Code displayed on Reader during pairing. */
-  pairingCode: Scalars['String'];
+  userCode: Scalars['String'];
   /** Inputs for Reader. */
   reader: InStoreReaderSetupInput;
 };
@@ -2635,7 +2741,8 @@ export type PaymentMethodSnapshot =
   | PayPalTransactionDetails
   | VenmoAccountDetails
   | UsBankAccountDetails
-  | LocalPaymentDetails;
+  | LocalPaymentDetails
+  | CreditCardTransactionDetails;
 
 /**
  * A value identifying the type of payment method used for a transaction. For
@@ -4503,6 +4610,25 @@ export type TransactionDescriptorInput = {
   url?: Maybe<Scalars['String']>;
 };
 
+/**
+ * Input for transactions created with credit cards vaulted in an external vault,
+ * not the Braintree Vault. Do not use for transactions created from Braintree
+ * multi-use payment methods, or from single-use payment methods which will not be
+ * stored in an external vault.
+ */
+export type TransactionExternalVaultOptionsInput = {
+  /** The credit card's assocation with an external vault. */
+  status: ExternalVaultStatus;
+  /**
+   * The network transaction ID of the first _transaction_ after which this payment
+   * method was stored in the external vault. If the `status` is `WILL_VAULT`, do
+   * not pass this value; the network transaction ID of the resulting transaction
+   * can be passed in this field for _subsequent_ transactions. If the `status` is
+   * `VAULTED`, but the customer is directly initiating the charge, do not pass this value.
+   */
+  verifyingNetworkTransactionId?: Maybe<Scalars['String']>;
+};
+
 /** Input fields for creating a transaction. */
 export type TransactionInput = {
   /**
@@ -5148,6 +5274,30 @@ export enum UsStateCode {
   WV = 'WV',
   WY = 'WY',
 }
+
+/** Options used to indicate when a credit card is externally vaulted. */
+export type VaultCreditCardExternalVaultOptionsInput = {
+  /**
+   * For use if this credit card is stored in an external vault. The network
+   * transaction ID of the first _transaction_ after which this credit card was
+   * stored in the external vault.
+   */
+  verifyingNetworkTransactionId?: Maybe<Scalars['String']>;
+};
+
+/** Top-level input field for vaulting a credit card so it can be used multiple times. */
+export type VaultCreditCardInput = {
+  /** An identifier used to reconcile requests and responses. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** ID of an existing single-use credit card payment method to be vaulted. */
+  paymentMethodId: Scalars['ID'];
+  /** Input fields that specify options for verifying the credit card. */
+  verification?: Maybe<VaultPaymentMethodVerificationOptionsInput>;
+  /** Options used to indicate when a credit card is externally vaulted. */
+  externalVault?: Maybe<VaultCreditCardExternalVaultOptionsInput>;
+  /** ID of the customer to associate the resulting multi-use payment method with. */
+  customerId?: Maybe<Scalars['ID']>;
+};
 
 /** Top-level input field for vaulting a limited use PayPal account. */
 export type VaultLimitedUsePayPalAccountInput = {

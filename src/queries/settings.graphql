@@ -1,0 +1,7 @@
+query Settings {
+  settings: generalSettings {
+    description
+    language
+    title
+  }
+}

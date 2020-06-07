@@ -4,6 +4,7 @@ import createSpacing from '@material-ui/core/styles/createSpacing';
 
 const colors = {
   primary: '#af8245',
+  secondary: '#aeaeae',
 };
 
 const palette = createPalette({
@@ -12,7 +13,7 @@ const palette = createPalette({
     main: colors.primary,
   },
   secondary: {
-    main: '#0f0',
+    main: colors.secondary,
   },
   common: {
     white: '#feffff',
@@ -115,10 +116,18 @@ export default createMuiTheme({
         padding: '14px 20px',
       },
       outlined: {
-        border: '2px solid #5e5e5e',
         padding: '12px 18px',
+
+        '&, &$disabled': {
+          borderWidth: 2,
+        },
       },
       outlinedPrimary: {
+        '&, &:hover': {
+          borderWidth: 2,
+        },
+      },
+      outlinedSecondary: {
         '&, &:hover': {
           borderWidth: 2,
         },

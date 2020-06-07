@@ -14,7 +14,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { object, string } from 'yup';
-import { AppContext } from '../components/AppProvider';
+import { AlertContext } from '../components/AlertProvider';
 import { AuthContext } from '../components/AuthProvider';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
@@ -39,7 +39,7 @@ const Register: NextPage = () => {
   const router = useRouter();
   const [registerUser, { loading }] = useRegisterUserMutation();
   const { authenticated } = useContext(AuthContext);
-  const { addAlert } = useContext(AppContext);
+  const { addAlert } = useContext(AlertContext);
 
   /** Hide the Status bar on cross button click. */
   const handleCloseButtonClick = () => {

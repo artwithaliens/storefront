@@ -6,12 +6,12 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import Price from '../../components/Price';
-import AddToCart from '../../components/product/AddToCart';
-import GalleryStepper from '../../components/product/GalleryStepper';
-import ProductAttributes from '../../components/product/ProductAttributes';
-import ProductGallery from '../../components/product/ProductGallery';
-import ProductMeta from '../../components/product/ProductMeta';
+import ProductAddToCart from '../../components/ProductAddToCart';
+import ProductAttributes from '../../components/ProductAttributes';
+import ProductGallery from '../../components/ProductGallery';
+import ProductGalleryStepper from '../../components/ProductGalleryStepper';
 import ProductGrid from '../../components/ProductGrid';
+import ProductMeta from '../../components/ProductMeta';
 import RichText from '../../components/RichText';
 import { StockStatusEnum, useProductQuery } from '../../graphql';
 import isBlank from '../../utils/isBlank';
@@ -73,7 +73,7 @@ const Product: NextPage = () => {
             <Grid container spacing={6}>
               <Grid item md={6}>
                 <Hidden mdUp>
-                  <GalleryStepper product={product} />
+                  <ProductGalleryStepper product={product} />
                 </Hidden>
                 <Hidden smDown>
                   <ProductGallery product={product} />
@@ -113,7 +113,7 @@ const Product: NextPage = () => {
                       {isBlank(product.deliveryTime) ? '2-3 working days' : product.deliveryTime}
                     </Typography>
                   )}
-                  <AddToCart product={product} />
+                  <ProductAddToCart product={product} />
                   <ProductMeta product={product} />
                 </div>
               </Grid>

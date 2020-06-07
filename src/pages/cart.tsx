@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 import Button from '../components/Button';
-import EmptyCart from '../components/cart/EmptyCart';
+import CartEmpty from '../components/CartEmpty';
 import CartTable from '../components/CartTable';
 import Layout from '../components/Layout';
 import Loader from '../components/Loader';
@@ -21,7 +21,7 @@ const Cart: NextPage = () => {
         {loading ? (
           <Loader />
         ) : cart == null || (cart?.contents?.itemCount ?? 0) === 0 ? (
-          <EmptyCart />
+          <CartEmpty />
         ) : (
           <>
             <CartTable

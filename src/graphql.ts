@@ -18782,6 +18782,14 @@ export type RegisterUserMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
+export type SettingsQueryVariables = {};
+
+export type SettingsQuery = { __typename?: 'RootQuery' } & {
+  settings?: Maybe<
+    { __typename?: 'GeneralSettings' } & Pick<GeneralSettings, 'description' | 'language' | 'title'>
+  >;
+};
+
 export type UpdateCartMutationVariables = {
   key: Scalars['ID'];
   quantity: Scalars['Int'];
@@ -19796,6 +19804,53 @@ export type RegisterUserMutationResult = ApolloReactCommon.MutationResult<Regist
 export type RegisterUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
   RegisterUserMutation,
   RegisterUserMutationVariables
+>;
+export const SettingsDocument = gql`
+  query Settings {
+    settings: generalSettings {
+      description
+      language
+      title
+    }
+  }
+`;
+
+/**
+ * __useSettingsQuery__
+ *
+ * To run a query within a React component, call `useSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSettingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSettingsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<SettingsQuery, SettingsQueryVariables>,
+) {
+  return ApolloReactHooks.useQuery<SettingsQuery, SettingsQueryVariables>(
+    SettingsDocument,
+    baseOptions,
+  );
+}
+export function useSettingsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SettingsQuery, SettingsQueryVariables>,
+) {
+  return ApolloReactHooks.useLazyQuery<SettingsQuery, SettingsQueryVariables>(
+    SettingsDocument,
+    baseOptions,
+  );
+}
+export type SettingsQueryHookResult = ReturnType<typeof useSettingsQuery>;
+export type SettingsLazyQueryHookResult = ReturnType<typeof useSettingsLazyQuery>;
+export type SettingsQueryResult = ApolloReactCommon.QueryResult<
+  SettingsQuery,
+  SettingsQueryVariables
 >;
 export const UpdateCartDocument = gql`
   mutation UpdateCart($key: ID!, $quantity: Int!) {
