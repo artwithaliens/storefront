@@ -17852,7 +17852,10 @@ export type CategoriesQuery = { __typename?: 'RootQuery' } & {
           Maybe<
             { __typename?: 'ProductCategory' } & Pick<ProductCategory, 'id' | 'name' | 'slug'> & {
                 image?: Maybe<
-                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'srcSet' | 'altText'>
+                  { __typename?: 'MediaItem' } & Pick<
+                    MediaItem,
+                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                  >
                 >;
               }
           >
@@ -18993,13 +18996,14 @@ export const CategoriesDocument = gql`
     categories: productCategories {
       nodes {
         id
+        image {
+          altText
+          sizes(size: LARGE)
+          sourceUrl(size: LARGE)
+          srcSet(size: LARGE)
+        }
         name
         slug
-        image {
-          sourceUrl
-          srcSet
-          altText
-        }
       }
     }
   }

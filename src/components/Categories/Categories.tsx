@@ -55,7 +55,9 @@ const Categories: React.FC = () => {
                       className={styles.categoryImage}
                       src={category.image?.srcSet ?? undefined}
                       srcSet={category.image?.sourceUrl ?? undefined}
+                      sizes={category.image?.sizes ?? undefined}
                       alt={category.image?.altText ?? ''}
+                      loading="lazy"
                     />
                     <Typography variant="h4" className={styles.categoryTitle}>
                       {category.name}
