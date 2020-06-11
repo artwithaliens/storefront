@@ -3,6 +3,7 @@ import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17702,11 +17703,11 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-export type AddToCartMutationVariables = {
+export type AddToCartMutationVariables = Exact<{
   productId: Scalars['Int'];
   variationId?: Maybe<Scalars['Int']>;
   quantity?: Maybe<Scalars['Int']>;
-};
+}>;
 
 export type AddToCartMutation = { __typename?: 'RootMutation' } & {
   addToCart?: Maybe<
@@ -17865,7 +17866,7 @@ export type CategoriesQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type CheckoutMutationVariables = {
+export type CheckoutMutationVariables = Exact<{
   billing?: Maybe<CustomerAddressInput>;
   customerNote?: Maybe<Scalars['String']>;
   isPaid?: Maybe<Scalars['Boolean']>;
@@ -17875,7 +17876,7 @@ export type CheckoutMutationVariables = {
   shipping?: Maybe<CustomerAddressInput>;
   shippingMethod?: Maybe<Scalars['String']>;
   transactionId?: Maybe<Scalars['String']>;
-};
+}>;
 
 export type CheckoutMutation = { __typename?: 'RootMutation' } & {
   checkout?: Maybe<{ __typename?: 'CheckoutPayload' } & Pick<CheckoutPayload, 'redirect'>>;
@@ -17920,10 +17921,10 @@ export type CustomerQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type LoginMutationVariables = {
+export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
-};
+}>;
 
 export type LoginMutation = { __typename?: 'RootMutation' } & {
   login?: Maybe<
@@ -17935,9 +17936,9 @@ export type LoginMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type MenuQueryVariables = {
+export type MenuQueryVariables = Exact<{
   location?: Maybe<MenuLocationEnum>;
-};
+}>;
 
 export type MenuQuery = { __typename?: 'RootQuery' } & {
   menuItems?: Maybe<
@@ -17963,10 +17964,10 @@ export type MenuQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type OrderQueryVariables = {
+export type OrderQueryVariables = Exact<{
   orderId: Scalars['Int'];
   orderKey: Scalars['String'];
-};
+}>;
 
 export type OrderQuery = { __typename?: 'RootQuery' } & {
   order?: Maybe<
@@ -18009,9 +18010,9 @@ export type OrderQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type PageQueryVariables = {
+export type PageQueryVariables = Exact<{
   slug: Scalars['ID'];
-};
+}>;
 
 export type PageQuery = { __typename?: 'RootQuery' } & {
   page?: Maybe<
@@ -18062,10 +18063,10 @@ export type PaymentGatewaysQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type PreviewQueryVariables = {
+export type PreviewQueryVariables = Exact<{
   id: Scalars['ID'];
   rev: Scalars['Int'];
-};
+}>;
 
 export type PreviewQuery = { __typename?: 'RootQuery' } & {
   page?: Maybe<
@@ -18079,9 +18080,9 @@ export type PreviewQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type ProductQueryVariables = {
+export type ProductQueryVariables = Exact<{
   slug: Scalars['ID'];
-};
+}>;
 
 export type ProductQuery = { __typename?: 'RootQuery' } & {
   product?: Maybe<
@@ -18709,10 +18710,10 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type ProductsQueryVariables = {
+export type ProductsQueryVariables = Exact<{
   category?: Maybe<Scalars['String']>;
   tag?: Maybe<Scalars['String']>;
-};
+}>;
 
 export type ProductsQuery = { __typename?: 'RootQuery' } & {
   products?: Maybe<
@@ -18771,11 +18772,11 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type RegisterUserMutationVariables = {
+export type RegisterUserMutationVariables = Exact<{
   username: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-};
+}>;
 
 export type RegisterUserMutation = { __typename?: 'RootMutation' } & {
   registerUser?: Maybe<
@@ -18793,10 +18794,10 @@ export type SettingsQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type UpdateCartMutationVariables = {
+export type UpdateCartMutationVariables = Exact<{
   key: Scalars['ID'];
   quantity: Scalars['Int'];
-};
+}>;
 
 export type UpdateCartMutation = { __typename?: 'RootMutation' } & {
   updateItemQuantities?: Maybe<
@@ -18806,11 +18807,11 @@ export type UpdateCartMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type UpdateCustomerMutationVariables = {
+export type UpdateCustomerMutationVariables = Exact<{
   billing?: Maybe<CustomerAddressInput>;
   shipping?: Maybe<CustomerAddressInput>;
   shippingSameAsBilling?: Maybe<Scalars['Boolean']>;
-};
+}>;
 
 export type UpdateCustomerMutation = { __typename?: 'RootMutation' } & {
   updateCustomer?: Maybe<
@@ -18818,9 +18819,9 @@ export type UpdateCustomerMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type UpdateOrderMutationVariables = {
+export type UpdateOrderMutationVariables = Exact<{
   orderId: Scalars['Int'];
-};
+}>;
 
 export type UpdateOrderMutation = { __typename?: 'RootMutation' } & {
   updateOrder?: Maybe<
@@ -18828,9 +18829,9 @@ export type UpdateOrderMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type UpdateShippingMethodMutationVariables = {
+export type UpdateShippingMethodMutationVariables = Exact<{
   shippingMethods?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
+}>;
 
 export type UpdateShippingMethodMutation = { __typename?: 'RootMutation' } & {
   updateShippingMethod?: Maybe<
@@ -18840,9 +18841,9 @@ export type UpdateShippingMethodMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type UserQueryVariables = {
+export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type UserQuery = { __typename?: 'RootQuery' } & {
   user?: Maybe<
