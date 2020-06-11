@@ -4,7 +4,7 @@ import { useAsync } from 'react-use';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import FacebookSvg from '../../icons/facebook.svg';
 import InstagramSvg from '../../icons/instagram.svg';
-import getInstagramFeedInfo from '../../utils/getInstagramFeedInfo';
+import fetchInstagramMedia from '../../utils/fetchInstagramMedia';
 import prefetchURL from '../../utils/prefetchURL';
 import relativeURL from '../../utils/relativeURL';
 import Link from '../Link';
@@ -41,6 +41,12 @@ const useStyles = makeStyles(
 
     menuItem: {
       ...typography.body1,
+
+      '& a': {
+        display: 'block',
+        paddingBottom: 2,
+        paddingTop: 2,
+      },
     },
 
     copyright: {
@@ -58,7 +64,7 @@ const Footer: React.FC = () => {
     variables: { location: MenuLocationEnum.FOOTER_NAVIGATION },
   });
 
-  const { value: instagram } = useAsync(getInstagramFeedInfo);
+  const { value: instagramMedia } = useAsync(fetchInstagramMedia);
 
   return (
     <footer className={styles.root}>
@@ -83,10 +89,10 @@ const Footer: React.FC = () => {
             <SvgIcon fontSize="large" component={InstagramSvg} />
           </a>
         </Box>
-        {instagram?.media != null && (
+        {instagramMedia != null && (
           <Box mb={3}>
             <Grid container spacing={1}>
-              {instagram?.media.map((medium) => (
+              {instagramMedia.map((medium) => (
                 <Grid item key={medium.id} xs={4} sm={2}>
                   <a href={medium.postLink} target="_blank" rel="noopener noreferrer">
                     <img
