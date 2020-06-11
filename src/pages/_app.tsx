@@ -35,8 +35,8 @@ export default withApollo(
     componentDidMount() {
       // Remove the server-side injected CSS.
       const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles != null) {
-        jssStyles.remove();
+      if (jssStyles?.parentNode != null) {
+        jssStyles.parentNode.removeChild(jssStyles);
       }
       if (process.env.NODE_ENV === 'production') {
         register();
