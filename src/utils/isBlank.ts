@@ -1,5 +1,3 @@
-import { isEmpty } from 'lodash';
-
-export default function isBlank(value?: string | null): value is null | undefined | '' {
-  return isEmpty(value?.trim());
+export default function isBlank(value: string | null | undefined): value is null | undefined | '' {
+  return value == null || value?.trim() === '';
 }

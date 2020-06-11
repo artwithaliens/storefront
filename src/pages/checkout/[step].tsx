@@ -1,5 +1,5 @@
 import { Box, Container } from '@material-ui/core';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';

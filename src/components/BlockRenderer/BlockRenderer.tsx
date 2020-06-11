@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
-import { camelCase, mapKeys } from 'lodash';
+import camelCase from 'lodash/camelCase';
+import mapKeys from 'lodash/mapKeys';
 import React from 'react';
 import styleToObject from 'style-to-object';
 import BlockCover from '../../blocks/BlockCover';

@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import clsx from 'clsx';
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase';
 import React from 'react';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
 import DeleteSvg from '../../icons/delete.svg';

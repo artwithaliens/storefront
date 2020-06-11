@@ -1,6 +1,6 @@
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const withOffline = require('next-offline');
-const { merge } = require('lodash');
+const merge = require('lodash/merge');
 const { version } = require('./package.json');
 
 module.exports = withOffline({
@@ -14,7 +14,6 @@ module.exports = withOffline({
   env: {
     SITE_URL: process.env.SITE_URL,
     GRAPHQL_URL: process.env.GRAPHQL_URL,
-    REST_URL: process.env.REST_URL,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_RELEASE: version,
     BRAINTREE_MERCHANT_ID: process.env.BRAINTREE_MERCHANT_ID,

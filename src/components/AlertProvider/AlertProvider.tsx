@@ -1,6 +1,6 @@
 import { Snackbar } from '@material-ui/core';
 import { Alert, AlertProps } from '@material-ui/lab';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 
 type AlertItem = {
