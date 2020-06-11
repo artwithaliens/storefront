@@ -7,26 +7,19 @@ import Button from '../Button';
 
 type ContactInput = {
   acceptance: boolean;
-  fullName: string;
   email: string;
+  fullName: string;
+  message: string;
   phone?: string;
   subject?: string;
-  message: string;
 };
 
 type ContactResponse = {
-  into: string;
   status: 'mail_sent' | 'validation_failed';
-  message: string;
-  invalidFields?: {
-    into: string;
-    message: string;
-    idref: null;
-  }[];
 };
 
 const validationSchema = object().shape<ContactInput>({
-  acceptance: boolean().required(),
+  acceptance: boolean().required().oneOf([true]),
   email: string().label('Email').email().min(11).max(254).required(),
   fullName: string().label('Name').max(70).required(),
   message: string().label('Message').required(),
@@ -35,36 +28,30 @@ const validationSchema = object().shape<ContactInput>({
 });
 
 const ContactForm: React.FC = () => {
-  const [, contact] = useAsyncFn(async (values?: ContactInput) => {
-    const body = new FormData();
-    Object.entries(values ?? {}).forEach(
-      ([key, value]) => value != null && body.append(key, value.toString()),
-    );
-
-    const response = await fetch(
-      `${process.env.REST_URL}/contact-form-7/v1/contact-forms/5/feedback`,
-      {
-        method: 'post',
-        credentials: 'include',
-        body,
+  const [{ loading }, contact] = useAsyncFn(async (values?: ContactInput) =>
+    fetch('/api/contact', {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        'content-type': 'application/json',
       },
-    );
-    return response.json() as Promise<ContactResponse>;
-  });
+      body: JSON.stringify(values),
+    }).then((response) => response.json() as Promise<ContactResponse>),
+  );
 
   const formik = useFormik<ContactInput>({
     initialValues: {
       acceptance: false,
-      fullName: '',
       email: '',
+      fullName: '',
+      message: '',
       phone: '',
       subject: '',
-      message: '',
     },
     validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      contact(values).then((response) => {
+      contact(values).then(() => {
         formik.setSubmitting(false);
       });
     },
@@ -161,7 +148,12 @@ const ContactForm: React.FC = () => {
           label="I agree that my submitted data is being collected and stored."
         />
       </FormGroup>
-      <Button type="submit" color="primary" loading={formik.isSubmitting}>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!formik.values.acceptance}
+        loading={loading || formik.isSubmitting}
+      >
         Submit
       </Button>
     </form>
