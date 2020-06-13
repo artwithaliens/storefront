@@ -1,10 +1,10 @@
-# Art With Aliens :zap:
+# Art With Aliens :alien:
 
 This is a React theme boilerplate for WordPress, built with Next JS, Webpack, Babel, Node, Express.
 
 ## Live demo site.
 
-[Live Demo](https://artwithaliens.now.sh)
+[Live Demo](https://artwithaliens.com)
 
 ## Getting Started :surfer:
 
