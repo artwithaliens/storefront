@@ -11,6 +11,7 @@ import { DefaultSeo } from 'next-seo';
 import withApollo, { WithApolloProps } from 'next-with-apollo';
 import App from 'next/app';
 import React from 'react';
+import ReactGA from 'react-ga';
 import AlertProvider from '../components/AlertProvider';
 import SettingsProvider, { SettingsContext } from '../components/SettingsProvider';
 import introspectionQueryResultData from '../fragmentTypes';
@@ -33,14 +34,26 @@ export default withApollo(
 )(
   class extends App<WithApolloProps<NormalizedCache>> {
     componentDidMount() {
+      const { router } = this.props;
+
       // Remove the server-side injected CSS.
       const jssStyles = document.querySelector('#jss-server-side');
       if (jssStyles?.parentNode != null) {
         jssStyles.parentNode.removeChild(jssStyles);
       }
+
       if (process.env.NODE_ENV === 'production') {
         register();
       }
+
+      ReactGA.initialize(process.env.GA_TRACKING_ID, {
+        debug: process.env.NODE_ENV === 'development',
+      });
+      ReactGA.pageview(router.asPath);
+
+      router.events.on('routeChangeComplete', (url: string) => {
+        ReactGA.pageview(url);
+      });
     }
 
     componentWillUnmount() {
