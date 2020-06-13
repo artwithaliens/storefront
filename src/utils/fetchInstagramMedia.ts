@@ -66,7 +66,7 @@ export default async function fetchInstagramMedia(
         id: node.id,
         likes: node.edge_liked_by?.count,
         postLink: `https://www.instagram.com/p/${node.shortcode}/`,
-        thumbnail: node.thumbnail_resources?.[3].src,
+        thumbnail: node.thumbnail_resources?.[2].src,
       })) ?? []
   );
 }
