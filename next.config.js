@@ -4,11 +4,10 @@ const merge = require('lodash/merge');
 const { version } = require('./package.json');
 
 module.exports = withOffline({
-  target: 'serverless',
   generateSw: false,
   workboxOpts: {
     swSrc: './src/serviceWorker.ts',
-    swDest: 'public/service-worker.js',
+    swDest: 'static/service-worker.js',
     exclude: [/.+error\.js$/, /\.map$/],
   },
   env: {
@@ -40,5 +39,11 @@ module.exports = withOffline({
     ),
   experimental: {
     plugins: true,
+    rewrites: async () => [
+      {
+        source: '/service-worker.js',
+        destination: '/_next/static/service-worker.js',
+      },
+    ],
   },
 });
