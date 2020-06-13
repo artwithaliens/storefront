@@ -19,8 +19,8 @@ const Index: NextPage = () => {
       <PageHeader
         fullHeight
         image={{
-          sourceUrl: '/home.png',
-          srcSet: '/home@2x.png 2x',
+          sourceUrl: '/home.jpg',
+          srcSet: '/home@2x.jpg 2x',
         }}
       />
       <Container>
