@@ -15,12 +15,12 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
     body: JSON.stringify({
       personalizations: [
         {
-          to: [{ email: process.env.MAIL_TO }],
+          to: [{ email: atob('ZW1pbHlAYXJ0d2l0aGFsaWVucy5jb20=') }],
           subject: isBlank(req.body.subject) ? 'Contact Form' : req.body.subject,
         },
       ],
       from: {
-        email: process.env.MAIL_FROM,
+        email: atob('c2hvcEBhcnR3aXRoYWxpZW5zLmNvbQ=='),
         name: req.body.fullName,
       },
       content: [
