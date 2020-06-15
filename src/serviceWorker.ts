@@ -3,6 +3,7 @@ import * as idbKeyval from 'idb-keyval';
 if (typeof idbKeyval === 'undefined') {
   self.importScripts('https://cdn.jsdelivr.net/npm/idb-keyval@3/dist/idb-keyval-iife.min.js');
 }
+self.importScripts('https://cdn.jsdelivr.net/npm/workbox-sw@5/build/workbox-sw.min.js');
 
 type PostResponsesStore = {
   query: unknown;
