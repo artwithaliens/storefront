@@ -17717,7 +17717,7 @@ export type AddToCartMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type CartQueryVariables = {};
+export type CartQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CartQuery = { __typename?: 'RootQuery' } & {
   cart?: Maybe<
@@ -17843,7 +17843,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type CategoriesQueryVariables = {};
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CategoriesQuery = { __typename?: 'RootQuery' } & {
   categories?: Maybe<
@@ -17882,7 +17882,7 @@ export type CheckoutMutation = { __typename?: 'RootMutation' } & {
   checkout?: Maybe<{ __typename?: 'CheckoutPayload' } & Pick<CheckoutPayload, 'redirect'>>;
 };
 
-export type CustomerQueryVariables = {};
+export type CustomerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CustomerQuery = { __typename?: 'RootQuery' } & {
   customer?: Maybe<
@@ -18044,7 +18044,7 @@ export type PageQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
-export type PaymentGatewaysQueryVariables = {};
+export type PaymentGatewaysQueryVariables = Exact<{ [key: string]: never }>;
 
 export type PaymentGatewaysQuery = { __typename?: 'RootQuery' } & {
   paymentGateways?: Maybe<
@@ -18786,7 +18786,7 @@ export type RegisterUserMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type SettingsQueryVariables = {};
+export type SettingsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SettingsQuery = { __typename?: 'RootQuery' } & {
   settings?: Maybe<
