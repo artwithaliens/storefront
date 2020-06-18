@@ -1,6 +1,7 @@
 import { Box, Container } from '@material-ui/core';
 import omit from 'lodash/omit';
 import { NextPage } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import CheckoutForm from '../../components/CheckoutForm';
@@ -55,6 +56,9 @@ const Checkout: NextPage = () => {
 
   return (
     <Layout>
+      <Head>
+        <script async data-version-4 src="https://www.paypalobjects.com/api/checkout.js" />
+      </Head>
       {cart == null || cartLoading || customer == null || customerLoading ? (
         <Loader full />
       ) : (

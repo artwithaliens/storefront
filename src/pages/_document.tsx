@@ -43,7 +43,6 @@ export default class extends Document {
         </Head>
         <body>
           <Main />
-          <script async data-version-4 src="https://www.paypalobjects.com/api/checkout.js" />
           <NextScript />
         </body>
       </html>
