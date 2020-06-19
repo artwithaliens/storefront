@@ -47,7 +47,6 @@ Page.getInitialProps = async (context: ApolloPageContext) => {
     })
     .then(({ data }) => {
       if (context.res != null && data.page == null) {
-        // eslint-disable-next-line no-param-reassign
         context.res.statusCode = 404;
       }
       return data.page;

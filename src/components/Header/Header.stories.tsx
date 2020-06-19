@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import { CartDocument, MenuDocument, MenuLocationEnum } from '../../graphql';

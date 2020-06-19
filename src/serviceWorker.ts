@@ -29,7 +29,7 @@ workbox.routing.registerRoute(
 // TODO: Temporary, needs to work on routes.
 workbox.routing.registerRoute(/\/product.+/, new workbox.strategies.StaleWhileRevalidate());
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 workbox.precaching.precacheAndRoute([...((self as any).__WB_MANIFEST || []), { url: '/' }]);
 
 async function serializeResponse(response: Response) {

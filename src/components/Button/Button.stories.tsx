@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { boolean, select, text } from '@storybook/addon-knobs';
 import React from 'react';
 import Button from './Button';
