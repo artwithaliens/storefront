@@ -1,8 +1,10 @@
 import { Box, Container, Grid, Hidden, makeStyles, Typography } from '@material-ui/core';
+import { first } from 'lodash';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 import Layout from '../../components/Layout';
 import Link from '../../components/Link';
 import Price from '../../components/Price';
@@ -45,6 +47,24 @@ const Product: NextPage = () => {
     },
   });
 
+  useEffect(() => {
+    if (product != null) {
+      ReactGA.plugin.execute('ec', 'addProduct', {
+        id: product.id,
+        name: product.name,
+        category: first(product.productCategories?.nodes)?.name,
+        price:
+          (product.__typename === 'SimpleProduct' ||
+            product.__typename === 'VariableProduct' ||
+            product.__typename === 'ExternalProduct') &&
+          product.price != null
+            ? parseFloat(product.price)
+            : undefined,
+      });
+      ReactGA.plugin.execute('ec', 'setAction', 'detail');
+    }
+  }, [product]);
+
   return (
     <Layout>
       <NextSeo
@@ -55,16 +75,16 @@ const Product: NextPage = () => {
           description: product?.seo?.openGraphDescription ?? undefined,
           type: 'product',
           images:
-            product?.seo?.socialImage?.sourceUrl == null
-              ? []
-              : [
+            product?.seo?.socialImage?.sourceUrl != null
+              ? [
                   {
                     url: product.seo.socialImage.sourceUrl,
                     alt: product.seo.socialImage.altText ?? undefined,
                     width: product.seo.socialImage.mediaDetails?.width ?? undefined,
                     height: product.seo.socialImage.mediaDetails?.height ?? undefined,
                   },
-                ],
+                ]
+              : undefined,
         }}
       />
       {product != null && (
