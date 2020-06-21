@@ -2,6 +2,7 @@ const withOffline = require('next-offline');
 const { version } = require('./package.json');
 
 module.exports = withOffline({
+  target: 'serverless',
   generateSw: false,
   workboxOpts: {
     swSrc: './src/serviceWorker.ts',
