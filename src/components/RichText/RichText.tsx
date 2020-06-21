@@ -51,6 +51,10 @@ const useStyles = makeStyles(
           textAlign: 'left',
         },
       },
+
+      '& .alignright': {
+        float: 'right',
+      },
     },
   }),
   { name: 'RichText' },
@@ -65,7 +69,9 @@ const RichText: React.FC<Props> = ({ children }) => {
 
   return (
     <div className={styles.root}>
-      {typeof children === 'string' ? parse(sentenceCase(children)) : children}
+      {typeof children === 'string'
+        ? parse(children.replace(/>([^<]*)</g, (_match, text: string) => `>${sentenceCase(text)}<`))
+        : children}
     </div>
   );
 };
