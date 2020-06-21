@@ -12,8 +12,19 @@ module.exports = (shipit) => {
     shipit.emit('built');
   });
 
+  shipit.task('pm2', function task() {
+    shipit.log('Launching pm2');
+    shipit.remote(
+      `cd ${shipit.config.deployTo} && pm2 startOrRestart --env ${shipit.environment} current/ecosystem.json`,
+    );
+  });
+
   shipit.on('updated', () => {
     shipit.start('build');
+  });
+
+  shipit.on('cleaned', () => {
+    shipit.start('pm2');
   });
 
   shipit.initConfig({

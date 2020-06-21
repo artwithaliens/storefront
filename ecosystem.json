@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "storefront",
+      "script": "yarn",
+      "args": "start",
+      "cwd": "/var/www/storefront/current",
+      "interpreter": "/bin/bash",
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
