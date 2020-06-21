@@ -8,18 +8,6 @@ module.exports = withOffline({
   workboxOpts: {
     swSrc: './src/serviceWorker.ts',
     swDest: 'static/service-worker.js',
-    runtimeCaching: [
-      {
-        urlPattern: /^https?.*/,
-        handler: 'NetworkFirst',
-        options: {
-          cacheName: 'offlineCache',
-          expiration: {
-            maxEntries: 200,
-          },
-        },
-      },
-    ],
   },
   env: {
     SITE_URL: process.env.SITE_URL,
