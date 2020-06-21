@@ -4,12 +4,22 @@ const merge = require('lodash/merge');
 const { version } = require('./package.json');
 
 module.exports = withOffline({
-  target: 'serverless',
   generateSw: false,
   workboxOpts: {
     swSrc: './src/serviceWorker.ts',
     swDest: 'static/service-worker.js',
-    exclude: [/.+error\.js$/, /\.map$/],
+    runtimeCaching: [
+      {
+        urlPattern: /^https?.*/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'offlineCache',
+          expiration: {
+            maxEntries: 200,
+          },
+        },
+      },
+    ],
   },
   env: {
     SITE_URL: process.env.SITE_URL,
