@@ -26,6 +26,9 @@ export default class extends Document {
     return (
       <html lang="en">
         <Head>
+          <link rel="dns-prefetch" href="//www.google-analytics.com" />
+          <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="//storage.googleapis.com" />
           <meta charSet="utf-8" />
           <meta
             name="viewport"
