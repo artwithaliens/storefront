@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import Link, { LinkProps } from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import ReactGA from 'react-ga';
 
 type Props = Omit<MuiButtonProps, 'href'> &
   Pick<LinkProps, 'as' | 'prefetch'> & {
@@ -33,6 +34,13 @@ const Button: React.FC<Props> = ({
     setWidth(ref.current?.offsetWidth);
   }, [ref]);
 
+  const handleTrack = () => {
+    ReactGA.outboundLink(
+      { label: typeof children === 'string' ? `Clicked ${children}` : 'Clicked link' },
+      () => {},
+    );
+  };
+
   return href == null ? (
     <MuiButton
       ref={ref}
@@ -47,6 +55,7 @@ const Button: React.FC<Props> = ({
       href={href.toString()}
       target={target}
       rel={rel}
+      onClick={handleTrack}
       {...(passProps as MuiButtonProps<'a'>)}
     >
       {children}

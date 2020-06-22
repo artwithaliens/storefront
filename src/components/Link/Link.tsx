@@ -1,6 +1,7 @@
 import { Link as MuiLink, LinkProps as MuiLinkProps } from '@material-ui/core';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import React from 'react';
+import ReactGA from 'react-ga';
 
 type Props = Omit<MuiLinkProps, 'href'> & NextLinkProps;
 
@@ -14,9 +15,16 @@ const Link: React.FC<Props> = ({
   scroll,
   shallow,
   ...passProps
-}) =>
-  href.toString().match(/^https:?/) ? (
-    <MuiLink href={href.toString()} {...passProps}>
+}) => {
+  const handleTrack = () => {
+    ReactGA.outboundLink(
+      { label: typeof children === 'string' ? `Clicked ${children}` : 'Clicked link' },
+      () => {},
+    );
+  };
+
+  return href.toString().match(/^https:?/) ? (
+    <MuiLink href={href.toString()} onClick={handleTrack} {...passProps}>
       {children}
     </MuiLink>
   ) : (
@@ -32,5 +40,6 @@ const Link: React.FC<Props> = ({
       <MuiLink {...passProps}>{children}</MuiLink>
     </NextLink>
   );
+};
 
 export default Link;
