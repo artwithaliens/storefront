@@ -10,7 +10,11 @@ import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {
   const { data: { cart } = { cart: undefined }, loading } = useCartQuery({ ssr: false });
-  const [updateCart, { loading: updating }] = useUpdateCartMutation({ refetchQueries: ['Cart'] });
+
+  const [updateCart, { loading: updating }] = useUpdateCartMutation({
+    refetchQueries: ['Cart'],
+    awaitRefetchQueries: true,
+  });
 
   return (
     <Layout>

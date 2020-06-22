@@ -28,6 +28,7 @@ const ProductAddToCart: React.FC<Props> = ({ product }) => {
 
   const [addToCart, { loading }] = useAddToCartMutation({
     refetchQueries: ['Cart'],
+    awaitRefetchQueries: true,
   });
 
   /** Handles adding items to the cart. */
