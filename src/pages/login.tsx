@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  FormGroup,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, TextField, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { ApolloError } from 'apollo-boost';
 import { useFormik } from 'formik';
@@ -103,47 +96,42 @@ const Login: NextPage = () => {
           {/* Login Form */}
           <form onSubmit={formik.handleSubmit}>
             {/* Username or email */}
-            <FormGroup>
-              <TextField
-                required
-                autoCapitalize="off"
-                autoCorrect="off"
-                label="Username or email"
-                value={formik.values.username}
-                type="text"
-                name="username"
-                error={'username' in formik.errors}
-                helperText={formik.errors.username}
-                onChange={formik.handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              autoCapitalize="off"
+              autoCorrect="off"
+              label="Username or email"
+              value={formik.values.username}
+              type="text"
+              name="username"
+              error={'username' in formik.errors}
+              helperText={formik.errors.username}
+              onChange={formik.handleChange}
+            />
 
             {/* Password */}
-            <FormGroup>
-              <TextField
-                required
-                label="Password"
-                value={formik.values.password}
-                type="password"
-                name="password"
-                error={'password' in formik.errors}
-                helperText={formik.errors.password}
-                onChange={formik.handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Password"
+              value={formik.values.password}
+              type="password"
+              name="password"
+              error={'password' in formik.errors}
+              helperText={formik.errors.password}
+              onChange={formik.handleChange}
+            />
 
             {/* Submit Button */}
-            <FormGroup>
-              <Button color="primary" disabled={loading} type="submit">
+            <Box mt={2}>
+              <Button color="primary" loading={loading} type="submit">
                 Login
               </Button>
-              <Button href="/register" color="default">
-                Register
-              </Button>
-            </FormGroup>
-
-            {/* Loading */}
-            {loading && <CircularProgress />}
+              <Box ml={1}>
+                <Button href="/register" color="default">
+                  Register
+                </Button>
+              </Box>
+            </Box>
           </form>
         </Box>
       </Container>

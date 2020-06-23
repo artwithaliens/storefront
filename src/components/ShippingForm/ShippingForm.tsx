@@ -111,136 +111,118 @@ const ShippingForm: React.FC<Props> = ({
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {/* First Name */}
-            <FormGroup>
-              <TextField
-                required
-                label="First name"
-                value={formik.values.firstName}
-                type="text"
-                name="firstName"
-                autoComplete="given-name"
-                error={'firstName' in formik.errors}
-                helperText={formik.errors.firstName}
-                onChange={handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="First name"
+              value={formik.values.firstName}
+              type="text"
+              name="firstName"
+              autoComplete="given-name"
+              error={'firstName' in formik.errors}
+              helperText={formik.errors.firstName}
+              onChange={handleChange}
+            />
           </Grid>
           <Grid item xs={6}>
             {/* Last Name */}
-            <FormGroup>
-              <TextField
-                required
-                label="Last name"
-                value={formik.values.lastName}
-                type="text"
-                name="lastName"
-                autoComplete="family-name"
-                error={'lastName' in formik.errors}
-                helperText={formik.errors.lastName}
-                onChange={handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Last name"
+              value={formik.values.lastName}
+              type="text"
+              name="lastName"
+              autoComplete="family-name"
+              error={'lastName' in formik.errors}
+              helperText={formik.errors.lastName}
+              onChange={handleChange}
+            />
           </Grid>
         </Grid>
         {/* Company */}
-        <FormGroup>
-          <TextField
-            label="Company"
-            value={formik.values.company}
-            type="text"
-            name="company"
-            autoComplete="organization"
-            error={'company' in formik.errors}
-            helperText={formik.errors.company}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="Company"
+          value={formik.values.company}
+          type="text"
+          name="company"
+          autoComplete="organization"
+          error={'company' in formik.errors}
+          helperText={formik.errors.company}
+          onChange={handleChange}
+        />
         {/* Country */}
-        <FormGroup>
-          <CountrySelect
-            required
-            label="Country"
-            value={formik.values.country}
-            name="country"
-            error={'country' in formik.errors}
-            helperText={formik.errors.country}
-            onChange={formik.handleChange}
-          />
-        </FormGroup>
+        <CountrySelect
+          required
+          label="Country"
+          value={formik.values.country}
+          name="country"
+          error={'country' in formik.errors}
+          helperText={formik.errors.country}
+          onChange={formik.handleChange}
+        />
         {/* Address */}
-        <FormGroup>
-          <TextField
-            required
-            label="Street address"
-            type="text"
-            value={formik.values.address1}
-            name="address1"
-            autoComplete="address-line1"
-            placeholder="House number and street name"
-            error={'address1' in formik.errors}
-            helperText={formik.errors.address1}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <TextField
-            type="text"
-            value={formik.values.address2}
-            name="address2"
-            autoComplete="address-line2"
-            placeholder="Apartment, suite, unit etc. (optional)"
-            error={'address2' in formik.errors}
-            helperText={formik.errors.address2}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          required
+          label="Street address"
+          type="text"
+          value={formik.values.address1}
+          name="address1"
+          autoComplete="address-line1"
+          placeholder="House number and street name"
+          error={'address1' in formik.errors}
+          helperText={formik.errors.address1}
+          onChange={handleChange}
+        />
+        <TextField
+          type="text"
+          value={formik.values.address2}
+          name="address2"
+          autoComplete="address-line2"
+          placeholder="Apartment, suite, unit etc. (optional)"
+          error={'address2' in formik.errors}
+          helperText={formik.errors.address2}
+          onChange={handleChange}
+        />
         <Grid container spacing={2}>
           <Grid item xs={3}>
             {/* Postcode */}
-            <FormGroup>
-              <TextField
-                required
-                label="Postcode"
-                value={formik.values.postcode}
-                type="text"
-                name="postcode"
-                autoComplete="postal-code"
-                error={'postcode' in formik.errors}
-                helperText={formik.errors.postcode}
-                onChange={handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Postcode"
+              value={formik.values.postcode}
+              type="text"
+              name="postcode"
+              autoComplete="postal-code"
+              error={'postcode' in formik.errors}
+              helperText={formik.errors.postcode}
+              onChange={handleChange}
+            />
           </Grid>
           <Grid item xs={9}>
             {/* City */}
-            <FormGroup>
-              <TextField
-                required
-                label="City"
-                value={formik.values.city}
-                type="text"
-                name="city"
-                autoComplete="address-level2"
-                error={'city' in formik.errors}
-                helperText={formik.errors.city}
-                onChange={handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="City"
+              value={formik.values.city}
+              type="text"
+              name="city"
+              autoComplete="address-level2"
+              error={'city' in formik.errors}
+              helperText={formik.errors.city}
+              onChange={handleChange}
+            />
           </Grid>
         </Grid>
         {/* State */}
-        <FormGroup>
-          <TextField
-            label="State"
-            value={formik.values.state}
-            type="text"
-            name="state"
-            autoComplete="address-level1"
-            error={'state' in formik.errors}
-            helperText={formik.errors.state}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <TextField
+          label="State"
+          value={formik.values.state}
+          type="text"
+          name="state"
+          autoComplete="address-level1"
+          error={'state' in formik.errors}
+          helperText={formik.errors.state}
+          onChange={handleChange}
+        />
         <Box mt={2}>
           <Button type="submit" color="primary" loading={loading}>
             Continue to Shipping Method

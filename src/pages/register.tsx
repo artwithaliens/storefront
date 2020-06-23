@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Container,
-  FormGroup,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, Container, TextField, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { ApolloError } from 'apollo-boost';
 import { useFormik } from 'formik';
@@ -122,50 +115,44 @@ const Register: NextPage = () => {
           {/* Login Form */}
           <form onSubmit={formik.handleSubmit}>
             {/* Username */}
-            <FormGroup>
-              <TextField
-                required
-                label="Username"
-                value={formik.values.username}
-                type="text"
-                name="username"
-                error={'username' in formik.errors}
-                helperText={formik.errors.username}
-                onChange={formik.handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Username"
+              value={formik.values.username}
+              type="text"
+              name="username"
+              error={'username' in formik.errors}
+              helperText={formik.errors.username}
+              onChange={formik.handleChange}
+            />
 
             {/* Email */}
-            <FormGroup>
-              <TextField
-                required
-                label="Email"
-                value={formik.values.email}
-                type="email"
-                name="email"
-                error={'email' in formik.errors}
-                helperText={formik.errors.email}
-                onChange={formik.handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Email"
+              value={formik.values.email}
+              type="email"
+              name="email"
+              error={'email' in formik.errors}
+              helperText={formik.errors.email}
+              onChange={formik.handleChange}
+            />
 
             {/* Password */}
-            <FormGroup>
-              <TextField
-                required
-                label="Password"
-                value={formik.values.password}
-                type="password"
-                name="password"
-                error={'password' in formik.errors}
-                helperText={formik.errors.password}
-                onChange={formik.handleChange}
-              />
-            </FormGroup>
+            <TextField
+              required
+              label="Password"
+              value={formik.values.password}
+              type="password"
+              name="password"
+              error={'password' in formik.errors}
+              helperText={formik.errors.password}
+              onChange={formik.handleChange}
+            />
 
             {/* Submit Button */}
-            <FormGroup>
-              <Button color="primary" disabled={loading} type="submit">
+            <Box mt={2}>
+              <Button color="primary" loading={loading} type="submit">
                 Register
               </Button>
               <Box ml={1}>
@@ -173,10 +160,7 @@ const Register: NextPage = () => {
                   Login
                 </Button>
               </Box>
-            </FormGroup>
-
-            {/* Loading */}
-            {loading && <CircularProgress />}
+            </Box>
           </form>
         </Box>
       </Container>

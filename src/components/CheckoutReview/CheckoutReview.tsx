@@ -23,6 +23,13 @@ import PaymentSummary from '../PaymentSummary';
 import PayPalButton from '../PayPalButton';
 import ShippingSummary from '../ShippingSummary';
 
+type PaymentResponse = {
+  transaction: {
+    id: string;
+    status: string;
+  };
+};
+
 type Props = {
   cart: NonNullable<CartQuery['cart']>;
   customer: NonNullable<CustomerQuery['customer']>;
@@ -48,7 +55,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
     },
   ];
 
-  const [{ loading: paymentLoading }, handlePayment] = useAsyncFn(async (nonce?: string) =>
+  const [{ loading: paymentLoading }, handlePayment] = useAsyncFn((nonce?: string) =>
     fetch('/api/payment', {
       method: 'post',
       credentials: 'include',
@@ -60,20 +67,20 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
         total: cart.total == null ? undefined : parseFloat(cart.total),
       }),
     })
-      .then(
-        (response) => response.json() as Promise<{ transaction: { id: string; status: string } }>,
-      )
-      .then(({ transaction }) => {
-        metaData.push({
-          key: '_transaction_status',
-          value: transaction.status,
-        });
+      .then((response) => response.json() as Promise<PaymentResponse>)
+      .then((data) =>
         onSubmit({
           customerNote,
-          metaData,
-          transactionId: transaction.id,
-        });
-      }),
+          metaData: [
+            ...metaData,
+            {
+              key: '_transaction_status',
+              value: data.transaction.status,
+            },
+          ],
+          transactionId: data.transaction.id,
+        }),
+      ),
   );
 
   const handleCustomerNoteChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -180,15 +187,13 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
         </Grid>
       </Grid>
       <Box mt={6}>
-        <FormGroup>
-          <TextField
-            multiline
-            label="Note"
-            placeholder="Please sign my prints"
-            rows={3}
-            onChange={handleCustomerNoteChange}
-          />
-        </FormGroup>
+        <TextField
+          multiline
+          label="Note"
+          placeholder="Please sign my prints"
+          rows={3}
+          onChange={handleCustomerNoteChange}
+        />
         <FormGroup>
           <FormControlLabel
             control={

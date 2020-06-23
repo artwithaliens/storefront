@@ -62,79 +62,69 @@ const ContactForm: React.FC = () => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {/* Name */}
-          <FormGroup>
-            <TextField
-              required
-              label="Name"
-              value={formik.values.fullName}
-              type="text"
-              name="fullName"
-              error={'fullName' in formik.errors}
-              helperText={formik.errors.fullName}
-              onChange={formik.handleChange}
-            />
-          </FormGroup>
+          <TextField
+            required
+            label="Name"
+            value={formik.values.fullName}
+            type="text"
+            name="fullName"
+            error={'fullName' in formik.errors}
+            helperText={formik.errors.fullName}
+            onChange={formik.handleChange}
+          />
         </Grid>
         <Grid item xs={6}>
           {/* Email */}
-          <FormGroup>
-            <TextField
-              required
-              label="Email"
-              value={formik.values.email}
-              type="email"
-              name="email"
-              error={'email' in formik.errors}
-              helperText={formik.errors.email}
-              onChange={formik.handleChange}
-            />
-          </FormGroup>
+          <TextField
+            required
+            label="Email"
+            value={formik.values.email}
+            type="email"
+            name="email"
+            error={'email' in formik.errors}
+            helperText={formik.errors.email}
+            onChange={formik.handleChange}
+          />
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {/* Phone */}
-          <FormGroup>
-            <TextField
-              label="Phone"
-              value={formik.values.phone}
-              type="text"
-              name="phone"
-              error={'phone' in formik.errors}
-              helperText={formik.errors.phone}
-              onChange={formik.handleChange}
-            />
-          </FormGroup>
+          <TextField
+            label="Phone"
+            value={formik.values.phone}
+            type="text"
+            name="phone"
+            error={'phone' in formik.errors}
+            helperText={formik.errors.phone}
+            onChange={formik.handleChange}
+          />
         </Grid>
         <Grid item xs={6}>
           {/* Subject */}
-          <FormGroup>
-            <TextField
-              label="Subject"
-              value={formik.values.subject}
-              type="text"
-              name="subject"
-              error={'subject' in formik.errors}
-              helperText={formik.errors.subject}
-              onChange={formik.handleChange}
-            />
-          </FormGroup>
+          <TextField
+            label="Subject"
+            value={formik.values.subject}
+            type="text"
+            name="subject"
+            error={'subject' in formik.errors}
+            helperText={formik.errors.subject}
+            onChange={formik.handleChange}
+          />
         </Grid>
       </Grid>
       {/* Message */}
-      <FormGroup>
-        <TextField
-          required
-          multiline
-          label="Message"
-          value={formik.values.message}
-          rows={6}
-          name="message"
-          error={'message' in formik.errors}
-          helperText={formik.errors.message}
-          onChange={formik.handleChange}
-        />
-      </FormGroup>
+      <TextField
+        required
+        multiline
+        label="Message"
+        value={formik.values.message}
+        rows={6}
+        name="message"
+        error={'message' in formik.errors}
+        helperText={formik.errors.message}
+        onChange={formik.handleChange}
+      />
       {/* Acceptance */}
       <FormGroup>
         <FormControlLabel

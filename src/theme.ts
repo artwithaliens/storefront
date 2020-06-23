@@ -196,6 +196,12 @@ export default createMuiTheme({
         fontSize: 20,
       },
     },
+    MuiFormControl: {
+      marginNormal: {
+        marginBottom: 8,
+        marginTop: 8,
+      },
+    },
   },
   props: {
     MuiAppBar: {
@@ -215,6 +221,8 @@ export default createMuiTheme({
       color: 'primary',
     },
     MuiTextField: {
+      fullWidth: true,
+      margin: 'normal',
       variant: 'outlined',
       InputLabelProps: {
         shrink: true,
