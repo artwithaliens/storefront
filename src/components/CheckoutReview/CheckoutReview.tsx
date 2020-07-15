@@ -38,6 +38,7 @@ type Props = {
     values: Pick<CheckoutMutationVariables, 'customerNote' | 'metaData' | 'transactionId'>,
   ) => void;
   paymentMethod: string | null | undefined;
+  paymentNonce: string | undefined;
 };
 
 const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, paymentMethod }) => {
@@ -82,14 +83,6 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
         }),
       ),
   );
-
-  const handleCustomerNoteChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCustomerNote(ev.target.value);
-  };
-
-  const handleAcceptTermsChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    setAcceptsTerms(ev.target.checked);
-  };
 
   const handleSubmit = () => {
     onSubmit({ customerNote, metaData });
@@ -192,7 +185,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
           label="Note"
           placeholder="Please sign my prints"
           rows={3}
-          onChange={handleCustomerNoteChange}
+          onChange={(ev) => setCustomerNote(ev.target.value)}
         />
         <FormGroup>
           <FormControlLabel
@@ -200,7 +193,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
               <Checkbox
                 name="acceptTerms"
                 checked={acceptTerms}
-                onChange={handleAcceptTermsChange}
+                onChange={(ev) => setAcceptsTerms(ev.target.checked)}
               />
             }
             label={
@@ -233,7 +226,7 @@ const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, pa
             onAuthorize={(nonce) => handlePayment(nonce)}
           />
         ) : (
-          <Button fullWidth color="primary" onClick={handleSubmit}>
+          <Button fullWidth color="primary" disabled={!acceptTerms} onClick={handleSubmit}>
             Place your order
           </Button>
         )}

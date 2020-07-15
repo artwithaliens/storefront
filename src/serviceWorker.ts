@@ -1,8 +1,5 @@
 import * as idbKeyval from 'idb-keyval';
 
-if (typeof idbKeyval === 'undefined') {
-  self.importScripts('https://cdn.jsdelivr.net/npm/idb-keyval@3/dist/idb-keyval-iife.min.js');
-}
 self.importScripts('https://cdn.jsdelivr.net/npm/workbox-sw@5/build/workbox-sw.min.js');
 
 type PostResponsesStore = {
@@ -71,7 +68,7 @@ async function getCache(request: Request) {
 }
 
 async function setCache(request: Request, response: Response) {
-  const body: { query: string[]; variables: unknown } = await request.json();
+  const body = await (request.json() as Promise<{ query: string[]; variables: unknown }>);
   const id = body.query.toString() + JSON.stringify(body.variables);
 
   const entry = {

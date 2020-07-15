@@ -7570,6 +7570,8 @@ export enum PostStatusEnum {
   TRASH = 'TRASH',
   /** Objects with the wc-cancelled status */
   WC_CANCELLED = 'WC_CANCELLED',
+  /** Objects with the wc-checkout-draft status */
+  WC_CHECKOUT_DRAFT = 'WC_CHECKOUT_DRAFT',
   /** Objects with the wc-completed status */
   WC_COMPLETED = 'WC_COMPLETED',
   /** Objects with the wc-failed status */

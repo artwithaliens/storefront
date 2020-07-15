@@ -134,10 +134,7 @@ const CartTableRow: React.FC<Props> = ({ item, loading, onUpdate }) => {
    */
   const handleQuantityChange = (value: number) => {
     if (onUpdate != null) {
-      onUpdate({
-        key: item.key,
-        quantity: value,
-      });
+      onUpdate({ key: item.key, quantity: value });
     }
   };
 

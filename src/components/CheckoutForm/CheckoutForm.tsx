@@ -29,6 +29,7 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
   const router = useRouter();
 
   const [paymentMethod, setPaymentMethod] = useLocalStorage<string>('paymentMethod');
+  const [paymentNonce, setPaymentNonce] = useState<string>();
   const [shipToDifferentAddress, setShipToDifferentAddress] = useState(
     !isShippingSameAsBilling(customer.shipping, customer.billing),
   );
@@ -45,15 +46,6 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
     if (router.query.step != null && router.query.step !== step.path) {
       router.replace('/checkout/[step]', `/checkout/${step.path}`, { shallow: true });
     }
-  };
-
-  /**
-   * Called when the payment method changes.
-   *
-   * @param ev Event
-   */
-  const handlePaymentMethodChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    setPaymentMethod(ev.target.value);
   };
 
   /**
@@ -104,8 +96,8 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
               <ShippingForm
                 initialValues={customer.shipping}
                 shipToDifferentAddress={shipToDifferentAddress}
-                onSubmit={handleNext}
                 onShippingSameAsBillingChange={handleShippingSameAsBillingChange}
+                onSubmit={handleNext}
               />
             </Step>,
             <Step key="shipping-options">
@@ -118,8 +110,11 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
             <Step key="payment">
               <PaymentMethods
                 paymentMethod={paymentMethod}
-                onChange={handlePaymentMethodChange}
-                onFinish={handleNext}
+                onSubmit={(values) => {
+                  setPaymentMethod(values.paymentMethod);
+                  setPaymentNonce(values.paymentNonce);
+                  handleNext();
+                }}
               />
             </Step>,
             <Step key="review">
@@ -128,6 +123,7 @@ const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) =>
                 customer={customer}
                 loading={loading}
                 paymentMethod={paymentMethod}
+                paymentNonce={paymentNonce}
                 onSubmit={handleSubmit}
               />
             </Step>,

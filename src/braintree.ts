@@ -6,8 +6,8 @@ export function createClient(paymentClientToken?: string) {
   });
 }
 
-export default (paymentClientToken: string, creditCard: object) =>
-  new Promise<{ cardType: string; lastFour: string; nonce: string }>((resolve, reject) => {
+export function makePayment(paymentClientToken: string, creditCard: object) {
+  return new Promise<{ cardType: string; lastFour: string; nonce: string }>((resolve, reject) => {
     createClient(paymentClientToken).then((client) => {
       client.request(
         {
@@ -30,8 +30,10 @@ export default (paymentClientToken: string, creditCard: object) =>
           },
         ) => {
           if (error == null) {
-            const { cardType, lastFour } = data.creditCards[0].details;
-            const { nonce } = data.creditCards[0];
+            const {
+              nonce,
+              details: { cardType, lastFour },
+            } = data.creditCards[0];
             resolve({ cardType, lastFour, nonce });
           } else if (error.details.originalError.fieldErrors.length > 0) {
             error.details.originalError.fieldErrors.forEach(
@@ -46,3 +48,4 @@ export default (paymentClientToken: string, creditCard: object) =>
       );
     });
   });
+}
