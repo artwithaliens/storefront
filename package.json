@@ -45,7 +45,7 @@
     "graphql-tag": "^2.10.3",
     "html-react-parser": "^0.13.0",
     "idb-keyval": "^3.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "next": "^9.4.4",
     "next-offline": "^5.0.2",
     "next-seo": "^4.5.0",
