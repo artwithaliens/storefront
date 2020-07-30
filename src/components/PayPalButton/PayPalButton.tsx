@@ -80,7 +80,8 @@ const PayPalButton: React.FC<Props> = ({
               },
               payment: () =>
                 paypalCheckoutInstance.createPayment({
-                  flow: paypal.FlowType.Checkout,
+                  // @ts-ignore
+                  flow: 'checkout',
                   amount: cart.total == null ? undefined : parseFloat(cart.total),
                   currency: 'EUR',
                   enableShippingAddress: true,
