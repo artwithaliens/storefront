@@ -18,13 +18,13 @@ module.exports = withOffline({
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     GA_TRACKING_ID: 'UA-127038775-1',
   },
+  rewrites: async () => [
+    {
+      source: '/service-worker.js',
+      destination: '/_next/static/service-worker.js',
+    },
+  ],
   experimental: {
     plugins: true,
-    rewrites: async () => [
-      {
-        source: '/service-worker.js',
-        destination: '/_next/static/service-worker.js',
-      },
-    ],
   },
 });

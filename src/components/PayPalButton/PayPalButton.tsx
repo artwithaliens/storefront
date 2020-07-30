@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import braintree from 'braintree-web';
@@ -55,6 +56,7 @@ const PayPalButton: React.FC<Props> = ({
         .then((paypalCheckoutInstance) => {
           paypal.Button.render(
             {
+              // @ts-ignore
               env: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
               client:
                 process.env.NODE_ENV === 'production'
@@ -66,40 +68,48 @@ const PayPalButton: React.FC<Props> = ({
                     },
               locale: 'en_US',
               style: {
+                // @ts-ignore
+                color: 'gold',
+                // @ts-ignore
+                label: 'pay',
+                // @ts-ignore
+                shape: 'pill',
+                // @ts-ignore
                 size: 'responsive',
                 tagline: false,
-                label: 'pay',
               },
               payment: () =>
                 paypalCheckoutInstance.createPayment({
-                  flow: 'checkout',
+                  flow: paypal.FlowType.Checkout,
                   amount: cart.total == null ? undefined : parseFloat(cart.total),
                   currency: 'EUR',
                   enableShippingAddress: true,
                   shippingAddressEditable: false,
                   shippingAddressOverride: {
                     recipientName: `${shipping?.firstName} ${shipping?.lastName}`.trim(),
-                    line1: shipping?.address1,
-                    line2: shipping?.address2,
-                    city: shipping?.city,
-                    countryCode: shipping?.country,
-                    postalCode: shipping?.postcode,
-                    state: shipping?.state,
+                    line1: shipping?.address1 ?? '',
+                    line2: shipping?.address2 ?? '',
+                    city: shipping?.city ?? '',
+                    countryCode: shipping?.country ?? '',
+                    postalCode: shipping?.postcode ?? '',
+                    state: shipping?.state ?? '',
                   },
                 }),
-              validate: () => {
-                // We can enable or disable the button here, but without visual feedback
-                // actions.disable();
-              },
+              // validate: () => {
+              //   // We can enable or disable the button here, but without visual feedback
+              //   actions.disable();
+              // },
               onAuthorize: (data) =>
                 paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
                   onAuthorize(payload.nonce);
+                  return payload;
                 }),
               onError: () => {
                 // Show an error page here, when an error occurs
               },
             },
             '#paypal-button',
+            // @ts-ignore
           ).then(() => {
             setLoading(false);
           });

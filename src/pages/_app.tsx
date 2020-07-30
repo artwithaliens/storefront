@@ -10,6 +10,7 @@ import { register, unregister } from 'next-offline/runtime';
 import { DefaultSeo } from 'next-seo';
 import withApollo, { WithApolloProps } from 'next-with-apollo';
 import App from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
 import AlertProvider from '../components/AlertProvider';
@@ -67,35 +68,43 @@ export default withApollo(
       const { apollo, Component, pageProps, router } = this.props;
 
       return (
-        <ApolloProvider client={apollo}>
-          <SettingsProvider>
-            <SettingsContext.Consumer>
-              {(settings) => (
-                <DefaultSeo
-                  title={settings.title ?? undefined}
-                  description={settings.description ?? undefined}
-                  canonical={absoluteURL(router.asPath)}
-                  openGraph={{
-                    type: 'website',
-                    locale: 'en_US',
-                    url: absoluteURL(router.asPath),
-                    site_name: settings.title ?? undefined,
-                  }}
-                  twitter={{
-                    handle: '@artwithaliens',
-                    cardType: 'summary_large_image',
-                  }}
-                />
-              )}
-            </SettingsContext.Consumer>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <AlertProvider>
-                <Component {...pageProps} />
-              </AlertProvider>
-            </ThemeProvider>
-          </SettingsProvider>
-        </ApolloProvider>
+        <>
+          <Head>
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+            />
+          </Head>
+          <ApolloProvider client={apollo}>
+            <SettingsProvider>
+              <SettingsContext.Consumer>
+                {(settings) => (
+                  <DefaultSeo
+                    title={settings.title ?? undefined}
+                    description={settings.description ?? undefined}
+                    canonical={absoluteURL(router.asPath)}
+                    openGraph={{
+                      type: 'website',
+                      locale: 'en_US',
+                      url: absoluteURL(router.asPath),
+                      site_name: settings.title ?? undefined,
+                    }}
+                    twitter={{
+                      handle: '@artwithaliens',
+                      cardType: 'summary_large_image',
+                    }}
+                  />
+                )}
+              </SettingsContext.Consumer>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <AlertProvider>
+                  <Component {...pageProps} />
+                </AlertProvider>
+              </ThemeProvider>
+            </SettingsProvider>
+          </ApolloProvider>
+        </>
       );
     }
   },
