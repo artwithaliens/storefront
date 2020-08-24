@@ -10,15 +10,10 @@ export type InstagramMedia = {
   thumbnail?: string;
 };
 
-export default async function fetchInstagramMedia(
-  options: {
-    discardVideos: boolean;
-    numberOfMediaElements: number;
-  } = {
-    discardVideos: false,
-    numberOfMediaElements: 6,
-  },
-): Promise<InstagramMedia[]> {
+export default async function fetchInstagramMedia({
+  discardVideos = false,
+  numberOfMediaElements = 6,
+}): Promise<InstagramMedia[]> {
   const html = await (await fetch('https://www.instagram.com/artwithaliens/')).text();
 
   const sharedData: {
@@ -54,9 +49,9 @@ export default async function fetchInstagramMedia(
   return (
     // Retrieve media info
     sharedData.entry_data?.ProfilePage?.[0]?.graphql?.user?.edge_owner_to_timeline_media?.edges
-      ?.slice(0, options.numberOfMediaElements)
+      ?.slice(0, numberOfMediaElements)
       // Process only if is an image
-      ?.filter(({ node }) => !(options.discardVideos && node.__typename !== 'GraphImage'))
+      ?.filter(({ node }) => !(discardVideos && node.__typename !== 'GraphImage'))
       ?.map(({ node }) => ({
         accessibilityCaption: node.accessibility_caption,
         caption: node.edge_media_to_caption?.edges?.[0]?.node?.text,

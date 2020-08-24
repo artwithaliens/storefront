@@ -110,7 +110,8 @@ const Footer: React.FC = () => {
         <Grid container spacing={4}>
           {menu?.menuItems?.nodes?.map(
             (menuItem) =>
-              menuItem != null && (
+              menuItem != null &&
+              (menuItem.childItems?.nodes?.length ?? 0) > 0 && (
                 <Grid key={menuItem.id} item>
                   <Typography variant="h4">{menuItem.label}</Typography>
                   <ul className={styles.menu}>

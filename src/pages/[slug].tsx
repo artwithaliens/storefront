@@ -1,7 +1,7 @@
 import { Box, Container } from '@material-ui/core';
+import { ApolloPageContext } from '@sotnikov/next-with-apollo';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { ApolloPageContext } from 'next-with-apollo';
 import Error from 'next/error';
 import React from 'react';
 import BlockRenderer from '../components/BlockRenderer';
@@ -27,7 +27,7 @@ const Page: NextPage<Props> = ({ page }) => {
           description: page.seo?.openGraphDescription ?? '',
         }}
       />
-      <PageHeader image={page.featuredImage} title={page.title} />
+      <PageHeader image={page.featuredImage?.node} title={page.title} />
       <Container>
         <Box mt={4}>
           <BlockRenderer>{page.content}</BlockRenderer>
@@ -46,10 +46,10 @@ Page.getInitialProps = async (context: ApolloPageContext) => {
       },
     })
     .then(({ data }) => {
-      if (context.res != null && data.page == null) {
+      if (context.res != null && data?.page == null) {
         context.res.statusCode = 404;
       }
-      return data.page;
+      return data?.page;
     });
   return { page };
 };

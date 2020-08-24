@@ -15,7 +15,10 @@
       "plugins": ["typescript", "typescript-operations", "typescript-react-apollo"]
     },
     "./src/fragmentTypes.ts": {
-      "plugins": ["fragment-matcher"]
+      "plugins": ["fragment-matcher"],
+      "config": {
+        "apolloClientVersion": 3
+      }
     }
   },
   "hooks": {

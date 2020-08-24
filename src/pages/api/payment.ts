@@ -1,5 +1,4 @@
-import ApolloClient from 'apollo-boost';
-import gql from 'graphql-tag';
+import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 type ChargePaymentMethodVariables = {
@@ -50,6 +49,7 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
       'braintree-version': '2020-05-07',
       'content-type': 'application/json',
     },
+    cache: new InMemoryCache(),
   })
     .mutate<ChargePaymentMethodMutation, ChargePaymentMethodVariables>({
       mutation: ChargePaymentMethodDocument,

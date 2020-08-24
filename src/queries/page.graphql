@@ -4,9 +4,11 @@ query Page($slug: ID!) {
     title
     content
     featuredImage {
-      sourceUrl
-      srcSet
-      altText
+      node {
+        sourceUrl
+        srcSet
+        altText
+      }
     }
     seo {
       title

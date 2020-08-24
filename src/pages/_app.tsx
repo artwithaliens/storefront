@@ -1,36 +1,68 @@
-import { ApolloProvider } from '@apollo/react-hooks';
-import { getDataFromTree } from '@apollo/react-ssr';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import ApolloClient, {
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  HttpLink,
   InMemoryCache,
-  IntrospectionFragmentMatcher,
   NormalizedCache,
-} from 'apollo-boost';
+} from '@apollo/client';
+import { getDataFromTree } from '@apollo/client/react/ssr';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import withApollo, { WithApolloProps } from '@sotnikov/next-with-apollo';
 import { register, unregister } from 'next-offline/runtime';
 import { DefaultSeo } from 'next-seo';
-import withApollo, { WithApolloProps } from 'next-with-apollo';
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
 import AlertProvider from '../components/AlertProvider';
 import SettingsProvider, { SettingsContext } from '../components/SettingsProvider';
-import introspectionQueryResultData from '../fragmentTypes';
+import introspectionResult from '../fragmentTypes';
 import theme from '../theme';
 import absoluteURL from '../utils/absoluteURL';
 
-// Fragment matcher.
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
+export const middleware = new ApolloLink((operation, forward) => {
+  // If session data exist in local storage, set value as session header.
+  const session = process.browser ? localStorage.getItem('session') : null;
+  if (session != null) {
+    operation.setContext(() => ({
+      headers: {
+        'woocommerce-session': `Session ${session}`,
+      },
+    }));
+  }
+  return forward(operation);
 });
+
+export const afterware = new ApolloLink((operation, forward) =>
+  forward(operation).map((response) => {
+    // Check for session header and update session in local storage accordingly.
+    const {
+      response: { headers },
+    } = operation.getContext();
+    const session = headers.get('woocommerce-session');
+    if (process.browser && session != null && localStorage.getItem('session') !== session) {
+      localStorage.setItem('session', headers.get('woocommerce-session'));
+    }
+    return response;
+  }),
+);
 
 export default withApollo(
   ({ initialState }) =>
     // Apollo GraphQL client.
     new ApolloClient({
-      uri: process.env.GRAPHQL_URL,
-      credentials: 'include',
-      cache: new InMemoryCache({ fragmentMatcher }).restore(initialState || {}),
+      link: middleware.concat(
+        afterware.concat(
+          new HttpLink({
+            uri: process.env.GRAPHQL_URL,
+            credentials: 'include',
+          }),
+        ),
+      ),
+      cache: new InMemoryCache({ possibleTypes: introspectionResult.possibleTypes }).restore(
+        initialState || {},
+      ),
     }),
 )(
   class extends App<WithApolloProps<NormalizedCache>> {

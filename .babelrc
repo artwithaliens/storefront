@@ -1,6 +1,6 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["inline-react-svg", "graphql-tag"],
+  "plugins": ["inline-react-svg"],
   "overrides": [
     {
       "test": "./src/graphql.ts",

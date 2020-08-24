@@ -1,5 +1,5 @@
+import { ApolloError } from '@apollo/client';
 import { Box, makeStyles, TextField } from '@material-ui/core';
-import { ApolloError } from 'apollo-boost';
 import startCase from 'lodash/startCase';
 import React, { useContext, useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
