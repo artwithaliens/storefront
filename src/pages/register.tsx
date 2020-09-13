@@ -156,9 +156,7 @@ const Register: NextPage = () => {
                 Register
               </Button>
               <Box ml={1}>
-                <Button color="default" href="/login">
-                  Login
-                </Button>
+                <Button href="/login">Login</Button>
               </Box>
             </Box>
           </form>

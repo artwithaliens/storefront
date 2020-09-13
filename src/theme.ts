@@ -2,18 +2,13 @@ import { createMuiTheme } from '@material-ui/core';
 import createPalette from '@material-ui/core/styles/createPalette';
 import createSpacing from '@material-ui/core/styles/createSpacing';
 
-const colors = {
-  primary: '#af8245',
-  secondary: '#aeaeae',
-};
-
 const palette = createPalette({
   type: 'dark',
   primary: {
-    main: colors.primary,
+    main: '#af8245',
   },
   secondary: {
-    main: colors.secondary,
+    main: '#aeaeae',
   },
   common: {
     white: '#feffff',
@@ -50,31 +45,31 @@ export default createMuiTheme({
       fontFamily: "'Lato', sans-serif",
     },
     h1: {
-      color: palette.common?.white,
+      color: palette.common.white,
       fontSize: 50,
       fontWeight: 700,
       textTransform: 'uppercase',
     },
     h2: {
-      color: palette.common?.white,
+      color: palette.common.white,
       fontSize: 50,
       fontWeight: 700,
       textTransform: 'uppercase',
     },
     h3: {
-      color: palette.common?.white,
+      color: palette.common.white,
       fontSize: 34,
       fontWeight: 700,
       textTransform: 'uppercase',
     },
     h4: {
-      color: palette.common?.white,
+      color: palette.common.white,
       fontSize: 24,
       fontWeight: 700,
       textTransform: 'uppercase',
     },
     h5: {
-      color: palette.common?.white,
+      color: palette.common.white,
       fontSize: 20,
       fontWeight: 700,
       textTransform: 'uppercase',
@@ -95,137 +90,169 @@ export default createMuiTheme({
       xl: 1920,
     },
   },
-  overrides: {
+  components: {
     MuiAppBar: {
-      colorDefault: {
-        backgroundColor: palette.common?.black,
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        colorDefault: {
+          backgroundColor: palette.common.black,
+        },
       },
     },
     MuiBadge: {
-      badge: {
-        borderRadius: 16,
-        fontSize: 12,
-        fontWeight: 700,
-        height: 16,
-        minWidth: 16,
-        padding: 2,
+      styleOverrides: {
+        badge: {
+          borderRadius: 16,
+          fontSize: 12,
+          fontWeight: 700,
+          height: 16,
+          minWidth: 16,
+          padding: 2,
+        },
       },
     },
     MuiButton: {
-      root: {
-        padding: '14px 20px',
+      defaultProps: {
+        disableElevation: true,
+        variant: 'outlined',
       },
-      outlined: {
-        padding: '12px 18px',
+      styleOverrides: {
+        root: {
+          padding: '14px 20px',
+        },
+        outlined: {
+          padding: '12px 18px',
 
-        '&, &$disabled': {
-          borderWidth: 2,
+          '&, &$disabled': {
+            borderWidth: 2,
+          },
+        },
+        outlinedPrimary: {
+          '&, &:hover': {
+            borderWidth: 2,
+          },
+        },
+        outlinedSecondary: {
+          '&, &:hover': {
+            borderWidth: 2,
+          },
         },
       },
-      outlinedPrimary: {
-        '&, &:hover': {
-          borderWidth: 2,
-        },
+    },
+    MuiCheckbox: {
+      defaultProps: {
+        color: 'primary',
       },
-      outlinedSecondary: {
-        '&, &:hover': {
-          borderWidth: 2,
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        marginNormal: {
+          marginBottom: spacing(1),
+          marginTop: spacing(1),
         },
       },
     },
     MuiFormGroup: {
-      root: {
-        marginBottom: spacing(2),
+      styleOverrides: {
+        root: {
+          marginBottom: spacing(2),
+        },
       },
     },
     MuiFormHelperText: {
-      root: {
-        fontFamily: "'Lato', sans-serif",
+      styleOverrides: {
+        root: {
+          fontFamily: "'Lato', sans-serif",
+        },
       },
     },
     MuiIcon: {
-      root: {
-        fontSize: 20,
+      styleOverrides: {
+        root: {
+          fontSize: 20,
+        },
       },
     },
     MuiLink: {
-      root: {
-        color: palette.common?.white,
+      styleOverrides: {
+        root: {
+          color: palette.common.white,
+        },
       },
     },
     MuiOutlinedInput: {
-      root: {
-        '&:hover $notchedOutline': {
-          borderWidth: 2,
+      styleOverrides: {
+        root: {
+          '&:hover $notchedOutline': {
+            borderWidth: 2,
+          },
+        },
+        input: {
+          '&:-webkit-autofill': {
+            WebkitBoxShadow: `0 0 0 100px ${palette.background.paper} inset`,
+            caretColor: palette.text.primary,
+          },
         },
       },
-      input: {
-        '&:-webkit-autofill': {
-          WebkitBoxShadow: `0 0 0 100px ${palette.background?.paper} inset`,
-          caretColor: palette.text?.primary,
-        },
+    },
+    MuiPaper: {
+      defaultProps: {
+        elevation: 0,
+      },
+    },
+    MuiRadio: {
+      defaultProps: {
+        color: 'primary',
       },
     },
     MuiStepConnector: {
-      alternativeLabel: {
-        top: 16,
+      styleOverrides: {
+        alternativeLabel: {
+          top: 16,
+        },
       },
     },
     MuiStepIcon: {
-      root: {
-        borderRadius: 32,
-        boxShadow: `inset 0 0 0 2px ${palette.common?.white}`,
-        color: 'transparent',
-        fontSize: 32,
+      styleOverrides: {
+        root: {
+          borderRadius: 32,
+          boxShadow: `inset 0 0 0 2px ${palette.common.white}`,
+          color: 'transparent',
+          fontSize: 32,
 
-        '&$active, &$completed': {
-          boxShadow: `inset 0 0 0 2px ${colors.primary}`,
+          '&$active, &$completed': {
+            boxShadow: `inset 0 0 0 2px ${palette.primary.main}`,
+          },
         },
       },
     },
     MuiStepLabel: {
-      label: {
-        '&$active, &$completed': {
-          color: palette.common?.white,
-          fontWeight: 700,
+      styleOverrides: {
+        label: {
+          '&$active, &$completed': {
+            color: palette.common.white,
+            fontWeight: 700,
+          },
         },
       },
     },
     MuiSvgIcon: {
-      root: {
-        fontSize: 20,
+      styleOverrides: {
+        root: {
+          fontSize: 20,
+        },
       },
-    },
-    MuiFormControl: {
-      marginNormal: {
-        marginBottom: 8,
-        marginTop: 8,
-      },
-    },
-  },
-  props: {
-    MuiAppBar: {
-      elevation: 0,
-    },
-    MuiButton: {
-      disableElevation: true,
-      variant: 'outlined',
-    },
-    MuiCheckbox: {
-      color: 'primary',
-    },
-    MuiPaper: {
-      elevation: 0,
-    },
-    MuiRadio: {
-      color: 'primary',
     },
     MuiTextField: {
-      fullWidth: true,
-      margin: 'normal',
-      variant: 'outlined',
-      InputLabelProps: {
-        shrink: true,
+      defaultProps: {
+        fullWidth: true,
+        margin: 'normal',
+        variant: 'outlined',
+        InputLabelProps: {
+          shrink: true,
+        },
       },
     },
   },

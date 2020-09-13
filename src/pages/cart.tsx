@@ -34,7 +34,7 @@ const Cart: NextPage = () => {
               onUpdate={(values) => updateCart({ variables: values })}
             />
             <Box my={4}>
-              <Grid container justify="flex-end">
+              <Grid container justifyContent="flex-end">
                 <Grid item xs={12} sm={4}>
                   <Button
                     fullWidth

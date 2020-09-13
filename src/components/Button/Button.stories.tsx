@@ -9,7 +9,7 @@ export default {
 
 export const base = () => (
   <Button
-    color={select('Color', ['inherit', 'primary', 'secondary', 'default'], 'primary')}
+    color={select('Color', ['inherit', 'primary', 'secondary'], 'primary')}
     disabled={boolean('Disabled', false)}
     loading={boolean('Loading', false)}
     size={select('Size', ['small', 'medium', 'large'], 'medium')}
