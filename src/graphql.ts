@@ -3583,6 +3583,11 @@ export type MediaItem = Node &
      */
     status?: Maybe<Scalars['String']>;
     /**
+     * The template assigned to the node
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
      * Connection between the ContentNode type and the TermNode type
      * @deprecated
      */
@@ -4698,6 +4703,11 @@ export type Page = Node &
      */
     status?: Maybe<Scalars['String']>;
     /**
+     * The template assigned to the node
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
      * Connection between the ContentNode type and the TermNode type
      * @deprecated
      */
@@ -5375,6 +5385,11 @@ export type Post = Node &
      * @deprecated
      */
     tags?: Maybe<PostToTagConnection>;
+    /**
+     * The template assigned to the node
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
     /**
      * Connection between the ContentNode type and the TermNode type
      * @deprecated
@@ -23352,6 +23367,990 @@ export type WriteReviewPayload = {
    * @deprecated
    */
   review?: Maybe<Comment>;
+};
+
+/** A Comment Author object */
+export type CommentAuthor = Node &
+  Commenter & {
+    __typename?: 'CommentAuthor';
+    /**
+     * Identifies the primary key from the database.
+     * @deprecated
+     */
+    databaseId: Scalars['Int'];
+    /**
+     * The email for the comment author
+     * @deprecated
+     */
+    email?: Maybe<Scalars['String']>;
+    /**
+     * The globally unique identifier for the comment author object
+     * @deprecated
+     */
+    id: Scalars['ID'];
+    /**
+     * Whether the object is restricted from the current viewer
+     * @deprecated
+     */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /**
+     * The name for the comment author.
+     * @deprecated
+     */
+    name?: Maybe<Scalars['String']>;
+    /**
+     * The url the comment author.
+     * @deprecated
+     */
+    url?: Maybe<Scalars['String']>;
+  };
+
+/** Available timezones */
+export enum TimezoneEnum {
+  /** Abidjan */
+  AFRICA_ABIDJAN = 'AFRICA_ABIDJAN',
+  /** Accra */
+  AFRICA_ACCRA = 'AFRICA_ACCRA',
+  /** Addis Ababa */
+  AFRICA_ADDIS_ABABA = 'AFRICA_ADDIS_ABABA',
+  /** Algiers */
+  AFRICA_ALGIERS = 'AFRICA_ALGIERS',
+  /** Asmara */
+  AFRICA_ASMARA = 'AFRICA_ASMARA',
+  /** Bamako */
+  AFRICA_BAMAKO = 'AFRICA_BAMAKO',
+  /** Bangui */
+  AFRICA_BANGUI = 'AFRICA_BANGUI',
+  /** Banjul */
+  AFRICA_BANJUL = 'AFRICA_BANJUL',
+  /** Bissau */
+  AFRICA_BISSAU = 'AFRICA_BISSAU',
+  /** Blantyre */
+  AFRICA_BLANTYRE = 'AFRICA_BLANTYRE',
+  /** Brazzaville */
+  AFRICA_BRAZZAVILLE = 'AFRICA_BRAZZAVILLE',
+  /** Bujumbura */
+  AFRICA_BUJUMBURA = 'AFRICA_BUJUMBURA',
+  /** Cairo */
+  AFRICA_CAIRO = 'AFRICA_CAIRO',
+  /** Casablanca */
+  AFRICA_CASABLANCA = 'AFRICA_CASABLANCA',
+  /** Ceuta */
+  AFRICA_CEUTA = 'AFRICA_CEUTA',
+  /** Conakry */
+  AFRICA_CONAKRY = 'AFRICA_CONAKRY',
+  /** Dakar */
+  AFRICA_DAKAR = 'AFRICA_DAKAR',
+  /** Dar es Salaam */
+  AFRICA_DAR_ES_SALAAM = 'AFRICA_DAR_ES_SALAAM',
+  /** Djibouti */
+  AFRICA_DJIBOUTI = 'AFRICA_DJIBOUTI',
+  /** Douala */
+  AFRICA_DOUALA = 'AFRICA_DOUALA',
+  /** El Aaiun */
+  AFRICA_EL_AAIUN = 'AFRICA_EL_AAIUN',
+  /** Freetown */
+  AFRICA_FREETOWN = 'AFRICA_FREETOWN',
+  /** Gaborone */
+  AFRICA_GABORONE = 'AFRICA_GABORONE',
+  /** Harare */
+  AFRICA_HARARE = 'AFRICA_HARARE',
+  /** Johannesburg */
+  AFRICA_JOHANNESBURG = 'AFRICA_JOHANNESBURG',
+  /** Juba */
+  AFRICA_JUBA = 'AFRICA_JUBA',
+  /** Kampala */
+  AFRICA_KAMPALA = 'AFRICA_KAMPALA',
+  /** Khartoum */
+  AFRICA_KHARTOUM = 'AFRICA_KHARTOUM',
+  /** Kigali */
+  AFRICA_KIGALI = 'AFRICA_KIGALI',
+  /** Kinshasa */
+  AFRICA_KINSHASA = 'AFRICA_KINSHASA',
+  /** Lagos */
+  AFRICA_LAGOS = 'AFRICA_LAGOS',
+  /** Libreville */
+  AFRICA_LIBREVILLE = 'AFRICA_LIBREVILLE',
+  /** Lome */
+  AFRICA_LOME = 'AFRICA_LOME',
+  /** Luanda */
+  AFRICA_LUANDA = 'AFRICA_LUANDA',
+  /** Lubumbashi */
+  AFRICA_LUBUMBASHI = 'AFRICA_LUBUMBASHI',
+  /** Lusaka */
+  AFRICA_LUSAKA = 'AFRICA_LUSAKA',
+  /** Malabo */
+  AFRICA_MALABO = 'AFRICA_MALABO',
+  /** Maputo */
+  AFRICA_MAPUTO = 'AFRICA_MAPUTO',
+  /** Maseru */
+  AFRICA_MASERU = 'AFRICA_MASERU',
+  /** Mbabane */
+  AFRICA_MBABANE = 'AFRICA_MBABANE',
+  /** Mogadishu */
+  AFRICA_MOGADISHU = 'AFRICA_MOGADISHU',
+  /** Monrovia */
+  AFRICA_MONROVIA = 'AFRICA_MONROVIA',
+  /** Nairobi */
+  AFRICA_NAIROBI = 'AFRICA_NAIROBI',
+  /** Ndjamena */
+  AFRICA_NDJAMENA = 'AFRICA_NDJAMENA',
+  /** Niamey */
+  AFRICA_NIAMEY = 'AFRICA_NIAMEY',
+  /** Nouakchott */
+  AFRICA_NOUAKCHOTT = 'AFRICA_NOUAKCHOTT',
+  /** Ouagadougou */
+  AFRICA_OUAGADOUGOU = 'AFRICA_OUAGADOUGOU',
+  /** Porto-Novo */
+  AFRICA_PORTO_NOVO = 'AFRICA_PORTO_NOVO',
+  /** Sao Tome */
+  AFRICA_SAO_TOME = 'AFRICA_SAO_TOME',
+  /** Tripoli */
+  AFRICA_TRIPOLI = 'AFRICA_TRIPOLI',
+  /** Tunis */
+  AFRICA_TUNIS = 'AFRICA_TUNIS',
+  /** Windhoek */
+  AFRICA_WINDHOEK = 'AFRICA_WINDHOEK',
+  /** Adak */
+  AMERICA_ADAK = 'AMERICA_ADAK',
+  /** Anchorage */
+  AMERICA_ANCHORAGE = 'AMERICA_ANCHORAGE',
+  /** Anguilla */
+  AMERICA_ANGUILLA = 'AMERICA_ANGUILLA',
+  /** Antigua */
+  AMERICA_ANTIGUA = 'AMERICA_ANTIGUA',
+  /** Araguaina */
+  AMERICA_ARAGUAINA = 'AMERICA_ARAGUAINA',
+  /** Argentina - Buenos Aires */
+  AMERICA_ARGENTINA_BUENOS_AIRES = 'AMERICA_ARGENTINA_BUENOS_AIRES',
+  /** Argentina - Catamarca */
+  AMERICA_ARGENTINA_CATAMARCA = 'AMERICA_ARGENTINA_CATAMARCA',
+  /** Argentina - Cordoba */
+  AMERICA_ARGENTINA_CORDOBA = 'AMERICA_ARGENTINA_CORDOBA',
+  /** Argentina - Jujuy */
+  AMERICA_ARGENTINA_JUJUY = 'AMERICA_ARGENTINA_JUJUY',
+  /** Argentina - La Rioja */
+  AMERICA_ARGENTINA_LA_RIOJA = 'AMERICA_ARGENTINA_LA_RIOJA',
+  /** Argentina - Mendoza */
+  AMERICA_ARGENTINA_MENDOZA = 'AMERICA_ARGENTINA_MENDOZA',
+  /** Argentina - Rio Gallegos */
+  AMERICA_ARGENTINA_RIO_GALLEGOS = 'AMERICA_ARGENTINA_RIO_GALLEGOS',
+  /** Argentina - Salta */
+  AMERICA_ARGENTINA_SALTA = 'AMERICA_ARGENTINA_SALTA',
+  /** Argentina - San Juan */
+  AMERICA_ARGENTINA_SAN_JUAN = 'AMERICA_ARGENTINA_SAN_JUAN',
+  /** Argentina - San Luis */
+  AMERICA_ARGENTINA_SAN_LUIS = 'AMERICA_ARGENTINA_SAN_LUIS',
+  /** Argentina - Tucuman */
+  AMERICA_ARGENTINA_TUCUMAN = 'AMERICA_ARGENTINA_TUCUMAN',
+  /** Argentina - Ushuaia */
+  AMERICA_ARGENTINA_USHUAIA = 'AMERICA_ARGENTINA_USHUAIA',
+  /** Aruba */
+  AMERICA_ARUBA = 'AMERICA_ARUBA',
+  /** Asuncion */
+  AMERICA_ASUNCION = 'AMERICA_ASUNCION',
+  /** Atikokan */
+  AMERICA_ATIKOKAN = 'AMERICA_ATIKOKAN',
+  /** Bahia */
+  AMERICA_BAHIA = 'AMERICA_BAHIA',
+  /** Bahia Banderas */
+  AMERICA_BAHIA_BANDERAS = 'AMERICA_BAHIA_BANDERAS',
+  /** Barbados */
+  AMERICA_BARBADOS = 'AMERICA_BARBADOS',
+  /** Belem */
+  AMERICA_BELEM = 'AMERICA_BELEM',
+  /** Belize */
+  AMERICA_BELIZE = 'AMERICA_BELIZE',
+  /** Blanc-Sablon */
+  AMERICA_BLANC_SABLON = 'AMERICA_BLANC_SABLON',
+  /** Boa Vista */
+  AMERICA_BOA_VISTA = 'AMERICA_BOA_VISTA',
+  /** Bogota */
+  AMERICA_BOGOTA = 'AMERICA_BOGOTA',
+  /** Boise */
+  AMERICA_BOISE = 'AMERICA_BOISE',
+  /** Cambridge Bay */
+  AMERICA_CAMBRIDGE_BAY = 'AMERICA_CAMBRIDGE_BAY',
+  /** Campo Grande */
+  AMERICA_CAMPO_GRANDE = 'AMERICA_CAMPO_GRANDE',
+  /** Cancun */
+  AMERICA_CANCUN = 'AMERICA_CANCUN',
+  /** Caracas */
+  AMERICA_CARACAS = 'AMERICA_CARACAS',
+  /** Cayenne */
+  AMERICA_CAYENNE = 'AMERICA_CAYENNE',
+  /** Cayman */
+  AMERICA_CAYMAN = 'AMERICA_CAYMAN',
+  /** Chicago */
+  AMERICA_CHICAGO = 'AMERICA_CHICAGO',
+  /** Chihuahua */
+  AMERICA_CHIHUAHUA = 'AMERICA_CHIHUAHUA',
+  /** Costa Rica */
+  AMERICA_COSTA_RICA = 'AMERICA_COSTA_RICA',
+  /** Creston */
+  AMERICA_CRESTON = 'AMERICA_CRESTON',
+  /** Cuiaba */
+  AMERICA_CUIABA = 'AMERICA_CUIABA',
+  /** Curacao */
+  AMERICA_CURACAO = 'AMERICA_CURACAO',
+  /** Danmarkshavn */
+  AMERICA_DANMARKSHAVN = 'AMERICA_DANMARKSHAVN',
+  /** Dawson */
+  AMERICA_DAWSON = 'AMERICA_DAWSON',
+  /** Dawson Creek */
+  AMERICA_DAWSON_CREEK = 'AMERICA_DAWSON_CREEK',
+  /** Denver */
+  AMERICA_DENVER = 'AMERICA_DENVER',
+  /** Detroit */
+  AMERICA_DETROIT = 'AMERICA_DETROIT',
+  /** Dominica */
+  AMERICA_DOMINICA = 'AMERICA_DOMINICA',
+  /** Edmonton */
+  AMERICA_EDMONTON = 'AMERICA_EDMONTON',
+  /** Eirunepe */
+  AMERICA_EIRUNEPE = 'AMERICA_EIRUNEPE',
+  /** El Salvador */
+  AMERICA_EL_SALVADOR = 'AMERICA_EL_SALVADOR',
+  /** Fortaleza */
+  AMERICA_FORTALEZA = 'AMERICA_FORTALEZA',
+  /** Fort Nelson */
+  AMERICA_FORT_NELSON = 'AMERICA_FORT_NELSON',
+  /** Glace Bay */
+  AMERICA_GLACE_BAY = 'AMERICA_GLACE_BAY',
+  /** Goose Bay */
+  AMERICA_GOOSE_BAY = 'AMERICA_GOOSE_BAY',
+  /** Grand Turk */
+  AMERICA_GRAND_TURK = 'AMERICA_GRAND_TURK',
+  /** Grenada */
+  AMERICA_GRENADA = 'AMERICA_GRENADA',
+  /** Guadeloupe */
+  AMERICA_GUADELOUPE = 'AMERICA_GUADELOUPE',
+  /** Guatemala */
+  AMERICA_GUATEMALA = 'AMERICA_GUATEMALA',
+  /** Guayaquil */
+  AMERICA_GUAYAQUIL = 'AMERICA_GUAYAQUIL',
+  /** Guyana */
+  AMERICA_GUYANA = 'AMERICA_GUYANA',
+  /** Halifax */
+  AMERICA_HALIFAX = 'AMERICA_HALIFAX',
+  /** Havana */
+  AMERICA_HAVANA = 'AMERICA_HAVANA',
+  /** Hermosillo */
+  AMERICA_HERMOSILLO = 'AMERICA_HERMOSILLO',
+  /** Indiana - Indianapolis */
+  AMERICA_INDIANA_INDIANAPOLIS = 'AMERICA_INDIANA_INDIANAPOLIS',
+  /** Indiana - Knox */
+  AMERICA_INDIANA_KNOX = 'AMERICA_INDIANA_KNOX',
+  /** Indiana - Marengo */
+  AMERICA_INDIANA_MARENGO = 'AMERICA_INDIANA_MARENGO',
+  /** Indiana - Petersburg */
+  AMERICA_INDIANA_PETERSBURG = 'AMERICA_INDIANA_PETERSBURG',
+  /** Indiana - Tell City */
+  AMERICA_INDIANA_TELL_CITY = 'AMERICA_INDIANA_TELL_CITY',
+  /** Indiana - Vevay */
+  AMERICA_INDIANA_VEVAY = 'AMERICA_INDIANA_VEVAY',
+  /** Indiana - Vincennes */
+  AMERICA_INDIANA_VINCENNES = 'AMERICA_INDIANA_VINCENNES',
+  /** Indiana - Winamac */
+  AMERICA_INDIANA_WINAMAC = 'AMERICA_INDIANA_WINAMAC',
+  /** Inuvik */
+  AMERICA_INUVIK = 'AMERICA_INUVIK',
+  /** Iqaluit */
+  AMERICA_IQALUIT = 'AMERICA_IQALUIT',
+  /** Jamaica */
+  AMERICA_JAMAICA = 'AMERICA_JAMAICA',
+  /** Juneau */
+  AMERICA_JUNEAU = 'AMERICA_JUNEAU',
+  /** Kentucky - Louisville */
+  AMERICA_KENTUCKY_LOUISVILLE = 'AMERICA_KENTUCKY_LOUISVILLE',
+  /** Kentucky - Monticello */
+  AMERICA_KENTUCKY_MONTICELLO = 'AMERICA_KENTUCKY_MONTICELLO',
+  /** Kralendijk */
+  AMERICA_KRALENDIJK = 'AMERICA_KRALENDIJK',
+  /** La Paz */
+  AMERICA_LA_PAZ = 'AMERICA_LA_PAZ',
+  /** Lima */
+  AMERICA_LIMA = 'AMERICA_LIMA',
+  /** Los Angeles */
+  AMERICA_LOS_ANGELES = 'AMERICA_LOS_ANGELES',
+  /** Lower Princes */
+  AMERICA_LOWER_PRINCES = 'AMERICA_LOWER_PRINCES',
+  /** Maceio */
+  AMERICA_MACEIO = 'AMERICA_MACEIO',
+  /** Managua */
+  AMERICA_MANAGUA = 'AMERICA_MANAGUA',
+  /** Manaus */
+  AMERICA_MANAUS = 'AMERICA_MANAUS',
+  /** Marigot */
+  AMERICA_MARIGOT = 'AMERICA_MARIGOT',
+  /** Martinique */
+  AMERICA_MARTINIQUE = 'AMERICA_MARTINIQUE',
+  /** Matamoros */
+  AMERICA_MATAMOROS = 'AMERICA_MATAMOROS',
+  /** Mazatlan */
+  AMERICA_MAZATLAN = 'AMERICA_MAZATLAN',
+  /** Menominee */
+  AMERICA_MENOMINEE = 'AMERICA_MENOMINEE',
+  /** Merida */
+  AMERICA_MERIDA = 'AMERICA_MERIDA',
+  /** Metlakatla */
+  AMERICA_METLAKATLA = 'AMERICA_METLAKATLA',
+  /** Mexico City */
+  AMERICA_MEXICO_CITY = 'AMERICA_MEXICO_CITY',
+  /** Miquelon */
+  AMERICA_MIQUELON = 'AMERICA_MIQUELON',
+  /** Moncton */
+  AMERICA_MONCTON = 'AMERICA_MONCTON',
+  /** Monterrey */
+  AMERICA_MONTERREY = 'AMERICA_MONTERREY',
+  /** Montevideo */
+  AMERICA_MONTEVIDEO = 'AMERICA_MONTEVIDEO',
+  /** Montserrat */
+  AMERICA_MONTSERRAT = 'AMERICA_MONTSERRAT',
+  /** Nassau */
+  AMERICA_NASSAU = 'AMERICA_NASSAU',
+  /** New York */
+  AMERICA_NEW_YORK = 'AMERICA_NEW_YORK',
+  /** Nipigon */
+  AMERICA_NIPIGON = 'AMERICA_NIPIGON',
+  /** Nome */
+  AMERICA_NOME = 'AMERICA_NOME',
+  /** Noronha */
+  AMERICA_NORONHA = 'AMERICA_NORONHA',
+  /** North Dakota - Beulah */
+  AMERICA_NORTH_DAKOTA_BEULAH = 'AMERICA_NORTH_DAKOTA_BEULAH',
+  /** North Dakota - Center */
+  AMERICA_NORTH_DAKOTA_CENTER = 'AMERICA_NORTH_DAKOTA_CENTER',
+  /** North Dakota - New Salem */
+  AMERICA_NORTH_DAKOTA_NEW_SALEM = 'AMERICA_NORTH_DAKOTA_NEW_SALEM',
+  /** Nuuk */
+  AMERICA_NUUK = 'AMERICA_NUUK',
+  /** Ojinaga */
+  AMERICA_OJINAGA = 'AMERICA_OJINAGA',
+  /** Panama */
+  AMERICA_PANAMA = 'AMERICA_PANAMA',
+  /** Pangnirtung */
+  AMERICA_PANGNIRTUNG = 'AMERICA_PANGNIRTUNG',
+  /** Paramaribo */
+  AMERICA_PARAMARIBO = 'AMERICA_PARAMARIBO',
+  /** Phoenix */
+  AMERICA_PHOENIX = 'AMERICA_PHOENIX',
+  /** Porto Velho */
+  AMERICA_PORTO_VELHO = 'AMERICA_PORTO_VELHO',
+  /** Port-au-Prince */
+  AMERICA_PORT_AU_PRINCE = 'AMERICA_PORT_AU_PRINCE',
+  /** Port of Spain */
+  AMERICA_PORT_OF_SPAIN = 'AMERICA_PORT_OF_SPAIN',
+  /** Puerto Rico */
+  AMERICA_PUERTO_RICO = 'AMERICA_PUERTO_RICO',
+  /** Punta Arenas */
+  AMERICA_PUNTA_ARENAS = 'AMERICA_PUNTA_ARENAS',
+  /** Rainy River */
+  AMERICA_RAINY_RIVER = 'AMERICA_RAINY_RIVER',
+  /** Rankin Inlet */
+  AMERICA_RANKIN_INLET = 'AMERICA_RANKIN_INLET',
+  /** Recife */
+  AMERICA_RECIFE = 'AMERICA_RECIFE',
+  /** Regina */
+  AMERICA_REGINA = 'AMERICA_REGINA',
+  /** Resolute */
+  AMERICA_RESOLUTE = 'AMERICA_RESOLUTE',
+  /** Rio Branco */
+  AMERICA_RIO_BRANCO = 'AMERICA_RIO_BRANCO',
+  /** Santarem */
+  AMERICA_SANTAREM = 'AMERICA_SANTAREM',
+  /** Santiago */
+  AMERICA_SANTIAGO = 'AMERICA_SANTIAGO',
+  /** Santo Domingo */
+  AMERICA_SANTO_DOMINGO = 'AMERICA_SANTO_DOMINGO',
+  /** Sao Paulo */
+  AMERICA_SAO_PAULO = 'AMERICA_SAO_PAULO',
+  /** Scoresbysund */
+  AMERICA_SCORESBYSUND = 'AMERICA_SCORESBYSUND',
+  /** Sitka */
+  AMERICA_SITKA = 'AMERICA_SITKA',
+  /** St Barthelemy */
+  AMERICA_ST_BARTHELEMY = 'AMERICA_ST_BARTHELEMY',
+  /** St Johns */
+  AMERICA_ST_JOHNS = 'AMERICA_ST_JOHNS',
+  /** St Kitts */
+  AMERICA_ST_KITTS = 'AMERICA_ST_KITTS',
+  /** St Lucia */
+  AMERICA_ST_LUCIA = 'AMERICA_ST_LUCIA',
+  /** St Thomas */
+  AMERICA_ST_THOMAS = 'AMERICA_ST_THOMAS',
+  /** St Vincent */
+  AMERICA_ST_VINCENT = 'AMERICA_ST_VINCENT',
+  /** Swift Current */
+  AMERICA_SWIFT_CURRENT = 'AMERICA_SWIFT_CURRENT',
+  /** Tegucigalpa */
+  AMERICA_TEGUCIGALPA = 'AMERICA_TEGUCIGALPA',
+  /** Thule */
+  AMERICA_THULE = 'AMERICA_THULE',
+  /** Thunder Bay */
+  AMERICA_THUNDER_BAY = 'AMERICA_THUNDER_BAY',
+  /** Tijuana */
+  AMERICA_TIJUANA = 'AMERICA_TIJUANA',
+  /** Toronto */
+  AMERICA_TORONTO = 'AMERICA_TORONTO',
+  /** Tortola */
+  AMERICA_TORTOLA = 'AMERICA_TORTOLA',
+  /** Vancouver */
+  AMERICA_VANCOUVER = 'AMERICA_VANCOUVER',
+  /** Whitehorse */
+  AMERICA_WHITEHORSE = 'AMERICA_WHITEHORSE',
+  /** Winnipeg */
+  AMERICA_WINNIPEG = 'AMERICA_WINNIPEG',
+  /** Yakutat */
+  AMERICA_YAKUTAT = 'AMERICA_YAKUTAT',
+  /** Yellowknife */
+  AMERICA_YELLOWKNIFE = 'AMERICA_YELLOWKNIFE',
+  /** Casey */
+  ANTARCTICA_CASEY = 'ANTARCTICA_CASEY',
+  /** Davis */
+  ANTARCTICA_DAVIS = 'ANTARCTICA_DAVIS',
+  /** DumontDUrville */
+  ANTARCTICA_DUMONTDURVILLE = 'ANTARCTICA_DUMONTDURVILLE',
+  /** Macquarie */
+  ANTARCTICA_MACQUARIE = 'ANTARCTICA_MACQUARIE',
+  /** Mawson */
+  ANTARCTICA_MAWSON = 'ANTARCTICA_MAWSON',
+  /** McMurdo */
+  ANTARCTICA_MCMURDO = 'ANTARCTICA_MCMURDO',
+  /** Palmer */
+  ANTARCTICA_PALMER = 'ANTARCTICA_PALMER',
+  /** Rothera */
+  ANTARCTICA_ROTHERA = 'ANTARCTICA_ROTHERA',
+  /** Syowa */
+  ANTARCTICA_SYOWA = 'ANTARCTICA_SYOWA',
+  /** Troll */
+  ANTARCTICA_TROLL = 'ANTARCTICA_TROLL',
+  /** Vostok */
+  ANTARCTICA_VOSTOK = 'ANTARCTICA_VOSTOK',
+  /** Longyearbyen */
+  ARCTIC_LONGYEARBYEN = 'ARCTIC_LONGYEARBYEN',
+  /** Aden */
+  ASIA_ADEN = 'ASIA_ADEN',
+  /** Almaty */
+  ASIA_ALMATY = 'ASIA_ALMATY',
+  /** Amman */
+  ASIA_AMMAN = 'ASIA_AMMAN',
+  /** Anadyr */
+  ASIA_ANADYR = 'ASIA_ANADYR',
+  /** Aqtau */
+  ASIA_AQTAU = 'ASIA_AQTAU',
+  /** Aqtobe */
+  ASIA_AQTOBE = 'ASIA_AQTOBE',
+  /** Ashgabat */
+  ASIA_ASHGABAT = 'ASIA_ASHGABAT',
+  /** Atyrau */
+  ASIA_ATYRAU = 'ASIA_ATYRAU',
+  /** Baghdad */
+  ASIA_BAGHDAD = 'ASIA_BAGHDAD',
+  /** Bahrain */
+  ASIA_BAHRAIN = 'ASIA_BAHRAIN',
+  /** Baku */
+  ASIA_BAKU = 'ASIA_BAKU',
+  /** Bangkok */
+  ASIA_BANGKOK = 'ASIA_BANGKOK',
+  /** Barnaul */
+  ASIA_BARNAUL = 'ASIA_BARNAUL',
+  /** Beirut */
+  ASIA_BEIRUT = 'ASIA_BEIRUT',
+  /** Bishkek */
+  ASIA_BISHKEK = 'ASIA_BISHKEK',
+  /** Brunei */
+  ASIA_BRUNEI = 'ASIA_BRUNEI',
+  /** Chita */
+  ASIA_CHITA = 'ASIA_CHITA',
+  /** Choibalsan */
+  ASIA_CHOIBALSAN = 'ASIA_CHOIBALSAN',
+  /** Colombo */
+  ASIA_COLOMBO = 'ASIA_COLOMBO',
+  /** Damascus */
+  ASIA_DAMASCUS = 'ASIA_DAMASCUS',
+  /** Dhaka */
+  ASIA_DHAKA = 'ASIA_DHAKA',
+  /** Dili */
+  ASIA_DILI = 'ASIA_DILI',
+  /** Dubai */
+  ASIA_DUBAI = 'ASIA_DUBAI',
+  /** Dushanbe */
+  ASIA_DUSHANBE = 'ASIA_DUSHANBE',
+  /** Famagusta */
+  ASIA_FAMAGUSTA = 'ASIA_FAMAGUSTA',
+  /** Gaza */
+  ASIA_GAZA = 'ASIA_GAZA',
+  /** Hebron */
+  ASIA_HEBRON = 'ASIA_HEBRON',
+  /** Hong Kong */
+  ASIA_HONG_KONG = 'ASIA_HONG_KONG',
+  /** Hovd */
+  ASIA_HOVD = 'ASIA_HOVD',
+  /** Ho Chi Minh */
+  ASIA_HO_CHI_MINH = 'ASIA_HO_CHI_MINH',
+  /** Irkutsk */
+  ASIA_IRKUTSK = 'ASIA_IRKUTSK',
+  /** Jakarta */
+  ASIA_JAKARTA = 'ASIA_JAKARTA',
+  /** Jayapura */
+  ASIA_JAYAPURA = 'ASIA_JAYAPURA',
+  /** Jerusalem */
+  ASIA_JERUSALEM = 'ASIA_JERUSALEM',
+  /** Kabul */
+  ASIA_KABUL = 'ASIA_KABUL',
+  /** Kamchatka */
+  ASIA_KAMCHATKA = 'ASIA_KAMCHATKA',
+  /** Karachi */
+  ASIA_KARACHI = 'ASIA_KARACHI',
+  /** Kathmandu */
+  ASIA_KATHMANDU = 'ASIA_KATHMANDU',
+  /** Khandyga */
+  ASIA_KHANDYGA = 'ASIA_KHANDYGA',
+  /** Kolkata */
+  ASIA_KOLKATA = 'ASIA_KOLKATA',
+  /** Krasnoyarsk */
+  ASIA_KRASNOYARSK = 'ASIA_KRASNOYARSK',
+  /** Kuala Lumpur */
+  ASIA_KUALA_LUMPUR = 'ASIA_KUALA_LUMPUR',
+  /** Kuching */
+  ASIA_KUCHING = 'ASIA_KUCHING',
+  /** Kuwait */
+  ASIA_KUWAIT = 'ASIA_KUWAIT',
+  /** Macau */
+  ASIA_MACAU = 'ASIA_MACAU',
+  /** Magadan */
+  ASIA_MAGADAN = 'ASIA_MAGADAN',
+  /** Makassar */
+  ASIA_MAKASSAR = 'ASIA_MAKASSAR',
+  /** Manila */
+  ASIA_MANILA = 'ASIA_MANILA',
+  /** Muscat */
+  ASIA_MUSCAT = 'ASIA_MUSCAT',
+  /** Nicosia */
+  ASIA_NICOSIA = 'ASIA_NICOSIA',
+  /** Novokuznetsk */
+  ASIA_NOVOKUZNETSK = 'ASIA_NOVOKUZNETSK',
+  /** Novosibirsk */
+  ASIA_NOVOSIBIRSK = 'ASIA_NOVOSIBIRSK',
+  /** Omsk */
+  ASIA_OMSK = 'ASIA_OMSK',
+  /** Oral */
+  ASIA_ORAL = 'ASIA_ORAL',
+  /** Phnom Penh */
+  ASIA_PHNOM_PENH = 'ASIA_PHNOM_PENH',
+  /** Pontianak */
+  ASIA_PONTIANAK = 'ASIA_PONTIANAK',
+  /** Pyongyang */
+  ASIA_PYONGYANG = 'ASIA_PYONGYANG',
+  /** Qatar */
+  ASIA_QATAR = 'ASIA_QATAR',
+  /** Qostanay */
+  ASIA_QOSTANAY = 'ASIA_QOSTANAY',
+  /** Qyzylorda */
+  ASIA_QYZYLORDA = 'ASIA_QYZYLORDA',
+  /** Riyadh */
+  ASIA_RIYADH = 'ASIA_RIYADH',
+  /** Sakhalin */
+  ASIA_SAKHALIN = 'ASIA_SAKHALIN',
+  /** Samarkand */
+  ASIA_SAMARKAND = 'ASIA_SAMARKAND',
+  /** Seoul */
+  ASIA_SEOUL = 'ASIA_SEOUL',
+  /** Shanghai */
+  ASIA_SHANGHAI = 'ASIA_SHANGHAI',
+  /** Singapore */
+  ASIA_SINGAPORE = 'ASIA_SINGAPORE',
+  /** Srednekolymsk */
+  ASIA_SREDNEKOLYMSK = 'ASIA_SREDNEKOLYMSK',
+  /** Taipei */
+  ASIA_TAIPEI = 'ASIA_TAIPEI',
+  /** Tashkent */
+  ASIA_TASHKENT = 'ASIA_TASHKENT',
+  /** Tbilisi */
+  ASIA_TBILISI = 'ASIA_TBILISI',
+  /** Tehran */
+  ASIA_TEHRAN = 'ASIA_TEHRAN',
+  /** Thimphu */
+  ASIA_THIMPHU = 'ASIA_THIMPHU',
+  /** Tokyo */
+  ASIA_TOKYO = 'ASIA_TOKYO',
+  /** Tomsk */
+  ASIA_TOMSK = 'ASIA_TOMSK',
+  /** Ulaanbaatar */
+  ASIA_ULAANBAATAR = 'ASIA_ULAANBAATAR',
+  /** Urumqi */
+  ASIA_URUMQI = 'ASIA_URUMQI',
+  /** Ust-Nera */
+  ASIA_UST_NERA = 'ASIA_UST_NERA',
+  /** Vientiane */
+  ASIA_VIENTIANE = 'ASIA_VIENTIANE',
+  /** Vladivostok */
+  ASIA_VLADIVOSTOK = 'ASIA_VLADIVOSTOK',
+  /** Yakutsk */
+  ASIA_YAKUTSK = 'ASIA_YAKUTSK',
+  /** Yangon */
+  ASIA_YANGON = 'ASIA_YANGON',
+  /** Yekaterinburg */
+  ASIA_YEKATERINBURG = 'ASIA_YEKATERINBURG',
+  /** Yerevan */
+  ASIA_YEREVAN = 'ASIA_YEREVAN',
+  /** Azores */
+  ATLANTIC_AZORES = 'ATLANTIC_AZORES',
+  /** Bermuda */
+  ATLANTIC_BERMUDA = 'ATLANTIC_BERMUDA',
+  /** Canary */
+  ATLANTIC_CANARY = 'ATLANTIC_CANARY',
+  /** Cape Verde */
+  ATLANTIC_CAPE_VERDE = 'ATLANTIC_CAPE_VERDE',
+  /** Faroe */
+  ATLANTIC_FAROE = 'ATLANTIC_FAROE',
+  /** Madeira */
+  ATLANTIC_MADEIRA = 'ATLANTIC_MADEIRA',
+  /** Reykjavik */
+  ATLANTIC_REYKJAVIK = 'ATLANTIC_REYKJAVIK',
+  /** South Georgia */
+  ATLANTIC_SOUTH_GEORGIA = 'ATLANTIC_SOUTH_GEORGIA',
+  /** Stanley */
+  ATLANTIC_STANLEY = 'ATLANTIC_STANLEY',
+  /** St Helena */
+  ATLANTIC_ST_HELENA = 'ATLANTIC_ST_HELENA',
+  /** Adelaide */
+  AUSTRALIA_ADELAIDE = 'AUSTRALIA_ADELAIDE',
+  /** Brisbane */
+  AUSTRALIA_BRISBANE = 'AUSTRALIA_BRISBANE',
+  /** Broken Hill */
+  AUSTRALIA_BROKEN_HILL = 'AUSTRALIA_BROKEN_HILL',
+  /** Currie */
+  AUSTRALIA_CURRIE = 'AUSTRALIA_CURRIE',
+  /** Darwin */
+  AUSTRALIA_DARWIN = 'AUSTRALIA_DARWIN',
+  /** Eucla */
+  AUSTRALIA_EUCLA = 'AUSTRALIA_EUCLA',
+  /** Hobart */
+  AUSTRALIA_HOBART = 'AUSTRALIA_HOBART',
+  /** Lindeman */
+  AUSTRALIA_LINDEMAN = 'AUSTRALIA_LINDEMAN',
+  /** Lord Howe */
+  AUSTRALIA_LORD_HOWE = 'AUSTRALIA_LORD_HOWE',
+  /** Melbourne */
+  AUSTRALIA_MELBOURNE = 'AUSTRALIA_MELBOURNE',
+  /** Perth */
+  AUSTRALIA_PERTH = 'AUSTRALIA_PERTH',
+  /** Sydney */
+  AUSTRALIA_SYDNEY = 'AUSTRALIA_SYDNEY',
+  /** Amsterdam */
+  EUROPE_AMSTERDAM = 'EUROPE_AMSTERDAM',
+  /** Andorra */
+  EUROPE_ANDORRA = 'EUROPE_ANDORRA',
+  /** Astrakhan */
+  EUROPE_ASTRAKHAN = 'EUROPE_ASTRAKHAN',
+  /** Athens */
+  EUROPE_ATHENS = 'EUROPE_ATHENS',
+  /** Belgrade */
+  EUROPE_BELGRADE = 'EUROPE_BELGRADE',
+  /** Berlin */
+  EUROPE_BERLIN = 'EUROPE_BERLIN',
+  /** Bratislava */
+  EUROPE_BRATISLAVA = 'EUROPE_BRATISLAVA',
+  /** Brussels */
+  EUROPE_BRUSSELS = 'EUROPE_BRUSSELS',
+  /** Bucharest */
+  EUROPE_BUCHAREST = 'EUROPE_BUCHAREST',
+  /** Budapest */
+  EUROPE_BUDAPEST = 'EUROPE_BUDAPEST',
+  /** Busingen */
+  EUROPE_BUSINGEN = 'EUROPE_BUSINGEN',
+  /** Chisinau */
+  EUROPE_CHISINAU = 'EUROPE_CHISINAU',
+  /** Copenhagen */
+  EUROPE_COPENHAGEN = 'EUROPE_COPENHAGEN',
+  /** Dublin */
+  EUROPE_DUBLIN = 'EUROPE_DUBLIN',
+  /** Gibraltar */
+  EUROPE_GIBRALTAR = 'EUROPE_GIBRALTAR',
+  /** Guernsey */
+  EUROPE_GUERNSEY = 'EUROPE_GUERNSEY',
+  /** Helsinki */
+  EUROPE_HELSINKI = 'EUROPE_HELSINKI',
+  /** Isle of Man */
+  EUROPE_ISLE_OF_MAN = 'EUROPE_ISLE_OF_MAN',
+  /** Istanbul */
+  EUROPE_ISTANBUL = 'EUROPE_ISTANBUL',
+  /** Jersey */
+  EUROPE_JERSEY = 'EUROPE_JERSEY',
+  /** Kaliningrad */
+  EUROPE_KALININGRAD = 'EUROPE_KALININGRAD',
+  /** Kiev */
+  EUROPE_KIEV = 'EUROPE_KIEV',
+  /** Kirov */
+  EUROPE_KIROV = 'EUROPE_KIROV',
+  /** Lisbon */
+  EUROPE_LISBON = 'EUROPE_LISBON',
+  /** Ljubljana */
+  EUROPE_LJUBLJANA = 'EUROPE_LJUBLJANA',
+  /** London */
+  EUROPE_LONDON = 'EUROPE_LONDON',
+  /** Luxembourg */
+  EUROPE_LUXEMBOURG = 'EUROPE_LUXEMBOURG',
+  /** Madrid */
+  EUROPE_MADRID = 'EUROPE_MADRID',
+  /** Malta */
+  EUROPE_MALTA = 'EUROPE_MALTA',
+  /** Mariehamn */
+  EUROPE_MARIEHAMN = 'EUROPE_MARIEHAMN',
+  /** Minsk */
+  EUROPE_MINSK = 'EUROPE_MINSK',
+  /** Monaco */
+  EUROPE_MONACO = 'EUROPE_MONACO',
+  /** Moscow */
+  EUROPE_MOSCOW = 'EUROPE_MOSCOW',
+  /** Oslo */
+  EUROPE_OSLO = 'EUROPE_OSLO',
+  /** Paris */
+  EUROPE_PARIS = 'EUROPE_PARIS',
+  /** Podgorica */
+  EUROPE_PODGORICA = 'EUROPE_PODGORICA',
+  /** Prague */
+  EUROPE_PRAGUE = 'EUROPE_PRAGUE',
+  /** Riga */
+  EUROPE_RIGA = 'EUROPE_RIGA',
+  /** Rome */
+  EUROPE_ROME = 'EUROPE_ROME',
+  /** Samara */
+  EUROPE_SAMARA = 'EUROPE_SAMARA',
+  /** San Marino */
+  EUROPE_SAN_MARINO = 'EUROPE_SAN_MARINO',
+  /** Sarajevo */
+  EUROPE_SARAJEVO = 'EUROPE_SARAJEVO',
+  /** Saratov */
+  EUROPE_SARATOV = 'EUROPE_SARATOV',
+  /** Simferopol */
+  EUROPE_SIMFEROPOL = 'EUROPE_SIMFEROPOL',
+  /** Skopje */
+  EUROPE_SKOPJE = 'EUROPE_SKOPJE',
+  /** Sofia */
+  EUROPE_SOFIA = 'EUROPE_SOFIA',
+  /** Stockholm */
+  EUROPE_STOCKHOLM = 'EUROPE_STOCKHOLM',
+  /** Tallinn */
+  EUROPE_TALLINN = 'EUROPE_TALLINN',
+  /** Tirane */
+  EUROPE_TIRANE = 'EUROPE_TIRANE',
+  /** Ulyanovsk */
+  EUROPE_ULYANOVSK = 'EUROPE_ULYANOVSK',
+  /** Uzhgorod */
+  EUROPE_UZHGOROD = 'EUROPE_UZHGOROD',
+  /** Vaduz */
+  EUROPE_VADUZ = 'EUROPE_VADUZ',
+  /** Vatican */
+  EUROPE_VATICAN = 'EUROPE_VATICAN',
+  /** Vienna */
+  EUROPE_VIENNA = 'EUROPE_VIENNA',
+  /** Vilnius */
+  EUROPE_VILNIUS = 'EUROPE_VILNIUS',
+  /** Volgograd */
+  EUROPE_VOLGOGRAD = 'EUROPE_VOLGOGRAD',
+  /** Warsaw */
+  EUROPE_WARSAW = 'EUROPE_WARSAW',
+  /** Zagreb */
+  EUROPE_ZAGREB = 'EUROPE_ZAGREB',
+  /** Zaporozhye */
+  EUROPE_ZAPOROZHYE = 'EUROPE_ZAPOROZHYE',
+  /** Zurich */
+  EUROPE_ZURICH = 'EUROPE_ZURICH',
+  /** Antananarivo */
+  INDIAN_ANTANANARIVO = 'INDIAN_ANTANANARIVO',
+  /** Chagos */
+  INDIAN_CHAGOS = 'INDIAN_CHAGOS',
+  /** Christmas */
+  INDIAN_CHRISTMAS = 'INDIAN_CHRISTMAS',
+  /** Cocos */
+  INDIAN_COCOS = 'INDIAN_COCOS',
+  /** Comoro */
+  INDIAN_COMORO = 'INDIAN_COMORO',
+  /** Kerguelen */
+  INDIAN_KERGUELEN = 'INDIAN_KERGUELEN',
+  /** Mahe */
+  INDIAN_MAHE = 'INDIAN_MAHE',
+  /** Maldives */
+  INDIAN_MALDIVES = 'INDIAN_MALDIVES',
+  /** Mauritius */
+  INDIAN_MAURITIUS = 'INDIAN_MAURITIUS',
+  /** Mayotte */
+  INDIAN_MAYOTTE = 'INDIAN_MAYOTTE',
+  /** Reunion */
+  INDIAN_REUNION = 'INDIAN_REUNION',
+  /** Apia */
+  PACIFIC_APIA = 'PACIFIC_APIA',
+  /** Auckland */
+  PACIFIC_AUCKLAND = 'PACIFIC_AUCKLAND',
+  /** Bougainville */
+  PACIFIC_BOUGAINVILLE = 'PACIFIC_BOUGAINVILLE',
+  /** Chatham */
+  PACIFIC_CHATHAM = 'PACIFIC_CHATHAM',
+  /** Chuuk */
+  PACIFIC_CHUUK = 'PACIFIC_CHUUK',
+  /** Easter */
+  PACIFIC_EASTER = 'PACIFIC_EASTER',
+  /** Efate */
+  PACIFIC_EFATE = 'PACIFIC_EFATE',
+  /** Enderbury */
+  PACIFIC_ENDERBURY = 'PACIFIC_ENDERBURY',
+  /** Fakaofo */
+  PACIFIC_FAKAOFO = 'PACIFIC_FAKAOFO',
+  /** Fiji */
+  PACIFIC_FIJI = 'PACIFIC_FIJI',
+  /** Funafuti */
+  PACIFIC_FUNAFUTI = 'PACIFIC_FUNAFUTI',
+  /** Galapagos */
+  PACIFIC_GALAPAGOS = 'PACIFIC_GALAPAGOS',
+  /** Gambier */
+  PACIFIC_GAMBIER = 'PACIFIC_GAMBIER',
+  /** Guadalcanal */
+  PACIFIC_GUADALCANAL = 'PACIFIC_GUADALCANAL',
+  /** Guam */
+  PACIFIC_GUAM = 'PACIFIC_GUAM',
+  /** Honolulu */
+  PACIFIC_HONOLULU = 'PACIFIC_HONOLULU',
+  /** Kiritimati */
+  PACIFIC_KIRITIMATI = 'PACIFIC_KIRITIMATI',
+  /** Kosrae */
+  PACIFIC_KOSRAE = 'PACIFIC_KOSRAE',
+  /** Kwajalein */
+  PACIFIC_KWAJALEIN = 'PACIFIC_KWAJALEIN',
+  /** Majuro */
+  PACIFIC_MAJURO = 'PACIFIC_MAJURO',
+  /** Marquesas */
+  PACIFIC_MARQUESAS = 'PACIFIC_MARQUESAS',
+  /** Midway */
+  PACIFIC_MIDWAY = 'PACIFIC_MIDWAY',
+  /** Nauru */
+  PACIFIC_NAURU = 'PACIFIC_NAURU',
+  /** Niue */
+  PACIFIC_NIUE = 'PACIFIC_NIUE',
+  /** Norfolk */
+  PACIFIC_NORFOLK = 'PACIFIC_NORFOLK',
+  /** Noumea */
+  PACIFIC_NOUMEA = 'PACIFIC_NOUMEA',
+  /** Pago Pago */
+  PACIFIC_PAGO_PAGO = 'PACIFIC_PAGO_PAGO',
+  /** Palau */
+  PACIFIC_PALAU = 'PACIFIC_PALAU',
+  /** Pitcairn */
+  PACIFIC_PITCAIRN = 'PACIFIC_PITCAIRN',
+  /** Pohnpei */
+  PACIFIC_POHNPEI = 'PACIFIC_POHNPEI',
+  /** Port Moresby */
+  PACIFIC_PORT_MORESBY = 'PACIFIC_PORT_MORESBY',
+  /** Rarotonga */
+  PACIFIC_RAROTONGA = 'PACIFIC_RAROTONGA',
+  /** Saipan */
+  PACIFIC_SAIPAN = 'PACIFIC_SAIPAN',
+  /** Tahiti */
+  PACIFIC_TAHITI = 'PACIFIC_TAHITI',
+  /** Tarawa */
+  PACIFIC_TARAWA = 'PACIFIC_TARAWA',
+  /** Tongatapu */
+  PACIFIC_TONGATAPU = 'PACIFIC_TONGATAPU',
+  /** Wake */
+  PACIFIC_WAKE = 'PACIFIC_WAKE',
+  /** Wallis */
+  PACIFIC_WALLIS = 'PACIFIC_WALLIS',
+  /** UTC offset: UTC+0 */
+  UTC_0 = 'UTC_0',
+  /** UTC offset: UTC+0:30 */
+  UTC_0_30 = 'UTC_0_30',
+  /** UTC offset: UTC+1 */
+  UTC_1 = 'UTC_1',
+  /** UTC offset: UTC+10 */
+  UTC_10 = 'UTC_10',
+  /** UTC offset: UTC+10:30 */
+  UTC_10_30 = 'UTC_10_30',
+  /** UTC offset: UTC+11 */
+  UTC_11 = 'UTC_11',
+  /** UTC offset: UTC+11:30 */
+  UTC_11_30 = 'UTC_11_30',
+  /** UTC offset: UTC+12 */
+  UTC_12 = 'UTC_12',
+  /** UTC offset: UTC+12:45 */
+  UTC_12_45 = 'UTC_12_45',
+  /** UTC offset: UTC+13 */
+  UTC_13 = 'UTC_13',
+  /** UTC offset: UTC+13:45 */
+  UTC_13_45 = 'UTC_13_45',
+  /** UTC offset: UTC+14 */
+  UTC_14 = 'UTC_14',
+  /** UTC offset: UTC+1:30 */
+  UTC_1_30 = 'UTC_1_30',
+  /** UTC offset: UTC+2 */
+  UTC_2 = 'UTC_2',
+  /** UTC offset: UTC+2:30 */
+  UTC_2_30 = 'UTC_2_30',
+  /** UTC offset: UTC+3 */
+  UTC_3 = 'UTC_3',
+  /** UTC offset: UTC+3:30 */
+  UTC_3_30 = 'UTC_3_30',
+  /** UTC offset: UTC+4 */
+  UTC_4 = 'UTC_4',
+  /** UTC offset: UTC+4:30 */
+  UTC_4_30 = 'UTC_4_30',
+  /** UTC offset: UTC+5 */
+  UTC_5 = 'UTC_5',
+  /** UTC offset: UTC+5:30 */
+  UTC_5_30 = 'UTC_5_30',
+  /** UTC offset: UTC+5:45 */
+  UTC_5_45 = 'UTC_5_45',
+  /** UTC offset: UTC+6 */
+  UTC_6 = 'UTC_6',
+  /** UTC offset: UTC+6:30 */
+  UTC_6_30 = 'UTC_6_30',
+  /** UTC offset: UTC+7 */
+  UTC_7 = 'UTC_7',
+  /** UTC offset: UTC+7:30 */
+  UTC_7_30 = 'UTC_7_30',
+  /** UTC offset: UTC+8 */
+  UTC_8 = 'UTC_8',
+  /** UTC offset: UTC+8:30 */
+  UTC_8_30 = 'UTC_8_30',
+  /** UTC offset: UTC+8:45 */
+  UTC_8_45 = 'UTC_8_45',
+  /** UTC offset: UTC+9 */
+  UTC_9 = 'UTC_9',
+  /** UTC offset: UTC+9:30 */
+  UTC_9_30 = 'UTC_9_30',
+}
+
+/** Options for filtering the connection */
+export type MenuItemsWhereArgs = {
+  /** The ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** The menu location for the menu being queried */
+  location?: Maybe<MenuLocationEnum>;
+};
+
+export type PostObjectUnion = Post | Page | MediaItem;
+
+export type TermObjectUnion =
+  | Category
+  | Tag
+  | PostFormat
+  | ProductType
+  | VisibleProduct
+  | ProductCategory
+  | ProductTag
+  | ShippingClass
+  | PaColor
+  | PaMaterial
+  | PaPaperWeight
+  | PaSize;
+
+/** The template assigned to a node of content */
+export type ContentTemplate = {
+  /** The file the template uses */
+  templateFile?: Maybe<Scalars['String']>;
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
 };
 
 export type AddToCartMutationVariables = Exact<{

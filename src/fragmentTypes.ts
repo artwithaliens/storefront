@@ -43,6 +43,7 @@ const result: PossibleTypesResultData = {
       'Plugin',
       'SimpleProduct',
       'Theme',
+      'CommentAuthor',
     ],
     UniformResourceIdentifiable: [
       'ContentType',
@@ -64,7 +65,7 @@ const result: PossibleTypesResultData = {
       'VisibleProduct',
     ],
     ContentNode: ['MediaItem', 'Page', 'Post'],
-    Commenter: ['User'],
+    Commenter: ['User', 'CommentAuthor'],
     DatabaseIdentifier: [
       'User',
       'Comment',
@@ -117,6 +118,22 @@ const result: PossibleTypesResultData = {
     Product: ['VariableProduct', 'ExternalProduct', 'GroupProduct', 'SimpleProduct'],
     ProductAttribute: ['GlobalProductAttribute', 'LocalProductAttribute'],
     MenuItemObjectUnion: ['Post', 'Page', 'Category', 'Tag', 'ProductCategory', 'ProductTag'],
+    PostObjectUnion: ['Post', 'Page', 'MediaItem'],
+    TermObjectUnion: [
+      'Category',
+      'Tag',
+      'PostFormat',
+      'ProductType',
+      'VisibleProduct',
+      'ProductCategory',
+      'ProductTag',
+      'ShippingClass',
+      'PaColor',
+      'PaMaterial',
+      'PaPaperWeight',
+      'PaSize',
+    ],
+    ContentTemplate: [],
   },
 };
 export default result;
