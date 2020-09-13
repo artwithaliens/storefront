@@ -10,8 +10,8 @@ import {
 import clsx from 'clsx';
 import startCase from 'lodash/startCase';
 import React from 'react';
+import DeleteSvg from '../../assets/icons/delete.svg';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
-import DeleteSvg from '../../icons/delete.svg';
 import Image from '../Image';
 import Link from '../Link';
 import Price from '../Price';

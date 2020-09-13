@@ -8,8 +8,8 @@ import {
   Toolbar,
 } from '@material-ui/core';
 import React, { useState } from 'react';
+import MenuSvg from '../../assets/icons/menu.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
-import MenuSvg from '../../icons/menu.svg';
 import CartButton from '../CartButton';
 import Link from '../Link';
 import Logo from '../Logo';

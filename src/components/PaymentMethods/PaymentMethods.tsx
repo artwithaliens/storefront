@@ -1,9 +1,9 @@
 import { Box, Radio, RadioGroup, styled, SvgIcon, Typography } from '@material-ui/core';
 import React, { useRef, useState } from 'react';
+import AmexSvg from '../../assets/payment-gateways/amex.svg';
+import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
 import { usePaymentGatewaysQuery } from '../../graphql';
-import AmexSvg from '../../icons/payment-gateways/amex.svg';
-import VisaSvg from '../../icons/payment-gateways/visa.svg';
 import isBlank from '../../utils/isBlank';
 import Button from '../Button';
 import CreditCardForm from '../CreditCardForm';

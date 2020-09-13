@@ -13,8 +13,8 @@ import {
 import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
+import EditSvg from '../../assets/icons/edit.svg';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery, MetaDataInput } from '../../graphql';
-import EditSvg from '../../icons/edit.svg';
 import AddressSummary from '../AddressSummary';
 import Button from '../Button';
 import Link from '../Link';

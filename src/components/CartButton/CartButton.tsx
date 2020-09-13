@@ -1,8 +1,8 @@
 import { Badge, IconButton, SvgIcon } from '@material-ui/core';
 import Link from 'next/link';
 import React from 'react';
+import CartSvg from '../../assets/icons/cart.svg';
 import { useCartQuery } from '../../graphql';
-import CartSvg from '../../icons/cart.svg';
 
 const CartButton: React.FC = () => {
   const { data: { cart } = { cart: undefined } } = useCartQuery({ ssr: false });

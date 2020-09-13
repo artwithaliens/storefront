@@ -2,9 +2,9 @@ import { Box, Container, makeStyles, SvgIcon, Typography } from '@material-ui/co
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
+import HomeSvg from '../assets/icons/home.svg';
 import { AuthContext } from '../components/AuthProvider';
 import Layout from '../components/Layout';
-import HomeSvg from '../icons/home.svg';
 
 const useStyles = makeStyles({
   container: {

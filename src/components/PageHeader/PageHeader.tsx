@@ -63,7 +63,11 @@ const PageHeader: React.FC<Props> = ({ fullHeight, image, title }) => {
   return (
     <Paper className={clsx(styles.root, fullHeight && styles.fullHeight)}>
       {image?.sourceUrl != null && (
-        <Image className={clsx(styles.image, fullHeight && styles.imageContain)} loading="lazy" />
+        <Image
+          className={clsx(styles.image, fullHeight && styles.imageContain)}
+          mediaItem={image}
+          loading="lazy"
+        />
       )}
       {!fullHeight && (
         <div className={styles.content}>

@@ -1,8 +1,8 @@
 import { IconButton, makeStyles, SvgIcon } from '@material-ui/core';
 import React from 'react';
 import { useCounter, useUpdateEffect } from 'react-use';
-import MinusSvg from '../../icons/minus.svg';
-import PlusSvg from '../../icons/plus.svg';
+import MinusSvg from '../../assets/icons/minus.svg';
+import PlusSvg from '../../assets/icons/plus.svg';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({

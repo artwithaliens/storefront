@@ -1,9 +1,9 @@
 import { Box, Container, Grid, makeStyles, SvgIcon, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAsync } from 'react-use';
+import FacebookSvg from '../../assets/icons/facebook.svg';
+import InstagramSvg from '../../assets/icons/instagram.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
-import FacebookSvg from '../../icons/facebook.svg';
-import InstagramSvg from '../../icons/instagram.svg';
 import fetchInstagramMedia from '../../utils/fetchInstagramMedia';
 import prefetchURL from '../../utils/prefetchURL';
 import relativeURL from '../../utils/relativeURL';
