@@ -2,6 +2,7 @@ import { makeStyles, Paper, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import { MediaItem } from '../../graphql';
+import Image from '../Image';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, spacing }) => ({
@@ -62,13 +63,7 @@ const PageHeader: React.FC<Props> = ({ fullHeight, image, title }) => {
   return (
     <Paper className={clsx(styles.root, fullHeight && styles.fullHeight)}>
       {image?.sourceUrl != null && (
-        <img
-          className={clsx(styles.image, fullHeight && styles.imageContain)}
-          src={image.sourceUrl ?? undefined}
-          srcSet={image.srcSet ?? undefined}
-          alt={image.altText ?? ''}
-          loading="lazy"
-        />
+        <Image className={clsx(styles.image, fullHeight && styles.imageContain)} loading="lazy" />
       )}
       {!fullHeight && (
         <div className={styles.content}>

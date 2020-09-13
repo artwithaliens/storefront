@@ -2,22 +2,23 @@ import { Hidden, makeStyles, MobileStepper } from '@material-ui/core';
 import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { ProductQuery } from '../../graphql';
+import Image from '../Image';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({
-    stepper: {
-      flexGrow: 1,
-    },
-
-    stepperImage: {
-      display: 'block',
-      overflow: 'hidden',
-      width: '100%',
-    },
-
     gallery: {
       display: 'flex',
       flexDirection: 'column',
+    },
+
+    galleryStepper: {
+      flexGrow: 1,
+    },
+
+    galleryStepperImage: {
+      display: 'block',
+      overflow: 'hidden',
+      width: '100%',
     },
 
     galleryImage: {
@@ -40,7 +41,7 @@ const ProductGallery: React.FC<Props> = ({ product }) => {
   return (
     <>
       <Hidden mdUp>
-        <div className={styles.stepper}>
+        <div className={styles.galleryStepper}>
           <SwipeableViews
             enableMouseEvents
             axis="x"
@@ -48,25 +49,13 @@ const ProductGallery: React.FC<Props> = ({ product }) => {
             onChangeIndex={(index) => setActiveStep(index)}
           >
             <div>
-              <img
-                className={styles.stepperImage}
-                src={product.image?.sourceUrl ?? undefined}
-                srcSet={product.image?.srcSet ?? undefined}
-                sizes={product.image?.sizes ?? undefined}
-                alt={product.image?.altText ?? ''}
-              />
+              <Image className={styles.galleryStepperImage} mediaItem={product.image} />
             </div>
             {product.galleryImages?.nodes?.map(
               (mediaItem) =>
                 mediaItem != null && (
                   <div key={mediaItem.id}>
-                    <img
-                      className={styles.stepperImage}
-                      src={mediaItem.sourceUrl ?? undefined}
-                      srcSet={mediaItem.srcSet ?? undefined}
-                      sizes={mediaItem.sizes ?? undefined}
-                      alt={mediaItem.altText ?? ''}
-                    />
+                    <Image className={styles.galleryStepperImage} mediaItem={mediaItem} />
                   </div>
                 ),
             )}
@@ -83,24 +72,11 @@ const ProductGallery: React.FC<Props> = ({ product }) => {
       </Hidden>
       <Hidden smDown>
         <div className={styles.gallery}>
-          <img
-            className={styles.galleryImage}
-            src={product.image?.sourceUrl ?? undefined}
-            srcSet={product.image?.srcSet ?? undefined}
-            sizes={product.image?.sizes ?? undefined}
-            alt={product.image?.altText ?? ''}
-          />
+          <Image className={styles.galleryImage} mediaItem={product.image} />
           {product.galleryImages?.nodes?.map(
             (mediaItem) =>
               mediaItem != null && (
-                <img
-                  key={mediaItem.id}
-                  className={styles.galleryImage}
-                  src={mediaItem.sourceUrl ?? undefined}
-                  srcSet={mediaItem.srcSet ?? undefined}
-                  sizes={mediaItem.sizes ?? undefined}
-                  alt={mediaItem.altText ?? ''}
-                />
+                <Image key={mediaItem.id} className={styles.galleryImage} mediaItem={mediaItem} />
               ),
           )}
         </div>

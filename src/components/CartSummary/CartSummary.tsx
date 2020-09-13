@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { CartQuery } from '../../graphql';
+import Image from '../Image';
 import Price from '../Price';
 
 const useStyles = makeStyles(
@@ -31,6 +32,11 @@ const useStyles = makeStyles(
       '& td:last-of-type': {
         paddingRight: 0,
       },
+    },
+
+    image: {
+      height: 'auto',
+      width: 64,
     },
 
     total: {
@@ -59,13 +65,10 @@ const CartSummary: React.FC<Props> = ({ cart }) => {
               item != null && (
                 <TableRow key={item.key} className={styles.tableRow}>
                   <TableCell>
-                    <img
-                      src={item.product?.image?.sourceUrl ?? undefined}
-                      srcSet={item.product?.image?.srcSet ?? undefined}
-                      sizes={item.product?.image?.sizes ?? undefined}
-                      alt={item.product?.image?.altText ?? ''}
+                    <Image
+                      className={styles.image}
+                      mediaItem={item.product?.image}
                       loading="lazy"
-                      width="64"
                     />
                   </TableCell>
                   <TableCell>{item.product?.name}</TableCell>

@@ -1,6 +1,7 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useCategoriesQuery } from '../../graphql';
+import Image from '../Image';
 import Link from '../Link';
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -51,12 +52,9 @@ const Categories: React.FC = () => {
                     as={`/product-category/${category.slug}`}
                     underline="none"
                   >
-                    <img
+                    <Image
                       className={styles.categoryImage}
-                      src={category.image?.srcSet ?? undefined}
-                      srcSet={category.image?.sourceUrl ?? undefined}
-                      sizes={category.image?.sizes ?? undefined}
-                      alt={category.image?.altText ?? ''}
+                      mediaItem={category.image}
                       loading="lazy"
                     />
                     <Typography variant="h4" className={styles.categoryTitle}>

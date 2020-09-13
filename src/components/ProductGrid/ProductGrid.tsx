@@ -1,6 +1,7 @@
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../graphql';
+import Image from '../Image';
 import Link from '../Link';
 import Price from '../Price';
 
@@ -60,14 +61,7 @@ const ProductGrid: React.FC<Props> = ({ products }) => {
                   as={`/product/${product.slug}`}
                   underline="none"
                 >
-                  <img
-                    className={styles.productImage}
-                    src={product.image?.sourceUrl ?? undefined}
-                    srcSet={product.image?.srcSet ?? undefined}
-                    sizes={product.image?.sizes ?? undefined}
-                    alt={product.image?.altText ?? ''}
-                    loading="lazy"
-                  />
+                  <Image className={styles.productImage} mediaItem={product.image} loading="lazy" />
                   <Typography variant="h4" className={styles.productName}>
                     {product.name}
                   </Typography>

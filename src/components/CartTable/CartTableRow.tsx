@@ -12,6 +12,7 @@ import startCase from 'lodash/startCase';
 import React from 'react';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
 import DeleteSvg from '../../icons/delete.svg';
+import Image from '../Image';
 import Link from '../Link';
 import Price from '../Price';
 import QuantityInput from '../QuantityInput';
@@ -150,13 +151,7 @@ const CartTableRow: React.FC<Props> = ({ item, loading, onUpdate }) => {
   return (
     <TableRow className={clsx(styles.root, loading && styles.loading)}>
       <TableCell className={styles.image}>
-        <img
-          src={item.product?.image?.sourceUrl ?? undefined}
-          srcSet={item.product?.image?.srcSet ?? undefined}
-          sizes={item.product?.image?.sizes ?? undefined}
-          alt={item.product?.image?.altText ?? ''}
-          loading="lazy"
-        />
+        <Image mediaItem={item.product?.image} loading="lazy" />
       </TableCell>
       <TableCell className={styles.description}>
         <Typography gutterBottom variant="h5">
