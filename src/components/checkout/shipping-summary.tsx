@@ -8,7 +8,7 @@ type Props = {
   chosenShippingMethod: NonNullable<CartQuery['cart']>['chosenShippingMethod'];
 };
 
-const ShippingSummary: React.FC<Props> = ({ availableShippingMethods, chosenShippingMethod }) => {
+const ShippingSummary: React.VFC<Props> = ({ availableShippingMethods, chosenShippingMethod }) => {
   const shippingMethod = availableShippingMethods?.[0]?.rates?.find(
     (rate) => rate?.id === chosenShippingMethod,
   );

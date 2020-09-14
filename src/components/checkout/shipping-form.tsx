@@ -37,7 +37,7 @@ type Props = {
   shipToDifferentAddress?: boolean;
 };
 
-const ShippingForm: React.FC<Props> = ({
+const ShippingForm: React.VFC<Props> = ({
   initialValues,
   onShippingSameAsBillingChange,
   onSubmit,

@@ -62,7 +62,7 @@ type Props = {
   menu?: MenuQuery;
 };
 
-const HeaderMenu: React.FC<Props> = ({ menu }) => {
+const HeaderMenu: React.VFC<Props> = ({ menu }) => {
   const router = useRouter();
   const styles = useStyles();
   const { authenticated, logout } = useContext(AuthContext);

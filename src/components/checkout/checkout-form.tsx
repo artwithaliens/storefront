@@ -25,7 +25,7 @@ type Props = {
   ) => void;
 };
 
-const CheckoutForm: React.FC<Props> = ({ cart, customer, loading, onSubmit }) => {
+const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) => {
   const router = useRouter();
 
   const [paymentMethod, setPaymentMethod] = useLocalStorage<string>('paymentMethod');

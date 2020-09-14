@@ -61,7 +61,7 @@ const useStyles = makeStyles(
   { name: 'Header' },
 );
 
-const Header: React.FC = () => {
+const Header: React.VFC = () => {
   const styles = useStyles();
   const [open, setOpen] = useState(false);
 

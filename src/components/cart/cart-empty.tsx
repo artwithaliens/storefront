@@ -2,7 +2,7 @@ import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import Button from '../global/button';
 
-const CartEmpty: React.FC = () => (
+const CartEmpty: React.VFC = () => (
   <Box my={4} textAlign="center">
     <Box mb={2}>
       <Typography gutterBottom variant="h4">

@@ -60,11 +60,7 @@ const useStyles = makeStyles(
   { name: 'RichText' },
 );
 
-type Props = {
-  children: React.ReactElement | string | null | undefined;
-};
-
-const RichText: React.FC<Props> = ({ children }) => {
+const RichText: React.FC = ({ children }) => {
   const styles = useStyles();
 
   return (

@@ -30,7 +30,7 @@ const useStyles = makeStyles(({ spacing }) => ({
   },
 }));
 
-const Categories: React.FC = () => {
+const Categories: React.VFC = () => {
   const styles = useStyles();
 
   const { data: { categories } = { data: { categories: undefined } } } = useCategoriesQuery();

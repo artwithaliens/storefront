@@ -75,7 +75,7 @@ type Props = {
   onUpdate?: (values: UpdateCartMutationVariables) => void;
 };
 
-const CartTable: React.FC<Props> = ({ cart, loading, onUpdate }) => {
+const CartTable: React.VFC<Props> = ({ cart, loading, onUpdate }) => {
   const styles = useStyles();
 
   return (

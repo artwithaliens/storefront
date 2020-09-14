@@ -13,7 +13,7 @@ type Props = Omit<TextFieldProps, 'value'> & {
   value?: keyof typeof CountriesEnum | null;
 };
 
-const CountrySelect: React.FC<Props> = ({ value, ...props }) => (
+const CountrySelect: React.VFC<Props> = ({ value, ...props }) => (
   <TextField
     {...props}
     value={value}

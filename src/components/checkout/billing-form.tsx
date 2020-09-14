@@ -28,7 +28,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-const BillingForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+const BillingForm: React.VFC<Props> = ({ initialValues, onSubmit }) => {
   const [updateCustomer, { loading }] = useUpdateCustomerMutation({
     refetchQueries: ['Cart', 'Customer'],
   });

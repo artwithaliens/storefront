@@ -34,7 +34,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductGallery: React.FC<Props> = ({ product }) => {
+const ProductGallery: React.VFC<Props> = ({ product }) => {
   const styles = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 

@@ -10,7 +10,7 @@ type Props = {
   };
 };
 
-const PaymentSummary: React.FC<Props> = ({ chosenPaymentMethod, creditCard }) => {
+const PaymentSummary: React.VFC<Props> = ({ chosenPaymentMethod, creditCard }) => {
   const { data: { paymentGateways } = { data: undefined } } = usePaymentGatewaysQuery();
 
   const paymentMethod = paymentGateways?.nodes?.find(

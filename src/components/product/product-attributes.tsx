@@ -7,7 +7,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductAttributes: React.FC<Props> = ({ product }) => (
+const ProductAttributes: React.VFC<Props> = ({ product }) => (
   <Box mt={6}>
     <Typography gutterBottom variant="h3">
       Additional Information

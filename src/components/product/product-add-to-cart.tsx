@@ -19,7 +19,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductAddToCart: React.FC<Props> = ({ product }) => {
+const ProductAddToCart: React.VFC<Props> = ({ product }) => {
   const styles = useStyles();
   const { addAlert } = useContext(AlertContext);
 

@@ -4,7 +4,7 @@ import React from 'react';
 import CartSvg from '../../assets/icons/cart.svg';
 import { useCartQuery } from '../../graphql';
 
-const HeaderCartButton: React.FC = () => {
+const HeaderCartButton: React.VFC = () => {
   const { data: { cart } = { cart: undefined } } = useCartQuery({ ssr: false });
 
   return (

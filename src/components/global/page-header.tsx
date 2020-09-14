@@ -57,7 +57,7 @@ type Props = {
   title?: string | null;
 };
 
-const PageHeader: React.FC<Props> = ({ fullHeight, image, title }) => {
+const PageHeader: React.VFC<Props> = ({ fullHeight, image, title }) => {
   const styles = useStyles();
 
   return (

@@ -29,7 +29,7 @@ type Props = {
   paymentMethod?: string;
 };
 
-const PaymentMethods: React.FC<Props> = ({ onSubmit, paymentMethod: initialPaymentMethod }) => {
+const PaymentMethods: React.VFC<Props> = ({ onSubmit, paymentMethod: initialPaymentMethod }) => {
   const creditCardFormRef = useRef<HTMLFormElement>(null);
 
   const [paymentMethod, setPaymentMethod] = useState(initialPaymentMethod);

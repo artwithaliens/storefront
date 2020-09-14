@@ -41,7 +41,7 @@ type Props = {
   paymentNonce: string | undefined;
 };
 
-const CheckoutReview: React.FC<Props> = ({ cart, customer, loading, onSubmit, paymentMethod }) => {
+const CheckoutReview: React.VFC<Props> = ({ cart, customer, loading, onSubmit, paymentMethod }) => {
   const [customerNote, setCustomerNote] = useState<string>();
   const [acceptTerms, setAcceptsTerms] = useState(false);
 

@@ -7,7 +7,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductMeta: React.FC<Props> = ({ product }) => (
+const ProductMeta: React.VFC<Props> = ({ product }) => (
   <Box mt={2}>
     <Typography>SKU: {product.sku ?? 'N/A'}</Typography>
     {(product.productCategories?.nodes?.length ?? 0) > 0 && (

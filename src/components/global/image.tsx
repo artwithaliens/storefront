@@ -8,7 +8,7 @@ type Props = {
   mediaItem?: Pick<MediaItem, 'altText' | 'sourceUrl' | 'srcSet' | 'sizes'> | null;
 };
 
-const Image: React.FC<Props> = ({ alt, className, loading, mediaItem }) => (
+const Image: React.VFC<Props> = ({ alt, className, loading, mediaItem }) => (
   <img
     className={className}
     src={mediaItem?.sourceUrl ?? undefined}

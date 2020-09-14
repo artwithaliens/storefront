@@ -39,7 +39,7 @@ type Props = {
   shipping?: CustomerAddress | null;
 };
 
-const PaypalButton: React.FC<Props> = ({
+const PaypalButton: React.VFC<Props> = ({
   cart,
   disabled,
   onAuthorize,

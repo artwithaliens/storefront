@@ -26,7 +26,7 @@ type Props = {
   value: number | null | undefined;
 };
 
-const QuantityInput: React.FC<Props> = ({
+const QuantityInput: React.VFC<Props> = ({
   disabled,
   max = Infinity,
   min = 0,

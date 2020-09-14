@@ -13,7 +13,7 @@ type Props = {
   full?: boolean;
 };
 
-const Loader: React.FC<Props> = ({ full }) => {
+const Loader: React.VFC<Props> = ({ full }) => {
   const styles = useStyles();
   const node = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);

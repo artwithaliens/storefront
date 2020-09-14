@@ -24,7 +24,7 @@ type Props = {
   email?: string | null;
 };
 
-const AddressSummary: React.FC<Props> = ({ address, email }) => {
+const AddressSummary: React.VFC<Props> = ({ address, email }) => {
   const styles = useStyles();
 
   return address == null && email == null ? null : address == null ? (

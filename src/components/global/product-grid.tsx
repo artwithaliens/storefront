@@ -41,7 +41,7 @@ type Props = {
   products: NonNullable<NonNullable<ProductsQuery['products']>['nodes']>;
 };
 
-const ProductGrid: React.FC<Props> = ({ products }) => {
+const ProductGrid: React.VFC<Props> = ({ products }) => {
   const styles = useStyles();
 
   if (products.length === 0) {

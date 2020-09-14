@@ -50,7 +50,7 @@ type Props = {
   cart: NonNullable<CartQuery['cart']>;
 };
 
-const CartSummary: React.FC<Props> = ({ cart }) => {
+const CartSummary: React.VFC<Props> = ({ cart }) => {
   const styles = useStyles();
 
   return (

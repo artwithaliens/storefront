@@ -4,7 +4,7 @@ type Props = {
   height?: number;
 };
 
-const HeaderLogo: React.FC<Props> = ({ height = 38 }) => (
+const HeaderLogo: React.VFC<Props> = ({ height = 38 }) => (
   <svg
     viewBox="0 0 134 38"
     role="img"

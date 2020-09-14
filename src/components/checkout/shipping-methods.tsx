@@ -23,7 +23,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-const ShippingMethods: React.FC<Props> = ({
+const ShippingMethods: React.VFC<Props> = ({
   availableShippingMethods,
   chosenShippingMethod,
   onSubmit,

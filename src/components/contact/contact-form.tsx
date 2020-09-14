@@ -27,7 +27,7 @@ const validationSchema = object().shape<ContactInput>({
   subject: string().label('Subject').max(254),
 });
 
-const ContactForm: React.FC = () => {
+const ContactForm: React.VFC = () => {
   const [{ loading }, contact] = useAsyncFn((values?: ContactInput) =>
     fetch('/api/contact', {
       method: 'post',

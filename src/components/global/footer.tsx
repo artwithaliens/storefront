@@ -57,7 +57,7 @@ const useStyles = makeStyles(
   { name: 'Footer' },
 );
 
-const Footer: React.FC = () => {
+const Footer: React.VFC = () => {
   const styles = useStyles();
 
   const { data: menu } = useMenuQuery({

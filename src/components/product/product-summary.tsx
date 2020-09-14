@@ -10,7 +10,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductSummary: React.FC<Props> = ({ product }) => (
+const ProductSummary: React.VFC<Props> = ({ product }) => (
   <>
     <Typography component="h1" variant="h2">
       {product.name}

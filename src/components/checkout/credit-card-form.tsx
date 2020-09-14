@@ -14,7 +14,7 @@ type Props = {
   onSubmit: (values: CreditCardInput) => void;
 };
 
-const CreditCardForm: React.FC<Props> = ({ formRef, onSubmit }) => {
+const CreditCardForm: React.VFC<Props> = ({ formRef, onSubmit }) => {
   const formik = useFormik<CreditCardInput>({
     initialValues: { ccNumber: '', ccExp: '', ccCsc: '' },
     onSubmit: (values, { setSubmitting }) => {
