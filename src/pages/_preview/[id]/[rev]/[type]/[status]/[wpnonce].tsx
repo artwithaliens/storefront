@@ -2,8 +2,8 @@ import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import BlockRenderer from '../../../../../../components/BlockRenderer';
-import Layout from '../../../../../../components/Layout';
+import BlockRenderer from '../../../../../../components/global/block-renderer';
+import Layout from '../../../../../../components/global/layout';
 import { usePreviewQuery } from '../../../../../../graphql';
 
 const Preview: NextPage = () => {

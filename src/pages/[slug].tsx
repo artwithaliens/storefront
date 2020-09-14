@@ -4,9 +4,9 @@ import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Error from 'next/error';
 import React from 'react';
-import BlockRenderer from '../components/BlockRenderer';
-import Layout from '../components/Layout';
-import PageHeader from '../components/PageHeader';
+import BlockRenderer from '../components/global/block-renderer';
+import Layout from '../components/global/layout';
+import PageHeader from '../components/global/page-header';
 import { PageDocument, PageQuery, PageQueryVariables } from '../graphql';
 
 type Props = {

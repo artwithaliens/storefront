@@ -1,11 +1,11 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import Button from '../components/Button';
-import CartEmpty from '../components/CartEmpty';
-import CartTable from '../components/CartTable';
-import Layout from '../components/Layout';
-import Loader from '../components/Loader';
+import CartEmpty from '../components/cart/cart-empty';
+import CartTable from '../components/cart/cart-table';
+import Button from '../components/global/button';
+import Layout from '../components/global/layout';
+import Loader from '../components/global/loader';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {

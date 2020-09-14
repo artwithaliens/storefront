@@ -1,7 +1,7 @@
 import { Divider, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/global/layout';
 
 const Custom404: NextPage = () => (
   <Layout>

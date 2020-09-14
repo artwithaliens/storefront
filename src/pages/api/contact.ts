@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import isBlank from '../../utils/isBlank';
+import isBlank from '../../utils/is-blank';
 
 type Data = {
   status?: 'mail_sent' | 'validation_failed';

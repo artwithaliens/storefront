@@ -4,9 +4,9 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import CheckoutForm from '../../components/CheckoutForm';
-import Layout from '../../components/Layout';
-import Loader from '../../components/Loader';
+import CheckoutForm from '../../components/checkout/checkout-form';
+import Layout from '../../components/global/layout';
+import Loader from '../../components/global/loader';
 import {
   CheckoutMutationVariables,
   useCartQuery,

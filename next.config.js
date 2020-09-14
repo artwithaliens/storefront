@@ -5,7 +5,7 @@ module.exports = withOffline({
   target: 'serverless',
   generateSw: false,
   workboxOpts: {
-    swSrc: './src/serviceWorker.ts',
+    swSrc: './src/service-worker.ts',
     swDest: 'static/service-worker.js',
   },
   env: {

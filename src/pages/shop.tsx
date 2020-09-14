@@ -1,9 +1,9 @@
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import Layout from '../components/Layout';
-import Loader from '../components/Loader';
-import ProductGrid from '../components/ProductGrid';
+import Layout from '../components/global/layout';
+import Loader from '../components/global/loader';
+import ProductGrid from '../components/global/product-grid';
 import { useProductsQuery } from '../graphql';
 
 const Shop: NextPage = () => {

@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import HomeSvg from '../assets/icons/home.svg';
-import { AuthContext } from '../components/AuthProvider';
-import Layout from '../components/Layout';
+import { AuthContext } from '../components/global/auth-provider';
+import Layout from '../components/global/layout';
 
 const useStyles = makeStyles({
   container: {

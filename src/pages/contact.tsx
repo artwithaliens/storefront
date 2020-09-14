@@ -2,9 +2,9 @@ import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 import PinSvg from '../assets/icons/pin.svg';
-import ContactForm from '../components/ContactForm';
-import Layout from '../components/Layout';
-import PageHeader from '../components/PageHeader';
+import ContactForm from '../components/contact/contact-form';
+import Layout from '../components/global/layout';
+import PageHeader from '../components/global/page-header';
 
 const Contact: NextPage = () => (
   <Layout>

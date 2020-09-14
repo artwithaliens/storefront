@@ -15,11 +15,11 @@ import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
-import AlertProvider from '../components/AlertProvider';
-import SettingsProvider, { SettingsContext } from '../components/SettingsProvider';
-import introspectionResult from '../fragmentTypes';
+import AlertProvider from '../components/global/alert-provider';
+import SettingsProvider, { SettingsContext } from '../components/global/settings-provider';
+import introspectionResult from '../fragment-types';
 import theme from '../theme';
-import absoluteURL from '../utils/absoluteURL';
+import absoluteURL from '../utils/absolute-url';
 
 export const middleware = new ApolloLink((operation, forward) => {
   // If session data exist in local storage, set value as session header.

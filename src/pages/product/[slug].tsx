@@ -4,16 +4,16 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
-import Layout from '../../components/Layout';
-import ProductAddToCart from '../../components/ProductAddToCart';
-import ProductAttributes from '../../components/ProductAttributes';
-import ProductGallery from '../../components/ProductGallery';
-import ProductGrid from '../../components/ProductGrid';
-import ProductMeta from '../../components/ProductMeta';
-import ProductSummary from '../../components/ProductSummary';
-import RichText from '../../components/RichText';
+import Layout from '../../components/global/layout';
+import ProductGrid from '../../components/global/product-grid';
+import RichText from '../../components/global/rich-text';
+import ProductAddToCart from '../../components/product/product-add-to-cart';
+import ProductAttributes from '../../components/product/product-attributes';
+import ProductGallery from '../../components/product/product-gallery';
+import ProductMeta from '../../components/product/product-meta';
+import ProductSummary from '../../components/product/product-summary';
 import { useProductQuery } from '../../graphql';
-import isBlank from '../../utils/isBlank';
+import isBlank from '../../utils/is-blank';
 
 const Product: NextPage = () => {
   const router = useRouter();

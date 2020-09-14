@@ -1,8 +1,8 @@
 import { Box, Container, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import Button from '../components/Button';
-import Layout from '../components/Layout';
+import Button from '../components/global/button';
+import Layout from '../components/global/layout';
 
 const OrderConfirmation: NextPage = () => (
   <Layout>

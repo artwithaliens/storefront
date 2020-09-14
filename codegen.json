@@ -14,7 +14,7 @@
     "./src/graphql.ts": {
       "plugins": ["typescript", "typescript-operations", "typescript-react-apollo"]
     },
-    "./src/fragmentTypes.ts": {
+    "./src/fragment-types.ts": {
       "plugins": ["fragment-matcher"],
       "config": {
         "apolloClientVersion": 3
