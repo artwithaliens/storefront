@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import AmexSvg from '../../assets/payment-gateways/amex.svg';
 import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
-import { usePaymentGatewaysQuery } from '../../graphql';
+import { CustomerQuery, usePaymentGatewaysQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
 import Button from '../global/button';
 import CreditCardForm, { CreditCardInput } from './credit-card-form';
@@ -18,6 +18,7 @@ const PaymentMethodsLabel = styled('label')(({ theme }) => ({
 }));
 
 type Props = {
+  customer: NonNullable<CustomerQuery['customer']>;
   onSubmit: (values: {
     creditCard?: {
       cardType: string;
@@ -29,21 +30,32 @@ type Props = {
   paymentMethod?: string;
 };
 
-const PaymentMethods: React.VFC<Props> = ({ onSubmit, paymentMethod: initialPaymentMethod }) => {
+const PaymentMethods: React.VFC<Props> = ({
+  customer,
+  onSubmit,
+  paymentMethod: initialPaymentMethod,
+}) => {
   const creditCardFormRef = useRef<HTMLFormElement>(null);
 
   const [paymentMethod, setPaymentMethod] = useState(initialPaymentMethod);
+  const [loading, setLoading] = useState(false);
 
-  const { data: { paymentGateways } = { data: undefined }, loading } = usePaymentGatewaysQuery();
+  const {
+    data: { paymentGateways } = { data: undefined },
+    loading: paymentGatewaysLoading,
+  } = usePaymentGatewaysQuery();
 
   const handleSubmitCreditCard = (values: CreditCardInput) => {
-    const creditCard = {
-      billingAddress: { postalCode: '' },
+    setLoading(true);
+    makePayment(process.env.BRAINTREE_TOKENIZATION_KEY, {
+      billingAddress: {
+        postalCode: customer.billing?.postcode ?? undefined,
+      },
       cvv: values.ccCsc,
       expirationDate: values.ccExp,
       number: values.ccNumber,
-    };
-    makePayment(process.env.BRAINTREE_TOKENIZATION_KEY, creditCard).then((data) => {
+    }).then((data) => {
+      setLoading(false);
       onSubmit({
         creditCard: {
           cardType: data.cardType,
@@ -68,52 +80,53 @@ const PaymentMethods: React.VFC<Props> = ({ onSubmit, paymentMethod: initialPaym
     }
   };
 
+  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setPaymentMethod(ev.target.value);
+  };
+
   return (
     <>
-      <RadioGroup name="paymentMode">
+      <RadioGroup name="paymentMode" value={paymentMethod} onChange={handleChange}>
         {paymentGateways?.nodes?.map(
           (paymentGateway) =>
             paymentGateway != null && (
-              <React.Fragment key={paymentGateway.id}>
-                <PaymentMethodsLabel htmlFor={`paymentMode-${paymentGateway.id}`}>
-                  <div>
-                    <Radio
-                      value={paymentGateway.id}
-                      id={`paymentMode-${paymentGateway.id}`}
-                      checked={paymentMethod === paymentGateway.id}
-                      onChange={() => setPaymentMethod(paymentGateway.id)}
-                    />
-                  </div>
-                  <Box flexGrow={1} ml={2}>
-                    <Typography variant="h5">{paymentGateway.title}</Typography>
-                    {paymentGateway.icon != null ? (
-                      <img src={paymentGateway.icon} alt="" height="24" />
-                    ) : (
-                      paymentGateway.id === 'braintree_cc' && (
-                        <>
-                          <SvgIcon component={AmexSvg} viewBox="0 0 30 30" fontSize="large" />{' '}
-                          <SvgIcon component={VisaSvg} viewBox="0 0 30 30" fontSize="large" />
-                        </>
-                      )
-                    )}
-                    {!isBlank(paymentGateway.description) && (
-                      <Typography variant="body2">{paymentGateway.description}</Typography>
-                    )}
-                    {paymentGateway.id === 'braintree_cc' &&
-                      paymentMethod === paymentGateway.id && (
-                        <CreditCardForm
-                          formRef={creditCardFormRef}
-                          onSubmit={handleSubmitCreditCard}
-                        />
-                      )}
-                  </Box>
-                </PaymentMethodsLabel>
-              </React.Fragment>
+              <PaymentMethodsLabel
+                key={paymentGateway.id}
+                htmlFor={`paymentMode-${paymentGateway.id}`}
+              >
+                <div>
+                  <Radio value={paymentGateway.id} id={`paymentMode-${paymentGateway.id}`} />
+                </div>
+                <Box flexGrow={1} ml={2}>
+                  <Typography variant="h5">{paymentGateway.title}</Typography>
+                  {paymentGateway.icon != null ? (
+                    <img src={paymentGateway.icon} alt="" height="24" />
+                  ) : (
+                    paymentGateway.id === 'braintree_cc' && (
+                      <>
+                        <SvgIcon component={AmexSvg} viewBox="0 0 30 30" fontSize="large" />{' '}
+                        <SvgIcon component={VisaSvg} viewBox="0 0 30 30" fontSize="large" />
+                      </>
+                    )
+                  )}
+                  {!isBlank(paymentGateway.description) && (
+                    <Typography variant="body2">{paymentGateway.description}</Typography>
+                  )}
+                  {paymentGateway.id === 'braintree_cc' && paymentMethod === paymentGateway.id && (
+                    <CreditCardForm ref={creditCardFormRef} onSubmit={handleSubmitCreditCard} />
+                  )}
+                </Box>
+              </PaymentMethodsLabel>
             ),
         )}
       </RadioGroup>
       <Box mt={2}>
-        <Button type="submit" color="primary" loading={loading} onClick={handleSubmit}>
+        <Button
+          type="submit"
+          color="primary"
+          loading={paymentGatewaysLoading || loading}
+          onClick={handleSubmit}
+        >
           Continue to Review Your Order
         </Button>
       </Box>

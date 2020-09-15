@@ -10,11 +10,10 @@ export type CreditCardInput = {
 };
 
 type Props = {
-  formRef: React.RefObject<HTMLFormElement>;
   onSubmit: (values: CreditCardInput) => void;
 };
 
-const CreditCardForm: React.VFC<Props> = ({ formRef, onSubmit }) => {
+const CreditCardForm = React.forwardRef<HTMLFormElement, Props>(({ onSubmit }, ref) => {
   const formik = useFormik<CreditCardInput>({
     initialValues: { ccNumber: '', ccExp: '', ccCsc: '' },
     onSubmit: (values, { setSubmitting }) => {
@@ -24,7 +23,7 @@ const CreditCardForm: React.VFC<Props> = ({ formRef, onSubmit }) => {
   });
 
   return (
-    <form ref={formRef} onSubmit={formik.handleSubmit}>
+    <form ref={ref} onSubmit={formik.handleSubmit}>
       <NumberFormat
         fullWidth
         required
@@ -72,6 +71,6 @@ const CreditCardForm: React.VFC<Props> = ({ formRef, onSubmit }) => {
       </Grid>
     </form>
   );
-};
+});
 
 export default CreditCardForm;

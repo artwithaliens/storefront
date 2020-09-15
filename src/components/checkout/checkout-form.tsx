@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
 import isShippingSameAsBilling from '../../utils/is-shipping-same-as-billing';
@@ -28,11 +28,18 @@ type Props = {
 const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) => {
   const router = useRouter();
 
+  const [creditCard, setCreditCard] = useState<{ cardType: string; lastFour: string }>();
   const [paymentMethod, setPaymentMethod] = useLocalStorage<string>('paymentMethod');
   const [paymentNonce, setPaymentNonce] = useState<string>();
   const [shipToDifferentAddress, setShipToDifferentAddress] = useState(
     !isShippingSameAsBilling(customer.shipping, customer.billing),
   );
+
+  useEffect(() => {
+    if (router.query.step === 'review' && paymentMethod === 'braintree_cc' && creditCard == null) {
+      router.push('/checkout');
+    }
+  }, [creditCard, paymentMethod, router]);
 
   /**
    * Handle changing steps.
@@ -109,10 +116,12 @@ const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) =
             </Step>,
             <Step key="payment">
               <PaymentMethods
+                customer={customer}
                 paymentMethod={paymentMethod}
                 onSubmit={(values) => {
                   setPaymentMethod(values.paymentMethod);
                   setPaymentNonce(values.paymentNonce);
+                  setCreditCard(values.creditCard);
                   handleNext();
                 }}
               />
@@ -120,6 +129,7 @@ const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) =
             <Step key="review">
               <CheckoutReview
                 cart={cart}
+                creditCard={creditCard}
                 customer={customer}
                 loading={loading}
                 paymentMethod={paymentMethod}

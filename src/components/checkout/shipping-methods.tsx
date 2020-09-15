@@ -1,21 +1,17 @@
-import { Box, Grid, makeStyles, Paper, Radio, RadioGroup, Typography } from '@material-ui/core';
+import { Box, Grid, Radio, RadioGroup, styled, Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, useUpdateShippingMethodMutation } from '../../graphql';
 import Button from '../global/button';
 import Price from '../global/price';
 
-const useStyles = makeStyles(
-  ({ spacing }) => ({
-    item: {
-      alignItems: 'center',
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'row',
-      padding: spacing(2),
-    },
-  }),
-  { name: 'ShippingMethods' },
-);
+const ShippingMethodsLabel = styled('label')(({ theme }) => ({
+  alignItems: 'center',
+  backgroundColor: theme.palette.background.paper,
+  cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'row',
+  padding: theme.spacing(2),
+}));
 
 type Props = {
   availableShippingMethods: NonNullable<CartQuery['cart']>['availableShippingMethods'];
@@ -28,7 +24,6 @@ const ShippingMethods: React.VFC<Props> = ({
   chosenShippingMethod,
   onSubmit,
 }) => {
-  const styles = useStyles();
   const [updateShippingMethod, { loading }] = useUpdateShippingMethodMutation({
     refetchQueries: ['Cart'],
   });
@@ -41,7 +36,7 @@ const ShippingMethods: React.VFC<Props> = ({
     <>
       <RadioGroup
         name="shippingMethod"
-        defaultValue={chosenShippingMethod ?? undefined}
+        value={chosenShippingMethod ?? undefined}
         onChange={handleChange}
       >
         <Grid container spacing={2}>
@@ -49,15 +44,15 @@ const ShippingMethods: React.VFC<Props> = ({
             (rate) =>
               rate != null && (
                 <Grid key={rate.id} item xs={12} lg={6}>
-                  <Paper component="label" className={styles.item}>
+                  <ShippingMethodsLabel htmlFor={`shippingMethod-${rate.id}`}>
                     <div>
-                      <Radio value={rate.id} disabled={loading} />
+                      <Radio value={rate.id} id={`shippingMethod-${rate.id}`} disabled={loading} />
                     </div>
-                    <Box ml={2}>
+                    <Box flexGrow={1} ml={2}>
                       <Typography>{rate.label}</Typography>
                       <Price>{rate.cost}</Price>
                     </Box>
-                  </Paper>
+                  </ShippingMethodsLabel>
                 </Grid>
               ),
           )}

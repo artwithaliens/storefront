@@ -6,7 +6,19 @@ export function createClient(paymentClientToken?: string) {
   });
 }
 
-export function makePayment(paymentClientToken: string, creditCard: object) {
+type CreditCardData = {
+  billingAddress: {
+    postalCode?: string;
+  };
+  cvv: string;
+  expirationDate: string;
+  number: string;
+  options?: {
+    validate?: boolean;
+  };
+};
+
+export function makePayment(paymentClientToken: string, creditCard: CreditCardData) {
   return new Promise<{ cardType: string; lastFour: string; nonce: string }>((resolve, reject) => {
     createClient(paymentClientToken).then((client) => {
       client.request(

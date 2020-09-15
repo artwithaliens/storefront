@@ -14,7 +14,7 @@ import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import EditSvg from '../../assets/icons/edit.svg';
-import { CartQuery, CheckoutMutationVariables, CustomerQuery, MetaDataInput } from '../../graphql';
+import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
 import Button from '../global/button';
 import Link from '../global/link';
 import Loader from '../global/loader';
@@ -32,6 +32,10 @@ type PaymentResponse = {
 
 type Props = {
   cart: NonNullable<CartQuery['cart']>;
+  creditCard?: {
+    cardType: string;
+    lastFour: string;
+  };
   customer: NonNullable<CustomerQuery['customer']>;
   loading: boolean;
   onSubmit: (
@@ -41,20 +45,17 @@ type Props = {
   paymentNonce: string | undefined;
 };
 
-const CheckoutReview: React.VFC<Props> = ({ cart, customer, loading, onSubmit, paymentMethod }) => {
+const CheckoutReview: React.VFC<Props> = ({
+  cart,
+  creditCard,
+  customer,
+  loading,
+  onSubmit,
+  paymentMethod,
+  paymentNonce,
+}) => {
   const [customerNote, setCustomerNote] = useState<string>();
   const [acceptTerms, setAcceptsTerms] = useState(false);
-
-  const metaData: MetaDataInput[] = [
-    {
-      key: '_merchant_account_id',
-      value: process.env.BRAINTREE_MERCHANT_ID,
-    },
-    {
-      key: '_wc_braintree_environment',
-      value: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-    },
-  ];
 
   const [{ loading: paymentLoading }, handlePayment] = useAsyncFn((nonce?: string) =>
     fetch('/api/payment', {
@@ -73,7 +74,14 @@ const CheckoutReview: React.VFC<Props> = ({ cart, customer, loading, onSubmit, p
         onSubmit({
           customerNote,
           metaData: [
-            ...metaData,
+            {
+              key: '_merchant_account_id',
+              value: process.env.BRAINTREE_MERCHANT_ID,
+            },
+            {
+              key: '_wc_braintree_environment',
+              value: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+            },
             {
               key: '_transaction_status',
               value: data.transaction.status,
@@ -85,7 +93,7 @@ const CheckoutReview: React.VFC<Props> = ({ cart, customer, loading, onSubmit, p
   );
 
   const handleSubmit = () => {
-    onSubmit({ customerNote, metaData });
+    handlePayment(paymentNonce);
   };
 
   if (loading || paymentLoading) {
@@ -175,7 +183,7 @@ const CheckoutReview: React.VFC<Props> = ({ cart, customer, loading, onSubmit, p
           </Box>
           <Divider />
           <Box mt={2}>
-            <PaymentSummary chosenPaymentMethod={paymentMethod} />
+            <PaymentSummary chosenPaymentMethod={paymentMethod} creditCard={creditCard} />
           </Box>
         </Grid>
       </Grid>

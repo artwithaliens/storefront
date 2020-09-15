@@ -28,7 +28,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-const BillingForm: React.VFC<Props> = ({ initialValues, onSubmit }) => {
+const BillingForm = React.forwardRef<HTMLFormElement, Props>(({ initialValues, onSubmit }, ref) => {
   const [updateCustomer, { loading }] = useUpdateCustomerMutation({
     refetchQueries: ['Cart', 'Customer'],
   });
@@ -41,9 +41,9 @@ const BillingForm: React.VFC<Props> = ({ initialValues, onSubmit }) => {
       country: initialValues?.country ?? CountriesEnum.DE,
       address1: initialValues?.address1 ?? '',
       address2: initialValues?.address2 ?? '',
+      postcode: initialValues?.postcode ?? '',
       city: initialValues?.city ?? '',
       state: initialValues?.state ?? '',
-      postcode: initialValues?.postcode ?? '',
       phone: initialValues?.phone ?? '',
       email: initialValues?.email ?? '',
     },
@@ -61,7 +61,7 @@ const BillingForm: React.VFC<Props> = ({ initialValues, onSubmit }) => {
       <Typography gutterBottom variant="h3">
         Billing Address
       </Typography>
-      <form onSubmit={formik.handleSubmit}>
+      <form ref={ref} onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {/* First Name */}
@@ -215,6 +215,6 @@ const BillingForm: React.VFC<Props> = ({ initialValues, onSubmit }) => {
       </form>
     </>
   );
-};
+});
 
 export default BillingForm;

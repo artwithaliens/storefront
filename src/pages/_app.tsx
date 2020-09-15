@@ -80,7 +80,7 @@ export default withApollo(
       }
 
       ReactGA.initialize(process.env.GA_TRACKING_ID, {
-        debug: process.env.NODE_ENV === 'development',
+        // debug: process.env.NODE_ENV === 'development',
       });
       ReactGA.plugin.require('ec');
       ReactGA.pageview(router.asPath);
