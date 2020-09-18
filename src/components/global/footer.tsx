@@ -92,7 +92,7 @@ const Footer: React.VFC = () => {
           <Box mb={3}>
             <Grid container spacing={1}>
               {instagramMedia.map((medium) => (
-                <Grid item key={medium.id} xs={4} sm={2}>
+                <Grid key={medium.id} item xs={4} sm={2}>
                   <a href={medium.postLink} target="_blank" rel="noopener noreferrer">
                     <img
                       className={styles.feedImage}

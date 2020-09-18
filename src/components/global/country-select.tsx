@@ -16,8 +16,8 @@ type Props = Omit<TextFieldProps, 'value'> & {
 const CountrySelect: React.VFC<Props> = ({ value, ...props }) => (
   <TextField
     {...props}
-    value={value}
     select
+    value={value}
     SelectProps={{
       native: true,
     }}

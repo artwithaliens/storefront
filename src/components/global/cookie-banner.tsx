@@ -38,16 +38,16 @@ const CookieBanner: React.VFC = () => {
 
   return !acceptCookies ? (
     <CookieConsent
+      disableStyles
       buttonText="I understand"
       buttonWrapperClasses={styles.buttonWrapper}
       containerClasses={styles.root}
       contentClasses={styles.content}
       cookieName="accept-cookies"
-      disableStyles
       ButtonComponent={Button}
       onAccept={handleAccept}
     >
-      This website uses cookies to enhance the user experience. If you don’t like it, change the
+      This website uses cookies to enhance the user experience. If you don’t like it, change
       website!
     </CookieConsent>
   ) : null;
