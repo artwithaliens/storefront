@@ -10,7 +10,7 @@ import { object, string } from 'yup';
 import { AlertContext } from '../components/global/alert-provider';
 import { AuthContext } from '../components/global/auth-provider';
 import Button from '../components/global/button';
-import Layout from '../components/global/layout';
+import PageWrapper from '../components/global/page-wrapper';
 import { LoginMutation, useLoginMutation } from '../graphql';
 
 type LoginValues = {
@@ -78,7 +78,7 @@ const Login: NextPage = () => {
   }, [authenticated, router]);
 
   return (
-    <Layout>
+    <PageWrapper>
       <Container maxWidth="sm">
         <Box mt={6} pt={6}>
           {/* Title */}
@@ -133,7 +133,7 @@ const Login: NextPage = () => {
           </form>
         </Box>
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

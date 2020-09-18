@@ -10,7 +10,7 @@ import { object, string } from 'yup';
 import { AlertContext } from '../components/global/alert-provider';
 import { AuthContext } from '../components/global/auth-provider';
 import Button from '../components/global/button';
-import Layout from '../components/global/layout';
+import PageWrapper from '../components/global/page-wrapper';
 import { RegisterUserMutation, useRegisterUserMutation } from '../graphql';
 
 type RegisterValues = {
@@ -90,7 +90,7 @@ const Register: NextPage = () => {
   }, [authenticated, router]);
 
   return (
-    <Layout>
+    <PageWrapper>
       <Container maxWidth="sm">
         <Box mt={6} pt={6}>
           {/* Title */}
@@ -162,7 +162,7 @@ const Register: NextPage = () => {
           </form>
         </Box>
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

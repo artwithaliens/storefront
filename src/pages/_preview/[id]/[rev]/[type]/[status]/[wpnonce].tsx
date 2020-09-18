@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import BlockRenderer from '../../../../../../components/global/block-renderer';
-import Layout from '../../../../../../components/global/layout';
+import PageWrapper from '../../../../../../components/global/page-wrapper';
 import { usePreviewQuery } from '../../../../../../graphql';
 
 const Preview: NextPage = () => {
@@ -18,11 +18,11 @@ const Preview: NextPage = () => {
   });
 
   return (
-    <Layout>
+    <PageWrapper>
       <Container>
         <BlockRenderer>{page?.revisions?.nodes?.[0]?.content}</BlockRenderer>
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

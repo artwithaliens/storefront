@@ -4,8 +4,8 @@ import React from 'react';
 import CartEmpty from '../components/cart/cart-empty';
 import CartTable from '../components/cart/cart-table';
 import Button from '../components/global/button';
-import Layout from '../components/global/layout';
 import Loader from '../components/global/loader';
+import PageWrapper from '../components/global/page-wrapper';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {
@@ -17,7 +17,7 @@ const Cart: NextPage = () => {
   });
 
   return (
-    <Layout>
+    <PageWrapper>
       <Container>
         <Box mt={6} mb={2}>
           <Typography variant="h1">Cart</Typography>
@@ -50,7 +50,7 @@ const Cart: NextPage = () => {
           </>
         )}
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

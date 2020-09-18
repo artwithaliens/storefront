@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import HomeSvg from '../assets/icons/home.svg';
 import { AuthContext } from '../components/global/auth-provider';
-import Layout from '../components/global/layout';
+import PageWrapper from '../components/global/page-wrapper';
 
 const useStyles = makeStyles({
   container: {
@@ -59,7 +59,7 @@ const MyAccount: NextPage = () => {
   }, [router, userData]);
 
   return (
-    <Layout>
+    <PageWrapper>
       {/* Only Show Content if user is logged in */}
       {showContent && (
         <Container className={styles.container}>
@@ -92,7 +92,7 @@ const MyAccount: NextPage = () => {
           </Box>
         </Container>
       )}
-    </Layout>
+    </PageWrapper>
   );
 };
 

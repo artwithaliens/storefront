@@ -5,8 +5,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import CheckoutForm from '../../components/checkout/checkout-form';
-import Layout from '../../components/global/layout';
 import Loader from '../../components/global/loader';
+import PageWrapper from '../../components/global/page-wrapper';
 import {
   CheckoutMutationVariables,
   useCartQuery,
@@ -55,7 +55,7 @@ const Checkout: NextPage = () => {
   };
 
   return (
-    <Layout>
+    <PageWrapper>
       <Head>
         <script async data-version-4 src="https://www.paypalobjects.com/api/checkout.js" />
       </Head>
@@ -73,7 +73,7 @@ const Checkout: NextPage = () => {
           </Box>
         </Container>
       )}
-    </Layout>
+    </PageWrapper>
   );
 };
 

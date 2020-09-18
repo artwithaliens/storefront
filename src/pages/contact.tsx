@@ -3,11 +3,11 @@ import { NextPage } from 'next';
 import React from 'react';
 import PinSvg from '../assets/icons/pin.svg';
 import ContactForm from '../components/contact/contact-form';
-import Layout from '../components/global/layout';
 import PageHeader from '../components/global/page-header';
+import PageWrapper from '../components/global/page-wrapper';
 
 const Contact: NextPage = () => (
-  <Layout>
+  <PageWrapper>
     <PageHeader title="Contact" />
     <Container maxWidth="md">
       <Box my={6}>
@@ -38,7 +38,7 @@ const Contact: NextPage = () => (
         }}
       />
     </div>
-  </Layout>
+  </PageWrapper>
 );
 
 export default Contact;

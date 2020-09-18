@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
-import Layout from '../../components/global/layout';
+import PageWrapper from '../../components/global/page-wrapper';
 import ProductGrid from '../../components/global/product-grid';
 import RichText from '../../components/global/rich-text';
 import ProductAddToCart from '../../components/product/product-add-to-cart';
@@ -43,7 +43,7 @@ const Product: NextPage = () => {
   }, [product]);
 
   return (
-    <Layout>
+    <PageWrapper>
       <NextSeo
         title={product?.seo?.title ?? undefined}
         description={product?.seo?.description ?? undefined}
@@ -99,7 +99,7 @@ const Product: NextPage = () => {
           )}
         </Container>
       )}
-    </Layout>
+    </PageWrapper>
   );
 };
 

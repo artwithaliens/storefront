@@ -2,7 +2,7 @@ import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import Layout from '../../components/global/layout';
+import PageWrapper from '../../components/global/page-wrapper';
 import ProductGrid from '../../components/global/product-grid';
 import { useProductsQuery } from '../../graphql';
 
@@ -16,13 +16,13 @@ const ProductCategory: NextPage = () => {
   });
 
   return (
-    <Layout>
+    <PageWrapper>
       <Container>
         <Box mt={6}>
           <ProductGrid products={products?.nodes ?? []} />
         </Box>
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

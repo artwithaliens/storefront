@@ -1,10 +1,10 @@
 import { Divider, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import Layout from '../components/global/layout';
+import PageWrapper from '../components/global/page-wrapper';
 
 const Custom404: NextPage = () => (
-  <Layout>
+  <PageWrapper>
     <Typography variant="h1">404</Typography>
     <Divider />
     <div>
@@ -16,7 +16,7 @@ const Custom404: NextPage = () => (
         We’re sorry for the error and hope you’ll have a good day.
       </Typography>
     </div>
-  </Layout>
+  </PageWrapper>
 );
 
 export default Custom404;

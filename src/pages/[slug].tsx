@@ -5,8 +5,8 @@ import { NextSeo } from 'next-seo';
 import Error from 'next/error';
 import React from 'react';
 import BlockRenderer from '../components/global/block-renderer';
-import Layout from '../components/global/layout';
 import PageHeader from '../components/global/page-header';
+import PageWrapper from '../components/global/page-wrapper';
 import { PageDocument, PageQuery, PageQueryVariables } from '../graphql';
 
 type Props = {
@@ -18,7 +18,7 @@ const Page: NextPage<Props> = ({ page }) => {
     return <Error statusCode={404} />;
   }
   return (
-    <Layout>
+    <PageWrapper>
       <NextSeo
         title={page.seo?.title ?? ''}
         description={page.seo?.description ?? ''}
@@ -33,7 +33,7 @@ const Page: NextPage<Props> = ({ page }) => {
           <BlockRenderer>{page.content}</BlockRenderer>
         </Box>
       </Container>
-    </Layout>
+    </PageWrapper>
   );
 };
 

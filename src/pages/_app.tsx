@@ -21,7 +21,7 @@ import introspectionResult from '../fragment-types';
 import theme from '../theme';
 import absoluteURL from '../utils/absolute-url';
 
-export const middleware = new ApolloLink((operation, forward) => {
+const middleware = new ApolloLink((operation, forward) => {
   // If session data exist in local storage, set value as session header.
   const session = process.browser ? localStorage.getItem('session') : null;
   if (session != null) {
@@ -34,7 +34,7 @@ export const middleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-export const afterware = new ApolloLink((operation, forward) =>
+const afterware = new ApolloLink((operation, forward) =>
   forward(operation).map((response) => {
     // Check for session header and update session in local storage accordingly.
     const {

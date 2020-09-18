@@ -2,8 +2,8 @@ import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 import BlockRenderer from '../components/global/block-renderer';
-import Layout from '../components/global/layout';
 import PageHeader from '../components/global/page-header';
+import PageWrapper from '../components/global/page-wrapper';
 import Categories from '../components/index/categories';
 import { usePageQuery } from '../graphql';
 
@@ -15,7 +15,7 @@ const Index: NextPage = () => {
   });
 
   return (
-    <Layout>
+    <PageWrapper>
       <PageHeader
         fullHeight
         image={{
@@ -27,7 +27,7 @@ const Index: NextPage = () => {
         <BlockRenderer>{page?.content}</BlockRenderer>
       </Container>
       <Categories />
-    </Layout>
+    </PageWrapper>
   );
 };
 
