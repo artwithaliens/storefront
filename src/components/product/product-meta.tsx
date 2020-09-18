@@ -17,11 +17,7 @@ const ProductMeta: React.VFC<Props> = ({ product }) => (
           (category, i) =>
             category != null && [
               i > 0 && ', ',
-              <Link
-                key={category.id}
-                href="/product-category/[slug]"
-                as={`/product-category/${category.slug}`}
-              >
+              <Link key={category.id} href={`/product-category/${category.slug}`}>
                 {category.name}
               </Link>,
             ],
@@ -35,7 +31,7 @@ const ProductMeta: React.VFC<Props> = ({ product }) => (
           (tag, i) =>
             tag != null && [
               i > 0 && ', ',
-              <Link key={tag.id} href="/product-tag/[slug]" as={`/product-tag/${tag.slug}`}>
+              <Link key={tag.id} href={`/product-tag/${tag.slug}`}>
                 {tag.name}
               </Link>,
             ],

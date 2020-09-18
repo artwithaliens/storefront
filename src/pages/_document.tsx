@@ -1,5 +1,5 @@
 import { ServerStyleSheets } from '@material-ui/styles';
-import Document, { DocumentContext, Head, Main, NextScript } from 'next/document';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
 import theme from '../theme';
 
@@ -24,7 +24,7 @@ export default class extends Document {
 
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <link rel="dns-prefetch" href="//www.google-analytics.com" />
           <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -44,7 +44,7 @@ export default class extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

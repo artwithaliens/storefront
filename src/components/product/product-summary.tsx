@@ -23,10 +23,7 @@ const ProductSummary: React.VFC<Props> = ({ product }) => (
       </Price>
     )}
     <Typography gutterBottom variant="body2">
-      plus{' '}
-      <Link href="/[slug]" as="/shipping-costs">
-        Shipping Costs
-      </Link>
+      plus <Link href="/shipping-costs">Shipping Costs</Link>
     </Typography>
     <RichText>
       {isBlank(product.shortDescription) ? product.description : product.shortDescription}

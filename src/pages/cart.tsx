@@ -36,12 +36,7 @@ const Cart: NextPage = () => {
             <Box my={4}>
               <Grid container justifyContent="flex-end">
                 <Grid item xs={12} sm={4}>
-                  <Button
-                    fullWidth
-                    href="/checkout/[step]"
-                    as="/checkout/billing-address"
-                    color="primary"
-                  >
+                  <Button fullWidth href="/checkout/billing-address" color="primary">
                     Proceed to Checkout
                   </Button>
                 </Grid>

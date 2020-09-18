@@ -112,7 +112,7 @@ const CheckoutReview: React.VFC<Props> = ({
             justifyContent="space-between"
           >
             <Typography variant="h4">Billing Address</Typography>
-            <NextLink passHref href="/checkout/[step]" as="/checkout/billing-address">
+            <NextLink passHref href="/checkout/billing-address">
               <IconButton size="small">
                 <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
@@ -132,7 +132,7 @@ const CheckoutReview: React.VFC<Props> = ({
             justifyContent="space-between"
           >
             <Typography variant="h4">Shipping Address</Typography>
-            <NextLink passHref href="/checkout/[step]" as="/checkout/shipping-address">
+            <NextLink passHref href="/checkout/shipping-address">
               <IconButton size="small">
                 <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
@@ -152,7 +152,7 @@ const CheckoutReview: React.VFC<Props> = ({
             justifyContent="space-between"
           >
             <Typography variant="h4">Shipping Method</Typography>
-            <NextLink passHref href="/checkout/[step]" as="/checkout/shipping-options">
+            <NextLink passHref href="/checkout/shipping-options">
               <IconButton size="small">
                 <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
@@ -175,7 +175,7 @@ const CheckoutReview: React.VFC<Props> = ({
             justifyContent="space-between"
           >
             <Typography variant="h4">Payment Method</Typography>
-            <NextLink passHref href="/checkout/[step]" as="/checkout/payment">
+            <NextLink passHref href="/checkout/payment">
               <IconButton size="small">
                 <SvgIcon fontSize="inherit" component={EditSvg} />
               </IconButton>
@@ -207,18 +207,9 @@ const CheckoutReview: React.VFC<Props> = ({
             label={
               <>
                 With your order, you agree to have read and understood our{' '}
-                <Link href="/[slug]" as="/terms">
-                  Terms &amp; Conditions
-                </Link>{' '}
-                your{' '}
-                <Link href="/[slug]" as="/revocation">
-                  Right of Recission
-                </Link>{' '}
-                and our{' '}
-                <Link href="/[slug]" as="/privacy-policy">
-                  Privacy Policy
-                </Link>
-                .
+                <Link href="/terms">Terms &amp; Conditions</Link> your{' '}
+                <Link href="/revocation">Right of Recission</Link> and our{' '}
+                <Link href="/privacy-policy">Privacy Policy</Link>.
               </>
             }
           />

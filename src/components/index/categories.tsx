@@ -48,8 +48,7 @@ const Categories: React.VFC = () => {
                 <div className={styles.category}>
                   <Link
                     className={styles.categoryLink}
-                    href="/product-category/[slug]"
-                    as={`/product-category/${category.slug}`}
+                    href={`/product-category/${category.slug}`}
                     underline="none"
                   >
                     <Image

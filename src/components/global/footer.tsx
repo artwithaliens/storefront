@@ -5,7 +5,6 @@ import FacebookSvg from '../../assets/icons/facebook.svg';
 import InstagramSvg from '../../assets/icons/instagram.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import fetchInstagramMedia from '../../utils/fetch-instagram-media';
-import prefetchURL from '../../utils/prefetch-url';
 import relativeURL from '../../utils/relative-url';
 import Link from './link';
 
@@ -119,10 +118,7 @@ const Footer: React.VFC = () => {
                       (childItem) =>
                         childItem != null && (
                           <li key={childItem.id} className={styles.menuItem}>
-                            <Link
-                              href={prefetchURL(childItem.url ?? '/')}
-                              as={relativeURL(childItem.url ?? '/')}
-                            >
+                            <Link href={relativeURL(childItem.url ?? '/')}>
                               <span
                                 // eslint-disable-next-line react/no-danger
                                 dangerouslySetInnerHTML={{ __html: childItem.label ?? '' }}

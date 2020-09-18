@@ -57,8 +57,7 @@ const ProductGrid: React.VFC<Props> = ({ products }) => {
               <Paper className={styles.product}>
                 <Link
                   className={styles.productLink}
-                  href="/product/[slug]"
-                  as={`/product/${product.slug}`}
+                  href={`/product/${product.slug}`}
                   underline="none"
                 >
                   <Image className={styles.productImage} mediaItem={product.image} loading="lazy" />

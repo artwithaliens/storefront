@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { MenuQuery } from '../../graphql';
-import prefetchURL from '../../utils/prefetch-url';
 import relativeURL from '../../utils/relative-url';
 import { AuthContext } from './auth-provider';
 import Button from './button';
@@ -76,8 +75,7 @@ const HeaderMenu: React.VFC<Props> = ({ menu }) => {
       {menu?.menuItems?.nodes?.map((menuItem) => (
         <li key={menuItem?.id}>
           <Button
-            href={prefetchURL(menuItem?.url ?? '/')}
-            as={relativeURL(menuItem?.url ?? '/')}
+            href={relativeURL(menuItem?.url ?? '/')}
             variant="text"
             className={styles.link}
             data-current={

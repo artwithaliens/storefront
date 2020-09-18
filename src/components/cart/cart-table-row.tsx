@@ -155,7 +155,7 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
       </TableCell>
       <TableCell className={styles.description}>
         <Typography gutterBottom variant="h5">
-          <Link href="/product/[slug]" as={`/product/${item.product?.slug}`} underline="none">
+          <Link href={`/product/${item.product?.slug}`} underline="none">
             {item.product?.name}
           </Link>
         </Typography>
