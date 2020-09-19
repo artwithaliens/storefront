@@ -130,12 +130,12 @@ export default createMuiTheme({
           },
         },
         outlinedPrimary: {
-          '&, &:hover': {
+          '&, &:hover, &$disabled': {
             borderWidth: 2,
           },
         },
         outlinedSecondary: {
-          '&, &:hover': {
+          '&, &:hover, &$disabled': {
             borderWidth: 2,
           },
         },

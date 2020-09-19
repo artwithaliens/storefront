@@ -34,6 +34,7 @@
     "@material-ui/styles": "^5.0.0-alpha.8",
     "@next/plugin-sentry": "^9.5.3",
     "@sotnikov/next-with-apollo": "^6.0.0-beta.2",
+    "babel-loader": "^8.1.0",
     "braintree-web": "^3.65.0",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",

@@ -152,11 +152,13 @@ const Register: NextPage = () => {
 
             {/* Submit Button */}
             <Box mt={2}>
-              <Button color="primary" loading={loading} type="submit">
+              <Button type="submit" color="primary" loading={loading}>
                 Register
               </Button>
               <Box ml={1}>
-                <Button href="/login">Login</Button>
+                <Button color="secondary" href="/login">
+                  Login
+                </Button>
               </Box>
             </Box>
           </form>

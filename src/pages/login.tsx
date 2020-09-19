@@ -123,11 +123,13 @@ const Login: NextPage = () => {
 
             {/* Submit Button */}
             <Box mt={2}>
-              <Button color="primary" loading={loading} type="submit">
+              <Button type="submit" color="primary" loading={loading}>
                 Login
               </Button>
               <Box ml={1}>
-                <Button href="/register">Register</Button>
+                <Button color="secondary" href="/register">
+                  Register
+                </Button>
               </Box>
             </Box>
           </form>

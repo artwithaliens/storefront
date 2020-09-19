@@ -12,7 +12,7 @@ const CartEmpty: React.VFC = () => (
         You haven’t added anything to your cart. I’m sure you’ll find something in my shop.
       </Typography>
     </Box>
-    <Button href="/shop" color="primary">
+    <Button color="primary" href="/shop">
       Continue shopping
     </Button>
   </Box>

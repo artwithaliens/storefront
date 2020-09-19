@@ -76,6 +76,7 @@ const HeaderMenu: React.VFC<Props> = ({ menu }) => {
         <li key={menuItem?.id}>
           <Button
             href={relativeURL(menuItem?.url ?? '/')}
+            color="inherit"
             variant="text"
             className={styles.link}
             data-current={
@@ -97,7 +98,7 @@ const HeaderMenu: React.VFC<Props> = ({ menu }) => {
       ))}
       {authenticated && (
         <li>
-          <Button variant="text" className={styles.link} onClick={handleLogout}>
+          <Button color="inherit" variant="text" className={styles.link} onClick={handleLogout}>
             Logout
           </Button>
         </li>

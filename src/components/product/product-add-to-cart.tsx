@@ -58,7 +58,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
   };
 
   const viewCart = showViewCart && (
-    <Button href="/cart" className={styles.viewCartButton}>
+    <Button color="secondary" href="/cart" className={styles.viewCartButton}>
       View cart
     </Button>
   );

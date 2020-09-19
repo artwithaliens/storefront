@@ -17,7 +17,9 @@ const OrderConfirmation: NextPage = () => (
           I’ll notify you when the order has been shipped.
         </Typography>
         <Box mt={4}>
-          <Button href="/shop">Continue shopping</Button>
+          <Button color="secondary" href="/shop">
+            Continue shopping
+          </Button>
         </Box>
       </Box>
     </Container>
