@@ -11,7 +11,7 @@ export default {
   },
 };
 
-export const base = () => (
+export const Base = () => (
   <MockedProvider
     mocks={[
       {

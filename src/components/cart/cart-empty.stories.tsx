@@ -6,4 +6,4 @@ export default {
   component: CartEmpty,
 };
 
-export const base = () => <CartEmpty />;
+export const Base = () => <CartEmpty />;

@@ -7,7 +7,7 @@ export default {
   component: Button,
 };
 
-export const base = () => (
+export const Base = () => (
   <Button
     color={select('Color', ['inherit', 'primary', 'secondary'], 'primary')}
     disabled={boolean('Disabled', false)}

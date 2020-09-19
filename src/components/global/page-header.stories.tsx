@@ -10,7 +10,7 @@ export default {
   },
 };
 
-export const base = () => (
+export const Base = () => (
   <PageHeader
     fullHeight={boolean('Full Height', false)}
     image={{
