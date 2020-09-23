@@ -1,39 +1,25 @@
-import {
-  Button as MuiButton,
-  ButtonProps as MuiButtonProps,
-  CircularProgress,
-} from '@material-ui/core';
+import { CircularProgress, ExtendButton, ExtendButtonTypeMap } from '@material-ui/core';
+import { OverrideProps } from '@material-ui/core/OverridableComponent';
+import { LoadingButton } from '@material-ui/lab';
 import Link, { LinkProps } from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import ReactGA from 'react-ga';
 
-type Props = Omit<MuiButtonProps, 'href'> &
-  Pick<LinkProps, 'as' | 'prefetch'> & {
-    href?: LinkProps['href'];
-    loading?: boolean;
-    rel?: string;
-    target?: string;
-  };
+type TypeMap<P = {}, D extends React.ElementType = 'button'> = ExtendButtonTypeMap<{
+  props: P &
+    Pick<LinkProps, 'as' | 'prefetch'> & {
+      href?: LinkProps['href'];
+      loading?: boolean;
+    };
+  defaultComponent: D;
+}>;
 
-const Button: React.FC<Props> = ({
-  as,
-  children,
-  disabled,
-  href,
-  loading,
-  prefetch,
-  ref: passRef,
-  rel,
-  target,
-  ...passProps
-}) => {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [width, setWidth] = useState<number>();
+type Props<D extends React.ElementType = TypeMap['defaultComponent'], P = {}> = OverrideProps<
+  TypeMap<P, D>,
+  D
+>;
 
-  useEffect(() => {
-    setWidth(ref.current?.offsetWidth);
-  }, [ref]);
-
+const Button = (({ as, children, href, loading, prefetch, ...props }: Props) => {
   const handleTrack = () => {
     ReactGA.outboundLink(
       { label: typeof children === 'string' ? `Clicked ${children}` : 'Clicked link' },
@@ -42,31 +28,24 @@ const Button: React.FC<Props> = ({
   };
 
   return href == null ? (
-    <MuiButton
-      ref={ref}
-      disabled={loading || disabled}
-      style={loading ? { width } : undefined}
-      {...passProps}
-    >
-      {loading ? <CircularProgress color="inherit" size={26} /> : children}
-    </MuiButton>
-  ) : href.toString().match(/^https?:/) ? (
-    <MuiButton
-      href={href.toString()}
-      target={target}
-      rel={rel}
-      onClick={handleTrack}
-      {...(passProps as MuiButtonProps<'a'>)}
+    <LoadingButton
+      pending={loading}
+      pendingIndicator={<CircularProgress color="inherit" size={26} />}
+      {...props}
     >
       {children}
-    </MuiButton>
+    </LoadingButton>
+  ) : href.toString().match(/^https?:/) ? (
+    <LoadingButton href={href.toString()} onClick={handleTrack} {...(props as Props<'a'>)}>
+      {children}
+    </LoadingButton>
   ) : (
     <Link passHref as={as} href={href} prefetch={prefetch}>
-      <MuiButton component="a" {...(passProps as MuiButtonProps<'a'>)}>
+      <LoadingButton component="a" {...(props as Props<'a'>)}>
         {children}
-      </MuiButton>
+      </LoadingButton>
     </Link>
   );
-};
+}) as ExtendButton<TypeMap>;
 
 export default Button;

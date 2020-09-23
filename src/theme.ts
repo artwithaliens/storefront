@@ -255,5 +255,12 @@ export default createMuiTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        gutterBottom: {
+          marginBottom: spacing(2),
+        },
+      },
+    },
   },
 });
