@@ -10,6 +10,7 @@ import RichText from '../../components/global/rich-text';
 import ProductAddToCart from '../../components/product/product-add-to-cart';
 import ProductAttributes from '../../components/product/product-attributes';
 import ProductGallery from '../../components/product/product-gallery';
+import ProductJSON from '../../components/product/product-json';
 import ProductMeta from '../../components/product/product-meta';
 import ProductSummary from '../../components/product/product-summary';
 import { useProductQuery } from '../../graphql';
@@ -64,6 +65,7 @@ const Product: NextPage = () => {
               : undefined,
         }}
       />
+      <ProductJSON product={product} />
       {product != null && (
         <Container>
           <Box my={6} overflow="hidden">

@@ -1,14 +1,23 @@
+import merge from 'lodash/merge';
 import React from 'react';
 import { SettingsQuery, useSettingsQuery } from '../../graphql';
 
-export const SettingsContext = React.createContext<NonNullable<SettingsQuery['settings']>>({
+const defaultSettings = {
   title: 'Art With Aliens',
-});
+};
+
+export const SettingsContext = React.createContext<
+  Omit<NonNullable<SettingsQuery['settings']>, 'title'> & { title: string }
+>(defaultSettings);
 
 const SettingsProvider: React.FC = ({ children }) => {
   const { data: { settings } = { settings: undefined } } = useSettingsQuery();
 
-  return <SettingsContext.Provider value={settings ?? {}}>{children}</SettingsContext.Provider>;
+  return (
+    <SettingsContext.Provider value={merge(defaultSettings, settings)}>
+      {children}
+    </SettingsContext.Provider>
+  );
 };
 
 export default SettingsProvider;

@@ -1,98 +1,88 @@
-import {
-  AppBar,
-  Collapse,
-  Hidden,
-  IconButton,
-  makeStyles,
-  SvgIcon,
-  Toolbar,
-} from '@material-ui/core';
-import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import { AppBar, Collapse, Hidden, IconButton, SvgIcon, Theme, Toolbar } from '@material-ui/core';
+import React, { useContext } from 'react';
+import { useToggle } from 'react-use';
 import MenuSvg from '../../assets/icons/menu.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import HeaderCartButton from './header-cart-button';
 import HeaderLogo from './header-logo';
 import HeaderMenu from './header-menu';
 import Link from './link';
+import { SettingsContext } from './settings-provider';
 
-const useStyles = makeStyles(
-  ({ breakpoints, palette }) => ({
-    root: {
-      position: 'relative',
+const HeaderRoot = styled(AppBar)({
+  position: 'relative',
+});
+
+const HeaderToolbar = styled(Toolbar)<{}, Theme>(({ theme }) => ({
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  maxWidth: theme.breakpoints.values.lg,
+  minHeight: 60,
+  width: '100%',
+
+  [theme.breakpoints.up('md')]: {
+    minHeight: 110,
+  },
+}));
+
+const HeaderToolbarLeft = styled('div')({
+  flexGrow: 1,
+});
+
+const HeaderToolbarRight = styled('div')({
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  display: 'flex',
+  flexGrow: 1,
+  justifyContent: 'flex-end',
+});
+
+const HeaderLogoLink = styled(Link)<{}, Theme>(({ theme }) => ({
+  color: theme.palette.common.white,
+
+  '& > svg': {
+    height: 44,
+    width: 'auto',
+
+    [theme.breakpoints.up('md')]: {
+      height: 62,
     },
-
-    toolbar: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      maxWidth: breakpoints.values.lg,
-      minHeight: 60,
-      width: '100%',
-
-      [breakpoints.up('md')]: {
-        minHeight: 110,
-      },
-    },
-
-    toolbarLeft: {
-      flexGrow: 1,
-    },
-
-    toolbarRight: {
-      alignItems: 'center',
-      alignSelf: 'stretch',
-      display: 'flex',
-      flexGrow: 1,
-      justifyContent: 'flex-end',
-    },
-
-    logo: {
-      color: palette.common.white,
-
-      '& > svg': {
-        height: 44,
-        width: 'auto',
-
-        [breakpoints.up('md')]: {
-          height: 62,
-        },
-      },
-    },
-  }),
-  { name: 'Header' },
-);
+  },
+}));
 
 const Header: React.VFC = () => {
-  const styles = useStyles();
-  const [open, setOpen] = useState(false);
+  const settings = useContext(SettingsContext);
+  const [open, toggleOpen] = useToggle(false);
 
   const { data: menu } = useMenuQuery({
     variables: { location: MenuLocationEnum.PRIMARY_NAVIGATION },
   });
 
   return (
-    <AppBar className={styles.root} color="default" position="static">
-      <Toolbar className={styles.toolbar}>
+    <HeaderRoot color="default" position="static">
+      <HeaderToolbar>
         <Hidden mdUp>
-          <div className={styles.toolbarLeft}>
-            <IconButton aria-label="Menu" onClick={() => setOpen(!open)}>
+          <HeaderToolbarLeft>
+            <IconButton aria-label="Menu" onClick={toggleOpen}>
               <SvgIcon component={MenuSvg} />
             </IconButton>
-          </div>
+          </HeaderToolbarLeft>
         </Hidden>
-        <Link className={styles.logo} href="/" underline="none">
-          <HeaderLogo height={46} />
-        </Link>
-        <div className={styles.toolbarRight}>
-          <Hidden smDown>
+        <HeaderLogoLink href="/" underline="none">
+          <HeaderLogo titleAccess={settings.title} />
+        </HeaderLogoLink>
+        <HeaderToolbarRight>
+          <Hidden mdDown>
             <HeaderMenu menu={menu} />
           </Hidden>
           <HeaderCartButton />
-        </div>
-      </Toolbar>
+        </HeaderToolbarRight>
+      </HeaderToolbar>
       <Collapse unmountOnExit in={open} timeout="auto">
         <HeaderMenu menu={menu} />
       </Collapse>
-    </AppBar>
+    </HeaderRoot>
   );
 };
 

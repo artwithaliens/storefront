@@ -7,14 +7,16 @@ import {
   NormalizedCache,
 } from '@apollo/client';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CacheProvider } from '@emotion/core';
+import { CssBaseline, StylesProvider, ThemeProvider as MuiThemeProvider } from '@material-ui/core';
 import withApollo, { WithApolloProps } from '@sotnikov/next-with-apollo';
+import { cache } from 'emotion';
+import { ThemeProvider } from 'emotion-theming';
 import { DefaultSeo } from 'next-seo';
 import App from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
-import AlertProvider from '../components/global/alert-provider';
 import SettingsProvider, { SettingsContext } from '../components/global/settings-provider';
 import introspectionResult from '../fragment-types';
 import theme from '../theme';
@@ -114,12 +116,16 @@ export default withApollo(
                   />
                 )}
               </SettingsContext.Consumer>
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <AlertProvider>
-                  <Component {...pageProps} />
-                </AlertProvider>
-              </ThemeProvider>
+              <StylesProvider injectFirst>
+                <CacheProvider value={cache}>
+                  <ThemeProvider theme={theme}>
+                    <MuiThemeProvider theme={theme}>
+                      <CssBaseline />
+                      <Component {...pageProps} />
+                    </MuiThemeProvider>
+                  </ThemeProvider>
+                </CacheProvider>
+              </StylesProvider>
             </SettingsProvider>
           </ApolloProvider>
         </>

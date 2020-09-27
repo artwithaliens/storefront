@@ -1,5 +1,4 @@
-import { Snackbar } from '@material-ui/core';
-import { Alert, AlertProps } from '@material-ui/lab';
+import { Alert, AlertProps, Snackbar } from '@material-ui/core';
 import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 

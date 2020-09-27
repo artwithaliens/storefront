@@ -70,7 +70,7 @@ const ProductGallery: React.VFC<Props> = ({ product }) => {
           />
         </div>
       </Hidden>
-      <Hidden smDown>
+      <Hidden mdDown>
         <div className={styles.gallery}>
           <Image className={styles.galleryImage} mediaItem={product.image} />
           {product.galleryImages?.nodes?.map(

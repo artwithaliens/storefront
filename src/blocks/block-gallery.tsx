@@ -21,7 +21,7 @@ const useStyles = makeStyles(
           position: 'relative',
 
           // On mobile and responsive viewports, we allow only 1 or 2 columns at the most.
-          [breakpoints.down('xs')]: {
+          [breakpoints.down('sm')]: {
             width: `calc(50% - ${spacing(2)}px)`,
 
             '&:nth-of-type(even)': {
@@ -71,7 +71,7 @@ const useStyles = makeStyles(
             [`&.columns-${i} .blocks-gallery-image, &.columns-${i} .blocks-gallery-item`]: {
               [breakpoints.up('sm')]: {
                 marginRight: spacing(2),
-                width: `calc(${100 / i}% - ${(spacing(2) * (i - 1)) / i}px)`,
+                width: `calc(${100 / i}% - ${spacing((2 * (i - 1)) / i)})`,
               },
             },
           })),

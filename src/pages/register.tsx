@@ -1,6 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import { Box, Container, TextField, Typography } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Alert, Box, Container, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { ExecutionResult } from 'graphql';
 import { NextPage } from 'next';

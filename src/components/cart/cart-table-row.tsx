@@ -20,7 +20,7 @@ import QuantityInput from '../global/quantity-input';
 const useStyles = makeStyles(
   ({ breakpoints }) => ({
     root: {
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         display: 'flex',
         flexWrap: 'wrap',
       },
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
       boxSizing: 'content-box',
       width: 70,
 
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         borderBottom: 0,
         order: 1,
         paddingLeft: 0,
@@ -60,7 +60,7 @@ const useStyles = makeStyles(
     },
 
     description: {
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         borderBottom: 0,
         order: 2,
         width: 'calc(100% - 70px)',
@@ -72,7 +72,7 @@ const useStyles = makeStyles(
       textAlign: 'center',
       width: 70,
 
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         borderBottom: 0,
         order: 3,
         paddingLeft: 0,
@@ -84,7 +84,7 @@ const useStyles = makeStyles(
       textAlign: 'center',
       width: '15%',
 
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         borderBottom: 0,
         order: 4,
         textAlign: 'left',
@@ -96,7 +96,7 @@ const useStyles = makeStyles(
       textAlign: 'center',
       width: '15%',
 
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         borderBottom: 0,
         order: 5,
         width: '50%',
@@ -107,7 +107,7 @@ const useStyles = makeStyles(
       textAlign: 'center',
       width: '15%',
 
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('sm')]: {
         order: 6,
         textAlign: 'right',
         width: '100%',

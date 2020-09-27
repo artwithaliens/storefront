@@ -3,7 +3,7 @@ import createPalette from '@material-ui/core/styles/createPalette';
 import createSpacing from '@material-ui/core/styles/createSpacing';
 
 const palette = createPalette({
-  type: 'dark',
+  mode: 'dark',
   primary: {
     main: '#af8245',
   },

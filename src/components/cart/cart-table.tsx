@@ -80,7 +80,7 @@ const CartTable: React.VFC<Props> = ({ cart, loading, onUpdate }) => {
 
   return (
     <Table className={styles.root}>
-      <Hidden xsDown>
+      <Hidden smDown>
         <TableHead>
           <TableRow>
             <TableCell colSpan={2}>Product</TableCell>
