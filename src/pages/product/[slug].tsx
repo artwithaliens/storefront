@@ -46,19 +46,19 @@ const Product: NextPage = () => {
 
   return (
     <PageWrapper>
-      {loading ? (
+      {loading || product == null ? (
         <Loader full />
       ) : (
         <>
           <NextSeo
-            title={product?.seo?.title ?? undefined}
-            description={product?.seo?.description ?? undefined}
+            title={product.seo?.title ?? undefined}
+            description={product.seo?.description ?? undefined}
             openGraph={{
-              title: product?.seo?.openGraphTitle ?? undefined,
-              description: product?.seo?.openGraphDescription ?? undefined,
+              title: product.seo?.openGraphTitle ?? undefined,
+              description: product.seo?.openGraphDescription ?? undefined,
               type: 'product',
               images:
-                product?.seo?.socialImage?.sourceUrl != null
+                product.seo?.socialImage?.sourceUrl != null
                   ? [
                       {
                         url: product.seo.socialImage.sourceUrl,
@@ -71,41 +71,39 @@ const Product: NextPage = () => {
             }}
           />
           <ProductJSON product={product} />
-          {product != null && (
-            <Container>
-              <Box my={6} overflow="hidden">
-                <Grid container spacing={6}>
-                  <Grid item xs={12} md={6}>
-                    <ProductGallery product={product} />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Box position="sticky" top={48}>
-                      <ProductSummary product={product} />
-                      <ProductAddToCart product={product} />
-                      <ProductMeta product={product} />
-                    </Box>
-                  </Grid>
+          <Container>
+            <Box my={6} overflow={{ xs: 'hidden', md: 'inherit' }}>
+              <Grid container spacing={6}>
+                <Grid item xs={12} md={6}>
+                  <ProductGallery product={product} />
                 </Grid>
-                {!isBlank(product.shortDescription) && !isBlank(product.description) && (
-                  <Box mt={6}>
-                    <Typography gutterBottom variant="h3">
-                      Description
-                    </Typography>
-                    <RichText>{product.description}</RichText>
+                <Grid item xs={12} md={6}>
+                  <Box position="sticky" top={48}>
+                    <ProductSummary product={product} />
+                    <ProductAddToCart product={product} />
+                    <ProductMeta product={product} />
                   </Box>
-                )}
-                <ProductAttributes product={product} />
-              </Box>
-              {(product.related?.nodes?.length ?? 0) > 0 && (
-                <Box mb={6}>
+                </Grid>
+              </Grid>
+              {!isBlank(product.shortDescription) && !isBlank(product.description) && (
+                <Box mt={6}>
                   <Typography gutterBottom variant="h3">
-                    Related products
+                    Description
                   </Typography>
-                  <ProductGrid products={product.related?.nodes ?? []} />
+                  <RichText>{product.description}</RichText>
                 </Box>
               )}
-            </Container>
-          )}
+              <ProductAttributes product={product} />
+            </Box>
+            {(product.related?.nodes?.length ?? 0) > 0 && (
+              <Box mb={6}>
+                <Typography gutterBottom variant="h3">
+                  Related products
+                </Typography>
+                <ProductGrid products={product.related?.nodes ?? []} />
+              </Box>
+            )}
+          </Container>
         </>
       )}
     </PageWrapper>
