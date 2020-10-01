@@ -2,6 +2,7 @@ import { Box, Container, Grid, makeStyles, SvgIcon, Typography } from '@material
 import React from 'react';
 import { useAsync } from 'react-use';
 import FacebookSvg from '../../assets/icons/facebook.svg';
+import GithubSvg from '../../assets/icons/github.svg';
 import InstagramSvg from '../../assets/icons/instagram.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import fetchInstagramMedia from '../../utils/fetch-instagram-media';
@@ -87,6 +88,15 @@ const Footer: React.VFC = () => {
           >
             <SvgIcon fontSize="large" component={InstagramSvg} />
           </a>
+          <a
+            href="https://github.com/artwithaliens"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.socialLink}
+            aria-label="GitHub"
+          >
+            <SvgIcon fontSize="large" component={GithubSvg} />
+          </a>
         </Box>
         {instagramMedia != null && (
           <Box mb={3}>
@@ -111,7 +121,7 @@ const Footer: React.VFC = () => {
             (menuItem) =>
               menuItem != null &&
               (menuItem.childItems?.nodes?.length ?? 0) > 0 && (
-                <Grid key={menuItem.id} item>
+                <Grid key={menuItem.id} item xs={6} md="auto">
                   <Typography variant="h4">{menuItem.label}</Typography>
                   <ul className={styles.menu}>
                     {menuItem.childItems?.nodes?.map(
