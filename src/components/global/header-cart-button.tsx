@@ -9,7 +9,7 @@ const HeaderCartButton: React.VFC = () => {
 
   return (
     <Link passHref href="/cart">
-      <IconButton aria-label="Cart">
+      <IconButton color="inherit" aria-label="Cart">
         <Badge
           badgeContent={cart?.contents?.itemCount}
           color="primary"

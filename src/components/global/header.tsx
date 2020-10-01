@@ -1,5 +1,13 @@
-import styled from '@emotion/styled';
-import { AppBar, Collapse, Hidden, IconButton, SvgIcon, Theme, Toolbar } from '@material-ui/core';
+import {
+  AppBar,
+  Box,
+  Collapse,
+  Hidden,
+  IconButton,
+  makeStyles,
+  SvgIcon,
+  Toolbar,
+} from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useToggle } from 'react-use';
 import MenuSvg from '../../assets/icons/menu.svg';
@@ -10,48 +18,36 @@ import HeaderMenu from './header-menu';
 import Link from './link';
 import { SettingsContext } from './settings-provider';
 
-const HeaderRoot = styled(AppBar)({
-  position: 'relative',
-});
+const useStyles = makeStyles(
+  ({ breakpoints }) => ({
+    toolbar: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      maxWidth: breakpoints.values.lg,
+      minHeight: 60,
+      width: '100%',
 
-const HeaderToolbar = styled(Toolbar)<{}, Theme>(({ theme }) => ({
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  maxWidth: theme.breakpoints.values.lg,
-  minHeight: 60,
-  width: '100%',
-
-  [theme.breakpoints.up('md')]: {
-    minHeight: 110,
-  },
-}));
-
-const HeaderToolbarLeft = styled('div')({
-  flexGrow: 1,
-});
-
-const HeaderToolbarRight = styled('div')({
-  alignItems: 'center',
-  alignSelf: 'stretch',
-  display: 'flex',
-  flexGrow: 1,
-  justifyContent: 'flex-end',
-});
-
-const HeaderLogoLink = styled(Link)<{}, Theme>(({ theme }) => ({
-  color: theme.palette.common.white,
-
-  '& > svg': {
-    height: 44,
-    width: 'auto',
-
-    [theme.breakpoints.up('md')]: {
-      height: 62,
+      [breakpoints.up('md')]: {
+        minHeight: 110,
+      },
     },
-  },
-}));
+
+    logo: {
+      '& > svg': {
+        height: 44,
+        width: 'auto',
+
+        [breakpoints.up('md')]: {
+          height: 62,
+        },
+      },
+    },
+  }),
+  { name: 'Header' },
+);
 
 const Header: React.VFC = () => {
+  const styles = useStyles();
   const settings = useContext(SettingsContext);
   const [open, toggleOpen] = useToggle(false);
 
@@ -60,29 +56,35 @@ const Header: React.VFC = () => {
   });
 
   return (
-    <HeaderRoot color="default" position="static">
-      <HeaderToolbar>
+    <AppBar color="default" position="relative">
+      <Toolbar className={styles.toolbar}>
         <Hidden mdUp>
-          <HeaderToolbarLeft>
+          <Box flexGrow={1}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>
               <SvgIcon component={MenuSvg} />
             </IconButton>
-          </HeaderToolbarLeft>
+          </Box>
         </Hidden>
-        <HeaderLogoLink href="/" underline="none">
+        <Link className={styles.logo} href="/" underline="none">
           <HeaderLogo titleAccess={settings.title} />
-        </HeaderLogoLink>
-        <HeaderToolbarRight>
+        </Link>
+        <Box
+          display="flex"
+          alignItems="center"
+          alignSelf="stretch"
+          flexGrow={1}
+          justifyContent="flex-end"
+        >
           <Hidden mdDown>
             <HeaderMenu menu={menu} />
           </Hidden>
           <HeaderCartButton />
-        </HeaderToolbarRight>
-      </HeaderToolbar>
+        </Box>
+      </Toolbar>
       <Collapse unmountOnExit in={open} timeout="auto">
         <HeaderMenu menu={menu} />
       </Collapse>
-    </HeaderRoot>
+    </AppBar>
   );
 };
 

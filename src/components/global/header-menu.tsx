@@ -7,7 +7,7 @@ import { AuthContext } from './auth-provider';
 import Button from './button';
 
 const useStyles = makeStyles(
-  ({ breakpoints, palette }) => ({
+  ({ breakpoints, palette, spacing }) => ({
     root: {
       display: 'flex',
       flexDirection: 'column',
@@ -21,18 +21,16 @@ const useStyles = makeStyles(
         flexDirection: 'row',
 
         '& > li': {
-          marginRight: 20,
+          marginRight: spacing(2.5),
         },
       },
     },
 
     link: {
-      color: palette.common.white,
-      fontSize: 18,
       height: '100%',
       justifyContent: 'flex-start',
-      paddingLeft: 28,
-      paddingRight: 28,
+      paddingLeft: spacing(3),
+      paddingRight: spacing(3),
       width: '100%',
 
       [breakpoints.up('md')]: {
@@ -40,13 +38,7 @@ const useStyles = makeStyles(
         borderBottomStyle: 'solid',
         borderBottomWidth: 2,
         justifyContent: 'center',
-        paddingLeft: 24,
-        paddingRight: 24,
         width: 'auto',
-      },
-
-      '&:hover': {
-        color: palette.common.white,
       },
 
       '&[data-current="page"], &.current': {

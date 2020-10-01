@@ -1,5 +1,4 @@
 import { ServerStyleSheets } from '@material-ui/styles';
-import { extractCritical } from 'emotion-server';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
 import theme from '../theme';
@@ -15,20 +14,11 @@ export default class extends Document {
       });
 
     const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
 
     return {
       ...initialProps,
       // Styles fragment is rendered after the app and page rendering finish.
-      styles: [
-        ...React.Children.toArray(initialProps.styles),
-        sheets.getStyleElement(),
-        <style
-          data-emotion-css={styles.ids.join(' ')}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: styles.css }}
-        />,
-      ],
+      styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
     };
   }
 
