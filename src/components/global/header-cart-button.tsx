@@ -5,7 +5,10 @@ import CartSvg from '../../assets/icons/cart.svg';
 import { useCartQuery } from '../../graphql';
 
 const HeaderCartButton: React.VFC = () => {
-  const { data: { cart } = { cart: undefined } } = useCartQuery({ ssr: false });
+  const { data: { cart } = { cart: undefined } } = useCartQuery({
+    fetchPolicy: 'no-cache',
+    ssr: false,
+  });
 
   return (
     <Link passHref href="/cart">

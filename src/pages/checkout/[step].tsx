@@ -18,6 +18,7 @@ const Checkout: NextPage = () => {
   const router = useRouter();
 
   const { data: { cart } = { cart: undefined }, loading: cartLoading } = useCartQuery({
+    fetchPolicy: 'no-cache',
     ssr: false,
   });
   const {

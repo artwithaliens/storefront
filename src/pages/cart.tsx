@@ -9,7 +9,10 @@ import PageWrapper from '../components/global/page-wrapper';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {
-  const { data: { cart } = { cart: undefined }, loading } = useCartQuery({ ssr: false });
+  const { data: { cart } = { cart: undefined }, loading } = useCartQuery({
+    fetchPolicy: 'no-cache',
+    ssr: false,
+  });
 
   const [updateCart, { loading: updating }] = useUpdateCartMutation({
     refetchQueries: ['Cart'],
