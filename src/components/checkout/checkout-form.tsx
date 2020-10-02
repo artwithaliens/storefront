@@ -37,7 +37,7 @@ const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) =
 
   useEffect(() => {
     if (router.query.step === 'review' && paymentMethod === 'braintree_cc' && creditCard == null) {
-      router.push('/checkout');
+      router.push('/checkout/billing-address');
     }
   }, [creditCard, paymentMethod, router]);
 

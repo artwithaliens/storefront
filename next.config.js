@@ -23,6 +23,10 @@ module.exports = withOffline({
       source: '/service-worker.js',
       destination: '/_next/static/service-worker.js',
     },
+    {
+      source: '/checkout',
+      destination: '/checkout/billing-address',
+    },
   ],
   experimental: {
     plugins: true,
