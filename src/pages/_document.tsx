@@ -29,7 +29,6 @@ export default class extends Document {
           <link rel="dns-prefetch" href="//www.google-analytics.com" />
           <link rel="dns-prefetch" href="//fonts.googleapis.com" />
           <link rel="dns-prefetch" href="//storage.googleapis.com" />
-          <meta charSet="utf-8" />
           <meta name="theme-color" content={theme.palette.common.black} />
           <link
             href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Amatic+SC:wght@400;700&display=swap"
