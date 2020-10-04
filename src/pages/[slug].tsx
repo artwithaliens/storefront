@@ -1,6 +1,6 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { Box, Container } from '@material-ui/core';
-import { ApolloPageContext } from '@sotnikov/next-with-apollo';
-import { NextPage } from 'next';
+import { NextPage, NextPageContext } from 'next';
 import { NextSeo } from 'next-seo';
 import Error from 'next/error';
 import React from 'react';
@@ -37,7 +37,9 @@ const Page: NextPage<Props> = ({ page }) => {
   );
 };
 
-Page.getInitialProps = async (context: ApolloPageContext) => {
+Page.getInitialProps = async (
+  context: NextPageContext & { apolloClient: ApolloClient<NormalizedCacheObject> },
+) => {
   const page = await context.apolloClient
     .query<PageQuery, PageQueryVariables>({
       query: PageDocument,

@@ -1,127 +1,128 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCache,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@material-ui/core';
-import withApollo, { WithApolloProps } from '@sotnikov/next-with-apollo';
+import { NextComponentType } from 'next';
 import { DefaultSeo } from 'next-seo';
-import App from 'next/app';
+import NextApp, { AppContext, AppInitialProps, AppProps as NextAppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import ReactGA from 'react-ga';
+import { useMount } from 'react-use';
+import createClient from '../apollo';
 import SettingsProvider, { SettingsContext } from '../components/global/settings-provider';
-import introspectionResult from '../fragment-types';
 import theme from '../theme';
 import absoluteURL from '../utils/absolute-url';
 
-const middleware = new ApolloLink((operation, forward) => {
-  // If session data exist in local storage, set value as session header.
-  const session = process.browser ? localStorage.getItem('session') : null;
-  if (session != null) {
-    operation.setContext(() => ({
-      headers: {
-        'woocommerce-session': `Session ${session}`,
-      },
-    }));
+type Props = NextAppProps & {
+  apollo?: ApolloClient<NormalizedCacheObject>;
+  apolloState?: {
+    data?: NormalizedCacheObject;
+  };
+};
+
+const App: NextComponentType<AppContext, AppInitialProps, Props> = ({
+  apollo,
+  apolloState,
+  Component,
+  pageProps,
+  router,
+}) => {
+  useMount(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    jssStyles?.parentNode?.removeChild(jssStyles);
+
+    ReactGA.initialize(process.env.GA_TRACKING_ID, {
+      debug: process.env.NODE_ENV === 'development',
+    });
+    ReactGA.plugin.require('ec');
+    ReactGA.pageview(router.asPath);
+
+    router.events.on('routeChangeComplete', (url: string) => {
+      ReactGA.pageview(url);
+    });
+  });
+
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+        />
+      </Head>
+      <ApolloProvider client={apollo ?? createClient({ initialState: apolloState?.data })}>
+        <SettingsProvider>
+          <SettingsContext.Consumer>
+            {(settings) => (
+              <DefaultSeo
+                title={settings.title ?? undefined}
+                description={settings.description ?? undefined}
+                canonical={absoluteURL(router.asPath)}
+                openGraph={{
+                  type: 'website',
+                  locale: 'en_US',
+                  url: absoluteURL(router.asPath),
+                  site_name: settings.title ?? undefined,
+                }}
+                twitter={{
+                  handle: '@artwithaliens',
+                  cardType: 'summary_large_image',
+                }}
+              />
+            )}
+          </SettingsContext.Consumer>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </MuiThemeProvider>
+        </SettingsProvider>
+      </ApolloProvider>
+    </>
+  );
+};
+
+App.getInitialProps = async (appContext) => {
+  const { AppTree, ctx } = appContext;
+
+  const apollo = createClient();
+  const apolloState: Props['apolloState'] = {};
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (ctx as any).apolloClient = apollo;
+  const appProps = await NextApp.getInitialProps(appContext);
+
+  if (!process.browser) {
+    if (ctx.res && (ctx.res.headersSent || ctx.res.writableEnded)) {
+      return appProps;
+    }
+
+    try {
+      await getDataFromTree(<AppTree {...appProps} apollo={apollo} apolloState={apolloState} />);
+    } catch (error) {
+      // Prevent Apollo Client GraphQL errors from crashing SSR.
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.error('GraphQL error occurred [getDataFromTree]', error);
+      }
+    }
+
+    // `getDataFromTree` does not call `componentWillUnmount`, therefore head
+    // side effects need to be cleared manually.
+    Head.rewind();
+
+    apolloState.data = apollo.cache.extract();
   }
-  return forward(operation);
-});
 
-const afterware = new ApolloLink((operation, forward) =>
-  forward(operation).map((response) => {
-    // Check for session header and update session in local storage accordingly.
-    const {
-      response: { headers },
-    } = operation.getContext();
-    const session = headers.get('woocommerce-session');
-    if (process.browser && session != null && localStorage.getItem('session') !== session) {
-      localStorage.setItem('session', headers.get('woocommerce-session'));
-    }
-    return response;
-  }),
-);
+  // To avoid calling `createClient()` twice in the server, we send the Apollo
+  // client as a prop to the component, otherwise the component would have to
+  // call `createClient()` again, but this time without the context.
+  // Once that happens, the following code will make sure we send the prop as
+  // `null` to the browser.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (apollo as any).toJSON = () => null;
 
-export default withApollo(
-  ({ initialState }) =>
-    new ApolloClient({
-      link: middleware.concat(
-        afterware.concat(
-          new HttpLink({
-            uri: process.env.GRAPHQL_URL,
-            credentials: 'include',
-          }),
-        ),
-      ),
-      cache: new InMemoryCache({ possibleTypes: introspectionResult.possibleTypes }).restore(
-        initialState || {},
-      ),
-    }),
-)(
-  class extends App<WithApolloProps<NormalizedCache>> {
-    componentDidMount() {
-      const { router } = this.props;
+  return { ...appProps, apolloState, apollo };
+};
 
-      // Remove the server-side injected CSS.
-      const jssStyles = document.querySelector('#jss-server-side');
-      jssStyles?.parentNode?.removeChild(jssStyles);
-
-      ReactGA.initialize(process.env.GA_TRACKING_ID, {
-        debug: process.env.NODE_ENV === 'development',
-      });
-      ReactGA.plugin.require('ec');
-      ReactGA.pageview(router.asPath);
-
-      router.events.on('routeChangeComplete', (url: string) => {
-        ReactGA.pageview(url);
-      });
-    }
-
-    render() {
-      const { apollo, Component, pageProps, router } = this.props;
-
-      return (
-        <>
-          <Head>
-            <meta
-              name="viewport"
-              content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-            />
-          </Head>
-          <ApolloProvider client={apollo}>
-            <SettingsProvider>
-              <SettingsContext.Consumer>
-                {(settings) => (
-                  <DefaultSeo
-                    title={settings.title ?? undefined}
-                    description={settings.description ?? undefined}
-                    canonical={absoluteURL(router.asPath)}
-                    openGraph={{
-                      type: 'website',
-                      locale: 'en_US',
-                      url: absoluteURL(router.asPath),
-                      site_name: settings.title ?? undefined,
-                    }}
-                    twitter={{
-                      handle: '@artwithaliens',
-                      cardType: 'summary_large_image',
-                    }}
-                  />
-                )}
-              </SettingsContext.Consumer>
-              <MuiThemeProvider theme={theme}>
-                <CssBaseline />
-                <Component {...pageProps} />
-              </MuiThemeProvider>
-            </SettingsProvider>
-          </ApolloProvider>
-        </>
-      );
-    }
-  },
-  { getDataFromTree },
-);
+export default App;
