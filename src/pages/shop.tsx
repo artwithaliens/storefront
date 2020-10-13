@@ -12,7 +12,7 @@ const Shop: NextPage = () => {
   return (
     <PageWrapper>
       {loading ? (
-        <Loader full />
+        <Loader fullHeight />
       ) : (
         <Container>
           <Box my={6}>

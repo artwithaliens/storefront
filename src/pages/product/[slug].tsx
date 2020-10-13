@@ -47,7 +47,7 @@ const Product: NextPage = () => {
   return (
     <PageWrapper>
       {loading || product == null ? (
-        <Loader full />
+        <Loader fullHeight />
       ) : (
         <>
           <NextSeo

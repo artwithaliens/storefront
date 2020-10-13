@@ -61,7 +61,7 @@ const Checkout: NextPage = () => {
         <script async data-version-4 src="https://www.paypalobjects.com/api/checkout.js" />
       </Head>
       {cart == null || cartLoading || customer == null || customerLoading ? (
-        <Loader full />
+        <Loader fullHeight />
       ) : (
         <Container>
           <Box mt={6} mb={4}>

@@ -10,7 +10,7 @@ import BlockImage from '../../blocks/block-image';
 import BlockParagraph from '../../blocks/block-paragraph';
 import RichText from './rich-text';
 
-export function parseWithBlocks(html: string) {
+function parseWithBlocks(html: string) {
   const options: HTMLReactParserOptions = {
     replace: ({ attribs = {}, children = [], name }) => {
       const classNames = attribs.class?.split(/\s/) ?? [];

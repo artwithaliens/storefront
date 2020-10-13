@@ -19,7 +19,7 @@ const ProductTag: NextPage = () => {
   return (
     <PageWrapper>
       {loading ? (
-        <Loader full />
+        <Loader fullHeight />
       ) : (
         <Container>
           <Box mt={6}>

@@ -1,4 +1,4 @@
-import { darken, fade, makeStyles } from '@material-ui/core';
+import { alpha, darken, makeStyles } from '@material-ui/core';
 import parse from 'html-react-parser';
 import React from 'react';
 import sentenceCase from '../../utils/sentence-case';
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
 
         '& th, & td': {
           ...typography.body2,
-          borderBottom: `1px solid ${darken(fade(palette.divider, 1), 0.68)}`,
+          borderBottom: `1px solid ${darken(alpha(palette.divider, 1), 0.68)}`,
           padding: spacing(1),
           textAlign: 'left',
         },

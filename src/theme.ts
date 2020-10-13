@@ -1,9 +1,7 @@
 import { createMuiTheme } from '@material-ui/core';
-import createPalette from '@material-ui/core/styles/createPalette';
-import createSpacing from '@material-ui/core/styles/createSpacing';
 
-const palette = createPalette({
-  mode: 'dark',
+const palette = {
+  mode: 'dark' as const,
   primary: {
     main: '#af8245',
   },
@@ -22,13 +20,10 @@ const palette = createPalette({
     default: '#0d0a0e',
     paper: '#131215',
   },
-});
-
-const spacing = createSpacing(8);
+};
 
 export default createMuiTheme({
   palette,
-  spacing,
   shape: {
     borderRadius: 0,
   },
@@ -149,15 +144,15 @@ export default createMuiTheme({
     MuiFormControl: {
       styleOverrides: {
         marginNormal: {
-          marginBottom: spacing(1),
-          marginTop: spacing(1),
+          marginBottom: 8,
+          marginTop: 8,
         },
       },
     },
     MuiFormGroup: {
       styleOverrides: {
         root: {
-          marginBottom: spacing(2),
+          marginBottom: 16,
         },
       },
     },
@@ -258,7 +253,7 @@ export default createMuiTheme({
     MuiTypography: {
       styleOverrides: {
         gutterBottom: {
-          marginBottom: spacing(2),
+          marginBottom: 16,
         },
       },
     },

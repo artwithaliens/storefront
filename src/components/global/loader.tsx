@@ -1,37 +1,34 @@
-import { CircularProgress, makeStyles } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-}));
-
 type Props = {
-  full?: boolean;
+  fullHeight?: boolean;
 };
 
-const Loader: React.VFC<Props> = ({ full }) => {
-  const styles = useStyles();
+const Loader: React.VFC<Props> = ({ fullHeight }) => {
   const node = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    if (process.browser && full && node.current != null) {
+    if (process.browser && fullHeight && node.current != null) {
       setHeight(
         window.innerHeight -
           (document.querySelector('header')?.offsetHeight ?? 0) -
           (document.querySelector('footer')?.offsetHeight ?? 0),
       );
     }
-  }, [full]);
+  }, [fullHeight]);
 
   return (
-    <div ref={node} className={styles.root} style={full ? { height } : {}}>
+    <Box
+      ref={node}
+      alignItems="center"
+      display="flex"
+      height={fullHeight ? height : 'auto'}
+      justifyContent="center"
+    >
       <CircularProgress />
-    </div>
+    </Box>
   );
 };
 

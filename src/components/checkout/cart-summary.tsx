@@ -1,6 +1,7 @@
 import {
+  alpha,
+  Box,
   darken,
-  fade,
   makeStyles,
   Paper,
   Table,
@@ -15,13 +16,9 @@ import Image from '../global/image';
 import Price from '../global/price';
 
 const useStyles = makeStyles(
-  ({ palette, spacing }) => ({
-    root: {
-      padding: spacing(3),
-    },
-
+  ({ palette }) => ({
     table: {
-      borderTop: `1px solid ${darken(fade(palette.divider, 1), 0.68)}`,
+      borderTop: `1px solid ${darken(alpha(palette.divider, 1), 0.68)}`,
     },
 
     tableRow: {
@@ -54,62 +51,64 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
   const styles = useStyles();
 
   return (
-    <Paper className={styles.root}>
-      <Typography gutterBottom variant="h4">
-        Cart summary
-      </Typography>
-      <Table className={styles.table}>
-        <TableBody>
-          {cart.contents?.nodes?.map(
-            (item) =>
-              item != null && (
-                <TableRow key={item.key} className={styles.tableRow}>
-                  <TableCell>
-                    <Image
-                      className={styles.image}
-                      mediaItem={item.product?.image}
-                      loading="lazy"
-                    />
-                  </TableCell>
-                  <TableCell>{item.product?.name}</TableCell>
-                  <TableCell>
-                    <Price>{item.total}</Price>
-                  </TableCell>
-                </TableRow>
-              ),
-          )}
-          <TableRow className={styles.tableRow}>
-            <TableCell className={styles.total} colSpan={2}>
-              Subtotal
-            </TableCell>
-            <TableCell className={styles.total}>
-              <Price>{cart.subtotal}</Price>
-            </TableCell>
-          </TableRow>
-          <TableRow className={styles.tableRow}>
-            <TableCell className={styles.total} colSpan={2}>
-              Shipping
-            </TableCell>
-            <TableCell className={styles.total}>
-              <Price>
-                {
-                  cart.availableShippingMethods?.[0]?.rates?.find(
-                    (rate) => rate?.id === cart.chosenShippingMethod,
-                  )?.cost
-                }
-              </Price>
-            </TableCell>
-          </TableRow>
-          <TableRow className={styles.tableRow}>
-            <TableCell className={styles.total} colSpan={2}>
-              Total
-            </TableCell>
-            <TableCell className={styles.total}>
-              <Price>{cart.total}</Price>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+    <Paper>
+      <Box p={3}>
+        <Typography gutterBottom variant="h4">
+          Cart summary
+        </Typography>
+        <Table className={styles.table}>
+          <TableBody>
+            {cart.contents?.nodes?.map(
+              (item) =>
+                item != null && (
+                  <TableRow key={item.key} className={styles.tableRow}>
+                    <TableCell>
+                      <Image
+                        className={styles.image}
+                        mediaItem={item.product?.image}
+                        loading="lazy"
+                      />
+                    </TableCell>
+                    <TableCell>{item.product?.name}</TableCell>
+                    <TableCell>
+                      <Price>{item.total}</Price>
+                    </TableCell>
+                  </TableRow>
+                ),
+            )}
+            <TableRow className={styles.tableRow}>
+              <TableCell className={styles.total} colSpan={2}>
+                Subtotal
+              </TableCell>
+              <TableCell className={styles.total}>
+                <Price>{cart.subtotal}</Price>
+              </TableCell>
+            </TableRow>
+            <TableRow className={styles.tableRow}>
+              <TableCell className={styles.total} colSpan={2}>
+                Shipping
+              </TableCell>
+              <TableCell className={styles.total}>
+                <Price>
+                  {
+                    cart.availableShippingMethods?.[0]?.rates?.find(
+                      (rate) => rate?.id === cart.chosenShippingMethod,
+                    )?.cost
+                  }
+                </Price>
+              </TableCell>
+            </TableRow>
+            <TableRow className={styles.tableRow}>
+              <TableCell className={styles.total} colSpan={2}>
+                Total
+              </TableCell>
+              <TableCell className={styles.total}>
+                <Price>{cart.total}</Price>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Box>
     </Paper>
   );
 };

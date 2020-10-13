@@ -1,6 +1,6 @@
 import {
+  alpha,
   darken,
-  fade,
   Hidden,
   makeStyles,
   Table,
@@ -19,7 +19,7 @@ import CartTableRow from './cart-table-row';
 const useStyles = makeStyles(
   ({ breakpoints, palette }) => ({
     root: {
-      borderTop: `1px solid ${darken(fade(palette.divider, 1), 0.68)}`,
+      borderTop: `1px solid ${darken(alpha(palette.divider, 1), 0.68)}`,
       display: 'block',
 
       [breakpoints.up('sm')]: {
