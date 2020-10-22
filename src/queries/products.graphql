@@ -5,7 +5,6 @@ query Products($category: String, $tag: String) {
   ) {
     nodes {
       id
-      productId
       slug
       name
       image {

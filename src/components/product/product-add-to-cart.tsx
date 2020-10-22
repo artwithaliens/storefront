@@ -33,10 +33,10 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
 
   /** Handles adding items to the cart. */
   const handleAddToCartClick = () => {
-    if (product.productId != null) {
+    if (product.databaseId != null) {
       addToCart({
         variables: {
-          productId: product.productId,
+          productId: product.databaseId,
           variationId,
         },
       })
@@ -106,8 +106,8 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
           variation?.attributes?.nodes?.map(
             (attribute) =>
               attribute?.value != null &&
-              variation?.variationId != null && (
-                <option key={variation.id} value={variation.variationId}>
+              variation?.databaseId != null && (
+                <option key={variation.id} value={variation.databaseId}>
                   {attribute.value}
                 </option>
               ),

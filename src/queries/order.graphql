@@ -1,6 +1,6 @@
-query Order($orderId: Int!, $orderKey: String!) {
-  order(orderId: $orderId, orderKey: $orderKey) {
-    orderId
+query Order($id: ID!) {
+  order(id: $id, idType: DATABASE_ID) {
+    id
     date
     total(format: RAW)
     paymentMethodTitle
@@ -8,7 +8,7 @@ query Order($orderId: Int!, $orderKey: String!) {
       edges {
         node {
           product {
-            productId
+            id
             name
           }
           quantity

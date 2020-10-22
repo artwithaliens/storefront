@@ -1,7 +1,7 @@
 query Product($slug: ID!) {
   product(id: $slug, idType: SLUG) {
     id
-    productId
+    databaseId
     slug
     name
     shortDescription
@@ -29,7 +29,7 @@ query Product($slug: ID!) {
       variations {
         nodes {
           id
-          variationId
+          databaseId
           name
           manageStock
           stockQuantity
@@ -90,7 +90,6 @@ query Product($slug: ID!) {
     related(first: 4) {
       nodes {
         id
-        productId
         slug
         name
         image {

@@ -6,7 +6,6 @@ query Cart {
         key
         product {
           id
-          productId
           slug
           name
           sku
