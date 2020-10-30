@@ -64,7 +64,7 @@ const Checkout: NextPage = () => {
         <Loader fullHeight />
       ) : (
         <Container>
-          <Box mt={6} mb={4}>
+          <Box sx={{ mb: 4, mt: 6 }}>
             <CheckoutForm
               cart={cart}
               customer={customer}

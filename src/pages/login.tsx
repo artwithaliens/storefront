@@ -79,7 +79,7 @@ const Login: NextPage = () => {
   return (
     <PageWrapper>
       <Container maxWidth="sm">
-        <Box mt={6} pt={6}>
+        <Box sx={{ mt: 6, pt: 6 }}>
           {/* Title */}
           <Typography gutterBottom variant="h2">
             Login
@@ -121,11 +121,11 @@ const Login: NextPage = () => {
             />
 
             {/* Submit Button */}
-            <Box mt={2}>
+            <Box sx={{ mt: 2 }}>
               <Button type="submit" color="primary" loading={loading}>
                 Login
               </Button>
-              <Box ml={1}>
+              <Box sx={{ ml: 1 }}>
                 <Button color="secondary" href="/register">
                   Register
                 </Button>

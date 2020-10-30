@@ -1,9 +1,9 @@
-import braintree from 'braintree-web';
-
 export function createClient(paymentClientToken?: string) {
-  return braintree.client.create({
-    authorization: paymentClientToken ?? '',
-  });
+  return import('braintree-web').then((braintree) =>
+    braintree.client.create({
+      authorization: paymentClientToken ?? '',
+    }),
+  );
 }
 
 type CreditCardData = {

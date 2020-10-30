@@ -15,7 +15,7 @@ const Shop: NextPage = () => {
         <Loader fullHeight />
       ) : (
         <Container>
-          <Box my={6}>
+          <Box sx={{ my: 6 }}>
             <ProductGrid products={products?.nodes ?? []} />
           </Box>
         </Container>

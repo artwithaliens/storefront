@@ -207,7 +207,7 @@ const BillingForm = React.forwardRef<HTMLFormElement, Props>(({ initialValues, o
             />
           </Grid>
         </Grid>
-        <Box mt={2}>
+        <Box sx={{ mt: 2 }}>
           <Button type="submit" color="primary" loading={loading}>
             Continue to Shipping Address
           </Button>

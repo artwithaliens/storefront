@@ -59,7 +59,7 @@ const Header: React.VFC = () => {
     <AppBar color="default" position="relative">
       <Toolbar className={styles.toolbar}>
         <Hidden mdUp>
-          <Box flexGrow={1}>
+          <Box sx={{ flexGrow: 1 }}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>
               <SvgIcon component={MenuSvg} />
             </IconButton>
@@ -69,11 +69,13 @@ const Header: React.VFC = () => {
           <HeaderLogo titleAccess={settings.title} />
         </Link>
         <Box
-          display="flex"
-          alignItems="center"
-          alignSelf="stretch"
-          flexGrow={1}
-          justifyContent="flex-end"
+          sx={{
+            alignItems: 'center',
+            alignSelf: 'stretch',
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'flex-end',
+          }}
         >
           <Hidden mdDown>
             <HeaderMenu menu={menu} />

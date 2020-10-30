@@ -97,7 +97,7 @@ const PaymentMethods: React.VFC<Props> = ({
                 <div>
                   <Radio value={paymentGateway.id} id={`paymentMode-${paymentGateway.id}`} />
                 </div>
-                <Box flexGrow={1} ml={2}>
+                <Box sx={{ flexGrow: 1, ml: 2 }}>
                   <Typography variant="h5">{paymentGateway.title}</Typography>
                   {paymentGateway.icon != null ? (
                     <img src={paymentGateway.icon} alt="" height="24" />
@@ -120,7 +120,7 @@ const PaymentMethods: React.VFC<Props> = ({
             ),
         )}
       </RadioGroup>
-      <Box mt={2}>
+      <Box sx={{ mt: 2 }}>
         <Button
           type="submit"
           color="primary"

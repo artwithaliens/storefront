@@ -29,7 +29,7 @@ const Page: NextPage<Props> = ({ page }) => {
       />
       <PageHeader image={page.featuredImage?.node} title={page.title} />
       <Container>
-        <Box mt={4} mb={6}>
+        <Box sx={{ mb: 6, mt: 4 }}>
           <BlockRenderer>{page.content}</BlockRenderer>
         </Box>
       </Container>

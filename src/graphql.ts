@@ -2262,8 +2262,6 @@ export type ContentNode = {
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** Connection between the ContentNode type and the TermNode type */
-  terms?: Maybe<ContentNodeToTermNodeConnection>;
   /** URI path for the resource */
   uri: Scalars['String'];
 };
@@ -2282,15 +2280,6 @@ export type ContentNodeEnqueuedStylesheetsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-};
-
-/** Nodes used to manage content */
-export type ContentNodeTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** Connection between the ContentNode type and the User type */
@@ -3338,8 +3327,8 @@ export type UserToMediaItemConnectionEdge = {
 /** The mediaItem type */
 export type MediaItem = Node &
   ContentNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithAuthor &
   NodeWithComments &
@@ -3354,7 +3343,7 @@ export type MediaItem = Node &
      * Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root).
      * @deprecated
      */
-    ancestors?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
     /**
      * Connection between the NodeWithAuthor type and the User type
      * @deprecated
@@ -3379,7 +3368,7 @@ export type MediaItem = Node &
      * Connection between the HierarchicalContentNode type and the ContentNode type
      * @deprecated
      */
-    children?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
     /**
      * The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility.
      * @deprecated
@@ -3519,7 +3508,7 @@ export type MediaItem = Node &
      * The parent of the node. The parent object can be of various types
      * @deprecated
      */
-    parent?: Maybe<HierarchicalContentNodeToContentNodeConnectionEdge>;
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
     /**
      * Database id of the parent node
      * @deprecated
@@ -3576,11 +3565,6 @@ export type MediaItem = Node &
      */
     template?: Maybe<ContentTemplate>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
      * @deprecated
      */
@@ -3598,7 +3582,7 @@ export type MediaItemAncestorsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 /** The mediaItem type */
@@ -3612,7 +3596,7 @@ export type MediaItemChildrenArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
 /** The mediaItem type */
@@ -3666,15 +3650,6 @@ export type MediaItemSrcSetArgs = {
 };
 
 /** The mediaItem type */
-export type MediaItemTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
-};
-
-/** The mediaItem type */
 export type MediaItemTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
 };
@@ -3721,11 +3696,11 @@ export type NodeWithComments = {
 /** Content node with hierarchical (parent/child) relationships */
 export type HierarchicalContentNode = {
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
-  ancestors?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+  ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
   /** Connection between the HierarchicalContentNode type and the ContentNode type */
-  children?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+  children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
   /** The parent of the node. The parent object can be of various types */
-  parent?: Maybe<HierarchicalContentNodeToContentNodeConnectionEdge>;
+  parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
   /** Database id of the parent node */
   parentDatabaseId?: Maybe<Scalars['Int']>;
   /** The globally unique identifier of the parent node. */
@@ -3738,7 +3713,7 @@ export type HierarchicalContentNodeAncestorsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 /** Content node with hierarchical (parent/child) relationships */
@@ -3747,11 +3722,11 @@ export type HierarchicalContentNodeChildrenArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
-/** Arguments for filtering the HierarchicalContentNodeToContentNodeConnection connection */
-export type HierarchicalContentNodeToContentNodeConnectionWhereArgs = {
+/** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
+export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -3787,13 +3762,13 @@ export type HierarchicalContentNodeToContentNodeConnectionWhereArgs = {
 };
 
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeConnection = {
-  __typename?: 'HierarchicalContentNodeToContentNodeConnection';
+export type HierarchicalContentNodeToContentNodeAncestorsConnection = {
+  __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnection';
   /**
-   * Edges for the HierarchicalContentNodeToContentNodeConnection connection
+   * Edges for the HierarchicalContentNodeToContentNodeAncestorsConnection connection
    * @deprecated
    */
-  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeConnectionEdge>>>;
+  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionEdge>>>;
   /**
    * The nodes of the connection, without the edges
    * @deprecated
@@ -3806,9 +3781,95 @@ export type HierarchicalContentNodeToContentNodeConnection = {
   pageInfo?: Maybe<WpPageInfo>;
 };
 
+/** An edge in a connection */
+export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = {
+  __typename?: 'HierarchicalContentNodeToContentNodeAncestorsConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
+};
+
+/** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
+export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
-export type HierarchicalContentNodeToContentNodeConnectionEdge = {
-  __typename?: 'HierarchicalContentNodeToContentNodeConnectionEdge';
+export type HierarchicalContentNodeToContentNodeChildrenConnection = {
+  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnection';
+  /**
+   * Edges for the HierarchicalContentNodeToContentNodeChildrenConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = {
+  __typename?: 'HierarchicalContentNodeToContentNodeChildrenConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
+};
+
+/** Connection between the HierarchicalContentNode type and the ContentNode type */
+export type HierarchicalContentNodeToParentContentNodeConnectionEdge = {
+  __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
   /**
    * The nodes of the connection, without the edges
    * @deprecated
@@ -4149,228 +4210,6 @@ export type Seo = {
   twitterTitle?: Maybe<Scalars['String']>;
 };
 
-/** Arguments for filtering the ContentNodeToTermNodeConnection connection */
-export type ContentNodeToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain?: Maybe<Scalars['String']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf?: Maybe<Scalars['Int']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless?: Maybe<Scalars['Boolean']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike?: Maybe<Scalars['String']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty?: Maybe<Scalars['Boolean']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical?: Maybe<Scalars['Boolean']>;
-  /** Array of term ids to include. Default empty array. */
-  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike?: Maybe<Scalars['String']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts?: Maybe<Scalars['Boolean']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search?: Maybe<Scalars['String']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
-};
-
-/** Options for ordering the connection by */
-export enum TermObjectsConnectionOrderbyEnum {
-  COUNT = 'COUNT',
-  DESCRIPTION = 'DESCRIPTION',
-  NAME = 'NAME',
-  SLUG = 'SLUG',
-  TERM_GROUP = 'TERM_GROUP',
-  TERM_ID = 'TERM_ID',
-  TERM_ORDER = 'TERM_ORDER',
-}
-
-/** Allowed taxonomies */
-export enum TaxonomyEnum {
-  CATEGORY = 'CATEGORY',
-  PACOLOR = 'PACOLOR',
-  PAMATERIAL = 'PAMATERIAL',
-  PAPAPERWEIGHT = 'PAPAPERWEIGHT',
-  PASIZE = 'PASIZE',
-  POSTFORMAT = 'POSTFORMAT',
-  PRODUCTCATEGORY = 'PRODUCTCATEGORY',
-  PRODUCTTAG = 'PRODUCTTAG',
-  PRODUCTTYPE = 'PRODUCTTYPE',
-  SHIPPINGCLASS = 'SHIPPINGCLASS',
-  TAG = 'TAG',
-  VISIBLEPRODUCT = 'VISIBLEPRODUCT',
-}
-
-/** Connection between the ContentNode type and the TermNode type */
-export type ContentNodeToTermNodeConnection = {
-  __typename?: 'ContentNodeToTermNodeConnection';
-  /**
-   * Edges for the ContentNodeToTermNodeConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<ContentNodeToTermNodeConnectionEdge>>>;
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<TermNode>>>;
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type ContentNodeToTermNodeConnectionEdge = {
-  __typename?: 'ContentNodeToTermNodeConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<TermNode>;
-};
-
-/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
-export type TermNode = {
-  /** The number of objects connected to the object */
-  count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
-  databaseId: Scalars['Int'];
-  /** The description of the object */
-  description?: Maybe<Scalars['String']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
-  id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The link to the term */
-  link?: Maybe<Scalars['String']>;
-  /** The human friendly name of the object. */
-  name?: Maybe<Scalars['String']>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug?: Maybe<Scalars['String']>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId?: Maybe<Scalars['Int']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
-  uri: Scalars['String'];
-};
-
-/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
-export type TermNodeEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
-export type TermNodeEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-/** Connection between the TermNode type and the EnqueuedScript type */
-export type TermNodeToEnqueuedScriptConnection = {
-  __typename?: 'TermNodeToEnqueuedScriptConnection';
-  /**
-   * Edges for the TermNodeToEnqueuedScriptConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedScriptConnectionEdge>>>;
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type TermNodeToEnqueuedScriptConnectionEdge = {
-  __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<EnqueuedScript>;
-};
-
-/** Connection between the TermNode type and the EnqueuedStylesheet type */
-export type TermNodeToEnqueuedStylesheetConnection = {
-  __typename?: 'TermNodeToEnqueuedStylesheetConnection';
-  /**
-   * Edges for the TermNodeToEnqueuedStylesheetConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedStylesheetConnectionEdge>>>;
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type TermNodeToEnqueuedStylesheetConnectionEdge = {
-  __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<EnqueuedStylesheet>;
-};
-
 /** Arguments for filtering the UserToPageConnection connection */
 export type UserToPageConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
@@ -4453,8 +4292,8 @@ export type UserToPageConnectionEdge = {
 /** The page type */
 export type Page = Node &
   ContentNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithContentEditor &
   NodeWithAuthor &
@@ -4469,7 +4308,7 @@ export type Page = Node &
      * Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root).
      * @deprecated
      */
-    ancestors?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+    ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
     /**
      * Connection between the NodeWithAuthor type and the User type
      * @deprecated
@@ -4489,7 +4328,7 @@ export type Page = Node &
      * Connection between the HierarchicalContentNode type and the ContentNode type
      * @deprecated
      */
-    children?: Maybe<HierarchicalContentNodeToContentNodeConnection>;
+    children?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnection>;
     /**
      * The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility.
      * @deprecated
@@ -4639,7 +4478,7 @@ export type Page = Node &
      * The parent of the node. The parent object can be of various types
      * @deprecated
      */
-    parent?: Maybe<HierarchicalContentNodeToContentNodeConnectionEdge>;
+    parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
     /**
      * Database id of the parent node
      * @deprecated
@@ -4696,11 +4535,6 @@ export type Page = Node &
      */
     template?: Maybe<ContentTemplate>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
      * @deprecated
      */
@@ -4718,7 +4552,7 @@ export type PageAncestorsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs>;
 };
 
 /** The page type */
@@ -4727,7 +4561,7 @@ export type PageChildrenArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<HierarchicalContentNodeToContentNodeConnectionWhereArgs>;
+  where?: Maybe<HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs>;
 };
 
 /** The page type */
@@ -4767,15 +4601,6 @@ export type PageRevisionsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PageToRevisionConnectionWhereArgs>;
-};
-
-/** The page type */
-export type PageTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** The page type */
@@ -5146,8 +4971,8 @@ export type UserToPostConnectionEdge = {
 /** The post type */
 export type Post = Node &
   ContentNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithContentEditor &
   NodeWithAuthor &
@@ -5289,6 +5114,11 @@ export type Post = Node &
      */
     isRevision?: Maybe<Scalars['Boolean']>;
     /**
+     * Whether this page is sticky
+     * @deprecated
+     */
+    isSticky: Scalars['Boolean'];
+    /**
      * The user that most recently edited the node
      * @deprecated
      */
@@ -5379,10 +5209,10 @@ export type Post = Node &
      */
     template?: Maybe<ContentTemplate>;
     /**
-     * Connection between the ContentNode type and the TermNode type
+     * Connection between the post type and the TermNode type
      * @deprecated
      */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
+    terms?: Maybe<PostToTermNodeConnection>;
     /**
      * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
      * @deprecated
@@ -5477,7 +5307,7 @@ export type PostTermsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
+  where?: Maybe<PostToTermNodeConnectionWhereArgs>;
 };
 
 /** The post type */
@@ -5548,6 +5378,17 @@ export type PostToCategoryConnectionWhereArgs = {
   updateTermMetaCache?: Maybe<Scalars['Boolean']>;
 };
 
+/** Options for ordering the connection by */
+export enum TermObjectsConnectionOrderbyEnum {
+  COUNT = 'COUNT',
+  DESCRIPTION = 'DESCRIPTION',
+  NAME = 'NAME',
+  SLUG = 'SLUG',
+  TERM_GROUP = 'TERM_GROUP',
+  TERM_ID = 'TERM_ID',
+  TERM_ORDER = 'TERM_ORDER',
+}
+
 /** Connection between the post type and the category type */
 export type PostToCategoryConnection = {
   __typename?: 'PostToCategoryConnection';
@@ -5586,8 +5427,8 @@ export type PostToCategoryConnectionEdge = {
 /** The category type */
 export type Category = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   HierarchicalTermNode &
   MenuItemLinkable & {
     __typename?: 'Category';
@@ -5606,6 +5447,11 @@ export type Category = Node &
      * @deprecated
      */
     children?: Maybe<CategoryToCategoryConnection>;
+    /**
+     * Connection between the category type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<CategoryToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -5716,6 +5562,15 @@ export type CategoryChildrenArgs = {
 };
 
 /** The category type */
+export type CategoryContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<CategoryToContentNodeConnectionWhereArgs>;
+};
+
+/** The category type */
 export type CategoryEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -5738,6 +5593,122 @@ export type CategoryPostsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<CategoryToPostConnectionWhereArgs>;
+};
+
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNode = {
+  /** The number of objects connected to the object */
+  count?: Maybe<Scalars['Int']>;
+  /** Identifies the primary key from the database. */
+  databaseId: Scalars['Int'];
+  /** The description of the object */
+  description?: Maybe<Scalars['String']>;
+  /** Connection between the TermNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
+  /** Connection between the TermNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
+  /** Unique identifier for the term */
+  id: Scalars['ID'];
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** The link to the term */
+  link?: Maybe<Scalars['String']>;
+  /** The human friendly name of the object. */
+  name?: Maybe<Scalars['String']>;
+  /** An alphanumeric identifier for the object unique to its type. */
+  slug?: Maybe<Scalars['String']>;
+  /** The ID of the term group that this term object belongs to */
+  termGroupId?: Maybe<Scalars['Int']>;
+  /** The taxonomy ID that the object is associated with */
+  termTaxonomyId?: Maybe<Scalars['Int']>;
+  /** The unique resource identifier path */
+  uri: Scalars['String'];
+};
+
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNodeEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
+export type TermNodeEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the TermNode type and the EnqueuedScript type */
+export type TermNodeToEnqueuedScriptConnection = {
+  __typename?: 'TermNodeToEnqueuedScriptConnection';
+  /**
+   * Edges for the TermNodeToEnqueuedScriptConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedScriptConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<EnqueuedScript>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TermNodeToEnqueuedScriptConnectionEdge = {
+  __typename?: 'TermNodeToEnqueuedScriptConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<EnqueuedScript>;
+};
+
+/** Connection between the TermNode type and the EnqueuedStylesheet type */
+export type TermNodeToEnqueuedStylesheetConnection = {
+  __typename?: 'TermNodeToEnqueuedStylesheetConnection';
+  /**
+   * Edges for the TermNodeToEnqueuedStylesheetConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<TermNodeToEnqueuedStylesheetConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TermNodeToEnqueuedStylesheetConnectionEdge = {
+  __typename?: 'TermNodeToEnqueuedStylesheetConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<EnqueuedStylesheet>;
 };
 
 /** Term node with hierarchical (parent/child) relationships */
@@ -5858,6 +5829,77 @@ export type CategoryToCategoryConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Category>;
+};
+
+/** Arguments for filtering the CategoryToContentNodeConnection connection */
+export type CategoryToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the category type and the ContentNode type */
+export type CategoryToContentNodeConnection = {
+  __typename?: 'CategoryToContentNodeConnection';
+  /**
+   * Edges for the CategoryToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<CategoryToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type CategoryToContentNodeConnectionEdge = {
+  __typename?: 'CategoryToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Connection between the category type and the category type */
@@ -6166,9 +6208,14 @@ export type PostToPostFormatConnectionEdge = {
 /** The postFormat type */
 export type PostFormat = Node &
   TermNode &
-  UniformResourceIdentifiable &
-  DatabaseIdentifier & {
+  DatabaseIdentifier &
+  UniformResourceIdentifiable & {
     __typename?: 'PostFormat';
+    /**
+     * Connection between the postFormat type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<PostFormatToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -6252,6 +6299,15 @@ export type PostFormat = Node &
   };
 
 /** The postFormat type */
+export type PostFormatContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<PostFormatToContentNodeConnectionWhereArgs>;
+};
+
+/** The postFormat type */
 export type PostFormatEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -6274,6 +6330,77 @@ export type PostFormatPostsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PostFormatToPostConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the PostFormatToContentNodeConnection connection */
+export type PostFormatToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the postFormat type and the ContentNode type */
+export type PostFormatToContentNodeConnection = {
+  __typename?: 'PostFormatToContentNodeConnection';
+  /**
+   * Edges for the PostFormatToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PostFormatToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PostFormatToContentNodeConnectionEdge = {
+  __typename?: 'PostFormatToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the PostFormatToPostConnection connection */
@@ -6574,10 +6701,15 @@ export type PostToTagConnectionEdge = {
 /** The tag type */
 export type Tag = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   MenuItemLinkable & {
     __typename?: 'Tag';
+    /**
+     * Connection between the tag type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<TagToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -6661,6 +6793,15 @@ export type Tag = Node &
   };
 
 /** The tag type */
+export type TagContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<TagToContentNodeConnectionWhereArgs>;
+};
+
+/** The tag type */
 export type TagEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -6683,6 +6824,77 @@ export type TagPostsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<TagToPostConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the TagToContentNodeConnection connection */
+export type TagToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the tag type and the ContentNode type */
+export type TagToContentNodeConnection = {
+  __typename?: 'TagToContentNodeConnection';
+  /**
+   * Edges for the TagToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<TagToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type TagToContentNodeConnectionEdge = {
+  __typename?: 'TagToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the TagToPostConnection connection */
@@ -6792,6 +7004,101 @@ export type TagToTaxonomyConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Taxonomy>;
+};
+
+/** Arguments for filtering the PostToTermNodeConnection connection */
+export type PostToTermNodeConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: Maybe<Scalars['String']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: Maybe<Scalars['Int']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: Maybe<Scalars['Boolean']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: Maybe<Scalars['String']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: Maybe<Scalars['Boolean']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: Maybe<Scalars['Boolean']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: Maybe<Scalars['String']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: Maybe<Scalars['Boolean']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: Maybe<Scalars['String']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** The Taxonomy to filter terms by */
+  taxonomies?: Maybe<Array<Maybe<TaxonomyEnum>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+};
+
+/** Allowed taxonomies */
+export enum TaxonomyEnum {
+  CATEGORY = 'CATEGORY',
+  PACOLOR = 'PACOLOR',
+  PAMATERIAL = 'PAMATERIAL',
+  PAPAPERWEIGHT = 'PAPAPERWEIGHT',
+  PASIZE = 'PASIZE',
+  POSTFORMAT = 'POSTFORMAT',
+  PRODUCTCATEGORY = 'PRODUCTCATEGORY',
+  PRODUCTTAG = 'PRODUCTTAG',
+  PRODUCTTYPE = 'PRODUCTTYPE',
+  SHIPPINGCLASS = 'SHIPPINGCLASS',
+  TAG = 'TAG',
+  VISIBLEPRODUCT = 'VISIBLEPRODUCT',
+}
+
+/** Connection between the post type and the TermNode type */
+export type PostToTermNodeConnection = {
+  __typename?: 'PostToTermNodeConnection';
+  /**
+   * Edges for the PostToTermNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PostToTermNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<TermNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PostToTermNodeConnectionEdge = {
+  __typename?: 'PostToTermNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<TermNode>;
 };
 
 /** Arguments for filtering the UserToContentRevisionUnionConnection connection */
@@ -7149,8 +7456,8 @@ export type CouponToProductCategoryConnectionEdge = {
 /** The productCategory type */
 export type ProductCategory = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   HierarchicalTermNode &
   MenuItemLinkable & {
     __typename?: 'ProductCategory';
@@ -7164,6 +7471,11 @@ export type ProductCategory = Node &
      * @deprecated
      */
     children?: Maybe<ProductCategoryToProductCategoryConnection>;
+    /**
+     * Connection between the productCategory type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<ProductCategoryToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -7291,6 +7603,15 @@ export type ProductCategoryChildrenArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<ProductCategoryToProductCategoryConnectionWhereArgs>;
+};
+
+/** The productCategory type */
+export type ProductCategoryContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductCategoryToContentNodeConnectionWhereArgs>;
 };
 
 /** The productCategory type */
@@ -7428,6 +7749,77 @@ export type ProductCategoryToProductCategoryConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<ProductCategory>;
+};
+
+/** Arguments for filtering the ProductCategoryToContentNodeConnection connection */
+export type ProductCategoryToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the productCategory type and the ContentNode type */
+export type ProductCategoryToContentNodeConnection = {
+  __typename?: 'ProductCategoryToContentNodeConnection';
+  /**
+   * Edges for the ProductCategoryToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<ProductCategoryToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ProductCategoryToContentNodeConnectionEdge = {
+  __typename?: 'ProductCategoryToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Product category display type enumeration */
@@ -8440,9 +8832,13 @@ export type ProductToPaColorConnectionEdge = {
 /** The paColor type */
 export type PaColor = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'PaColor';
+    /**
+     * Connection between the paColor type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<PaColorToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -8531,6 +8927,15 @@ export type PaColor = Node &
   };
 
 /** The paColor type */
+export type PaColorContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<PaColorToContentNodeConnectionWhereArgs>;
+};
+
+/** The paColor type */
 export type PaColorEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -8562,6 +8967,77 @@ export type PaColorVariationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PaColorToProductVariationConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the PaColorToContentNodeConnection connection */
+export type PaColorToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the paColor type and the ContentNode type */
+export type PaColorToContentNodeConnection = {
+  __typename?: 'PaColorToContentNodeConnection';
+  /**
+   * Edges for the PaColorToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PaColorToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PaColorToContentNodeConnectionEdge = {
+  __typename?: 'PaColorToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the PaColorToProductConnection connection */
@@ -9092,11 +9568,6 @@ export type ProductVariation = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * Product type
      * @deprecated
      */
@@ -9181,15 +9652,6 @@ export type ProductVariationShippingClassesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<ProductVariationToShippingClassConnectionWhereArgs>;
-};
-
-/** A product variation object */
-export type ProductVariationTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** A product variation object */
@@ -9765,11 +10227,6 @@ export type VariableProduct = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * Number total of sales
      * @deprecated
      */
@@ -10005,15 +10462,6 @@ export type VariableProductShippingClassesArgs = {
 /** A variable product object */
 export type VariableProductShortDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A variable product object */
-export type VariableProductTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** A variable product object */
@@ -10271,9 +10719,13 @@ export type ProductToPaMaterialConnectionEdge = {
 /** The paMaterial type */
 export type PaMaterial = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'PaMaterial';
+    /**
+     * Connection between the paMaterial type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<PaMaterialToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -10362,6 +10814,15 @@ export type PaMaterial = Node &
   };
 
 /** The paMaterial type */
+export type PaMaterialContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<PaMaterialToContentNodeConnectionWhereArgs>;
+};
+
+/** The paMaterial type */
 export type PaMaterialEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -10393,6 +10854,77 @@ export type PaMaterialVariationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PaMaterialToProductVariationConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the PaMaterialToContentNodeConnection connection */
+export type PaMaterialToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the paMaterial type and the ContentNode type */
+export type PaMaterialToContentNodeConnection = {
+  __typename?: 'PaMaterialToContentNodeConnection';
+  /**
+   * Edges for the PaMaterialToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PaMaterialToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PaMaterialToContentNodeConnectionEdge = {
+  __typename?: 'PaMaterialToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the PaMaterialToProductConnection connection */
@@ -10711,9 +11243,13 @@ export type ProductToPaPaperWeightConnectionEdge = {
 /** The paPaperWeight type */
 export type PaPaperWeight = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'PaPaperWeight';
+    /**
+     * Connection between the paPaperWeight type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<PaPaperWeightToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -10802,6 +11338,15 @@ export type PaPaperWeight = Node &
   };
 
 /** The paPaperWeight type */
+export type PaPaperWeightContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<PaPaperWeightToContentNodeConnectionWhereArgs>;
+};
+
+/** The paPaperWeight type */
 export type PaPaperWeightEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -10833,6 +11378,77 @@ export type PaPaperWeightVariationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PaPaperWeightToProductVariationConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the PaPaperWeightToContentNodeConnection connection */
+export type PaPaperWeightToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the paPaperWeight type and the ContentNode type */
+export type PaPaperWeightToContentNodeConnection = {
+  __typename?: 'PaPaperWeightToContentNodeConnection';
+  /**
+   * Edges for the PaPaperWeightToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PaPaperWeightToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PaPaperWeightToContentNodeConnectionEdge = {
+  __typename?: 'PaPaperWeightToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the PaPaperWeightToProductConnection connection */
@@ -11151,9 +11767,13 @@ export type ProductToPaSizeConnectionEdge = {
 /** The paSize type */
 export type PaSize = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'PaSize';
+    /**
+     * Connection between the paSize type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<PaSizeToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -11242,6 +11862,15 @@ export type PaSize = Node &
   };
 
 /** The paSize type */
+export type PaSizeContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<PaSizeToContentNodeConnectionWhereArgs>;
+};
+
+/** The paSize type */
 export type PaSizeEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -11273,6 +11902,77 @@ export type PaSizeVariationsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<PaSizeToProductVariationConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the PaSizeToContentNodeConnection connection */
+export type PaSizeToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the paSize type and the ContentNode type */
+export type PaSizeToContentNodeConnection = {
+  __typename?: 'PaSizeToContentNodeConnection';
+  /**
+   * Edges for the PaSizeToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<PaSizeToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type PaSizeToContentNodeConnectionEdge = {
+  __typename?: 'PaSizeToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the PaSizeToProductConnection connection */
@@ -11674,10 +12374,15 @@ export type ProductToProductTagConnectionEdge = {
 /** The productTag type */
 export type ProductTag = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier &
+  UniformResourceIdentifiable &
   MenuItemLinkable & {
     __typename?: 'ProductTag';
+    /**
+     * Connection between the productTag type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<ProductTagToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -11761,6 +12466,15 @@ export type ProductTag = Node &
   };
 
 /** The productTag type */
+export type ProductTagContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductTagToContentNodeConnectionWhereArgs>;
+};
+
+/** The productTag type */
 export type ProductTagEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -11783,6 +12497,77 @@ export type ProductTagProductsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<ProductTagToProductConnectionWhereArgs>;
+};
+
+/** Arguments for filtering the ProductTagToContentNodeConnection connection */
+export type ProductTagToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the productTag type and the ContentNode type */
+export type ProductTagToContentNodeConnection = {
+  __typename?: 'ProductTagToContentNodeConnection';
+  /**
+   * Edges for the ProductTagToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<ProductTagToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ProductTagToContentNodeConnectionEdge = {
+  __typename?: 'ProductTagToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Arguments for filtering the ProductTagToProductConnection connection */
@@ -11988,9 +12773,13 @@ export type ProductToProductTypeConnectionEdge = {
 /** The productType type */
 export type ProductType = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'ProductType';
+    /**
+     * Connection between the productType type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<ProductTypeToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -12069,6 +12858,15 @@ export type ProductType = Node &
   };
 
 /** The productType type */
+export type ProductTypeContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductTypeToContentNodeConnectionWhereArgs>;
+};
+
+/** The productType type */
 export type ProductTypeEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -12082,6 +12880,77 @@ export type ProductTypeEnqueuedStylesheetsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+/** Arguments for filtering the ProductTypeToContentNodeConnection connection */
+export type ProductTypeToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the productType type and the ContentNode type */
+export type ProductTypeToContentNodeConnection = {
+  __typename?: 'ProductTypeToContentNodeConnection';
+  /**
+   * Edges for the ProductTypeToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<ProductTypeToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ProductTypeToContentNodeConnectionEdge = {
+  __typename?: 'ProductTypeToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Connection between the productType type and the Taxonomy type */
@@ -12396,9 +13265,14 @@ export type ProductToShippingClassConnectionEdge = {
 /** The shippingClass type */
 export type ShippingClass = Node &
   TermNode &
-  UniformResourceIdentifiable &
-  DatabaseIdentifier & {
+  DatabaseIdentifier &
+  UniformResourceIdentifiable & {
     __typename?: 'ShippingClass';
+    /**
+     * Connection between the shippingClass type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<ShippingClassToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -12477,6 +13351,15 @@ export type ShippingClass = Node &
   };
 
 /** The shippingClass type */
+export type ShippingClassContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ShippingClassToContentNodeConnectionWhereArgs>;
+};
+
+/** The shippingClass type */
 export type ShippingClassEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -12490,6 +13373,77 @@ export type ShippingClassEnqueuedStylesheetsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+/** Arguments for filtering the ShippingClassToContentNodeConnection connection */
+export type ShippingClassToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the shippingClass type and the ContentNode type */
+export type ShippingClassToContentNodeConnection = {
+  __typename?: 'ShippingClassToContentNodeConnection';
+  /**
+   * Edges for the ShippingClassToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<ShippingClassToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ShippingClassToContentNodeConnectionEdge = {
+  __typename?: 'ShippingClassToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Connection between the shippingClass type and the Taxonomy type */
@@ -12714,9 +13668,13 @@ export type ProductToVisibleProductConnectionEdge = {
 /** The visibleProduct type */
 export type VisibleProduct = Node &
   TermNode &
-  UniformResourceIdentifiable &
   DatabaseIdentifier & {
     __typename?: 'VisibleProduct';
+    /**
+     * Connection between the visibleProduct type and the ContentNode type
+     * @deprecated
+     */
+    contentNodes?: Maybe<VisibleProductToContentNodeConnection>;
     /**
      * The number of objects connected to the object
      * @deprecated
@@ -12795,6 +13753,15 @@ export type VisibleProduct = Node &
   };
 
 /** The visibleProduct type */
+export type VisibleProductContentNodesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<VisibleProductToContentNodeConnectionWhereArgs>;
+};
+
+/** The visibleProduct type */
 export type VisibleProductEnqueuedScriptsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -12808,6 +13775,77 @@ export type VisibleProductEnqueuedStylesheetsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
+};
+
+/** Arguments for filtering the VisibleProductToContentNodeConnection connection */
+export type VisibleProductToContentNodeConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword?: Maybe<Scalars['Boolean']>;
+  /** Specific ID of the object */
+  id?: Maybe<Scalars['Int']>;
+  /** Array of IDs for the objects to retrieve */
+  in?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType?: Maybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name?: Maybe<Scalars['String']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent?: Maybe<Scalars['ID']>;
+  /** Specify objects whose parent is in an array */
+  parentIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Show posts with a specific password. */
+  password?: Maybe<Scalars['String']>;
+  /** Show Posts based on a keyword search */
+  search?: Maybe<Scalars['String']>;
+  stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  status?: Maybe<PostStatusEnum>;
+  /** Title of the object */
+  title?: Maybe<Scalars['String']>;
+};
+
+/** Connection between the visibleProduct type and the ContentNode type */
+export type VisibleProductToContentNodeConnection = {
+  __typename?: 'VisibleProductToContentNodeConnection';
+  /**
+   * Edges for the VisibleProductToContentNodeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<VisibleProductToContentNodeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ContentNode>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type VisibleProductToContentNodeConnectionEdge = {
+  __typename?: 'VisibleProductToContentNodeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ContentNode>;
 };
 
 /** Connection between the visibleProduct type and the Taxonomy type */
@@ -16251,11 +17289,6 @@ export type ExternalProduct = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * Number total of sales
      * @deprecated
      */
@@ -16467,15 +17500,6 @@ export type ExternalProductShippingClassesArgs = {
 /** A external product object */
 export type ExternalProductShortDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A external product object */
-export type ExternalProductTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** A external product object */
@@ -16921,11 +17945,6 @@ export type GroupProduct = Node &
      */
     status?: Maybe<Scalars['String']>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * Number total of sales
      * @deprecated
      */
@@ -17131,15 +18150,6 @@ export type GroupProductShippingClassesArgs = {
 /** A group product object */
 export type GroupProductShortDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A group product object */
-export type GroupProductTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** A group product object */
@@ -19853,11 +20863,6 @@ export type SimpleProduct = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
-     * Connection between the ContentNode type and the TermNode type
-     * @deprecated
-     */
-    terms?: Maybe<ContentNodeToTermNodeConnection>;
-    /**
      * Number total of sales
      * @deprecated
      */
@@ -20093,15 +21098,6 @@ export type SimpleProductShippingClassesArgs = {
 /** A product object */
 export type SimpleProductShortDescriptionArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A product object */
-export type SimpleProductTermsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ContentNodeToTermNodeConnectionWhereArgs>;
 };
 
 /** A product object */
@@ -20741,7 +21737,7 @@ export type RootQueryToUserConnectionWhereArgs = {
   /** Search keyword. Searches for possible string matches on columns. When "searchColumns" is left empty, it tries to determine which column to search in based on search string. */
   search?: Maybe<Scalars['String']>;
   /** Array of column names to be searched. Accepts 'ID', 'login', 'nicename', 'email', 'url'. */
-  searchColumns?: Maybe<Array<Maybe<Scalars['String']>>>;
+  searchColumns?: Maybe<Array<Maybe<UsersConnectionSearchColumnEnum>>>;
 };
 
 /** Options for ordering the connection */
@@ -20768,6 +21764,17 @@ export enum UsersConnectionOrderbyEnum {
   REGISTERED = 'REGISTERED',
   /** Order by URL */
   URL = 'URL',
+}
+
+/** Names of available user roles */
+export enum UsersConnectionSearchColumnEnum {
+  ANONYMOUS = 'ANONYMOUS',
+  AUTHOR = 'AUTHOR',
+  CONTRIBUTOR = 'CONTRIBUTOR',
+  CUSTOMER = 'CUSTOMER',
+  EDITOR = 'EDITOR',
+  SHOP_MANAGER = 'SHOP_MANAGER',
+  SUBSCRIBER = 'SUBSCRIBER',
 }
 
 /** Connection between the RootQuery type and the User type */
@@ -22221,16 +23228,12 @@ export type CreateCategoryPayload = {
 
 /** Input for the createComment mutation */
 export type CreateCommentInput = {
-  /** User agent used to post the comment. */
-  agent?: Maybe<Scalars['String']>;
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
   /** The name of the comment's author. */
   author?: Maybe<Scalars['String']>;
   /** The email of the comment's author. */
   authorEmail?: Maybe<Scalars['String']>;
-  /** IP address for the comment's author. */
-  authorIp?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
   clientMutationId: Scalars['String'];
@@ -22244,8 +23247,6 @@ export type CreateCommentInput = {
   parent?: Maybe<Scalars['ID']>;
   /** Type of comment. */
   type?: Maybe<Scalars['String']>;
-  /** The userID of the comment's author. */
-  userId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the createComment mutation */
@@ -23716,16 +24717,12 @@ export type SendPasswordResetEmailPayload = {
 
 /** Input for the updateComment mutation */
 export type UpdateCommentInput = {
-  /** User agent used to post the comment. */
-  agent?: Maybe<Scalars['String']>;
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
   /** The name of the comment's author. */
   author?: Maybe<Scalars['String']>;
   /** The email of the comment's author. */
   authorEmail?: Maybe<Scalars['String']>;
-  /** IP address for the comment's author. */
-  authorIp?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
   clientMutationId: Scalars['String'];
@@ -23741,8 +24738,6 @@ export type UpdateCommentInput = {
   parent?: Maybe<Scalars['ID']>;
   /** Type of comment. */
   type?: Maybe<Scalars['String']>;
-  /** The userID of the comment's author. */
-  userId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the updateComment mutation */
@@ -24036,16 +25031,12 @@ export type UpdatePostPayload = {
 
 /** Input for the updateReview mutation */
 export type UpdateReviewInput = {
-  /** User agent used to post the comment. */
-  agent?: Maybe<Scalars['String']>;
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
   /** The name of the comment's author. */
   author?: Maybe<Scalars['String']>;
   /** The email of the comment's author. */
   authorEmail?: Maybe<Scalars['String']>;
-  /** IP address for the comment's author. */
-  authorIp?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
   clientMutationId: Scalars['String'];
@@ -24061,8 +25052,6 @@ export type UpdateReviewInput = {
   parent?: Maybe<Scalars['ID']>;
   /** Product rating */
   rating: Scalars['Int'];
-  /** The userID of the comment's author. */
-  userId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the updateReview mutation */
@@ -24203,16 +25192,12 @@ export type UpdateUserPayload = {
 
 /** Input for the writeReview mutation */
 export type WriteReviewInput = {
-  /** User agent used to post the comment. */
-  agent?: Maybe<Scalars['String']>;
   /** The approval status of the comment. */
   approved?: Maybe<Scalars['String']>;
   /** The name of the comment's author. */
   author?: Maybe<Scalars['String']>;
   /** The email of the comment's author. */
   authorEmail?: Maybe<Scalars['String']>;
-  /** IP address for the comment's author. */
-  authorIp?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
   clientMutationId: Scalars['String'];
@@ -24226,8 +25211,6 @@ export type WriteReviewInput = {
   parent?: Maybe<Scalars['ID']>;
   /** Product rating */
   rating: Scalars['Int'];
-  /** The userID of the comment's author. */
-  userId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the writeReview mutation */

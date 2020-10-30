@@ -69,7 +69,7 @@ const Footer: React.VFC = () => {
   return (
     <footer className={styles.root}>
       <Container>
-        <Box pt={6} pb={3} textAlign="center">
+        <Box sx={{ pb: 3, pt: 6, textAlign: 'center' }}>
           <a
             href="https://www.facebook.com/artwithaliens"
             target="_blank"
@@ -99,7 +99,7 @@ const Footer: React.VFC = () => {
           </a>
         </Box>
         {instagramMedia != null && (
-          <Box mb={3}>
+          <Box sx={{ mb: 3 }}>
             <Grid container spacing={1}>
               {instagramMedia.map((medium) => (
                 <Grid key={medium.id} item xs={4} sm={2}>

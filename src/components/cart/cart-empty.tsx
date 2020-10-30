@@ -3,8 +3,8 @@ import React from 'react';
 import Button from '../global/button';
 
 const CartEmpty: React.VFC = () => (
-  <Box my={4} textAlign="center">
-    <Box mb={2}>
+  <Box sx={{ my: 4, textAlign: 'center' }}>
+    <Box sx={{ mb: 2 }}>
       <Typography gutterBottom variant="h4">
         Your cart is empty
       </Typography>

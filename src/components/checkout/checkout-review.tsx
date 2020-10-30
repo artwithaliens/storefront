@@ -105,11 +105,13 @@ const CheckoutReview: React.VFC<Props> = ({
       <Grid container spacing={4}>
         <Grid item xs={6}>
           <Box
-            mb={1}
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mb: 1,
+            }}
           >
             <Typography variant="h4">Billing Address</Typography>
             <NextLink passHref href="/checkout/billing-address">
@@ -119,17 +121,19 @@ const CheckoutReview: React.VFC<Props> = ({
             </NextLink>
           </Box>
           <Divider />
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <AddressSummary address={customer.billing} />
           </Box>
         </Grid>
         <Grid item xs={6}>
           <Box
-            mb={1}
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mb: 1,
+            }}
           >
             <Typography variant="h4">Shipping Address</Typography>
             <NextLink passHref href="/checkout/shipping-address">
@@ -139,17 +143,19 @@ const CheckoutReview: React.VFC<Props> = ({
             </NextLink>
           </Box>
           <Divider />
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <AddressSummary address={customer.shipping} />
           </Box>
         </Grid>
         <Grid item xs={6}>
           <Box
-            mb={1}
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mb: 1,
+            }}
           >
             <Typography variant="h4">Shipping Method</Typography>
             <NextLink passHref href="/checkout/shipping-options">
@@ -159,7 +165,7 @@ const CheckoutReview: React.VFC<Props> = ({
             </NextLink>
           </Box>
           <Divider />
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <ShippingSummary
               availableShippingMethods={cart.availableShippingMethods}
               chosenShippingMethod={cart.chosenShippingMethod}
@@ -168,11 +174,13 @@ const CheckoutReview: React.VFC<Props> = ({
         </Grid>
         <Grid item xs={6}>
           <Box
-            mb={1}
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mb: 1,
+            }}
           >
             <Typography variant="h4">Payment Method</Typography>
             <NextLink passHref href="/checkout/payment">
@@ -182,12 +190,12 @@ const CheckoutReview: React.VFC<Props> = ({
             </NextLink>
           </Box>
           <Divider />
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <PaymentSummary chosenPaymentMethod={paymentMethod} creditCard={creditCard} />
           </Box>
         </Grid>
       </Grid>
-      <Box mt={6}>
+      <Box sx={{ mt: 6 }}>
         <TextField
           multiline
           label="Note"
@@ -215,7 +223,7 @@ const CheckoutReview: React.VFC<Props> = ({
           />
         </FormGroup>
       </Box>
-      <Box mt={6}>
+      <Box sx={{ mt: 6 }}>
         {paymentMethod === 'braintree_paypal' ? (
           <PaypalButton
             cart={cart}

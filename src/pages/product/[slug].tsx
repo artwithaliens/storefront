@@ -72,13 +72,13 @@ const Product: NextPage = () => {
           />
           <ProductJSON product={product} />
           <Container>
-            <Box my={6} overflow={{ xs: 'hidden', md: 'inherit' }}>
+            <Box sx={{ my: 6, overflow: { xs: 'hidden', md: 'inherit' } }}>
               <Grid container spacing={6}>
                 <Grid item xs={12} md={6}>
                   <ProductGallery product={product} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Box position="sticky" top={48}>
+                  <Box sx={{ position: 'sticky', top: 48 }}>
                     <ProductSummary product={product} />
                     <ProductAddToCart product={product} />
                     <ProductMeta product={product} />
@@ -86,7 +86,7 @@ const Product: NextPage = () => {
                 </Grid>
               </Grid>
               {!isBlank(product.shortDescription) && !isBlank(product.description) && (
-                <Box mt={6}>
+                <Box sx={{ mt: 6 }}>
                   <Typography gutterBottom variant="h3">
                     Description
                   </Typography>
@@ -96,7 +96,7 @@ const Product: NextPage = () => {
               <ProductAttributes product={product} />
             </Box>
             {(product.related?.nodes?.length ?? 0) > 0 && (
-              <Box mb={6}>
+              <Box sx={{ mb: 6 }}>
                 <Typography gutterBottom variant="h3">
                   Related products
                 </Typography>

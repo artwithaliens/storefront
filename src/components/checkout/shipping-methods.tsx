@@ -48,7 +48,7 @@ const ShippingMethods: React.VFC<Props> = ({
                     <div>
                       <Radio value={rate.id} id={`shippingMethod-${rate.id}`} disabled={loading} />
                     </div>
-                    <Box flexGrow={1} ml={2}>
+                    <Box sx={{ flexGrow: 1, ml: 2 }}>
                       <Typography>{rate.label}</Typography>
                       <Price>{rate.cost}</Price>
                     </Box>
@@ -58,7 +58,7 @@ const ShippingMethods: React.VFC<Props> = ({
           )}
         </Grid>
       </RadioGroup>
-      <Box mt={2}>
+      <Box sx={{ mt: 2 }}>
         <Button
           type="submit"
           color="primary"

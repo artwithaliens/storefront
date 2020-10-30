@@ -22,7 +22,7 @@ const ProductCategory: NextPage = () => {
         <Loader fullHeight />
       ) : (
         <Container>
-          <Box mt={6}>
+          <Box sx={{ mt: 6 }}>
             <ProductGrid products={products?.nodes ?? []} />
           </Box>
         </Container>

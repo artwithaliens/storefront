@@ -22,10 +22,12 @@ const Loader: React.VFC<Props> = ({ fullHeight }) => {
   return (
     <Box
       ref={node}
-      alignItems="center"
-      display="flex"
-      height={fullHeight ? height : 'auto'}
-      justifyContent="center"
+      sx={{
+        alignItems: 'center',
+        display: 'flex',
+        height: fullHeight ? height : 'auto',
+        justifyContent: 'center',
+      }}
     >
       <CircularProgress />
     </Box>

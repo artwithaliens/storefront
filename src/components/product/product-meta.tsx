@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ProductMeta: React.VFC<Props> = ({ product }) => (
-  <Box mt={2}>
+  <Box sx={{ mt: 2 }}>
     <Typography>SKU: {product.sku ?? 'N/A'}</Typography>
     {(product.productCategories?.nodes?.length ?? 0) > 0 && (
       <Typography>

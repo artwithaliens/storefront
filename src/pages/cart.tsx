@@ -22,7 +22,7 @@ const Cart: NextPage = () => {
   return (
     <PageWrapper>
       <Container>
-        <Box mt={6} mb={2}>
+        <Box sx={{ mb: 2, mt: 6 }}>
           <Typography variant="h1">Cart</Typography>
         </Box>
         {loading ? (
@@ -36,7 +36,7 @@ const Cart: NextPage = () => {
               loading={updating}
               onUpdate={(values) => updateCart({ variables: values })}
             />
-            <Box my={4}>
+            <Box sx={{ my: 4 }}>
               <Grid container justifyContent="flex-end">
                 <Grid item xs={12} sm={4}>
                   <Button fullWidth color="primary" href="/checkout/billing-address">

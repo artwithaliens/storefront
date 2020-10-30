@@ -8,9 +8,7 @@ import Header from './header';
 const PageWrapper: React.FC = ({ children }) => (
   <AlertProvider>
     <Header />
-    <Box display="flex" flexDirection="column">
-      {children}
-    </Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>{children}</Box>
     <Footer />
     <CookieBanner />
   </AlertProvider>

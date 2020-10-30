@@ -52,7 +52,7 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
 
   return (
     <Paper>
-      <Box p={3}>
+      <Box sx={{ p: 3 }}>
         <Typography gutterBottom variant="h4">
           Cart summary
         </Typography>

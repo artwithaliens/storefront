@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ProductAttributes: React.VFC<Props> = ({ product }) => (
-  <Box mt={6}>
+  <Box sx={{ mt: 6 }}>
     <Typography gutterBottom variant="h3">
       Additional Information
     </Typography>

@@ -93,7 +93,7 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
         <Typography gutterBottom variant="h3">
           Shipping Address
         </Typography>
-        <Box mb={4}>
+        <Box sx={{ mb: 4 }}>
           <FormGroup>
             <FormControlLabel
               control={
@@ -224,7 +224,7 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
             helperText={formik.errors.state}
             onChange={handleChange}
           />
-          <Box mt={2}>
+          <Box sx={{ mt: 2 }}>
             <Button type="submit" color="primary" loading={loading}>
               Continue to Shipping Method
             </Button>

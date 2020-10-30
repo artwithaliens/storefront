@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../graphql';
 import Image from './image';
@@ -6,34 +6,18 @@ import Link from './link';
 import Price from './price';
 
 const useStyles = makeStyles(
-  ({ palette, spacing }) => ({
+  {
     product: {
       height: '100%',
       textAlign: 'center',
     },
 
     productLink: {
-      color: palette.common.white,
-      cursor: 'pointer',
-      display: 'block',
+      display: 'flex',
+      flexDirection: 'column',
       height: '100%',
-      textDecoration: 'none',
     },
-
-    productImage: {
-      height: 'auto',
-      verticalAlign: 'middle',
-      width: '100%',
-    },
-
-    productName: {
-      margin: spacing(2),
-    },
-
-    productPrice: {
-      margin: spacing(0, 0, 2),
-    },
-  }),
+  },
   { name: 'ProductGrid' },
 );
 
@@ -60,11 +44,11 @@ const ProductGrid: React.VFC<Props> = ({ products }) => {
                   href={`/product/${product.slug}`}
                   underline="none"
                 >
-                  <Image className={styles.productImage} mediaItem={product.image} loading="lazy" />
-                  <Typography variant="h4" className={styles.productName}>
-                    {product.name}
-                  </Typography>
-                  <div className={styles.productPrice}>
+                  <Image next height={673} loading="lazy" mediaItem={product.image} width={538} />
+                  <Box sx={{ p: 2 }}>
+                    <Typography gutterBottom variant="h4">
+                      {product.name}
+                    </Typography>
                     {product.__typename === 'SimpleProduct' &&
                       (product.stockStatus === StockStatusEnum.OUT_OF_STOCK ? (
                         <Typography color="error" variant="h5">
@@ -81,7 +65,7 @@ const ProductGrid: React.VFC<Props> = ({ products }) => {
                         {product.price}
                       </Price>
                     )}
-                  </div>
+                  </Box>
                 </Link>
               </Paper>
             </Grid>

@@ -10,7 +10,7 @@ const Contact: NextPage = () => (
   <PageWrapper>
     <PageHeader title="Contact" />
     <Container maxWidth="md">
-      <Box my={6}>
+      <Box sx={{ my: 6 }}>
         <ContactForm />
       </Box>
     </Container>

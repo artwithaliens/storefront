@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import braintree from 'braintree-web';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useMount } from 'react-use';
@@ -51,70 +50,72 @@ const PaypalButton: React.VFC<Props> = ({
 
   useMount(() => {
     if (process.browser && loading && document.querySelector('#paypal-button') != null) {
-      createClient(paymentClientToken)
-        .then((client) => braintree.paypalCheckout.create({ client }))
-        .then((paypalCheckoutInstance) => {
-          paypal.Button.render(
-            {
-              // @ts-ignore
-              env: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-              client:
-                process.env.NODE_ENV === 'production'
-                  ? {
-                      production: process.env.PAYPAL_CLIENT_ID,
-                    }
-                  : {
-                      sandbox: process.env.PAYPAL_CLIENT_ID,
-                    },
-              locale: 'en_US',
-              style: {
+      import('braintree-web').then((braintree) =>
+        createClient(paymentClientToken)
+          .then((client) => braintree.paypalCheckout.create({ client }))
+          .then((paypalCheckoutInstance) => {
+            paypal.Button.render(
+              {
                 // @ts-ignore
-                color: 'gold',
-                // @ts-ignore
-                label: 'pay',
-                // @ts-ignore
-                shape: 'pill',
-                // @ts-ignore
-                size: 'responsive',
-                tagline: false,
-              },
-              payment: () =>
-                paypalCheckoutInstance.createPayment({
+                env: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+                client:
+                  process.env.NODE_ENV === 'production'
+                    ? {
+                        production: process.env.PAYPAL_CLIENT_ID,
+                      }
+                    : {
+                        sandbox: process.env.PAYPAL_CLIENT_ID,
+                      },
+                locale: 'en_US',
+                style: {
                   // @ts-ignore
-                  flow: 'checkout',
-                  amount: cart.total == null ? undefined : parseFloat(cart.total),
-                  currency: 'EUR',
-                  enableShippingAddress: true,
-                  shippingAddressEditable: false,
-                  shippingAddressOverride: {
-                    recipientName: `${shipping?.firstName} ${shipping?.lastName}`.trim(),
-                    line1: shipping?.address1 ?? '',
-                    line2: shipping?.address2 ?? '',
-                    city: shipping?.city ?? '',
-                    countryCode: shipping?.country ?? '',
-                    postalCode: shipping?.postcode ?? '',
-                    state: shipping?.state ?? '',
-                  },
-                }),
-              // validate: () => {
-              //   // We can enable or disable the button here, but without visual feedback
-              //   actions.disable();
-              // },
-              onAuthorize: (data) =>
-                paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
-                  onAuthorize(payload.nonce);
-                  return payload;
-                }),
-              onError: () => {
-                // Show an error page here, when an error occurs
+                  color: 'gold',
+                  // @ts-ignore
+                  label: 'pay',
+                  // @ts-ignore
+                  shape: 'pill',
+                  // @ts-ignore
+                  size: 'responsive',
+                  tagline: false,
+                },
+                payment: () =>
+                  paypalCheckoutInstance.createPayment({
+                    // @ts-ignore
+                    flow: 'checkout',
+                    amount: cart.total == null ? undefined : parseFloat(cart.total),
+                    currency: 'EUR',
+                    enableShippingAddress: true,
+                    shippingAddressEditable: false,
+                    shippingAddressOverride: {
+                      recipientName: `${shipping?.firstName} ${shipping?.lastName}`.trim(),
+                      line1: shipping?.address1 ?? '',
+                      line2: shipping?.address2 ?? '',
+                      city: shipping?.city ?? '',
+                      countryCode: shipping?.country ?? '',
+                      postalCode: shipping?.postcode ?? '',
+                      state: shipping?.state ?? '',
+                    },
+                  }),
+                // validate: () => {
+                //   // We can enable or disable the button here, but without visual feedback
+                //   actions.disable();
+                // },
+                onAuthorize: (data) =>
+                  paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
+                    onAuthorize(payload.nonce);
+                    return payload;
+                  }),
+                onError: () => {
+                  // Show an error page here, when an error occurs
+                },
               },
-            },
-            '#paypal-button',
-            // @ts-ignore
-          ).then(() => {
-            setLoading(false);
-          });
-        });
+              '#paypal-button',
+              // @ts-ignore
+            ).then(() => {
+              setLoading(false);
+            });
+          }),
+      );
     }
   });
 

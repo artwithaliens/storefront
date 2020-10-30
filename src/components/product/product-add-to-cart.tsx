@@ -114,7 +114,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
           ),
         )}
       </TextField>
-      <Box mt={2}>
+      <Box sx={{ mt: 2 }}>
         <Button
           color="primary"
           variant="contained"

@@ -63,7 +63,7 @@ const MyAccount: NextPage = () => {
       {/* Only Show Content if user is logged in */}
       {showContent && (
         <Container className={styles.container}>
-          <Box mt={6}>
+          <Box sx={{ mt: 6 }}>
             <Typography variant="h4">My Account</Typography>
             <div className={styles.sidebar}>
               <a className={styles.sidebarLink} href="#dashboard">

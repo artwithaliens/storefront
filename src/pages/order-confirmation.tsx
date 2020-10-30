@@ -7,7 +7,7 @@ import PageWrapper from '../components/global/page-wrapper';
 const OrderConfirmation: NextPage = () => (
   <PageWrapper>
     <Container>
-      <Box p={4} textAlign="center">
+      <Box sx={{ p: 4, textAlign: 'center' }}>
         <Typography gutterBottom variant="h1">
           Thank you for your order!
         </Typography>
@@ -16,7 +16,7 @@ const OrderConfirmation: NextPage = () => (
           <br />
           I’ll notify you when the order has been shipped.
         </Typography>
-        <Box mt={4}>
+        <Box sx={{ mt: 4 }}>
           <Button color="secondary" href="/shop">
             Continue shopping
           </Button>
