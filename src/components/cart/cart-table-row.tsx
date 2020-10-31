@@ -1,7 +1,7 @@
 import { Image, Price } from '@components/core';
 import { Delete } from '@components/icons';
-import { Link, QuantityInput } from '@components/ui';
-import { Hidden, IconButton, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core';
+import { IconButton, Link, QuantityInput } from '@components/ui';
+import { Hidden, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import startCase from 'lodash/startCase';
 import React from 'react';

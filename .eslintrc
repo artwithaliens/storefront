@@ -9,6 +9,7 @@
     "linkComponents": ["Button", "Link"]
   },
   "rules": {
+    "import/no-cycle": "off",
     "@next/next/no-css-tags": "error",
     "@next/next/no-sync-scripts": "error"
   }

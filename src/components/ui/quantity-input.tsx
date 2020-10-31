@@ -1,21 +1,8 @@
 import { Minus, Plus } from '@components/icons';
-import { IconButton, makeStyles } from '@material-ui/core';
+import { IconButton } from '@components/ui';
+import { Box } from '@material-ui/core';
 import React from 'react';
 import { useCounter, useUpdateEffect } from 'react-use';
-
-const useStyles = makeStyles(
-  ({ spacing }) => ({
-    root: {
-      display: 'inline-flex',
-      alignItems: 'center',
-    },
-
-    value: {
-      margin: spacing(0, 1),
-    },
-  }),
-  { name: 'QuantityInput' },
-);
 
 type Props = {
   disabled?: boolean;
@@ -32,7 +19,6 @@ const QuantityInput: React.VFC<Props> = ({
   onChange,
   value: initialValue,
 }) => {
-  const styles = useStyles();
   const [value, { inc, dec }] = useCounter(initialValue ?? 0, max, min);
 
   useUpdateEffect(() => {
@@ -40,7 +26,7 @@ const QuantityInput: React.VFC<Props> = ({
   }, [value]);
 
   return (
-    <div className={styles.root}>
+    <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
       <IconButton
         aria-label="Minus"
         size="small"
@@ -49,7 +35,7 @@ const QuantityInput: React.VFC<Props> = ({
       >
         <Minus fontSize="inherit" />
       </IconButton>
-      <div className={styles.value}>{value}</div>
+      <Box sx={{ mx: 1 }}>{value}</Box>
       <IconButton
         aria-label="Plus"
         size="small"
@@ -58,7 +44,7 @@ const QuantityInput: React.VFC<Props> = ({
       >
         <Plus fontSize="inherit" />
       </IconButton>
-    </div>
+    </Box>
   );
 };
 

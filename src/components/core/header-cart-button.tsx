@@ -1,6 +1,6 @@
 import { Cart } from '@components/icons';
-import { Badge, IconButton } from '@material-ui/core';
-import Link from 'next/link';
+import { IconButton } from '@components/ui';
+import { Badge } from '@material-ui/core';
 import React from 'react';
 import { useCartQuery } from '../../graphql';
 
@@ -11,17 +11,15 @@ const HeaderCartButton: React.VFC = () => {
   });
 
   return (
-    <Link passHref href="/cart">
-      <IconButton color="inherit" aria-label="Cart">
-        <Badge
-          badgeContent={cart?.contents?.itemCount}
-          color="primary"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Cart />
-        </Badge>
-      </IconButton>
-    </Link>
+    <IconButton href="/cart" color="inherit" aria-label="Cart">
+      <Badge
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        badgeContent={cart?.contents?.itemCount}
+        color="primary"
+      >
+        <Cart />
+      </Badge>
+    </IconButton>
   );
 };
 

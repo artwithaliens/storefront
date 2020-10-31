@@ -1,5 +1,5 @@
 import { Edit } from '@components/icons';
-import { Button, Link, Loader } from '@components/ui';
+import { Button, IconButton, Link, Loader } from '@components/ui';
 import {
   Box,
   Checkbox,
@@ -7,11 +7,9 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
-  IconButton,
   TextField,
   Typography,
 } from '@material-ui/core';
-import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
@@ -111,11 +109,9 @@ const CheckoutReview: React.VFC<Props> = ({
             }}
           >
             <Typography variant="h4">Billing Address</Typography>
-            <NextLink passHref href="/checkout/billing-address">
-              <IconButton size="small">
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </NextLink>
+            <IconButton href="/checkout/billing-address" size="small">
+              <Edit fontSize="inherit" />
+            </IconButton>
           </Box>
           <Divider />
           <Box sx={{ mt: 2 }}>
@@ -133,11 +129,9 @@ const CheckoutReview: React.VFC<Props> = ({
             }}
           >
             <Typography variant="h4">Shipping Address</Typography>
-            <NextLink passHref href="/checkout/shipping-address">
-              <IconButton size="small">
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </NextLink>
+            <IconButton href="/checkout/shipping-address" size="small">
+              <Edit fontSize="inherit" />
+            </IconButton>
           </Box>
           <Divider />
           <Box sx={{ mt: 2 }}>
@@ -155,11 +149,9 @@ const CheckoutReview: React.VFC<Props> = ({
             }}
           >
             <Typography variant="h4">Shipping Method</Typography>
-            <NextLink passHref href="/checkout/shipping-options">
-              <IconButton size="small">
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </NextLink>
+            <IconButton href="/checkout/shipping-options" size="small">
+              <Edit fontSize="inherit" />
+            </IconButton>
           </Box>
           <Divider />
           <Box sx={{ mt: 2 }}>
@@ -180,11 +172,9 @@ const CheckoutReview: React.VFC<Props> = ({
             }}
           >
             <Typography variant="h4">Payment Method</Typography>
-            <NextLink passHref href="/checkout/payment">
-              <IconButton size="small">
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </NextLink>
+            <IconButton href="/checkout/payment" size="small">
+              <Edit fontSize="inherit" />
+            </IconButton>
           </Box>
           <Divider />
           <Box sx={{ mt: 2 }}>

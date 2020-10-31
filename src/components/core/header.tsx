@@ -1,11 +1,10 @@
 import { Menu } from '@components/icons';
-import { Link } from '@components/ui';
-import { AppBar, Box, Collapse, Hidden, IconButton, makeStyles, Toolbar } from '@material-ui/core';
+import { IconButton, Link, Logo } from '@components/ui';
+import { AppBar, Box, Collapse, Hidden, makeStyles, Toolbar } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useToggle } from 'react-use';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import HeaderCartButton from './header-cart-button';
-import HeaderLogo from './header-logo';
 import HeaderMenu from './header-menu';
 import { SettingsContext } from './settings-provider';
 
@@ -24,13 +23,11 @@ const useStyles = makeStyles(
     },
 
     logo: {
-      '& > svg': {
-        height: 44,
-        width: 'auto',
+      height: 44,
+      width: 'auto',
 
-        [breakpoints.up('md')]: {
-          height: 62,
-        },
+      [breakpoints.up('md')]: {
+        height: 62,
       },
     },
   }),
@@ -56,8 +53,8 @@ const Header: React.VFC = () => {
             </IconButton>
           </Box>
         </Hidden>
-        <Link className={styles.logo} href="/" underline="none">
-          <HeaderLogo titleAccess={settings.title} />
+        <Link href="/" underline="none">
+          <Logo className={styles.logo} titleAccess={settings.title} />
         </Link>
         <Box
           sx={{
