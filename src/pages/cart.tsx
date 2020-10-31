@@ -1,10 +1,9 @@
+import { CartEmpty, CartTable } from '@components/cart';
+import { PageWrapper } from '@components/core';
+import { Button, Loader } from '@components/ui';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import CartEmpty from '../components/cart/cart-empty';
-import CartTable from '../components/cart/cart-table';
-import PageWrapper from '../components/core/page-wrapper';
-import { Button, Loader } from '../components/ui';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {

@@ -1,3 +1,4 @@
+import { Button } from '@components/ui';
 import { Box, Radio, RadioGroup, styled, SvgIcon, Typography } from '@material-ui/core';
 import React, { useRef, useState } from 'react';
 import AmexSvg from '../../assets/payment-gateways/amex.svg';
@@ -5,7 +6,6 @@ import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
 import { CustomerQuery, usePaymentGatewaysQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
-import { Button } from '../ui';
 import CreditCardForm, { CreditCardInput } from './credit-card-form';
 
 const PaymentMethodsLabel = styled('label')(({ theme }) => ({

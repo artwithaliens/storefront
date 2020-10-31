@@ -1,10 +1,10 @@
 import { ApolloError } from '@apollo/client';
+import { Button } from '@components/ui';
 import { Box, makeStyles, TextField } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React, { useContext, useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
 import { AlertContext } from '../core/alert-provider';
-import { Button } from '../ui';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({

@@ -1,7 +1,7 @@
+import { PageWrapper } from '@components/core';
 import { Divider, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import PageWrapper from '../components/core/page-wrapper';
 
 const Custom404: NextPage = () => (
   <PageWrapper>

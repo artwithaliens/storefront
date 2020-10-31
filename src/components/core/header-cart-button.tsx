@@ -1,8 +1,8 @@
+import { Cart } from '@components/icons';
 import { Badge, IconButton } from '@material-ui/core';
 import Link from 'next/link';
 import React from 'react';
 import { useCartQuery } from '../../graphql';
-import { Cart } from '../icons';
 
 const HeaderCartButton: React.VFC = () => {
   const { data: { cart } = { cart: undefined } } = useCartQuery({

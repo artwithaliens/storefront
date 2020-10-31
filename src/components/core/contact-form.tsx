@@ -1,9 +1,9 @@
+import { Button } from '@components/ui';
 import { Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@material-ui/core';
 import { useFormik } from 'formik';
 import React from 'react';
 import { useAsyncFn } from 'react-use';
 import { boolean, object, string } from 'yup';
-import { Button } from '../ui';
 
 type ContactInput = {
   acceptance: boolean;

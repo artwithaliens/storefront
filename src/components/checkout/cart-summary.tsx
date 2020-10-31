@@ -1,3 +1,4 @@
+import { Image, Price } from '@components/core';
 import {
   alpha,
   Box,
@@ -12,8 +13,6 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { CartQuery } from '../../graphql';
-import Image from '../core/image';
-import Price from '../core/price';
 
 const useStyles = makeStyles(
   ({ palette }) => ({

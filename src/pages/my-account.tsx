@@ -1,10 +1,10 @@
+import { PageWrapper } from '@components/core';
+import { Home } from '@components/icons';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../components/core/auth-provider';
-import PageWrapper from '../components/core/page-wrapper';
-import { Home } from '../components/icons';
 
 const useStyles = makeStyles({
   container: {

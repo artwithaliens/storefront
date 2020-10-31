@@ -1,8 +1,8 @@
+import { Image } from '@components/core';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import { MediaItem } from '../../graphql';
-import Image from './image';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, spacing }) => ({

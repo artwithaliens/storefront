@@ -1,14 +1,10 @@
+import { Image } from '@components/core';
+import { Link } from '@components/ui';
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useCategoriesQuery } from '../../graphql';
-import { Link } from '../ui';
-import Image from './image';
 
 const useStyles = makeStyles(({ spacing }) => ({
-  title: {
-    marginBottom: 24,
-  },
-
   category: {
     height: '100%',
   },

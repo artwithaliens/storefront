@@ -1,19 +1,19 @@
+import { PageWrapper, ProductGrid, RichText } from '@components/core';
+import {
+  ProductAddToCart,
+  ProductAttributes,
+  ProductGallery,
+  ProductJSON,
+  ProductMeta,
+  ProductSummary,
+} from '@components/product';
+import { Loader } from '@components/ui';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
-import PageWrapper from '../../components/core/page-wrapper';
-import ProductGrid from '../../components/core/product-grid';
-import RichText from '../../components/core/rich-text';
-import ProductAddToCart from '../../components/product/product-add-to-cart';
-import ProductAttributes from '../../components/product/product-attributes';
-import ProductGallery from '../../components/product/product-gallery';
-import ProductJSON from '../../components/product/product-json';
-import ProductMeta from '../../components/product/product-meta';
-import ProductSummary from '../../components/product/product-summary';
-import { Loader } from '../../components/ui';
 import { useProductQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
 

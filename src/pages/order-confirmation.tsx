@@ -1,8 +1,8 @@
+import { PageWrapper } from '@components/core';
+import { Button } from '@components/ui';
 import { Box, Container, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import PageWrapper from '../components/core/page-wrapper';
-import { Button } from '../components/ui';
 
 const OrderConfirmation: NextPage = () => (
   <PageWrapper>

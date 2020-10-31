@@ -1,7 +1,7 @@
+import { Minus, Plus } from '@components/icons';
 import { IconButton, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { useCounter, useUpdateEffect } from 'react-use';
-import { Minus, Plus } from '../icons';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({

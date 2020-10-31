@@ -1,11 +1,11 @@
+import { BlockCover, BlockGallery, BlockImage, BlockParagraph } from '@components/blocks';
+import { RichText } from '@components/core';
 import clsx from 'clsx';
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser';
 import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import React from 'react';
 import styleToObject from 'style-to-object';
-import { BlockCover, BlockGallery, BlockImage, BlockParagraph } from '../blocks';
-import RichText from './rich-text';
 
 type Props = {
   children: string | null | undefined;

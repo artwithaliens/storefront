@@ -1,4 +1,6 @@
 import { ApolloError } from '@apollo/client';
+import { PageWrapper } from '@components/core';
+import { Button } from '@components/ui';
 import { Alert, Box, Container, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { ExecutionResult } from 'graphql';
@@ -8,8 +10,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { object, string } from 'yup';
 import { AlertContext } from '../components/core/alert-provider';
 import { AuthContext } from '../components/core/auth-provider';
-import PageWrapper from '../components/core/page-wrapper';
-import { Button } from '../components/ui';
 import { RegisterUserMutation, useRegisterUserMutation } from '../graphql';
 
 type RegisterValues = {

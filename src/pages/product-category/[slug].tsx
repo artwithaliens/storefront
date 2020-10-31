@@ -1,10 +1,9 @@
+import { PageWrapper, ProductGrid } from '@components/core';
+import { Loader } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import PageWrapper from '../../components/core/page-wrapper';
-import ProductGrid from '../../components/core/product-grid';
-import { Loader } from '../../components/ui';
 import { useProductsQuery } from '../../graphql';
 
 const ProductCategory: NextPage = () => {

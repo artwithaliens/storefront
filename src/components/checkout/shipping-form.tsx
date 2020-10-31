@@ -1,3 +1,4 @@
+import { Button, CountrySelect } from '@components/ui';
 import {
   Box,
   Checkbox,
@@ -12,7 +13,6 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { mixed, object, string } from 'yup';
 import { CountriesEnum, CustomerAddressInput, useUpdateCustomerMutation } from '../../graphql';
-import { Button, CountrySelect } from '../ui';
 
 const validationSchema = object().shape<CustomerAddressInput>({
   address1: string().label('Street address').max(100).required(),

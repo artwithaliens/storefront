@@ -4210,6 +4210,14 @@ export type Seo = {
   twitterTitle?: Maybe<Scalars['String']>;
 };
 
+/** The template assigned to a node of content */
+export type ContentTemplate = {
+  /** The file the template uses */
+  templateFile?: Maybe<Scalars['String']>;
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
+};
+
 /** Arguments for filtering the UserToPageConnection connection */
 export type UserToPageConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
@@ -26205,14 +26213,6 @@ export type TermObjectUnion =
   | PaMaterial
   | PaPaperWeight
   | PaSize;
-
-/** The template assigned to a node of content */
-export type ContentTemplate = {
-  /** The file the template uses */
-  templateFile?: Maybe<Scalars['String']>;
-  /** The name of the template */
-  templateName?: Maybe<Scalars['String']>;
-};
 
 export type AddToCartMutationVariables = Exact<{
   productId: Scalars['Int'];

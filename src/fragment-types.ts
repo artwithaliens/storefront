@@ -109,6 +109,7 @@ const result: PossibleTypesResultData = {
       'SimpleProduct',
     ],
     HierarchicalContentNode: ['MediaItem', 'Page'],
+    ContentTemplate: [],
     NodeWithContentEditor: [
       'Page',
       'Post',
@@ -165,7 +166,6 @@ const result: PossibleTypesResultData = {
       'PaPaperWeight',
       'PaSize',
     ],
-    ContentTemplate: [],
   },
 };
 export default result;

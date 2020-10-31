@@ -1,3 +1,5 @@
+import { Edit } from '@components/icons';
+import { Button, Link, Loader } from '@components/ui';
 import {
   Box,
   Checkbox,
@@ -13,8 +15,6 @@ import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
-import { Edit } from '../icons';
-import { Button, Link, Loader } from '../ui';
 import AddressSummary from './address-summary';
 import PaymentSummary from './payment-summary';
 import PaypalButton from './paypal-button';

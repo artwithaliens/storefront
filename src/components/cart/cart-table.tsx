@@ -1,3 +1,4 @@
+import { Price } from '@components/core';
 import {
   alpha,
   darken,
@@ -13,7 +14,6 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
-import Price from '../core/price';
 import CartTableRow from './cart-table-row';
 
 const useStyles = makeStyles(

@@ -1,10 +1,8 @@
+import { ContactForm, PageHeader, PageWrapper } from '@components/core';
+import { Pin } from '@components/icons';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import ContactForm from '../components/core/contact-form';
-import PageHeader from '../components/core/page-header';
-import PageWrapper from '../components/core/page-wrapper';
-import { Pin } from '../components/icons';
 
 const Contact: NextPage = () => (
   <PageWrapper>

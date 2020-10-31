@@ -1,11 +1,11 @@
+import { Facebook, Github, Instagram } from '@components/icons';
+import { Link } from '@components/ui';
 import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAsync } from 'react-use';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import fetchInstagramMedia from '../../utils/fetch-instagram-media';
 import relativeURL from '../../utils/relative-url';
-import { Facebook, Github, Instagram } from '../icons';
-import { Link } from '../ui';
 
 const useStyles = makeStyles(
   ({ spacing, palette, breakpoints, typography }) => ({

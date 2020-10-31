@@ -1,9 +1,9 @@
+import { Button, CountrySelect } from '@components/ui';
 import { Box, Grid, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import React from 'react';
 import { mixed, object, string } from 'yup';
 import { CountriesEnum, CustomerAddressInput, useUpdateCustomerMutation } from '../../graphql';
-import { Button, CountrySelect } from '../ui';
 
 const validationSchema = object().shape<CustomerAddressInput>({
   address1: string().label('Street address').max(100).required(),

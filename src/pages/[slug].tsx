@@ -1,12 +1,10 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { BlockRenderer, PageHeader, PageWrapper } from '@components/core';
 import { Box, Container } from '@material-ui/core';
 import { NextPage, NextPageContext } from 'next';
 import { NextSeo } from 'next-seo';
 import Error from 'next/error';
 import React from 'react';
-import BlockRenderer from '../components/core/block-renderer';
-import PageHeader from '../components/core/page-header';
-import PageWrapper from '../components/core/page-wrapper';
 import { PageDocument, PageQuery, PageQueryVariables } from '../graphql';
 
 type Props = {

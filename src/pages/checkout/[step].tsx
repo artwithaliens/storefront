@@ -1,12 +1,12 @@
+import { CheckoutForm } from '@components/checkout';
+import { PageWrapper } from '@components/core';
+import { Loader } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import omit from 'lodash/omit';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import CheckoutForm from '../../components/checkout/checkout-form';
-import PageWrapper from '../../components/core/page-wrapper';
-import { Loader } from '../../components/ui';
 import {
   CheckoutMutationVariables,
   useCartQuery,
