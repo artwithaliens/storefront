@@ -2,9 +2,9 @@ import { Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductQuery, StockStatusEnum } from '../../graphql';
 import isBlank from '../../utils/is-blank';
-import Link from '../global/link';
-import Price from '../global/price';
-import RichText from '../global/rich-text';
+import Price from '../core/price';
+import RichText from '../core/rich-text';
+import { Link } from '../ui';
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;

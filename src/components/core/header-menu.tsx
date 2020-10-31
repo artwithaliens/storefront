@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { MenuQuery } from '../../graphql';
 import relativeURL from '../../utils/relative-url';
+import { Button } from '../ui';
 import { AuthContext } from './auth-provider';
-import Button from './button';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, spacing }) => ({

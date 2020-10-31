@@ -5,8 +5,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import CheckoutForm from '../../components/checkout/checkout-form';
-import Loader from '../../components/global/loader';
-import PageWrapper from '../../components/global/page-wrapper';
+import PageWrapper from '../../components/core/page-wrapper';
+import { Loader } from '../../components/ui';
 import {
   CheckoutMutationVariables,
   useCartQuery,

@@ -1,10 +1,10 @@
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import BlockRenderer from '../components/global/block-renderer';
-import PageHeader from '../components/global/page-header';
-import PageWrapper from '../components/global/page-wrapper';
-import Categories from '../components/index/categories';
+import BlockRenderer from '../components/core/block-renderer';
+import Categories from '../components/core/categories';
+import PageHeader from '../components/core/page-header';
+import PageWrapper from '../components/core/page-wrapper';
 import { usePageQuery } from '../graphql';
 
 const Index: NextPage = () => {

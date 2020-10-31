@@ -4,14 +4,17 @@ import camelCase from 'lodash/camelCase';
 import mapKeys from 'lodash/mapKeys';
 import React from 'react';
 import styleToObject from 'style-to-object';
-import BlockCover from '../../blocks/block-cover';
-import BlockGallery from '../../blocks/block-gallery';
-import BlockImage from '../../blocks/block-image';
-import BlockParagraph from '../../blocks/block-paragraph';
+import { BlockCover, BlockGallery, BlockImage, BlockParagraph } from '../blocks';
 import RichText from './rich-text';
 
-function parseWithBlocks(html: string) {
-  const options: HTMLReactParserOptions = {
+type Props = {
+  children: string | null | undefined;
+  options?: HTMLReactParserOptions;
+};
+
+const BlockRenderer: React.FC<Props> = ({
+  children,
+  options = {
     replace: ({ attribs = {}, children = [], name }) => {
       const classNames = attribs.class?.split(/\s/) ?? [];
       const style = mapKeys(styleToObject(attribs.style ?? ''), (_value, key) => camelCase(key));
@@ -29,21 +32,13 @@ function parseWithBlocks(html: string) {
           {domToReact(children, options)}
         </BlockImage>
       ) : name === 'p' ? (
-        <BlockParagraph className={clsx(classNames)}>
+        <BlockParagraph className={clsx(classNames)} style={style}>
           {domToReact(children, options)}
         </BlockParagraph>
       ) : null;
     },
-  };
-  return parse(html, options) as React.ReactElement;
-}
-
-type Props = {
-  children: string | null | undefined;
-};
-
-const BlockRenderer: React.FC<Props> = ({ children }) => (
-  <RichText>{parseWithBlocks(children ?? '')}</RichText>
-);
+    trim: true,
+  },
+}) => <RichText>{parse(children ?? '', options)}</RichText>;
 
 export default BlockRenderer;

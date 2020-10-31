@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductQuery } from '../../graphql';
-import Link from '../global/link';
+import { Link } from '../ui';
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;

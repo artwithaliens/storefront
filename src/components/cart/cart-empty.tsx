@@ -1,6 +1,6 @@
 import { Box, Typography } from '@material-ui/core';
 import React from 'react';
-import Button from '../global/button';
+import { Button } from '../ui';
 
 const CartEmpty: React.VFC = () => (
   <Box sx={{ my: 4, textAlign: 'center' }}>

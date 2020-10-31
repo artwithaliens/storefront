@@ -1,13 +1,11 @@
-import { Box, Container, Grid, makeStyles, SvgIcon, Typography } from '@material-ui/core';
+import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAsync } from 'react-use';
-import FacebookSvg from '../../assets/icons/facebook.svg';
-import GithubSvg from '../../assets/icons/github.svg';
-import InstagramSvg from '../../assets/icons/instagram.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
 import fetchInstagramMedia from '../../utils/fetch-instagram-media';
 import relativeURL from '../../utils/relative-url';
-import Link from './link';
+import { Facebook, Github, Instagram } from '../icons';
+import { Link } from '../ui';
 
 const useStyles = makeStyles(
   ({ spacing, palette, breakpoints, typography }) => ({
@@ -77,7 +75,7 @@ const Footer: React.VFC = () => {
             className={styles.socialLink}
             aria-label="Facebook"
           >
-            <SvgIcon fontSize="large" component={FacebookSvg} />
+            <Facebook fontSize="large" />
           </a>
           <a
             href="https://www.instagram.com/artwithaliens/"
@@ -86,7 +84,7 @@ const Footer: React.VFC = () => {
             className={styles.socialLink}
             aria-label="Instagram"
           >
-            <SvgIcon fontSize="large" component={InstagramSvg} />
+            <Instagram fontSize="large" />
           </a>
           <a
             href="https://github.com/artwithaliens"
@@ -95,7 +93,7 @@ const Footer: React.VFC = () => {
             className={styles.socialLink}
             aria-label="GitHub"
           >
-            <SvgIcon fontSize="large" component={GithubSvg} />
+            <Github fontSize="large" />
           </a>
         </Box>
         {instagramMedia != null && (

@@ -1,21 +1,12 @@
-import {
-  AppBar,
-  Box,
-  Collapse,
-  Hidden,
-  IconButton,
-  makeStyles,
-  SvgIcon,
-  Toolbar,
-} from '@material-ui/core';
+import { AppBar, Box, Collapse, Hidden, IconButton, makeStyles, Toolbar } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useToggle } from 'react-use';
-import MenuSvg from '../../assets/icons/menu.svg';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
+import { Menu } from '../icons';
+import { Link } from '../ui';
 import HeaderCartButton from './header-cart-button';
 import HeaderLogo from './header-logo';
 import HeaderMenu from './header-menu';
-import Link from './link';
 import { SettingsContext } from './settings-provider';
 
 const useStyles = makeStyles(
@@ -61,7 +52,7 @@ const Header: React.VFC = () => {
         <Hidden mdUp>
           <Box sx={{ flexGrow: 1 }}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>
-              <SvgIcon component={MenuSvg} />
+              <Menu />
             </IconButton>
           </Box>
         </Hidden>

@@ -5,7 +5,7 @@ import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
 import { CustomerQuery, usePaymentGatewaysQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
-import Button from '../global/button';
+import { Button } from '../ui';
 import CreditCardForm, { CreditCardInput } from './credit-card-form';
 
 const PaymentMethodsLabel = styled('label')(({ theme }) => ({

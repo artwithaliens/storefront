@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles(
-  ({ spacing, typography }) => ({
+  ({ spacing }) => ({
     root: {
       backgroundColor: 'transparent',
       padding: spacing(0, 0, 3),

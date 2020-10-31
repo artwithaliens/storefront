@@ -3,9 +3,8 @@ import { NextPage } from 'next';
 import React from 'react';
 import CartEmpty from '../components/cart/cart-empty';
 import CartTable from '../components/cart/cart-table';
-import Button from '../components/global/button';
-import Loader from '../components/global/loader';
-import PageWrapper from '../components/global/page-wrapper';
+import PageWrapper from '../components/core/page-wrapper';
+import { Button, Loader } from '../components/ui';
 import { useCartQuery, useUpdateCartMutation } from '../graphql';
 
 const Cart: NextPage = () => {

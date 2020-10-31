@@ -6,10 +6,10 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { object, string } from 'yup';
-import { AlertContext } from '../components/global/alert-provider';
-import { AuthContext } from '../components/global/auth-provider';
-import Button from '../components/global/button';
-import PageWrapper from '../components/global/page-wrapper';
+import { AlertContext } from '../components/core/alert-provider';
+import { AuthContext } from '../components/core/auth-provider';
+import PageWrapper from '../components/core/page-wrapper';
+import { Button } from '../components/ui';
 import { LoginMutation, useLoginMutation } from '../graphql';
 
 type LoginValues = {

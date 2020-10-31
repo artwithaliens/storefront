@@ -4,7 +4,7 @@ import theme from '../src/theme';
 
 addons.setConfig({
   theme: create({
-    base: theme.palette.type,
+    base: theme.palette.mode,
 
     colorPrimary: theme.palette.common.white,
     colorSecondary: theme.palette.primary.main,

@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import React from 'react';
 import { useAsyncFn } from 'react-use';
 import { boolean, object, string } from 'yup';
-import Button from '../global/button';
+import { Button } from '../ui';
 
 type ContactInput = {
   acceptance: boolean;

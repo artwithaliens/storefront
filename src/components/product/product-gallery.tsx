@@ -2,7 +2,7 @@ import { Hidden, makeStyles, MobileStepper } from '@material-ui/core';
 import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { ProductQuery } from '../../graphql';
-import Image from '../global/image';
+import Image from '../core/image';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({

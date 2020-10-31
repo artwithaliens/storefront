@@ -1,21 +1,12 @@
-import {
-  Hidden,
-  IconButton,
-  makeStyles,
-  SvgIcon,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@material-ui/core';
+import { Hidden, IconButton, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import startCase from 'lodash/startCase';
 import React from 'react';
-import DeleteSvg from '../../assets/icons/delete.svg';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
-import Image from '../global/image';
-import Link from '../global/link';
-import Price from '../global/price';
-import QuantityInput from '../global/quantity-input';
+import Image from '../core/image';
+import Price from '../core/price';
+import { Delete } from '../icons';
+import { Link, QuantityInput } from '../ui';
 
 const useStyles = makeStyles(
   ({ breakpoints }) => ({
@@ -199,7 +190,7 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
       </TableCell>
       <TableCell className={styles.delete}>
         <IconButton aria-label="Delete" onClick={handleRemoveItem}>
-          <SvgIcon component={DeleteSvg} fontSize="small" />
+          <Delete fontSize="small" />
         </IconButton>
       </TableCell>
     </TableRow>

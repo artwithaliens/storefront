@@ -1,0 +1,12 @@
+export { default as ArrowRight } from './arrow-right';
+export { default as Cart } from './cart';
+export { default as Delete } from './delete';
+export { default as Edit } from './edit';
+export { default as Facebook } from './facebook';
+export { default as Github } from './github';
+export { default as Home } from './home';
+export { default as Instagram } from './instagram';
+export { default as Menu } from './menu';
+export { default as Minus } from './minus';
+export { default as Pin } from './pin';
+export { default as Plus } from './plus';

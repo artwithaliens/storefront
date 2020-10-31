@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery } from '../../graphql';
-import Price from '../global/price';
+import Price from '../core/price';
 
 type Props = {
   availableShippingMethods: NonNullable<CartQuery['cart']>['availableShippingMethods'];

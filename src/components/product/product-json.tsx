@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { ProductQuery, StockStatusEnum } from '../../graphql';
 import absoluteURL from '../../utils/absolute-url';
-import { SettingsContext } from '../global/settings-provider';
+import { SettingsContext } from '../core/settings-provider';
 
 type Props = {
   product: ProductQuery['product'];

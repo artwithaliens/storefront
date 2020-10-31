@@ -3,8 +3,8 @@ import { Box, makeStyles, TextField } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React, { useContext, useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
-import { AlertContext } from '../global/alert-provider';
-import Button from '../global/button';
+import { AlertContext } from '../core/alert-provider';
+import { Button } from '../ui';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({

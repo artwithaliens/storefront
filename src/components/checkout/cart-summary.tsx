@@ -12,8 +12,8 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { CartQuery } from '../../graphql';
-import Image from '../global/image';
-import Price from '../global/price';
+import Image from '../core/image';
+import Price from '../core/price';
 
 const useStyles = makeStyles(
   ({ palette }) => ({

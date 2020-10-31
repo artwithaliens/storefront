@@ -1,10 +1,10 @@
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
-import PinSvg from '../assets/icons/pin.svg';
-import ContactForm from '../components/contact/contact-form';
-import PageHeader from '../components/global/page-header';
-import PageWrapper from '../components/global/page-wrapper';
+import ContactForm from '../components/core/contact-form';
+import PageHeader from '../components/core/page-header';
+import PageWrapper from '../components/core/page-wrapper';
+import { Pin } from '../components/icons';
 
 const Contact: NextPage = () => (
   <PageWrapper>
@@ -14,8 +14,8 @@ const Contact: NextPage = () => (
         <ContactForm />
       </Box>
     </Container>
-    <div style={{ position: 'relative' }}>
-      <PinSvg
+    <Box sx={{ position: 'relative' }}>
+      <Pin
         style={{
           fill: '#af8245',
           height: 48,
@@ -37,7 +37,7 @@ const Contact: NextPage = () => (
           verticalAlign: 'middle',
         }}
       />
-    </div>
+    </Box>
   </PageWrapper>
 );
 

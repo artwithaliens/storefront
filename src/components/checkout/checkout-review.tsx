@@ -6,18 +6,15 @@ import {
   FormGroup,
   Grid,
   IconButton,
-  SvgIcon,
   TextField,
   Typography,
 } from '@material-ui/core';
 import NextLink from 'next/link';
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
-import EditSvg from '../../assets/icons/edit.svg';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
-import Button from '../global/button';
-import Link from '../global/link';
-import Loader from '../global/loader';
+import { Edit } from '../icons';
+import { Button, Link, Loader } from '../ui';
 import AddressSummary from './address-summary';
 import PaymentSummary from './payment-summary';
 import PaypalButton from './paypal-button';
@@ -116,7 +113,7 @@ const CheckoutReview: React.VFC<Props> = ({
             <Typography variant="h4">Billing Address</Typography>
             <NextLink passHref href="/checkout/billing-address">
               <IconButton size="small">
-                <SvgIcon fontSize="inherit" component={EditSvg} />
+                <Edit fontSize="inherit" />
               </IconButton>
             </NextLink>
           </Box>
@@ -138,7 +135,7 @@ const CheckoutReview: React.VFC<Props> = ({
             <Typography variant="h4">Shipping Address</Typography>
             <NextLink passHref href="/checkout/shipping-address">
               <IconButton size="small">
-                <SvgIcon fontSize="inherit" component={EditSvg} />
+                <Edit fontSize="inherit" />
               </IconButton>
             </NextLink>
           </Box>
@@ -160,7 +157,7 @@ const CheckoutReview: React.VFC<Props> = ({
             <Typography variant="h4">Shipping Method</Typography>
             <NextLink passHref href="/checkout/shipping-options">
               <IconButton size="small">
-                <SvgIcon fontSize="inherit" component={EditSvg} />
+                <Edit fontSize="inherit" />
               </IconButton>
             </NextLink>
           </Box>
@@ -185,7 +182,7 @@ const CheckoutReview: React.VFC<Props> = ({
             <Typography variant="h4">Payment Method</Typography>
             <NextLink passHref href="/checkout/payment">
               <IconButton size="small">
-                <SvgIcon fontSize="inherit" component={EditSvg} />
+                <Edit fontSize="inherit" />
               </IconButton>
             </NextLink>
           </Box>

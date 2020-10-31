@@ -1,8 +1,8 @@
 import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../graphql';
+import { Link } from '../ui';
 import Image from './image';
-import Link from './link';
 import Price from './price';
 
 const useStyles = makeStyles(

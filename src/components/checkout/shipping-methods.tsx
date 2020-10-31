@@ -1,8 +1,8 @@
 import { Box, Grid, Radio, RadioGroup, styled, Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, useUpdateShippingMethodMutation } from '../../graphql';
-import Button from '../global/button';
-import Price from '../global/price';
+import Price from '../core/price';
+import { Button } from '../ui';
 
 const ShippingMethodsLabel = styled('label')(({ theme }) => ({
   alignItems: 'center',

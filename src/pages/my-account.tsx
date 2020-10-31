@@ -1,10 +1,10 @@
-import { Box, Container, makeStyles, SvgIcon, Typography } from '@material-ui/core';
+import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useState } from 'react';
-import HomeSvg from '../assets/icons/home.svg';
-import { AuthContext } from '../components/global/auth-provider';
-import PageWrapper from '../components/global/page-wrapper';
+import { AuthContext } from '../components/core/auth-provider';
+import PageWrapper from '../components/core/page-wrapper';
+import { Home } from '../components/icons';
 
 const useStyles = makeStyles({
   container: {
@@ -67,7 +67,7 @@ const MyAccount: NextPage = () => {
             <Typography variant="h4">My Account</Typography>
             <div className={styles.sidebar}>
               <a className={styles.sidebarLink} href="#dashboard">
-                <SvgIcon component={HomeSvg} />
+                <Home />
                 <span>Dashboard</span>
               </a>
               <a className={styles.sidebarLink} href="#orders">

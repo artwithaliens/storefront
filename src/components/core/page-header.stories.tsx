@@ -1,22 +1,29 @@
-import { boolean, text } from '@storybook/addon-knobs';
+import { Meta, Story } from '@storybook/react';
 import React from 'react';
 import PageHeader from './page-header';
 
 export default {
   title: 'PageHeader',
   component: PageHeader,
+  argTypes: {
+    fullHeight: { control: 'boolean' },
+    title: { control: 'text' },
+  },
   parameters: {
     layout: 'fullscreen',
   },
-};
+} as Meta;
 
-export const Base = () => (
+export const Base: Story = (args) => (
   <PageHeader
-    fullHeight={boolean('Full Height', false)}
+    {...args}
     image={{
       sourceUrl: '/home.png',
       srcSet: '/home@2x.png 2x',
     }}
-    title={text('Title', 'Contact')}
   />
 );
+
+Base.args = {
+  title: 'Contact',
+};

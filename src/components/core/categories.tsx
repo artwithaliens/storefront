@@ -1,8 +1,8 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { useCategoriesQuery } from '../../graphql';
-import Image from '../global/image';
-import Link from '../global/link';
+import { Link } from '../ui';
+import Image from './image';
 
 const useStyles = makeStyles(({ spacing }) => ({
   title: {

@@ -1,4 +1,5 @@
 import { MockedProvider } from '@apollo/react-testing';
+import { Meta, Story } from '@storybook/react';
 import React from 'react';
 import { CartDocument, MenuDocument, MenuLocationEnum } from '../../graphql';
 import Header from './header';
@@ -9,9 +10,9 @@ export default {
   parameters: {
     layout: 'fullscreen',
   },
-};
+} as Meta;
 
-export const Base = () => (
+export const Base: Story = () => (
   <MockedProvider
     mocks={[
       {

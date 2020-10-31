@@ -9,7 +9,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import { useMount } from 'react-use';
 import createClient from '../apollo';
-import SettingsProvider, { SettingsContext } from '../components/global/settings-provider';
+import SettingsProvider, { SettingsContext } from '../components/core/settings-provider';
 import theme from '../theme';
 import absoluteURL from '../utils/absolute-url';
 
