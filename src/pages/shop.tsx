@@ -1,5 +1,4 @@
 import { PageWrapper, ProductGrid } from '@components/core';
-import { Loader } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
@@ -10,15 +9,11 @@ const Shop: NextPage = () => {
 
   return (
     <PageWrapper>
-      {loading ? (
-        <Loader fullHeight />
-      ) : (
-        <Container>
-          <Box sx={{ my: 6 }}>
-            <ProductGrid products={products?.nodes ?? []} />
-          </Box>
-        </Container>
-      )}
+      <Container>
+        <Box sx={{ my: 6 }}>
+          <ProductGrid loading={loading} products={products?.nodes ?? []} />
+        </Box>
+      </Container>
     </PageWrapper>
   );
 };
