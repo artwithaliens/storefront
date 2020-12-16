@@ -64,11 +64,11 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                     <TableCell>
                       <Image
                         className={styles.image}
-                        mediaItem={item.product?.image}
+                        mediaItem={item.product?.node?.image}
                         loading="lazy"
                       />
                     </TableCell>
-                    <TableCell>{item.product?.name}</TableCell>
+                    <TableCell>{item.product?.node?.name}</TableCell>
                     <TableCell>
                       <Price>{item.total}</Price>
                     </TableCell>

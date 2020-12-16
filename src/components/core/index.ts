@@ -1,7 +1,5 @@
-export { default as AlertProvider } from './alert-provider';
-export { default as AuthProvider } from './auth-provider';
 export { default as BlockRenderer } from './block-renderer';
-export { default as Categories } from './categories';
+export { default as CategoryGrid } from './category-grid';
 export { default as ContactForm } from './contact-form';
 export { default as CookieBanner } from './cookie-banner';
 export { default as Footer } from './footer';

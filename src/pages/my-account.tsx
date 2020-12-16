@@ -3,8 +3,8 @@ import { Home } from '@components/icons';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../components/core/auth-provider';
+import React, { useEffect, useState } from 'react';
+import { useCustomerQuery } from '../graphql';
 
 const useStyles = makeStyles({
   container: {
@@ -47,16 +47,16 @@ const MyAccount: NextPage = () => {
   const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const styles = useStyles();
-  const { userData } = useContext(AuthContext);
+  const { data: { customer } = { customer: undefined } } = useCustomerQuery({ ssr: false });
 
   useEffect(() => {
-    if (userData) {
+    if (customer?.username != null) {
       setShowContent(true);
     } else {
       // If user is not logged in send the user back to login page.
-      router.push('/login');
+      // router.push('/login');
     }
-  }, [router, userData]);
+  }, [customer, router]);
 
   return (
     <PageWrapper>
@@ -83,10 +83,10 @@ const MyAccount: NextPage = () => {
             <div className={styles.main}>
               <div id="dashboard">
                 <Typography gutterBottom variant="h6">
-                  Howdy {userData?.user?.nicename}!
+                  Howdy {customer?.username}!
                 </Typography>
                 <Typography variant="h5">Account Details</Typography>
-                <p>Email: {userData?.user?.email}</p>
+                <p>Email: {customer?.billing?.email}</p>
               </div>
             </div>
           </Box>

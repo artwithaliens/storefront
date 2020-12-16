@@ -19,6 +19,11 @@ query Products($category: String, $tag: String) {
       }
       ... on VariableProduct {
         price
+        variations {
+          nodes {
+            stockStatus
+          }
+        }
       }
       ... on ExternalProduct {
         price

@@ -1,15 +1,14 @@
 import { ApolloError } from '@apollo/client';
 import { PageWrapper } from '@components/core';
 import { Button } from '@components/ui';
+import { useUI } from '@components/ui/context';
 import { Alert, Box, Container, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import { ExecutionResult } from 'graphql';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
-import { object, string } from 'yup';
-import { AlertContext } from '../components/core/alert-provider';
-import { AuthContext } from '../components/core/auth-provider';
+import React, { useState } from 'react';
+import { object, SchemaOf, string } from 'yup';
 import { RegisterUserMutation, useRegisterUserMutation } from '../graphql';
 
 type RegisterValues = {
@@ -18,7 +17,7 @@ type RegisterValues = {
   password: string;
 };
 
-const validationSchema = object().shape<RegisterValues>({
+const validationSchema: SchemaOf<RegisterValues> = object({
   email: string().label('Email').email().min(11).max(254).required(),
   password: string().label('Password').min(8).max(35).required(),
   username: string().label('Username').max(35).required(),
@@ -30,8 +29,7 @@ const Register: NextPage = () => {
   const [showAlertBar, setShowAlertBar] = useState(true);
   const router = useRouter();
   const [registerUser, { loading }] = useRegisterUserMutation();
-  const { authenticated } = useContext(AuthContext);
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useUI();
 
   /** Hide the Status bar on cross button click. */
   const handleCloseButtonClick = () => {
@@ -81,12 +79,12 @@ const Register: NextPage = () => {
     },
   });
 
-  useEffect(() => {
-    // Redirect the user to My Account page if user is already authenticated.
-    if (authenticated) {
-      router.push('/my-account');
-    }
-  }, [authenticated, router]);
+  // useEffect(() => {
+  //   // Redirect the user to My Account page if user is already authenticated.
+  //   if (authenticated) {
+  //     router.push('/my-account');
+  //   }
+  // }, [authenticated, router]);
 
   return (
     <PageWrapper>

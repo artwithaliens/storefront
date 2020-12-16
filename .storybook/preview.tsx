@@ -5,7 +5,7 @@ import { addDecorator, addParameters } from '@storybook/react';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import Router from 'next/router';
 import React, { useState } from 'react';
-import theme from '../src/theme';
+import theme from '../src/components/ui/theme';
 
 addParameters({
   layout: 'centered',

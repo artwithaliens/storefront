@@ -6,10 +6,11 @@
     "paypal": true
   },
   "settings": {
-    "linkComponents": ["Button", "Link"]
+    "linkComponents": ["Button", "IconButton", "Link"]
   },
   "rules": {
     "import/no-cycle": "off",
+    "unicorn/filename-case": "off",
     "@next/next/no-css-tags": "error",
     "@next/next/no-sync-scripts": "error"
   }

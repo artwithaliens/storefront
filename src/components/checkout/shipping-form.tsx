@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import { mixed, object, string } from 'yup';
 import { CountriesEnum, CustomerAddressInput, useUpdateCustomerMutation } from '../../graphql';
 
-const validationSchema = object().shape<CustomerAddressInput>({
+const validationSchema = object({
   address1: string().label('Street address').max(100).required(),
   address2: string().min(0).max(254),
   city: string().label('City').max(25).required(),

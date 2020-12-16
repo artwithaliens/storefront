@@ -1,10 +1,10 @@
 import { ApolloError } from '@apollo/client';
 import { Button } from '@components/ui';
+import { useUI } from '@components/ui/context';
 import { Box, makeStyles, TextField } from '@material-ui/core';
 import startCase from 'lodash/startCase';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
-import { AlertContext } from '../core/alert-provider';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({
@@ -21,7 +21,7 @@ type Props = {
 
 const ProductAddToCart: React.VFC<Props> = ({ product }) => {
   const styles = useStyles();
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useUI();
 
   const [showViewCart, setShowViewCart] = useState(false);
   const [variationId, setVariationId] = useState<number>();

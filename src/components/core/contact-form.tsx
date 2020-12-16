@@ -18,7 +18,7 @@ type ContactResponse = {
   status: 'mail_sent' | 'validation_failed';
 };
 
-const validationSchema = object().shape<ContactInput>({
+const validationSchema = object({
   acceptance: boolean().required().oneOf([true]),
   email: string().label('Email').email().min(11).max(254).required(),
   fullName: string().label('Name').max(70).required(),

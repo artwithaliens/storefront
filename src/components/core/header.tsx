@@ -1,10 +1,9 @@
-import { Menu } from '@components/icons';
+import { Cart, Menu } from '@components/icons';
 import { IconButton, Link, Logo } from '@components/ui';
-import { AppBar, Box, Collapse, Hidden, makeStyles, Toolbar } from '@material-ui/core';
+import { AppBar, Badge, Box, Collapse, Hidden, makeStyles, Toolbar } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { useToggle } from 'react-use';
-import { MenuLocationEnum, useMenuQuery } from '../../graphql';
-import HeaderCartButton from './header-cart-button';
+import { MenuLocationEnum, useCartQuery, useMenuQuery } from '../../graphql';
 import HeaderMenu from './header-menu';
 import { SettingsContext } from './settings-provider';
 
@@ -23,11 +22,11 @@ const useStyles = makeStyles(
     },
 
     logo: {
-      height: 44,
+      height: 40,
       width: 'auto',
 
       [breakpoints.up('md')]: {
-        height: 62,
+        height: 64,
       },
     },
   }),
@@ -43,10 +42,15 @@ const Header: React.VFC = () => {
     variables: { location: MenuLocationEnum.PRIMARY_NAVIGATION },
   });
 
+  const { data: { cart } = { cart: undefined } } = useCartQuery({
+    fetchPolicy: 'no-cache',
+    ssr: false,
+  });
+
   return (
     <AppBar color="default" position="relative">
       <Toolbar className={styles.toolbar}>
-        <Hidden mdUp>
+        <Hidden mdUp implementation="css">
           <Box sx={{ flexGrow: 1 }}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>
               <Menu />
@@ -54,7 +58,7 @@ const Header: React.VFC = () => {
           </Box>
         </Hidden>
         <Link href="/" underline="none">
-          <Logo className={styles.logo} titleAccess={settings.title} />
+          <Logo className={styles.logo} aria-label={settings.title} />
         </Link>
         <Box
           sx={{
@@ -68,7 +72,11 @@ const Header: React.VFC = () => {
           <Hidden mdDown>
             <HeaderMenu menu={menu} />
           </Hidden>
-          <HeaderCartButton />
+          <IconButton href="/cart" color="inherit" aria-label="Cart">
+            <Badge badgeContent={cart?.contents?.itemCount}>
+              <Cart />
+            </Badge>
+          </IconButton>
         </Box>
       </Toolbar>
       <Collapse unmountOnExit in={open} timeout="auto">

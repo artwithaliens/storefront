@@ -141,19 +141,19 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
   return (
     <TableRow className={clsx(styles.root, loading && styles.loading)}>
       <TableCell className={styles.image}>
-        <Image mediaItem={item.product?.image} loading="lazy" />
+        <Image mediaItem={item.product?.node?.image} loading="lazy" />
       </TableCell>
       <TableCell className={styles.description}>
         <Typography gutterBottom variant="h5">
-          <Link href={`/product/${item.product?.slug}`} underline="none">
-            {item.product?.name}
+          <Link href={`/product/${item.product?.node?.slug}`} underline="none">
+            {item.product?.node?.name}
           </Link>
         </Typography>
         <Typography gutterBottom variant="body2">
-          SKU: {item.product?.sku ?? 'N/A'}
+          SKU: {item.product?.node?.sku ?? 'N/A'}
         </Typography>
         <Typography variant="body2">
-          {item.variation?.attributes?.nodes?.map(
+          {item.variation?.node?.attributes?.nodes?.map(
             (node) =>
               `${startCase(node?.name?.replace(/^pa_/, '') ?? 'Variation')}: ${node?.value}`,
           )}
@@ -163,8 +163,10 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
         <Hidden smUp>
           <Typography variant="body2">Price:</Typography>
         </Hidden>
-        {(item.product?.__typename === 'SimpleProduct' ||
-          item.product?.__typename === 'VariableProduct') && <Price>{item.product.price}</Price>}
+        {(item.product?.node?.__typename === 'SimpleProduct' ||
+          item.product?.node?.__typename === 'VariableProduct') && (
+          <Price>{item.product.node.price}</Price>
+        )}
       </TableCell>
       <TableCell className={styles.quantity}>
         <QuantityInput
@@ -172,10 +174,10 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           disabled={loading}
           min={0}
           max={
-            (item.product?.__typename === 'SimpleProduct'
-              ? item.product.stockQuantity
-              : item.product?.__typename === 'VariableProduct'
-              ? item.variation?.stockQuantity
+            (item.product?.node?.__typename === 'SimpleProduct'
+              ? item.product.node.stockQuantity
+              : item.product?.node?.__typename === 'VariableProduct'
+              ? item.variation?.node?.stockQuantity
               : item.quantity) ?? undefined
           }
           onChange={handleQuantityChange}

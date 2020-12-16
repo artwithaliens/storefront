@@ -5,32 +5,36 @@ query Cart {
       nodes {
         key
         product {
-          id
-          slug
-          name
-          sku
-          image {
-            altText
-            sizes(size: SHOP_CATALOG)
-            sourceUrl(size: SHOP_CATALOG)
-            srcSet(size: SHOP_CATALOG)
-          }
-          ... on SimpleProduct {
-            price
-            stockQuantity
-          }
-          ... on VariableProduct {
-            price
-            stockQuantity
+          node {
+            id
+            slug
+            name
+            sku
+            image {
+              altText
+              sizes(size: SHOP_CATALOG)
+              sourceUrl(size: SHOP_CATALOG)
+              srcSet(size: SHOP_CATALOG)
+            }
+            ... on SimpleProduct {
+              price
+              stockQuantity
+            }
+            ... on VariableProduct {
+              price
+              stockQuantity
+            }
           }
         }
         variation {
-          stockQuantity
-          attributes {
-            nodes {
-              id
-              name
-              value
+          node {
+            stockQuantity
+            attributes {
+              nodes {
+                id
+                name
+                value
+              }
             }
           }
         }

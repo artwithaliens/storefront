@@ -1,7 +1,7 @@
 import {
   ApolloClient,
   ApolloLink,
-  HttpLink,
+  createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
@@ -10,7 +10,7 @@ import introspectionResult from './fragment-types';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-const beforeware = onError(({ graphQLErrors }) => {
+const errorLink = onError(({ graphQLErrors }) => {
   graphQLErrors?.forEach(({ message }) => {
     if (message.match(/Expired token/)) {
       localStorage.removeItem('session');
@@ -18,16 +18,17 @@ const beforeware = onError(({ graphQLErrors }) => {
   });
 });
 
-const middleware = new ApolloLink((operation, forward) => {
+const authLink = new ApolloLink((operation, forward) => {
   // If session data exist in local storage, set value as session header.
   const session = process.browser ? localStorage.getItem('session') : null;
-  if (session != null) {
-    operation.setContext(() => ({
-      headers: {
-        'woocommerce-session': `Session ${session}`,
-      },
-    }));
-  }
+  const authToken = process.browser ? localStorage.getItem('authToken') : null;
+
+  operation.setContext(() => ({
+    headers: {
+      authorization: authToken != null ? `Bearer ${authToken}` : undefined,
+      'woocommerce-session': session != null ? `Session ${session}` : undefined,
+    },
+  }));
   return forward(operation);
 });
 
@@ -50,10 +51,10 @@ export default function createClient({
 }: { initialState?: NormalizedCacheObject } = {}) {
   if (apolloClient == null) {
     apolloClient = new ApolloClient({
-      link: beforeware.concat(
-        middleware.concat(
+      link: errorLink.concat(
+        authLink.concat(
           afterware.concat(
-            new HttpLink({
+            createHttpLink({
               uri: process.env.GRAPHQL_URL,
               credentials: 'include',
             }),

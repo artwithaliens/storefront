@@ -1,4 +1,4 @@
-import { BlockRenderer, Categories, PageHeader, PageWrapper } from '@components/core';
+import { BlockRenderer, CategoryGrid, PageHeader, PageWrapper } from '@components/core';
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
@@ -23,7 +23,7 @@ const Index: NextPage = () => {
       <Container>
         <BlockRenderer>{page?.content}</BlockRenderer>
       </Container>
-      <Categories />
+      <CategoryGrid />
     </PageWrapper>
   );
 };

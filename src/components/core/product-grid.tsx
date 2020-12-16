@@ -72,8 +72,19 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
                               {product.price}
                             </Price>
                           ))}
-                        {(product.__typename === 'VariableProduct' ||
-                          product.__typename === 'ExternalProduct') && (
+                        {product.__typename === 'VariableProduct' &&
+                          (product.variations?.nodes?.every?.(
+                            (variation) => variation?.stockStatus === StockStatusEnum.OUT_OF_STOCK,
+                          ) ? (
+                            <Typography color="error" variant="h5">
+                              Sold out
+                            </Typography>
+                          ) : (
+                            <Price color="primary" variant="h5">
+                              {product.price}
+                            </Price>
+                          ))}
+                        {product.__typename === 'ExternalProduct' && (
                           <Price color="primary" variant="h5">
                             {product.price}
                           </Price>

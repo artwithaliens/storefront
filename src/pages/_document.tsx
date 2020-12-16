@@ -1,7 +1,7 @@
+import theme from '@components/ui/theme';
 import { ServerStyleSheets } from '@material-ui/styles';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
-import theme from '../theme';
 
 export default class extends Document {
   static async getInitialProps(ctx: DocumentContext) {

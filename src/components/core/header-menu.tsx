@@ -1,10 +1,9 @@
 import { Button } from '@components/ui';
 import { makeStyles } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
-import { MenuQuery } from '../../graphql';
+import React from 'react';
+import { MenuQuery, useCustomerQuery } from '../../graphql';
 import relativeURL from '../../utils/relative-url';
-import { AuthContext } from './auth-provider';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, spacing }) => ({
@@ -56,10 +55,16 @@ type Props = {
 const HeaderMenu: React.VFC<Props> = ({ menu }) => {
   const router = useRouter();
   const styles = useStyles();
-  const { authenticated, logout } = useContext(AuthContext);
+
+  const { data: { customer } = { customer: undefined }, refetch } = useCustomerQuery({
+    ssr: false,
+  });
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('session');
+    refetch();
   };
 
   return (
@@ -88,7 +93,7 @@ const HeaderMenu: React.VFC<Props> = ({ menu }) => {
           </Button>
         </li>
       ))}
-      {authenticated && (
+      {customer?.username && (
         <li>
           <Button color="inherit" variant="text" className={styles.link} onClick={handleLogout}>
             Logout

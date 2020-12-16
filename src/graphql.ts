@@ -3,6 +3,8 @@ import * as Apollo from '@apollo/client';
 
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -104,11 +106,6 @@ export type RootQuery = {
   externalProduct?: Maybe<ExternalProduct>;
   /** @deprecated  */
   generalSettings?: Maybe<GeneralSettings>;
-  /**
-   * A simple product object
-   * @deprecated
-   */
-  groupProduct?: Maybe<GroupProduct>;
   /**
    * An object of the mediaItem Type.
    * @deprecated
@@ -448,6 +445,11 @@ export type RootQuery = {
 };
 
 /** The root entry point into the Graph */
+export type RootQueryCartArgs = {
+  recalculateTotals?: Maybe<Scalars['Boolean']>;
+};
+
+/** The root entry point into the Graph */
 export type RootQueryCartFeeArgs = {
   id: Scalars['ID'];
 };
@@ -549,12 +551,6 @@ export type RootQueryCustomersArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryExternalProductArgs = {
-  id?: Maybe<Scalars['ID']>;
-  idType?: Maybe<ProductIdTypeEnum>;
-};
-
-/** The root entry point into the Graph */
-export type RootQueryGroupProductArgs = {
   id?: Maybe<Scalars['ID']>;
   idType?: Maybe<ProductIdTypeEnum>;
 };
@@ -1228,6 +1224,11 @@ export type Cart = {
    * @deprecated
    */
   totalTax?: Maybe<Scalars['String']>;
+  /**
+   * Cart total taxes itemized
+   * @deprecated
+   */
+  totalTaxes?: Maybe<Array<Maybe<CartTax>>>;
 };
 
 /** The cart object */
@@ -1444,12 +1445,12 @@ export type Coupon = Node & {
    * Connection between the Coupon type and the productCategory type
    * @deprecated
    */
-  excludedProductCategories?: Maybe<CouponToProductCategoryConnection>;
+  excludedProductCategories?: Maybe<CouponToExcludedProductCategoriesConnection>;
   /**
    * Connection between the Coupon type and the Product type
    * @deprecated
    */
-  excludedProducts?: Maybe<CouponToProductConnection>;
+  excludedProducts?: Maybe<CouponToExcludedProductsConnection>;
   /**
    * Does this coupon grant free shipping?
    * @deprecated
@@ -1528,7 +1529,7 @@ export type CouponExcludedProductCategoriesArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<CouponToProductCategoryConnectionWhereArgs>;
+  where?: Maybe<CouponToExcludedProductCategoriesConnectionWhereArgs>;
 };
 
 /** A coupon object */
@@ -1537,7 +1538,7 @@ export type CouponExcludedProductsArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<CouponToProductConnectionWhereArgs>;
+  where?: Maybe<CouponToExcludedProductsConnectionWhereArgs>;
 };
 
 /** A coupon object */
@@ -2262,6 +2263,8 @@ export type ContentNode = {
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
+  /** The template assigned to a node of content */
+  template?: Maybe<ContentTemplate>;
   /** URI path for the resource */
   uri: Scalars['String'];
 };
@@ -2716,6 +2719,8 @@ export enum ContentTypeEnum {
   PAGE = 'PAGE',
   /** The Type of Content object */
   POST = 'POST',
+  /** The Type of Content object */
+  PRODUCT = 'PRODUCT',
 }
 
 /** Options for ordering the connection */
@@ -2847,6 +2852,16 @@ export type Comment = Node &
      * @deprecated
      */
     parent?: Maybe<CommentToParentCommentConnectionEdge>;
+    /**
+     * The database id of the parent comment node or null if it is the root comment
+     * @deprecated
+     */
+    parentDatabaseId?: Maybe<Scalars['Int']>;
+    /**
+     * The globally unique identifier of the parent comment node.
+     * @deprecated
+     */
+    parentId?: Maybe<Scalars['ID']>;
     /**
      * Connection between the Comment type and the Comment type
      * @deprecated
@@ -3328,6 +3343,7 @@ export type UserToMediaItemConnectionEdge = {
 export type MediaItem = Node &
   ContentNode &
   DatabaseIdentifier &
+  NodeWithTemplate &
   UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithAuthor &
@@ -3560,7 +3576,7 @@ export type MediaItem = Node &
      */
     status?: Maybe<Scalars['String']>;
     /**
-     * The template assigned to the node
+     * The template assigned to a node of content
      * @deprecated
      */
     template?: Maybe<ContentTemplate>;
@@ -3652,6 +3668,18 @@ export type MediaItemSrcSetArgs = {
 /** The mediaItem type */
 export type MediaItemTitleArgs = {
   format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** A node that can have a template associated with it */
+export type NodeWithTemplate = {
+  /** The template assigned to the node */
+  template?: Maybe<ContentTemplate>;
+};
+
+/** The template assigned to a node of content */
+export type ContentTemplate = {
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
 };
 
 /** A node that NodeWith a title */
@@ -4210,14 +4238,6 @@ export type Seo = {
   twitterTitle?: Maybe<Scalars['String']>;
 };
 
-/** The template assigned to a node of content */
-export type ContentTemplate = {
-  /** The file the template uses */
-  templateFile?: Maybe<Scalars['String']>;
-  /** The name of the template */
-  templateName?: Maybe<Scalars['String']>;
-};
-
 /** Arguments for filtering the UserToPageConnection connection */
 export type UserToPageConnectionWhereArgs = {
   /** The user that's connected as the author of the object. Use the userId for the author object. */
@@ -4301,6 +4321,7 @@ export type UserToPageConnectionEdge = {
 export type Page = Node &
   ContentNode &
   DatabaseIdentifier &
+  NodeWithTemplate &
   UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithContentEditor &
@@ -4538,7 +4559,7 @@ export type Page = Node &
      */
     status?: Maybe<Scalars['String']>;
     /**
-     * The template assigned to the node
+     * The template assigned to a node of content
      * @deprecated
      */
     template?: Maybe<ContentTemplate>;
@@ -4980,6 +5001,7 @@ export type UserToPostConnectionEdge = {
 export type Post = Node &
   ContentNode &
   DatabaseIdentifier &
+  NodeWithTemplate &
   UniformResourceIdentifiable &
   NodeWithTitle &
   NodeWithContentEditor &
@@ -5212,7 +5234,7 @@ export type Post = Node &
      */
     tags?: Maybe<PostToTagConnection>;
     /**
-     * The template assigned to the node
+     * The template assigned to a node of content
      * @deprecated
      */
     template?: Maybe<ContentTemplate>;
@@ -7384,8 +7406,8 @@ export enum DiscountTypeEnum {
   PERCENT = 'PERCENT',
 }
 
-/** Arguments for filtering the CouponToProductCategoryConnection connection */
-export type CouponToProductCategoryConnectionWhereArgs = {
+/** Arguments for filtering the CouponToExcludedProductCategoriesConnection connection */
+export type CouponToExcludedProductCategoriesConnectionWhereArgs = {
   /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
   cacheDomain?: Maybe<Scalars['String']>;
   /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
@@ -7427,13 +7449,13 @@ export type CouponToProductCategoryConnectionWhereArgs = {
 };
 
 /** Connection between the Coupon type and the productCategory type */
-export type CouponToProductCategoryConnection = {
-  __typename?: 'CouponToProductCategoryConnection';
+export type CouponToExcludedProductCategoriesConnection = {
+  __typename?: 'CouponToExcludedProductCategoriesConnection';
   /**
-   * Edges for the CouponToProductCategoryConnection connection
+   * Edges for the CouponToExcludedProductCategoriesConnection connection
    * @deprecated
    */
-  edges?: Maybe<Array<Maybe<CouponToProductCategoryConnectionEdge>>>;
+  edges?: Maybe<Array<Maybe<CouponToExcludedProductCategoriesConnectionEdge>>>;
   /**
    * The nodes of the connection, without the edges
    * @deprecated
@@ -7447,8 +7469,8 @@ export type CouponToProductCategoryConnection = {
 };
 
 /** An edge in a connection */
-export type CouponToProductCategoryConnectionEdge = {
-  __typename?: 'CouponToProductCategoryConnectionEdge';
+export type CouponToExcludedProductCategoriesConnectionEdge = {
+  __typename?: 'CouponToExcludedProductCategoriesConnectionEdge';
   /**
    * A cursor for use in pagination
    * @deprecated
@@ -8163,7 +8185,7 @@ export type Product = {
   /** Product type */
   type?: Maybe<ProductTypesEnum>;
   /** Connection between the Product type and the Product type */
-  upsell?: Maybe<ProductToProductConnection>;
+  upsell?: Maybe<ProductToUpsellConnection>;
   /** Connection between the Product type and the visibleProduct type */
   visibleProducts?: Maybe<ProductToVisibleProductConnection>;
 };
@@ -8310,7 +8332,7 @@ export type ProductUpsellArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
+  where?: Maybe<ProductToUpsellConnectionWhereArgs>;
 };
 
 /** Product object */
@@ -9576,6 +9598,11 @@ export type ProductVariation = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
+     * The template assigned to a node of content
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
      * Product type
      * @deprecated
      */
@@ -9710,12 +9737,12 @@ export type ProductVariationToVariationAttributeConnectionEdge = {
 export type VariationAttribute = {
   __typename?: 'VariationAttribute';
   /**
-   * The Id of the order. Equivalent to WP_Post-&gt;ID
+   * The Database ID of the attribute.
    * @deprecated
    */
   attributeId?: Maybe<Scalars['Int']>;
   /**
-   * The Id of the order. Equivalent to WP_Post-&gt;ID
+   * The Global ID of the attribute.
    * @deprecated
    */
   id: Scalars['ID'];
@@ -10225,6 +10252,11 @@ export type VariableProduct = Node &
      */
     stockQuantity?: Maybe<Scalars['Int']>;
     /**
+     * Product stock status
+     * @deprecated
+     */
+    stockStatus?: Maybe<StockStatusEnum>;
+    /**
      * Tax class
      * @deprecated
      */
@@ -10234,6 +10266,11 @@ export type VariableProduct = Node &
      * @deprecated
      */
     taxStatus?: Maybe<TaxStatusEnum>;
+    /**
+     * The template assigned to a node of content
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
     /**
      * Number total of sales
      * @deprecated
@@ -10248,7 +10285,7 @@ export type VariableProduct = Node &
      * Connection between the Product type and the Product type
      * @deprecated
      */
-    upsell?: Maybe<ProductToProductConnection>;
+    upsell?: Maybe<ProductToUpsellConnection>;
     /**
      * URI path for the resource
      * @deprecated
@@ -10478,7 +10515,7 @@ export type VariableProductUpsellArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
+  where?: Maybe<ProductToUpsellConnectionWhereArgs>;
 };
 
 /** A variable product object */
@@ -13483,6 +13520,119 @@ export enum TaxStatusEnum {
   TAXABLE = 'TAXABLE',
 }
 
+/** Arguments for filtering the ProductToUpsellConnection connection */
+export type ProductToUpsellConnectionWhereArgs = {
+  /** Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug. */
+  attribute?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific attribute term ID (required an assigned attribute). */
+  attributeTerm?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  category?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  categoryId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of category IDs. */
+  categoryIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of category IDs. */
+  categoryIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a group of specific categories by name. */
+  categoryIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a group of specific categories by name. */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Filter the connection based on dates. */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** Ensure result set excludes specific IDs. */
+  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to featured products. */
+  featured?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to specific ids. */
+  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a maximum price. */
+  maxPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products based on a minimum price. */
+  minPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products on sale. */
+  onSale?: Maybe<Scalars['Boolean']>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<ProductsOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Specify objects whose parent is in an array. */
+  parentIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Specify objects whose parent is not in an array. */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a keyword search. */
+  search?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific shipping class ID. */
+  shippingClassId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products with specific SKU(s). Use commas to separate. */
+  sku?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific slug. */
+  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific status. */
+  status?: Maybe<Scalars['String']>;
+  /** Limit result set to products in stock or out of stock. */
+  stockStatus?: Maybe<Array<Maybe<StockStatusEnum>>>;
+  /** Limit result types to types supported by WooGraphQL. */
+  supportedTypesOnly?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to products assigned a specific tag name. */
+  tag?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific tag ID. */
+  tagId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of tag IDs. */
+  tagIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of tag IDs. */
+  tagIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a specific group of tags by name. */
+  tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a specific group of tags by name. */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set with complex set of taxonomy filters. */
+  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  /** Limit result set to products assigned a specific type. */
+  type?: Maybe<ProductTypesEnum>;
+  /** Limit result set to products assigned to a group of specific types. */
+  typeIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products not assigned to a group of specific types. */
+  typeNotIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products with a specific visibility level. */
+  visibility?: Maybe<CatalogVisibilityEnum>;
+};
+
+/** Connection between the Product type and the Product type */
+export type ProductToUpsellConnection = {
+  __typename?: 'ProductToUpsellConnection';
+  /**
+   * Edges for the ProductToUpsellConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<ProductToUpsellConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Product>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type ProductToUpsellConnectionEdge = {
+  __typename?: 'ProductToUpsellConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Product>;
+};
+
 /** Arguments for filtering the VariableProductToProductVariationConnection connection */
 export type VariableProductToProductVariationConnectionWhereArgs = {
   /** Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug. */
@@ -14028,6 +14178,196 @@ export type ProductCategoryToTaxonomyConnectionEdge = {
    * @deprecated
    */
   node?: Maybe<Taxonomy>;
+};
+
+/** Arguments for filtering the CouponToExcludedProductsConnection connection */
+export type CouponToExcludedProductsConnectionWhereArgs = {
+  /** Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug. */
+  attribute?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific attribute term ID (required an assigned attribute). */
+  attributeTerm?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  category?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  categoryId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of category IDs. */
+  categoryIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of category IDs. */
+  categoryIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a group of specific categories by name. */
+  categoryIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a group of specific categories by name. */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Filter the connection based on dates. */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** Ensure result set excludes specific IDs. */
+  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to featured products. */
+  featured?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to specific ids. */
+  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a maximum price. */
+  maxPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products based on a minimum price. */
+  minPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products on sale. */
+  onSale?: Maybe<Scalars['Boolean']>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<ProductsOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Specify objects whose parent is in an array. */
+  parentIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Specify objects whose parent is not in an array. */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a keyword search. */
+  search?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific shipping class ID. */
+  shippingClassId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products with specific SKU(s). Use commas to separate. */
+  sku?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific slug. */
+  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific status. */
+  status?: Maybe<Scalars['String']>;
+  /** Limit result set to products in stock or out of stock. */
+  stockStatus?: Maybe<Array<Maybe<StockStatusEnum>>>;
+  /** Limit result types to types supported by WooGraphQL. */
+  supportedTypesOnly?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to products assigned a specific tag name. */
+  tag?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific tag ID. */
+  tagId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of tag IDs. */
+  tagIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of tag IDs. */
+  tagIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a specific group of tags by name. */
+  tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a specific group of tags by name. */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set with complex set of taxonomy filters. */
+  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  /** Limit result set to products assigned a specific type. */
+  type?: Maybe<ProductTypesEnum>;
+  /** Limit result set to products assigned to a group of specific types. */
+  typeIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products not assigned to a group of specific types. */
+  typeNotIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products with a specific visibility level. */
+  visibility?: Maybe<CatalogVisibilityEnum>;
+};
+
+/** Connection between the Coupon type and the Product type */
+export type CouponToExcludedProductsConnection = {
+  __typename?: 'CouponToExcludedProductsConnection';
+  /**
+   * Edges for the CouponToExcludedProductsConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<CouponToExcludedProductsConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Product>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type CouponToExcludedProductsConnectionEdge = {
+  __typename?: 'CouponToExcludedProductsConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Product>;
+};
+
+/** Arguments for filtering the CouponToProductCategoryConnection connection */
+export type CouponToProductCategoryConnectionWhereArgs = {
+  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
+  cacheDomain?: Maybe<Scalars['String']>;
+  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
+  childOf?: Maybe<Scalars['Int']>;
+  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
+  childless?: Maybe<Scalars['Boolean']>;
+  /** Retrieve terms where the description is LIKE the input value. Default empty. */
+  descriptionLike?: Maybe<Scalars['String']>;
+  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
+  exclude?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
+  excludeTree?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
+  hideEmpty?: Maybe<Scalars['Boolean']>;
+  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
+  hierarchical?: Maybe<Scalars['Boolean']>;
+  /** Array of term ids to include. Default empty array. */
+  include?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Array of names to return term(s) for. Default empty. */
+  name?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Retrieve terms where the name is LIKE the input value. Default empty. */
+  nameLike?: Maybe<Scalars['String']>;
+  /** Array of object IDs. Results will be limited to terms associated with these objects. */
+  objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Field(s) to order terms by. Defaults to 'name'. */
+  orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
+  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
+  padCounts?: Maybe<Scalars['Boolean']>;
+  /** Parent term ID to retrieve direct-child terms of. Default empty. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
+  search?: Maybe<Scalars['String']>;
+  /** Array of slugs to return term(s) for. Default empty. */
+  slug?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Array of term taxonomy IDs, to match when querying terms. */
+  termTaxonomId?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Whether to prime meta caches for matched terms. Default true. */
+  updateTermMetaCache?: Maybe<Scalars['Boolean']>;
+};
+
+/** Connection between the Coupon type and the productCategory type */
+export type CouponToProductCategoryConnection = {
+  __typename?: 'CouponToProductCategoryConnection';
+  /**
+   * Edges for the CouponToProductCategoryConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<CouponToProductCategoryConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<ProductCategory>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type CouponToProductCategoryConnectionEdge = {
+  __typename?: 'CouponToProductCategoryConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<ProductCategory>;
 };
 
 /** Arguments for filtering the CouponToProductConnection connection */
@@ -16400,10 +16740,10 @@ export type CartItem = {
    */
   key: Scalars['ID'];
   /**
-   * A product in the cart
+   * Connection between the CartItem type and the Product type
    * @deprecated
    */
-  product?: Maybe<Product>;
+  product?: Maybe<CartItemToProductConnectionEdge>;
   /**
    * Quantity of the product
    * @deprecated
@@ -16430,16 +16770,41 @@ export type CartItem = {
    */
   total?: Maybe<Scalars['String']>;
   /**
-   * Selected variation of the product
+   * Connection between the CartItem type and the ProductVariation type
    * @deprecated
    */
-  variation?: Maybe<ProductVariation>;
+  variation?: Maybe<CartItemToProductVariationConnectionEdge>;
 };
 
 /** A item in the cart */
 export type CartItemExtraDataArgs = {
   key?: Maybe<Scalars['String']>;
   keysIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+/** Connection between the CartItem type and the Product type */
+export type CartItemToProductConnectionEdge = {
+  __typename?: 'CartItemToProductConnectionEdge';
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  node?: Maybe<Product>;
+};
+
+/** Connection between the CartItem type and the ProductVariation type */
+export type CartItemToProductVariationConnectionEdge = {
+  __typename?: 'CartItemToProductVariationConnectionEdge';
+  /**
+   * Attributes of the variation.
+   * @deprecated
+   */
+  attributes?: Maybe<Array<Maybe<VariationAttribute>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  node?: Maybe<ProductVariation>;
 };
 
 /** An additional fee */
@@ -16475,6 +16840,31 @@ export type CartFee = {
    * @deprecated
    */
   total?: Maybe<Scalars['Float']>;
+};
+
+/** An itemized cart tax item */
+export type CartTax = {
+  __typename?: 'CartTax';
+  /**
+   * Tax amount
+   * @deprecated
+   */
+  amount?: Maybe<Scalars['String']>;
+  /**
+   * Tax Rate ID
+   * @deprecated
+   */
+  id: Scalars['ID'];
+  /**
+   * Is tax compound?
+   * @deprecated
+   */
+  isCompound?: Maybe<Scalars['Boolean']>;
+  /**
+   * Tax label
+   * @deprecated
+   */
+  label: Scalars['String'];
 };
 
 /** Arguments for filtering the RootQueryToCategoryConnection connection */
@@ -17297,6 +17687,11 @@ export type ExternalProduct = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
+     * The template assigned to a node of content
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
      * Number total of sales
      * @deprecated
      */
@@ -17310,7 +17705,7 @@ export type ExternalProduct = Node &
      * Connection between the Product type and the Product type
      * @deprecated
      */
-    upsell?: Maybe<ProductToProductConnection>;
+    upsell?: Maybe<ProductToUpsellConnection>;
     /**
      * URI path for the resource
      * @deprecated
@@ -17516,7 +17911,7 @@ export type ExternalProductUpsellArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
+  where?: Maybe<ProductToUpsellConnectionWhereArgs>;
 };
 
 /** A external product object */
@@ -17611,719 +18006,6 @@ export type GeneralSettings = {
    * @deprecated
    */
   url?: Maybe<Scalars['String']>;
-};
-
-/** A group product object */
-export type GroupProduct = Node &
-  Product &
-  NodeWithComments &
-  NodeWithContentEditor &
-  NodeWithFeaturedImage &
-  ContentNode &
-  UniformResourceIdentifiable & {
-    __typename?: 'GroupProduct';
-    /**
-     * Product&#039;s add to cart button text description
-     * @deprecated
-     */
-    addToCartDescription?: Maybe<Scalars['String']>;
-    /**
-     * Product&#039;s add to cart button text description
-     * @deprecated
-     */
-    addToCartText?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the Product type and the ProductAttribute type
-     * @deprecated
-     */
-    attributes?: Maybe<ProductToProductAttributeConnection>;
-    /**
-     * Product average count
-     * @deprecated
-     */
-    averageRating?: Maybe<Scalars['Float']>;
-    /**
-     * Catalog visibility
-     * @deprecated
-     */
-    catalogVisibility?: Maybe<CatalogVisibilityEnum>;
-    /**
-     * The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility.
-     * @deprecated
-     */
-    commentCount?: Maybe<Scalars['Int']>;
-    /**
-     * Whether the comments are open or closed for this particular post.
-     * @deprecated
-     */
-    commentStatus?: Maybe<Scalars['String']>;
-    /**
-     * The content of the post.
-     * @deprecated
-     */
-    content?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the Product type and the ContentType type
-     * @deprecated
-     */
-    contentType?: Maybe<ProductToContentTypeConnectionEdge>;
-    /**
-     * The ID of the product in the database
-     * @deprecated
-     */
-    databaseId: Scalars['Int'];
-    /**
-     * Date product created
-     * @deprecated
-     */
-    date?: Maybe<Scalars['String']>;
-    /**
-     * The publishing date set in GMT.
-     * @deprecated
-     */
-    dateGmt?: Maybe<Scalars['String']>;
-    /**
-     * Date on sale from
-     * @deprecated
-     */
-    dateOnSaleFrom?: Maybe<Scalars['String']>;
-    /**
-     * Date on sale to
-     * @deprecated
-     */
-    dateOnSaleTo?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the GroupProduct type and the VariationAttribute type
-     * @deprecated
-     */
-    defaultAttributes?: Maybe<GroupProductToVariationAttributeConnection>;
-    /**
-     * The delivery time of the product
-     * @deprecated
-     */
-    deliveryTime?: Maybe<Scalars['String']>;
-    /**
-     * Product description
-     * @deprecated
-     */
-    description?: Maybe<Scalars['String']>;
-    /**
-     * The desired slug of the post
-     * @deprecated
-     */
-    desiredSlug?: Maybe<Scalars['String']>;
-    /**
-     * If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds
-     * @deprecated
-     */
-    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
-    /**
-     * The RSS enclosure for the object
-     * @deprecated
-     */
-    enclosure?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the ContentNode type and the EnqueuedScript type
-     * @deprecated
-     */
-    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
-    /**
-     * Connection between the ContentNode type and the EnqueuedStylesheet type
-     * @deprecated
-     */
-    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-    /**
-     * If the product is featured
-     * @deprecated
-     */
-    featured?: Maybe<Scalars['Boolean']>;
-    /**
-     * Connection between the NodeWithFeaturedImage type and the MediaItem type
-     * @deprecated
-     */
-    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
-    /**
-     * The database identifier for the featured image node assigned to the content node
-     * @deprecated
-     */
-    featuredImageDatabaseId?: Maybe<Scalars['Int']>;
-    /**
-     * Globally unique ID of the featured image assigned to the node
-     * @deprecated
-     */
-    featuredImageId?: Maybe<Scalars['ID']>;
-    /**
-     * Connection between the Product type and the MediaItem type
-     * @deprecated
-     */
-    galleryImages?: Maybe<ProductToMediaItemConnection>;
-    /**
-     * Connection between the Product type and the GlobalProductAttribute type
-     * @deprecated
-     */
-    globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
-    /**
-     * The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
-     * @deprecated
-     */
-    guid?: Maybe<Scalars['String']>;
-    /**
-     * The globally unique identifier for the product
-     * @deprecated
-     */
-    id: Scalars['ID'];
-    /**
-     * Main image
-     * @deprecated
-     */
-    image?: Maybe<MediaItem>;
-    /**
-     * Whether the object is a node in the preview state
-     * @deprecated
-     */
-    isPreview?: Maybe<Scalars['Boolean']>;
-    /**
-     * Whether the object is restricted from the current viewer
-     * @deprecated
-     */
-    isRestricted?: Maybe<Scalars['Boolean']>;
-    /**
-     * The user that most recently edited the node
-     * @deprecated
-     */
-    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
-    /**
-     * The permalink of the post
-     * @deprecated
-     */
-    link?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the Product type and the LocalProductAttribute type
-     * @deprecated
-     */
-    localAttributes?: Maybe<ProductToLocalProductAttributeConnection>;
-    /**
-     * Menu order
-     * @deprecated
-     */
-    menuOrder?: Maybe<Scalars['Int']>;
-    /**
-     * Object meta data
-     * @deprecated
-     */
-    metaData?: Maybe<Array<Maybe<MetaData>>>;
-    /**
-     * Date product last updated
-     * @deprecated
-     */
-    modified?: Maybe<Scalars['String']>;
-    /**
-     * The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT.
-     * @deprecated
-     */
-    modifiedGmt?: Maybe<Scalars['String']>;
-    /**
-     * Product name
-     * @deprecated
-     */
-    name?: Maybe<Scalars['String']>;
-    /**
-     * Is product on sale?
-     * @deprecated
-     */
-    onSale?: Maybe<Scalars['Boolean']>;
-    /**
-     * Connection between the Product type and the paColor type
-     * @deprecated
-     */
-    paColors?: Maybe<ProductToPaColorConnection>;
-    /**
-     * Connection between the Product type and the paMaterial type
-     * @deprecated
-     */
-    paMaterials?: Maybe<ProductToPaMaterialConnection>;
-    /**
-     * Connection between the Product type and the paPaperWeight type
-     * @deprecated
-     */
-    paPaperWeights?: Maybe<ProductToPaPaperWeightConnection>;
-    /**
-     * Connection between the Product type and the paSize type
-     * @deprecated
-     */
-    paSizes?: Maybe<ProductToPaSizeConnection>;
-    /**
-     * Parent product
-     * @deprecated
-     */
-    parent?: Maybe<Product>;
-    /**
-     * The database id of the preview node
-     * @deprecated
-     */
-    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
-    /**
-     * Whether the object is a node in the preview state
-     * @deprecated
-     */
-    previewRevisionId?: Maybe<Scalars['ID']>;
-    /**
-     * Products&#039; price range
-     * @deprecated
-     */
-    price?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the Product type and the productCategory type
-     * @deprecated
-     */
-    productCategories?: Maybe<ProductToProductCategoryConnection>;
-    /**
-     * Connection between the Product type and the productTag type
-     * @deprecated
-     */
-    productTags?: Maybe<ProductToProductTagConnection>;
-    /**
-     * Connection between the Product type and the productType type
-     * @deprecated
-     */
-    productTypes?: Maybe<ProductToProductTypeConnection>;
-    /**
-     * Connection between the GroupProduct type and the Product type
-     * @deprecated
-     */
-    products?: Maybe<GroupProductToProductConnection>;
-    /**
-     * Can product be purchased?
-     * @deprecated
-     */
-    purchasable?: Maybe<Scalars['Boolean']>;
-    /**
-     * Purchase note
-     * @deprecated
-     */
-    purchaseNote?: Maybe<Scalars['String']>;
-    /**
-     * Connection between the Product type and the Product type
-     * @deprecated
-     */
-    related?: Maybe<ProductToProductConnection>;
-    /**
-     * Product review count
-     * @deprecated
-     */
-    reviewCount?: Maybe<Scalars['Int']>;
-    /**
-     * Connection between the Product type and the Comment type
-     * @deprecated
-     */
-    reviews?: Maybe<ProductToCommentConnection>;
-    /**
-     * If reviews are allowed
-     * @deprecated
-     */
-    reviewsAllowed?: Maybe<Scalars['Boolean']>;
-    /**
-     * The SEO data of the Product
-     * @deprecated
-     */
-    seo?: Maybe<Seo>;
-    /**
-     * Connection between the Product type and the shippingClass type
-     * @deprecated
-     */
-    shippingClasses?: Maybe<ProductToShippingClassConnection>;
-    /**
-     * Product short description
-     * @deprecated
-     */
-    shortDescription?: Maybe<Scalars['String']>;
-    /**
-     * Product SKU
-     * @deprecated
-     */
-    sku?: Maybe<Scalars['String']>;
-    /**
-     * Product slug
-     * @deprecated
-     */
-    slug?: Maybe<Scalars['String']>;
-    /**
-     * Product status
-     * @deprecated
-     */
-    status?: Maybe<Scalars['String']>;
-    /**
-     * Number total of sales
-     * @deprecated
-     */
-    totalSales?: Maybe<Scalars['Int']>;
-    /**
-     * Product type
-     * @deprecated
-     */
-    type?: Maybe<ProductTypesEnum>;
-    /**
-     * Connection between the Product type and the Product type
-     * @deprecated
-     */
-    upsell?: Maybe<ProductToProductConnection>;
-    /**
-     * URI path for the resource
-     * @deprecated
-     */
-    uri: Scalars['String'];
-    /**
-     * Connection between the Product type and the visibleProduct type
-     * @deprecated
-     */
-    visibleProducts?: Maybe<ProductToVisibleProductConnection>;
-  };
-
-/** A group product object */
-export type GroupProductAttributesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductAttributeConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductContentArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A group product object */
-export type GroupProductDefaultAttributesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-/** A group product object */
-export type GroupProductDescriptionArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A group product object */
-export type GroupProductEnqueuedScriptsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-/** A group product object */
-export type GroupProductEnqueuedStylesheetsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-};
-
-/** A group product object */
-export type GroupProductGalleryImagesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToMediaItemConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductGlobalAttributesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToGlobalProductAttributeConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductLocalAttributesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToLocalProductAttributeConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductMetaDataArgs = {
-  key?: Maybe<Scalars['String']>;
-  keysIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  multiple?: Maybe<Scalars['Boolean']>;
-};
-
-/** A group product object */
-export type GroupProductPaColorsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToPaColorConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductPaMaterialsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToPaMaterialConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductPaPaperWeightsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToPaPaperWeightConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductPaSizesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToPaSizeConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductProductCategoriesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductCategoryConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductProductTagsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductTagConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductProductTypesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductTypeConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<GroupProductToProductConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductRelatedArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductReviewsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToCommentConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductShippingClassesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToShippingClassConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductShortDescriptionArgs = {
-  format?: Maybe<PostObjectFieldFormatEnum>;
-};
-
-/** A group product object */
-export type GroupProductUpsellArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
-};
-
-/** A group product object */
-export type GroupProductVisibleProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToVisibleProductConnectionWhereArgs>;
-};
-
-/** Connection between the GroupProduct type and the VariationAttribute type */
-export type GroupProductToVariationAttributeConnection = {
-  __typename?: 'GroupProductToVariationAttributeConnection';
-  /**
-   * Edges for the GroupProductToVariationAttributeConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<GroupProductToVariationAttributeConnectionEdge>>>;
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<VariationAttribute>>>;
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type GroupProductToVariationAttributeConnectionEdge = {
-  __typename?: 'GroupProductToVariationAttributeConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<VariationAttribute>;
-};
-
-/** Arguments for filtering the GroupProductToProductConnection connection */
-export type GroupProductToProductConnectionWhereArgs = {
-  /** Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug. */
-  attribute?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific attribute term ID (required an assigned attribute). */
-  attributeTerm?: Maybe<Scalars['String']>;
-  /** Limit result set to products assigned a specific category name. */
-  category?: Maybe<Scalars['String']>;
-  /** Limit result set to products assigned a specific category name. */
-  categoryId?: Maybe<Scalars['Int']>;
-  /** Limit result set to products assigned to a specific group of category IDs. */
-  categoryIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products not assigned to a specific group of category IDs. */
-  categoryIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products assigned to a group of specific categories by name. */
-  categoryIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Limit result set to products not assigned to a group of specific categories by name. */
-  categoryNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Filter the connection based on dates. */
-  dateQuery?: Maybe<DateQueryInput>;
-  /** Ensure result set excludes specific IDs. */
-  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to featured products. */
-  featured?: Maybe<Scalars['Boolean']>;
-  /** Limit result set to specific ids. */
-  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products based on a maximum price. */
-  maxPrice?: Maybe<Scalars['Float']>;
-  /** Limit result set to products based on a minimum price. */
-  minPrice?: Maybe<Scalars['Float']>;
-  /** Limit result set to products on sale. */
-  onSale?: Maybe<Scalars['Boolean']>;
-  /** What paramater to use to order the objects by. */
-  orderby?: Maybe<Array<Maybe<ProductsOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items. */
-  parent?: Maybe<Scalars['Int']>;
-  /** Specify objects whose parent is in an array. */
-  parentIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Specify objects whose parent is not in an array. */
-  parentNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products based on a keyword search. */
-  search?: Maybe<Scalars['String']>;
-  /** Limit result set to products assigned a specific shipping class ID. */
-  shippingClassId?: Maybe<Scalars['Int']>;
-  /** Limit result set to products with specific SKU(s). Use commas to separate. */
-  sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
-  /** Limit result set to products assigned a specific status. */
-  status?: Maybe<Scalars['String']>;
-  /** Limit result set to products in stock or out of stock. */
-  stockStatus?: Maybe<Array<Maybe<StockStatusEnum>>>;
-  /** Limit result types to types supported by WooGraphQL. */
-  supportedTypesOnly?: Maybe<Scalars['Boolean']>;
-  /** Limit result set to products assigned a specific tag name. */
-  tag?: Maybe<Scalars['String']>;
-  /** Limit result set to products assigned a specific tag ID. */
-  tagId?: Maybe<Scalars['Int']>;
-  /** Limit result set to products assigned to a specific group of tag IDs. */
-  tagIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products not assigned to a specific group of tag IDs. */
-  tagIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  /** Limit result set to products assigned to a specific group of tags by name. */
-  tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Limit result set to products not assigned to a specific group of tags by name. */
-  tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
-  /** Limit result set to products assigned a specific type. */
-  type?: Maybe<ProductTypesEnum>;
-  /** Limit result set to products assigned to a group of specific types. */
-  typeIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
-  /** Limit result set to products not assigned to a group of specific types. */
-  typeNotIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
-  /** Limit result set to products with a specific visibility level. */
-  visibility?: Maybe<CatalogVisibilityEnum>;
-};
-
-/** Connection between the GroupProduct type and the Product type */
-export type GroupProductToProductConnection = {
-  __typename?: 'GroupProductToProductConnection';
-  /**
-   * Edges for the GroupProductToProductConnection connection
-   * @deprecated
-   */
-  edges?: Maybe<Array<Maybe<GroupProductToProductConnectionEdge>>>;
-  /**
-   * The nodes of the connection, without the edges
-   * @deprecated
-   */
-  nodes?: Maybe<Array<Maybe<Product>>>;
-  /**
-   * Information about pagination in a connection.
-   * @deprecated
-   */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type GroupProductToProductConnectionEdge = {
-  __typename?: 'GroupProductToProductConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated
-   */
-  cursor?: Maybe<Scalars['String']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated
-   */
-  node?: Maybe<Product>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -20871,6 +20553,11 @@ export type SimpleProduct = Node &
      */
     taxStatus?: Maybe<TaxStatusEnum>;
     /**
+     * The template assigned to a node of content
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
      * Number total of sales
      * @deprecated
      */
@@ -20884,7 +20571,7 @@ export type SimpleProduct = Node &
      * Connection between the Product type and the Product type
      * @deprecated
      */
-    upsell?: Maybe<ProductToProductConnection>;
+    upsell?: Maybe<ProductToUpsellConnection>;
     /**
      * URI path for the resource
      * @deprecated
@@ -21114,7 +20801,7 @@ export type SimpleProductUpsellArgs = {
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<ProductToProductConnectionWhereArgs>;
+  where?: Maybe<ProductToUpsellConnectionWhereArgs>;
 };
 
 /** A product object */
@@ -22727,7 +22414,7 @@ export type RootMutationWriteReviewArgs = {
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the category object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the category object to update */
@@ -22749,14 +22436,14 @@ export type UpdateCategoryPayload = {
    */
   category?: Maybe<Category>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the UpdatePaColor mutation */
 export type UpdatePaColorInput = {
   /** The slug that the pa_color will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_color object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the paColor object to update */
@@ -22771,7 +22458,7 @@ export type UpdatePaColorInput = {
 export type UpdatePaColorPayload = {
   __typename?: 'UpdatePaColorPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_color
    * @deprecated
@@ -22783,7 +22470,7 @@ export type UpdatePaColorPayload = {
 export type UpdatePaMaterialInput = {
   /** The slug that the pa_material will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_material object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the paMaterial object to update */
@@ -22798,7 +22485,7 @@ export type UpdatePaMaterialInput = {
 export type UpdatePaMaterialPayload = {
   __typename?: 'UpdatePaMaterialPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_material
    * @deprecated
@@ -22810,7 +22497,7 @@ export type UpdatePaMaterialPayload = {
 export type UpdatePaPaperWeightInput = {
   /** The slug that the pa_paper-weight will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_paper-weight object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the paPaperWeight object to update */
@@ -22825,7 +22512,7 @@ export type UpdatePaPaperWeightInput = {
 export type UpdatePaPaperWeightPayload = {
   __typename?: 'UpdatePaPaperWeightPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_paper-weight
    * @deprecated
@@ -22837,7 +22524,7 @@ export type UpdatePaPaperWeightPayload = {
 export type UpdatePaSizeInput = {
   /** The slug that the pa_size will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_size object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the paSize object to update */
@@ -22852,7 +22539,7 @@ export type UpdatePaSizeInput = {
 export type UpdatePaSizePayload = {
   __typename?: 'UpdatePaSizePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_size
    * @deprecated
@@ -22864,7 +22551,7 @@ export type UpdatePaSizePayload = {
 export type UpdatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_format object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the postFormat object to update */
@@ -22879,7 +22566,7 @@ export type UpdatePostFormatInput = {
 export type UpdatePostFormatPayload = {
   __typename?: 'UpdatePostFormatPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created post_format
    * @deprecated
@@ -22891,7 +22578,7 @@ export type UpdatePostFormatPayload = {
 export type UpdateProductCategoryInput = {
   /** The slug that the product_cat will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_cat object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the productCategory object to update */
@@ -22908,7 +22595,7 @@ export type UpdateProductCategoryInput = {
 export type UpdateProductCategoryPayload = {
   __typename?: 'UpdateProductCategoryPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_cat
    * @deprecated
@@ -22920,7 +22607,7 @@ export type UpdateProductCategoryPayload = {
 export type UpdateProductTagInput = {
   /** The slug that the product_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_tag object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the productTag object to update */
@@ -22935,7 +22622,7 @@ export type UpdateProductTagInput = {
 export type UpdateProductTagPayload = {
   __typename?: 'UpdateProductTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_tag
    * @deprecated
@@ -22947,7 +22634,7 @@ export type UpdateProductTagPayload = {
 export type UpdateProductTypeInput = {
   /** The slug that the product_type will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_type object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the productType object to update */
@@ -22962,7 +22649,7 @@ export type UpdateProductTypeInput = {
 export type UpdateProductTypePayload = {
   __typename?: 'UpdateProductTypePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_type
    * @deprecated
@@ -22974,7 +22661,7 @@ export type UpdateProductTypePayload = {
 export type UpdateShippingClassInput = {
   /** The slug that the product_shipping_class will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_shipping_class object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the shippingClass object to update */
@@ -22989,7 +22676,7 @@ export type UpdateShippingClassInput = {
 export type UpdateShippingClassPayload = {
   __typename?: 'UpdateShippingClassPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_shipping_class
    * @deprecated
@@ -23001,7 +22688,7 @@ export type UpdateShippingClassPayload = {
 export type UpdateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_tag object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the tag object to update */
@@ -23016,7 +22703,7 @@ export type UpdateTagInput = {
 export type UpdateTagPayload = {
   __typename?: 'UpdateTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created post_tag
    * @deprecated
@@ -23028,7 +22715,7 @@ export type UpdateTagPayload = {
 export type UpdateVisibleProductInput = {
   /** The slug that the product_visibility will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_visibility object */
   description?: Maybe<Scalars['String']>;
   /** The ID of the visibleProduct object to update */
@@ -23043,7 +22730,7 @@ export type UpdateVisibleProductInput = {
 export type UpdateVisibleProductPayload = {
   __typename?: 'UpdateVisibleProductPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_visibility
    * @deprecated
@@ -23055,7 +22742,7 @@ export type UpdateVisibleProductPayload = {
 export type AddFeeInput = {
   /** Fee amount */
   amount?: Maybe<Scalars['Float']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Unique name for the fee. */
   name: Scalars['String'];
   /** The tax class for the fee if taxable. */
@@ -23072,12 +22759,12 @@ export type AddFeePayload = {
   /** @deprecated  */
   cartFee?: Maybe<CartFee>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the addToCart mutation */
 export type AddToCartInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** JSON string representation of extra cart item data */
   extraData?: Maybe<Scalars['String']>;
   /** Cart item product database ID or global ID */
@@ -23104,12 +22791,12 @@ export type AddToCartPayload = {
   /** @deprecated  */
   cartItem?: Maybe<CartItem>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the applyCoupon mutation */
 export type ApplyCouponInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Code of coupon being applied */
   code: Scalars['String'];
 };
@@ -23120,7 +22807,7 @@ export type ApplyCouponPayload = {
   /** @deprecated  */
   cart?: Maybe<Cart>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the checkout mutation */
@@ -23129,7 +22816,7 @@ export type CheckoutInput = {
   account?: Maybe<CreateAccountInput>;
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Order customer note */
   customerNote?: Maybe<Scalars['String']>;
   /** Define if the order is paid. It will set the status to processing and reduce stock items. */
@@ -23196,7 +22883,7 @@ export type MetaDataInput = {
 export type CheckoutPayload = {
   __typename?: 'CheckoutPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   customer?: Maybe<Customer>;
   /** @deprecated  */
@@ -23211,7 +22898,7 @@ export type CheckoutPayload = {
 export type CreateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the category object */
   description?: Maybe<Scalars['String']>;
   /** The name of the category object to mutate */
@@ -23231,7 +22918,7 @@ export type CreateCategoryPayload = {
    */
   category?: Maybe<Category>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the createComment mutation */
@@ -23244,7 +22931,7 @@ export type CreateCommentInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
@@ -23261,7 +22948,7 @@ export type CreateCommentInput = {
 export type CreateCommentPayload = {
   __typename?: 'CreateCommentPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The comment that was created
    * @deprecated
@@ -23282,7 +22969,7 @@ export type CreateMediaItemInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** The caption for the mediaItem */
   caption?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the mediaItem */
   commentStatus?: Maybe<Scalars['String']>;
   /** The date of the mediaItem */
@@ -23323,7 +23010,7 @@ export enum MediaItemStatusEnum {
 export type CreateMediaItemPayload = {
   __typename?: 'CreateMediaItemPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   mediaItem?: Maybe<MediaItem>;
 };
@@ -23332,7 +23019,7 @@ export type CreateMediaItemPayload = {
 export type CreateOrderInput = {
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Coupons codes to be applied to order */
   coupons?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Currency the order was created with, in ISO format. */
@@ -23425,7 +23112,7 @@ export type ShippingLineInput = {
 export type CreateOrderPayload = {
   __typename?: 'CreateOrderPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   order?: Maybe<Order>;
   /** @deprecated  */
@@ -23436,7 +23123,7 @@ export type CreateOrderPayload = {
 export type CreatePaColorInput = {
   /** The slug that the pa_color will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_color object */
   description?: Maybe<Scalars['String']>;
   /** The name of the pa_color object to mutate */
@@ -23449,7 +23136,7 @@ export type CreatePaColorInput = {
 export type CreatePaColorPayload = {
   __typename?: 'CreatePaColorPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_color
    * @deprecated
@@ -23461,7 +23148,7 @@ export type CreatePaColorPayload = {
 export type CreatePaMaterialInput = {
   /** The slug that the pa_material will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_material object */
   description?: Maybe<Scalars['String']>;
   /** The name of the pa_material object to mutate */
@@ -23474,7 +23161,7 @@ export type CreatePaMaterialInput = {
 export type CreatePaMaterialPayload = {
   __typename?: 'CreatePaMaterialPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_material
    * @deprecated
@@ -23486,7 +23173,7 @@ export type CreatePaMaterialPayload = {
 export type CreatePaPaperWeightInput = {
   /** The slug that the pa_paper-weight will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_paper-weight object */
   description?: Maybe<Scalars['String']>;
   /** The name of the pa_paper-weight object to mutate */
@@ -23499,7 +23186,7 @@ export type CreatePaPaperWeightInput = {
 export type CreatePaPaperWeightPayload = {
   __typename?: 'CreatePaPaperWeightPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_paper-weight
    * @deprecated
@@ -23511,7 +23198,7 @@ export type CreatePaPaperWeightPayload = {
 export type CreatePaSizeInput = {
   /** The slug that the pa_size will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_size object */
   description?: Maybe<Scalars['String']>;
   /** The name of the pa_size object to mutate */
@@ -23524,7 +23211,7 @@ export type CreatePaSizeInput = {
 export type CreatePaSizePayload = {
   __typename?: 'CreatePaSizePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created pa_size
    * @deprecated
@@ -23536,7 +23223,7 @@ export type CreatePaSizePayload = {
 export type CreatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
   /** The content of the object */
@@ -23561,7 +23248,7 @@ export type CreatePageInput = {
 export type CreatePagePayload = {
   __typename?: 'CreatePagePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   page?: Maybe<Page>;
 };
@@ -23572,7 +23259,7 @@ export type CreatePostInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** Set connections between the post and categories */
   categories?: Maybe<PostCategoriesInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
   /** The content of the object */
@@ -23664,7 +23351,7 @@ export type PostTagsNodeInput = {
 export type CreatePostPayload = {
   __typename?: 'CreatePostPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   post?: Maybe<Post>;
 };
@@ -23673,7 +23360,7 @@ export type CreatePostPayload = {
 export type CreatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_format object */
   description?: Maybe<Scalars['String']>;
   /** The name of the post_format object to mutate */
@@ -23686,7 +23373,7 @@ export type CreatePostFormatInput = {
 export type CreatePostFormatPayload = {
   __typename?: 'CreatePostFormatPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created post_format
    * @deprecated
@@ -23698,7 +23385,7 @@ export type CreatePostFormatPayload = {
 export type CreateProductCategoryInput = {
   /** The slug that the product_cat will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_cat object */
   description?: Maybe<Scalars['String']>;
   /** The name of the product_cat object to mutate */
@@ -23713,7 +23400,7 @@ export type CreateProductCategoryInput = {
 export type CreateProductCategoryPayload = {
   __typename?: 'CreateProductCategoryPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_cat
    * @deprecated
@@ -23725,7 +23412,7 @@ export type CreateProductCategoryPayload = {
 export type CreateProductTagInput = {
   /** The slug that the product_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_tag object */
   description?: Maybe<Scalars['String']>;
   /** The name of the product_tag object to mutate */
@@ -23738,7 +23425,7 @@ export type CreateProductTagInput = {
 export type CreateProductTagPayload = {
   __typename?: 'CreateProductTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_tag
    * @deprecated
@@ -23750,7 +23437,7 @@ export type CreateProductTagPayload = {
 export type CreateProductTypeInput = {
   /** The slug that the product_type will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_type object */
   description?: Maybe<Scalars['String']>;
   /** The name of the product_type object to mutate */
@@ -23763,7 +23450,7 @@ export type CreateProductTypeInput = {
 export type CreateProductTypePayload = {
   __typename?: 'CreateProductTypePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_type
    * @deprecated
@@ -23775,7 +23462,7 @@ export type CreateProductTypePayload = {
 export type CreateShippingClassInput = {
   /** The slug that the product_shipping_class will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_shipping_class object */
   description?: Maybe<Scalars['String']>;
   /** The name of the product_shipping_class object to mutate */
@@ -23788,7 +23475,7 @@ export type CreateShippingClassInput = {
 export type CreateShippingClassPayload = {
   __typename?: 'CreateShippingClassPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_shipping_class
    * @deprecated
@@ -23800,7 +23487,7 @@ export type CreateShippingClassPayload = {
 export type CreateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_tag object */
   description?: Maybe<Scalars['String']>;
   /** The name of the post_tag object to mutate */
@@ -23813,7 +23500,7 @@ export type CreateTagInput = {
 export type CreateTagPayload = {
   __typename?: 'CreateTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created post_tag
    * @deprecated
@@ -23825,7 +23512,7 @@ export type CreateTagPayload = {
 export type CreateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
@@ -23868,7 +23555,7 @@ export type CreateUserInput = {
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   user?: Maybe<User>;
 };
@@ -23877,7 +23564,7 @@ export type CreateUserPayload = {
 export type CreateVisibleProductInput = {
   /** The slug that the product_visibility will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_visibility object */
   description?: Maybe<Scalars['String']>;
   /** The name of the product_visibility object to mutate */
@@ -23890,7 +23577,7 @@ export type CreateVisibleProductInput = {
 export type CreateVisibleProductPayload = {
   __typename?: 'CreateVisibleProductPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The created product_visibility
    * @deprecated
@@ -23900,7 +23587,7 @@ export type CreateVisibleProductPayload = {
 
 /** Input for the deleteCategory mutation */
 export type DeleteCategoryInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the category to delete */
   id: Scalars['ID'];
 };
@@ -23914,7 +23601,7 @@ export type DeleteCategoryPayload = {
    */
   category?: Maybe<Category>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -23924,7 +23611,7 @@ export type DeleteCategoryPayload = {
 
 /** Input for the deleteComment mutation */
 export type DeleteCommentInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the comment should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** The deleted comment ID */
@@ -23935,7 +23622,7 @@ export type DeleteCommentInput = {
 export type DeleteCommentPayload = {
   __typename?: 'DeleteCommentPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The deleted comment object
    * @deprecated
@@ -23950,7 +23637,7 @@ export type DeleteCommentPayload = {
 
 /** Input for the deleteMediaItem mutation */
 export type DeleteMediaItemInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the mediaItem should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** The ID of the mediaItem to delete */
@@ -23961,7 +23648,7 @@ export type DeleteMediaItemInput = {
 export type DeleteMediaItemPayload = {
   __typename?: 'DeleteMediaItemPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted mediaItem
    * @deprecated
@@ -23976,7 +23663,7 @@ export type DeleteMediaItemPayload = {
 
 /** Input for the deleteOrder mutation */
 export type DeleteOrderInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Delete or simply place in trash. */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** Order global ID */
@@ -23989,14 +23676,14 @@ export type DeleteOrderInput = {
 export type DeleteOrderPayload = {
   __typename?: 'DeleteOrderPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   order?: Maybe<Order>;
 };
 
 /** Input for the deleteOrderItems mutation */
 export type DeleteOrderItemsInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Order global ID */
   id?: Maybe<Scalars['ID']>;
   /** ID Order items being deleted */
@@ -24009,14 +23696,14 @@ export type DeleteOrderItemsInput = {
 export type DeleteOrderItemsPayload = {
   __typename?: 'DeleteOrderItemsPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   order?: Maybe<Order>;
 };
 
 /** Input for the deletePaColor mutation */
 export type DeletePaColorInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paColor to delete */
   id: Scalars['ID'];
 };
@@ -24025,7 +23712,7 @@ export type DeletePaColorInput = {
 export type DeletePaColorPayload = {
   __typename?: 'DeletePaColorPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24040,7 +23727,7 @@ export type DeletePaColorPayload = {
 
 /** Input for the deletePaMaterial mutation */
 export type DeletePaMaterialInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paMaterial to delete */
   id: Scalars['ID'];
 };
@@ -24049,7 +23736,7 @@ export type DeletePaMaterialInput = {
 export type DeletePaMaterialPayload = {
   __typename?: 'DeletePaMaterialPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24064,7 +23751,7 @@ export type DeletePaMaterialPayload = {
 
 /** Input for the deletePaPaperWeight mutation */
 export type DeletePaPaperWeightInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paPaperWeight to delete */
   id: Scalars['ID'];
 };
@@ -24073,7 +23760,7 @@ export type DeletePaPaperWeightInput = {
 export type DeletePaPaperWeightPayload = {
   __typename?: 'DeletePaPaperWeightPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24088,7 +23775,7 @@ export type DeletePaPaperWeightPayload = {
 
 /** Input for the deletePaSize mutation */
 export type DeletePaSizeInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paSize to delete */
   id: Scalars['ID'];
 };
@@ -24097,7 +23784,7 @@ export type DeletePaSizeInput = {
 export type DeletePaSizePayload = {
   __typename?: 'DeletePaSizePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24112,7 +23799,7 @@ export type DeletePaSizePayload = {
 
 /** Input for the deletePage mutation */
 export type DeletePageInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** The ID of the page to delete */
@@ -24123,7 +23810,7 @@ export type DeletePageInput = {
 export type DeletePagePayload = {
   __typename?: 'DeletePagePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24138,7 +23825,7 @@ export type DeletePagePayload = {
 
 /** Input for the deletePost mutation */
 export type DeletePostInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** The ID of the post to delete */
@@ -24149,7 +23836,7 @@ export type DeletePostInput = {
 export type DeletePostPayload = {
   __typename?: 'DeletePostPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24164,7 +23851,7 @@ export type DeletePostPayload = {
 
 /** Input for the deletePostFormat mutation */
 export type DeletePostFormatInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the postFormat to delete */
   id: Scalars['ID'];
 };
@@ -24173,7 +23860,7 @@ export type DeletePostFormatInput = {
 export type DeletePostFormatPayload = {
   __typename?: 'DeletePostFormatPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24188,7 +23875,7 @@ export type DeletePostFormatPayload = {
 
 /** Input for the deleteProductCategory mutation */
 export type DeleteProductCategoryInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productCategory to delete */
   id: Scalars['ID'];
 };
@@ -24197,7 +23884,7 @@ export type DeleteProductCategoryInput = {
 export type DeleteProductCategoryPayload = {
   __typename?: 'DeleteProductCategoryPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24212,7 +23899,7 @@ export type DeleteProductCategoryPayload = {
 
 /** Input for the deleteProductTag mutation */
 export type DeleteProductTagInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productTag to delete */
   id: Scalars['ID'];
 };
@@ -24221,7 +23908,7 @@ export type DeleteProductTagInput = {
 export type DeleteProductTagPayload = {
   __typename?: 'DeleteProductTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24236,7 +23923,7 @@ export type DeleteProductTagPayload = {
 
 /** Input for the deleteProductType mutation */
 export type DeleteProductTypeInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productType to delete */
   id: Scalars['ID'];
 };
@@ -24245,7 +23932,7 @@ export type DeleteProductTypeInput = {
 export type DeleteProductTypePayload = {
   __typename?: 'DeleteProductTypePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24260,7 +23947,7 @@ export type DeleteProductTypePayload = {
 
 /** Input for the deleteReview mutation */
 export type DeleteReviewInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the product review should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
   /** The ID of the target product review */
@@ -24276,7 +23963,7 @@ export type DeleteReviewPayload = {
    */
   affectedId?: Maybe<Scalars['ID']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The product rating of the affected product review
    * @deprecated
@@ -24291,7 +23978,7 @@ export type DeleteReviewPayload = {
 
 /** Input for the deleteShippingClass mutation */
 export type DeleteShippingClassInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the shippingClass to delete */
   id: Scalars['ID'];
 };
@@ -24300,7 +23987,7 @@ export type DeleteShippingClassInput = {
 export type DeleteShippingClassPayload = {
   __typename?: 'DeleteShippingClassPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24315,7 +24002,7 @@ export type DeleteShippingClassPayload = {
 
 /** Input for the deleteTag mutation */
 export type DeleteTagInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the tag to delete */
   id: Scalars['ID'];
 };
@@ -24324,7 +24011,7 @@ export type DeleteTagInput = {
 export type DeleteTagPayload = {
   __typename?: 'DeleteTagPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24339,7 +24026,7 @@ export type DeleteTagPayload = {
 
 /** Input for the deleteUser mutation */
 export type DeleteUserInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the user you want to delete */
   id: Scalars['ID'];
   /** Reassign posts and links to new User ID. */
@@ -24350,7 +24037,7 @@ export type DeleteUserInput = {
 export type DeleteUserPayload = {
   __typename?: 'DeleteUserPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the user that you just deleted
    * @deprecated
@@ -24365,7 +24052,7 @@ export type DeleteUserPayload = {
 
 /** Input for the deleteVisibleProduct mutation */
 export type DeleteVisibleProductInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the visibleProduct to delete */
   id: Scalars['ID'];
 };
@@ -24374,7 +24061,7 @@ export type DeleteVisibleProductInput = {
 export type DeleteVisibleProductPayload = {
   __typename?: 'DeleteVisibleProductPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The ID of the deleted object
    * @deprecated
@@ -24389,7 +24076,8 @@ export type DeleteVisibleProductPayload = {
 
 /** Input for the emptyCart mutation */
 export type EmptyCartInput = {
-  clientMutationId: Scalars['String'];
+  clearPersistentCart?: Maybe<Scalars['Boolean']>;
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** The payload for the emptyCart mutation */
@@ -24398,14 +24086,14 @@ export type EmptyCartPayload = {
   /** @deprecated  */
   cart?: Maybe<Cart>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   deletedCart?: Maybe<Cart>;
 };
 
 /** Input for the login mutation */
 export type LoginInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The plain-text password for the user logging in. */
   password: Scalars['String'];
   /** The username used for login. Typically a unique or email address depending on specific configuration */
@@ -24421,7 +24109,7 @@ export type LoginPayload = {
    */
   authToken?: Maybe<Scalars['String']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * Customer object of authenticated user.
    * @deprecated
@@ -24446,7 +24134,7 @@ export type LoginPayload = {
 
 /** Input for the refreshJwtAuthToken mutation */
 export type RefreshJwtAuthTokenInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
   jwtRefreshToken: Scalars['String'];
 };
@@ -24460,7 +24148,7 @@ export type RefreshJwtAuthTokenPayload = {
    */
   authToken?: Maybe<Scalars['String']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the registerCustomer mutation */
@@ -24469,7 +24157,7 @@ export type RegisterCustomerInput = {
   aim?: Maybe<Scalars['String']>;
   /** Customer billing information */
   billing?: Maybe<CustomerAddressInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
@@ -24499,7 +24187,7 @@ export type RegisterCustomerInput = {
   /** Customer shipping is identical to billing address */
   shippingSameAsBilling?: Maybe<Scalars['Boolean']>;
   /** A string that contains the user's username. */
-  username: Scalars['String'];
+  username?: Maybe<Scalars['String']>;
   /** A string containing the user's URL for the user's web site. */
   websiteUrl?: Maybe<Scalars['String']>;
   /** User's Yahoo IM account. */
@@ -24515,7 +24203,7 @@ export type RegisterCustomerPayload = {
    */
   authToken?: Maybe<Scalars['String']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   customer?: Maybe<Customer>;
   /**
@@ -24531,7 +24219,7 @@ export type RegisterCustomerPayload = {
 export type RegisterUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
@@ -24572,14 +24260,14 @@ export type RegisterUserInput = {
 export type RegisterUserPayload = {
   __typename?: 'RegisterUserPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   user?: Maybe<User>;
 };
 
 /** Input for the removeCoupons mutation */
 export type RemoveCouponsInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Code of coupon being applied */
   codes?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
@@ -24590,14 +24278,14 @@ export type RemoveCouponsPayload = {
   /** @deprecated  */
   cart?: Maybe<Cart>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the removeItemsFromCart mutation */
 export type RemoveItemsFromCartInput = {
   /** Remove all cart items */
   all?: Maybe<Scalars['Boolean']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Item keys of the items being removed */
   keys?: Maybe<Array<Maybe<Scalars['ID']>>>;
 };
@@ -24610,12 +24298,12 @@ export type RemoveItemsFromCartPayload = {
   /** @deprecated  */
   cartItems?: Maybe<Array<Maybe<CartItem>>>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the resetUserPassword mutation */
 export type ResetUserPasswordInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Password reset key */
   key?: Maybe<Scalars['String']>;
   /** The user's login (username). */
@@ -24628,14 +24316,14 @@ export type ResetUserPasswordInput = {
 export type ResetUserPasswordPayload = {
   __typename?: 'ResetUserPasswordPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   user?: Maybe<User>;
 };
 
 /** Input for the restoreCartItems mutation */
 export type RestoreCartItemsInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Cart item key of the item being removed */
   keys?: Maybe<Array<Maybe<Scalars['ID']>>>;
 };
@@ -24648,12 +24336,12 @@ export type RestoreCartItemsPayload = {
   /** @deprecated  */
   cartItems?: Maybe<Array<Maybe<CartItem>>>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the restoreComment mutation */
 export type RestoreCommentInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the comment to be restored */
   id: Scalars['ID'];
 };
@@ -24662,7 +24350,7 @@ export type RestoreCommentInput = {
 export type RestoreCommentPayload = {
   __typename?: 'RestoreCommentPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The restored comment object
    * @deprecated
@@ -24677,7 +24365,7 @@ export type RestoreCommentPayload = {
 
 /** Input for the restoreReview mutation */
 export type RestoreReviewInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the target product review */
   id: Scalars['ID'];
 };
@@ -24691,7 +24379,7 @@ export type RestoreReviewPayload = {
    */
   affectedId?: Maybe<Scalars['ID']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The product rating of the affected product review
    * @deprecated
@@ -24706,7 +24394,7 @@ export type RestoreReviewPayload = {
 
 /** Input for the sendPasswordResetEmail mutation */
 export type SendPasswordResetEmailInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string that contains the user's username or email address. */
   username: Scalars['String'];
 };
@@ -24715,7 +24403,7 @@ export type SendPasswordResetEmailInput = {
 export type SendPasswordResetEmailPayload = {
   __typename?: 'SendPasswordResetEmailPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The user that the password reset email was sent to
    * @deprecated
@@ -24733,7 +24421,7 @@ export type UpdateCommentInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
@@ -24752,7 +24440,7 @@ export type UpdateCommentInput = {
 export type UpdateCommentPayload = {
   __typename?: 'UpdateCommentPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The comment that was created
    * @deprecated
@@ -24771,7 +24459,7 @@ export type UpdateCustomerInput = {
   aim?: Maybe<Scalars['String']>;
   /** Customer billing information */
   billing?: Maybe<CustomerAddressInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
@@ -24819,7 +24507,7 @@ export type UpdateCustomerPayload = {
    */
   authToken?: Maybe<Scalars['String']>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   customer?: Maybe<Customer>;
   /**
@@ -24831,7 +24519,7 @@ export type UpdateCustomerPayload = {
 
 /** Input for the updateItemQuantities mutation */
 export type UpdateItemQuantitiesInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Cart item being updated */
   items?: Maybe<Array<Maybe<CartItemQuantityInput>>>;
 };
@@ -24850,7 +24538,7 @@ export type UpdateItemQuantitiesPayload = {
   /** @deprecated  */
   cart?: Maybe<Cart>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   items?: Maybe<Array<Maybe<CartItem>>>;
   /** @deprecated  */
@@ -24867,7 +24555,7 @@ export type UpdateMediaItemInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** The caption for the mediaItem */
   caption?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the mediaItem */
   commentStatus?: Maybe<Scalars['String']>;
   /** The date of the mediaItem */
@@ -24898,7 +24586,7 @@ export type UpdateMediaItemInput = {
 export type UpdateMediaItemPayload = {
   __typename?: 'UpdateMediaItemPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   mediaItem?: Maybe<MediaItem>;
 };
@@ -24907,7 +24595,7 @@ export type UpdateMediaItemPayload = {
 export type UpdateOrderInput = {
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Coupons codes to be applied to order */
   coupons?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Currency the order was created with, in ISO format. */
@@ -24948,7 +24636,7 @@ export type UpdateOrderInput = {
 export type UpdateOrderPayload = {
   __typename?: 'UpdateOrderPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   order?: Maybe<Order>;
 };
@@ -24957,7 +24645,7 @@ export type UpdateOrderPayload = {
 export type UpdatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
   /** The content of the object */
@@ -24984,7 +24672,7 @@ export type UpdatePageInput = {
 export type UpdatePagePayload = {
   __typename?: 'UpdatePagePayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   page?: Maybe<Page>;
 };
@@ -24995,7 +24683,7 @@ export type UpdatePostInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** Set connections between the post and categories */
   categories?: Maybe<PostCategoriesInput>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
   /** The content of the object */
@@ -25032,7 +24720,7 @@ export type UpdatePostInput = {
 export type UpdatePostPayload = {
   __typename?: 'UpdatePostPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   post?: Maybe<Post>;
 };
@@ -25047,7 +24735,7 @@ export type UpdateReviewInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
@@ -25066,7 +24754,7 @@ export type UpdateReviewInput = {
 export type UpdateReviewPayload = {
   __typename?: 'UpdateReviewPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The product rating of the review that was created
    * @deprecated
@@ -25081,7 +24769,7 @@ export type UpdateReviewPayload = {
 
 /** Input for the updateSettings mutation */
 export type UpdateSettingsInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** Allow people to submit comments on new posts. */
   discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']>;
   /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
@@ -25120,7 +24808,7 @@ export type UpdateSettingsPayload = {
   /** @deprecated  */
   allSettings?: Maybe<Settings>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   discussionSettings?: Maybe<DiscussionSettings>;
   /** @deprecated  */
@@ -25133,7 +24821,7 @@ export type UpdateSettingsPayload = {
 
 /** Input for the updateShippingMethod mutation */
 export type UpdateShippingMethodInput = {
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   shippingMethods?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
@@ -25143,14 +24831,14 @@ export type UpdateShippingMethodPayload = {
   /** @deprecated  */
   cart?: Maybe<Cart>;
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the updateUser mutation */
 export type UpdateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
   /** A string that will be shown on the site. Defaults to user's username. It is likely that you will want to change this, for both appearance and security through obscurity (that is if you dont use and delete the default admin user). */
@@ -25193,7 +24881,7 @@ export type UpdateUserInput = {
 export type UpdateUserPayload = {
   __typename?: 'UpdateUserPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** @deprecated  */
   user?: Maybe<User>;
 };
@@ -25208,7 +24896,7 @@ export type WriteReviewInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
   /** Content of the comment. */
@@ -25225,7 +24913,7 @@ export type WriteReviewInput = {
 export type WriteReviewPayload = {
   __typename?: 'WriteReviewPayload';
   /** @deprecated  */
-  clientMutationId: Scalars['String'];
+  clientMutationId?: Maybe<Scalars['String']>;
   /**
    * The product rating of the review that was created
    * @deprecated
@@ -26214,6 +25902,724 @@ export type TermObjectUnion =
   | PaPaperWeight
   | PaSize;
 
+/** A group product object */
+export type GroupProduct = Node &
+  Product &
+  NodeWithComments &
+  NodeWithContentEditor &
+  NodeWithFeaturedImage &
+  ContentNode &
+  UniformResourceIdentifiable & {
+    __typename?: 'GroupProduct';
+    /**
+     * Product&#039;s add to cart button text description
+     * @deprecated
+     */
+    addToCartDescription?: Maybe<Scalars['String']>;
+    /**
+     * Product&#039;s add to cart button text description
+     * @deprecated
+     */
+    addToCartText?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the Product type and the ProductAttribute type
+     * @deprecated
+     */
+    attributes?: Maybe<ProductToProductAttributeConnection>;
+    /**
+     * Product average count
+     * @deprecated
+     */
+    averageRating?: Maybe<Scalars['Float']>;
+    /**
+     * Catalog visibility
+     * @deprecated
+     */
+    catalogVisibility?: Maybe<CatalogVisibilityEnum>;
+    /**
+     * The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility.
+     * @deprecated
+     */
+    commentCount?: Maybe<Scalars['Int']>;
+    /**
+     * Whether the comments are open or closed for this particular post.
+     * @deprecated
+     */
+    commentStatus?: Maybe<Scalars['String']>;
+    /**
+     * The content of the post.
+     * @deprecated
+     */
+    content?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the Product type and the ContentType type
+     * @deprecated
+     */
+    contentType?: Maybe<ProductToContentTypeConnectionEdge>;
+    /**
+     * The ID of the product in the database
+     * @deprecated
+     */
+    databaseId: Scalars['Int'];
+    /**
+     * Date product created
+     * @deprecated
+     */
+    date?: Maybe<Scalars['String']>;
+    /**
+     * The publishing date set in GMT.
+     * @deprecated
+     */
+    dateGmt?: Maybe<Scalars['String']>;
+    /**
+     * Date on sale from
+     * @deprecated
+     */
+    dateOnSaleFrom?: Maybe<Scalars['String']>;
+    /**
+     * Date on sale to
+     * @deprecated
+     */
+    dateOnSaleTo?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the GroupProduct type and the VariationAttribute type
+     * @deprecated
+     */
+    defaultAttributes?: Maybe<GroupProductToVariationAttributeConnection>;
+    /**
+     * The delivery time of the product
+     * @deprecated
+     */
+    deliveryTime?: Maybe<Scalars['String']>;
+    /**
+     * Product description
+     * @deprecated
+     */
+    description?: Maybe<Scalars['String']>;
+    /**
+     * The desired slug of the post
+     * @deprecated
+     */
+    desiredSlug?: Maybe<Scalars['String']>;
+    /**
+     * If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds
+     * @deprecated
+     */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /**
+     * The RSS enclosure for the object
+     * @deprecated
+     */
+    enclosure?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the ContentNode type and the EnqueuedScript type
+     * @deprecated
+     */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /**
+     * Connection between the ContentNode type and the EnqueuedStylesheet type
+     * @deprecated
+     */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /**
+     * If the product is featured
+     * @deprecated
+     */
+    featured?: Maybe<Scalars['Boolean']>;
+    /**
+     * Connection between the NodeWithFeaturedImage type and the MediaItem type
+     * @deprecated
+     */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /**
+     * The database identifier for the featured image node assigned to the content node
+     * @deprecated
+     */
+    featuredImageDatabaseId?: Maybe<Scalars['Int']>;
+    /**
+     * Globally unique ID of the featured image assigned to the node
+     * @deprecated
+     */
+    featuredImageId?: Maybe<Scalars['ID']>;
+    /**
+     * Connection between the Product type and the MediaItem type
+     * @deprecated
+     */
+    galleryImages?: Maybe<ProductToMediaItemConnection>;
+    /**
+     * Connection between the Product type and the GlobalProductAttribute type
+     * @deprecated
+     */
+    globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
+    /**
+     * The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+     * @deprecated
+     */
+    guid?: Maybe<Scalars['String']>;
+    /**
+     * The globally unique identifier for the product
+     * @deprecated
+     */
+    id: Scalars['ID'];
+    /**
+     * Main image
+     * @deprecated
+     */
+    image?: Maybe<MediaItem>;
+    /**
+     * Whether the object is a node in the preview state
+     * @deprecated
+     */
+    isPreview?: Maybe<Scalars['Boolean']>;
+    /**
+     * Whether the object is restricted from the current viewer
+     * @deprecated
+     */
+    isRestricted?: Maybe<Scalars['Boolean']>;
+    /**
+     * The user that most recently edited the node
+     * @deprecated
+     */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /**
+     * The permalink of the post
+     * @deprecated
+     */
+    link?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the Product type and the LocalProductAttribute type
+     * @deprecated
+     */
+    localAttributes?: Maybe<ProductToLocalProductAttributeConnection>;
+    /**
+     * Menu order
+     * @deprecated
+     */
+    menuOrder?: Maybe<Scalars['Int']>;
+    /**
+     * Object meta data
+     * @deprecated
+     */
+    metaData?: Maybe<Array<Maybe<MetaData>>>;
+    /**
+     * Date product last updated
+     * @deprecated
+     */
+    modified?: Maybe<Scalars['String']>;
+    /**
+     * The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT.
+     * @deprecated
+     */
+    modifiedGmt?: Maybe<Scalars['String']>;
+    /**
+     * Product name
+     * @deprecated
+     */
+    name?: Maybe<Scalars['String']>;
+    /**
+     * Is product on sale?
+     * @deprecated
+     */
+    onSale?: Maybe<Scalars['Boolean']>;
+    /**
+     * Connection between the Product type and the paColor type
+     * @deprecated
+     */
+    paColors?: Maybe<ProductToPaColorConnection>;
+    /**
+     * Connection between the Product type and the paMaterial type
+     * @deprecated
+     */
+    paMaterials?: Maybe<ProductToPaMaterialConnection>;
+    /**
+     * Connection between the Product type and the paPaperWeight type
+     * @deprecated
+     */
+    paPaperWeights?: Maybe<ProductToPaPaperWeightConnection>;
+    /**
+     * Connection between the Product type and the paSize type
+     * @deprecated
+     */
+    paSizes?: Maybe<ProductToPaSizeConnection>;
+    /**
+     * Parent product
+     * @deprecated
+     */
+    parent?: Maybe<Product>;
+    /**
+     * The database id of the preview node
+     * @deprecated
+     */
+    previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+    /**
+     * Whether the object is a node in the preview state
+     * @deprecated
+     */
+    previewRevisionId?: Maybe<Scalars['ID']>;
+    /**
+     * Products&#039; price range
+     * @deprecated
+     */
+    price?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the Product type and the productCategory type
+     * @deprecated
+     */
+    productCategories?: Maybe<ProductToProductCategoryConnection>;
+    /**
+     * Connection between the Product type and the productTag type
+     * @deprecated
+     */
+    productTags?: Maybe<ProductToProductTagConnection>;
+    /**
+     * Connection between the Product type and the productType type
+     * @deprecated
+     */
+    productTypes?: Maybe<ProductToProductTypeConnection>;
+    /**
+     * Connection between the GroupProduct type and the Product type
+     * @deprecated
+     */
+    products?: Maybe<GroupProductToProductConnection>;
+    /**
+     * Can product be purchased?
+     * @deprecated
+     */
+    purchasable?: Maybe<Scalars['Boolean']>;
+    /**
+     * Purchase note
+     * @deprecated
+     */
+    purchaseNote?: Maybe<Scalars['String']>;
+    /**
+     * Connection between the Product type and the Product type
+     * @deprecated
+     */
+    related?: Maybe<ProductToProductConnection>;
+    /**
+     * Product review count
+     * @deprecated
+     */
+    reviewCount?: Maybe<Scalars['Int']>;
+    /**
+     * Connection between the Product type and the Comment type
+     * @deprecated
+     */
+    reviews?: Maybe<ProductToCommentConnection>;
+    /**
+     * If reviews are allowed
+     * @deprecated
+     */
+    reviewsAllowed?: Maybe<Scalars['Boolean']>;
+    /**
+     * The SEO data of the Product
+     * @deprecated
+     */
+    seo?: Maybe<Seo>;
+    /**
+     * Connection between the Product type and the shippingClass type
+     * @deprecated
+     */
+    shippingClasses?: Maybe<ProductToShippingClassConnection>;
+    /**
+     * Product short description
+     * @deprecated
+     */
+    shortDescription?: Maybe<Scalars['String']>;
+    /**
+     * Product SKU
+     * @deprecated
+     */
+    sku?: Maybe<Scalars['String']>;
+    /**
+     * Product slug
+     * @deprecated
+     */
+    slug?: Maybe<Scalars['String']>;
+    /**
+     * Product status
+     * @deprecated
+     */
+    status?: Maybe<Scalars['String']>;
+    /**
+     * The template assigned to a node of content
+     * @deprecated
+     */
+    template?: Maybe<ContentTemplate>;
+    /**
+     * Number total of sales
+     * @deprecated
+     */
+    totalSales?: Maybe<Scalars['Int']>;
+    /**
+     * Product type
+     * @deprecated
+     */
+    type?: Maybe<ProductTypesEnum>;
+    /**
+     * Connection between the Product type and the Product type
+     * @deprecated
+     */
+    upsell?: Maybe<ProductToUpsellConnection>;
+    /**
+     * URI path for the resource
+     * @deprecated
+     */
+    uri: Scalars['String'];
+    /**
+     * Connection between the Product type and the visibleProduct type
+     * @deprecated
+     */
+    visibleProducts?: Maybe<ProductToVisibleProductConnection>;
+  };
+
+/** A group product object */
+export type GroupProductAttributesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToProductAttributeConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductContentArgs = {
+  format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** A group product object */
+export type GroupProductDefaultAttributesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** A group product object */
+export type GroupProductDescriptionArgs = {
+  format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** A group product object */
+export type GroupProductEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** A group product object */
+export type GroupProductEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+/** A group product object */
+export type GroupProductGalleryImagesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToMediaItemConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductGlobalAttributesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToGlobalProductAttributeConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductLocalAttributesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToLocalProductAttributeConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductMetaDataArgs = {
+  key?: Maybe<Scalars['String']>;
+  keysIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  multiple?: Maybe<Scalars['Boolean']>;
+};
+
+/** A group product object */
+export type GroupProductPaColorsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToPaColorConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductPaMaterialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToPaMaterialConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductPaPaperWeightsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToPaPaperWeightConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductPaSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToPaSizeConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductProductCategoriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToProductCategoryConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductProductTagsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToProductTagConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductProductTypesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToProductTypeConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<GroupProductToProductConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductRelatedArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToProductConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductReviewsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToCommentConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductShippingClassesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToShippingClassConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductShortDescriptionArgs = {
+  format?: Maybe<PostObjectFieldFormatEnum>;
+};
+
+/** A group product object */
+export type GroupProductUpsellArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToUpsellConnectionWhereArgs>;
+};
+
+/** A group product object */
+export type GroupProductVisibleProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  where?: Maybe<ProductToVisibleProductConnectionWhereArgs>;
+};
+
+/** Connection between the GroupProduct type and the VariationAttribute type */
+export type GroupProductToVariationAttributeConnection = {
+  __typename?: 'GroupProductToVariationAttributeConnection';
+  /**
+   * Edges for the GroupProductToVariationAttributeConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<GroupProductToVariationAttributeConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<VariationAttribute>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type GroupProductToVariationAttributeConnectionEdge = {
+  __typename?: 'GroupProductToVariationAttributeConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<VariationAttribute>;
+};
+
+/** Arguments for filtering the GroupProductToProductConnection connection */
+export type GroupProductToProductConnectionWhereArgs = {
+  /** Limit result set to products with a specific attribute. Use the taxonomy name/attribute slug. */
+  attribute?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific attribute term ID (required an assigned attribute). */
+  attributeTerm?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  category?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific category name. */
+  categoryId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of category IDs. */
+  categoryIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of category IDs. */
+  categoryIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a group of specific categories by name. */
+  categoryIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a group of specific categories by name. */
+  categoryNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Filter the connection based on dates. */
+  dateQuery?: Maybe<DateQueryInput>;
+  /** Ensure result set excludes specific IDs. */
+  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to featured products. */
+  featured?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to specific ids. */
+  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a maximum price. */
+  maxPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products based on a minimum price. */
+  minPrice?: Maybe<Scalars['Float']>;
+  /** Limit result set to products on sale. */
+  onSale?: Maybe<Scalars['Boolean']>;
+  /** What paramater to use to order the objects by. */
+  orderby?: Maybe<Array<Maybe<ProductsOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Specify objects whose parent is in an array. */
+  parentIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Specify objects whose parent is not in an array. */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products based on a keyword search. */
+  search?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific shipping class ID. */
+  shippingClassId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products with specific SKU(s). Use commas to separate. */
+  sku?: Maybe<Scalars['String']>;
+  /** Limit result set to products with a specific slug. */
+  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific status. */
+  status?: Maybe<Scalars['String']>;
+  /** Limit result set to products in stock or out of stock. */
+  stockStatus?: Maybe<Array<Maybe<StockStatusEnum>>>;
+  /** Limit result types to types supported by WooGraphQL. */
+  supportedTypesOnly?: Maybe<Scalars['Boolean']>;
+  /** Limit result set to products assigned a specific tag name. */
+  tag?: Maybe<Scalars['String']>;
+  /** Limit result set to products assigned a specific tag ID. */
+  tagId?: Maybe<Scalars['Int']>;
+  /** Limit result set to products assigned to a specific group of tag IDs. */
+  tagIdIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products not assigned to a specific group of tag IDs. */
+  tagIdNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to products assigned to a specific group of tags by name. */
+  tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products not assigned to a specific group of tags by name. */
+  tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set with complex set of taxonomy filters. */
+  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  /** Limit result set to products assigned a specific type. */
+  type?: Maybe<ProductTypesEnum>;
+  /** Limit result set to products assigned to a group of specific types. */
+  typeIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products not assigned to a group of specific types. */
+  typeNotIn?: Maybe<Array<Maybe<ProductTypesEnum>>>;
+  /** Limit result set to products with a specific visibility level. */
+  visibility?: Maybe<CatalogVisibilityEnum>;
+};
+
+/** Connection between the GroupProduct type and the Product type */
+export type GroupProductToProductConnection = {
+  __typename?: 'GroupProductToProductConnection';
+  /**
+   * Edges for the GroupProductToProductConnection connection
+   * @deprecated
+   */
+  edges?: Maybe<Array<Maybe<GroupProductToProductConnectionEdge>>>;
+  /**
+   * The nodes of the connection, without the edges
+   * @deprecated
+   */
+  nodes?: Maybe<Array<Maybe<Product>>>;
+  /**
+   * Information about pagination in a connection.
+   * @deprecated
+   */
+  pageInfo?: Maybe<WpPageInfo>;
+};
+
+/** An edge in a connection */
+export type GroupProductToProductConnectionEdge = {
+  __typename?: 'GroupProductToProductConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated
+   */
+  cursor?: Maybe<Scalars['String']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated
+   */
+  node?: Maybe<Product>;
+};
+
 export type AddToCartMutationVariables = Exact<{
   productId: Scalars['Int'];
   variationId?: Maybe<Scalars['Int']>;
@@ -26246,73 +26652,81 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'CartItem' } & Pick<CartItem, 'key' | 'quantity' | 'total'> & {
                         product?: Maybe<
-                          | ({ __typename?: 'VariableProduct' } & Pick<
-                              VariableProduct,
-                              'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
-                            > & {
-                                image?: Maybe<
-                                  { __typename?: 'MediaItem' } & Pick<
-                                    MediaItem,
-                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                                  >
-                                >;
-                              })
-                          | ({ __typename?: 'ExternalProduct' } & Pick<
-                              ExternalProduct,
-                              'id' | 'slug' | 'name' | 'sku'
-                            > & {
-                                image?: Maybe<
-                                  { __typename?: 'MediaItem' } & Pick<
-                                    MediaItem,
-                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                                  >
-                                >;
-                              })
-                          | ({ __typename?: 'GroupProduct' } & Pick<
-                              GroupProduct,
-                              'id' | 'slug' | 'name' | 'sku'
-                            > & {
-                                image?: Maybe<
-                                  { __typename?: 'MediaItem' } & Pick<
-                                    MediaItem,
-                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                                  >
-                                >;
-                              })
-                          | ({ __typename?: 'SimpleProduct' } & Pick<
-                              SimpleProduct,
-                              'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
-                            > & {
-                                image?: Maybe<
-                                  { __typename?: 'MediaItem' } & Pick<
-                                    MediaItem,
-                                    'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                                  >
-                                >;
-                              })
+                          { __typename?: 'CartItemToProductConnectionEdge' } & {
+                            node?: Maybe<
+                              | ({ __typename?: 'VariableProduct' } & Pick<
+                                  VariableProduct,
+                                  'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
+                                > & {
+                                    image?: Maybe<
+                                      { __typename?: 'MediaItem' } & Pick<
+                                        MediaItem,
+                                        'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                                      >
+                                    >;
+                                  })
+                              | ({ __typename?: 'ExternalProduct' } & Pick<
+                                  ExternalProduct,
+                                  'id' | 'slug' | 'name' | 'sku'
+                                > & {
+                                    image?: Maybe<
+                                      { __typename?: 'MediaItem' } & Pick<
+                                        MediaItem,
+                                        'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                                      >
+                                    >;
+                                  })
+                              | ({ __typename?: 'SimpleProduct' } & Pick<
+                                  SimpleProduct,
+                                  'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
+                                > & {
+                                    image?: Maybe<
+                                      { __typename?: 'MediaItem' } & Pick<
+                                        MediaItem,
+                                        'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                                      >
+                                    >;
+                                  })
+                              | ({ __typename?: 'GroupProduct' } & Pick<
+                                  GroupProduct,
+                                  'id' | 'slug' | 'name' | 'sku'
+                                > & {
+                                    image?: Maybe<
+                                      { __typename?: 'MediaItem' } & Pick<
+                                        MediaItem,
+                                        'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                                      >
+                                    >;
+                                  })
+                            >;
+                          }
                         >;
                         variation?: Maybe<
-                          { __typename?: 'ProductVariation' } & Pick<
-                            ProductVariation,
-                            'stockQuantity'
-                          > & {
-                              attributes?: Maybe<
-                                {
-                                  __typename?: 'ProductVariationToVariationAttributeConnection';
-                                } & {
-                                  nodes?: Maybe<
-                                    Array<
-                                      Maybe<
-                                        { __typename?: 'VariationAttribute' } & Pick<
-                                          VariationAttribute,
-                                          'id' | 'name' | 'value'
+                          { __typename?: 'CartItemToProductVariationConnectionEdge' } & {
+                            node?: Maybe<
+                              { __typename?: 'ProductVariation' } & Pick<
+                                ProductVariation,
+                                'stockQuantity'
+                              > & {
+                                  attributes?: Maybe<
+                                    {
+                                      __typename?: 'ProductVariationToVariationAttributeConnection';
+                                    } & {
+                                      nodes?: Maybe<
+                                        Array<
+                                          Maybe<
+                                            { __typename?: 'VariationAttribute' } & Pick<
+                                              VariationAttribute,
+                                              'id' | 'name' | 'value'
+                                            >
+                                          >
                                         >
-                                      >
-                                    >
+                                      >;
+                                    }
                                   >;
                                 }
-                              >;
-                            }
+                            >;
+                          }
                         >;
                       }
                   >
@@ -26385,38 +26799,38 @@ export type CustomerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CustomerQuery = { __typename?: 'RootQuery' } & {
   customer?: Maybe<
-    { __typename?: 'Customer' } & {
-      billing?: Maybe<
-        { __typename?: 'CustomerAddress' } & Pick<
-          CustomerAddress,
-          | 'firstName'
-          | 'lastName'
-          | 'company'
-          | 'country'
-          | 'address1'
-          | 'address2'
-          | 'city'
-          | 'state'
-          | 'postcode'
-          | 'phone'
-          | 'email'
-        >
-      >;
-      shipping?: Maybe<
-        { __typename?: 'CustomerAddress' } & Pick<
-          CustomerAddress,
-          | 'firstName'
-          | 'lastName'
-          | 'company'
-          | 'country'
-          | 'address1'
-          | 'address2'
-          | 'city'
-          | 'state'
-          | 'postcode'
-        >
-      >;
-    }
+    { __typename?: 'Customer' } & Pick<Customer, 'username'> & {
+        billing?: Maybe<
+          { __typename?: 'CustomerAddress' } & Pick<
+            CustomerAddress,
+            | 'firstName'
+            | 'lastName'
+            | 'company'
+            | 'country'
+            | 'address1'
+            | 'address2'
+            | 'city'
+            | 'state'
+            | 'postcode'
+            | 'phone'
+            | 'email'
+          >
+        >;
+        shipping?: Maybe<
+          { __typename?: 'CustomerAddress' } & Pick<
+            CustomerAddress,
+            | 'firstName'
+            | 'lastName'
+            | 'company'
+            | 'country'
+            | 'address1'
+            | 'address2'
+            | 'city'
+            | 'state'
+            | 'postcode'
+          >
+        >;
+      }
   >;
 };
 
@@ -26487,11 +26901,11 @@ export type OrderQuery = { __typename?: 'RootQuery' } & {
                                 ExternalProduct,
                                 'id' | 'name'
                               >)
-                            | ({ __typename?: 'GroupProduct' } & Pick<GroupProduct, 'id' | 'name'>)
                             | ({ __typename?: 'SimpleProduct' } & Pick<
                                 SimpleProduct,
                                 'id' | 'name'
                               >)
+                            | ({ __typename?: 'GroupProduct' } & Pick<GroupProduct, 'id' | 'name'>)
                           >;
                         }
                     >;
@@ -26714,9 +27128,9 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
-                    | ({ __typename?: 'GroupProduct' } & Pick<
-                        GroupProduct,
-                        'id' | 'slug' | 'name'
+                    | ({ __typename?: 'SimpleProduct' } & Pick<
+                        SimpleProduct,
+                        'price' | 'stockStatus' | 'id' | 'slug' | 'name'
                       > & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
@@ -26725,9 +27139,9 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
-                    | ({ __typename?: 'SimpleProduct' } & Pick<
-                        SimpleProduct,
-                        'price' | 'stockStatus' | 'id' | 'slug' | 'name'
+                    | ({ __typename?: 'GroupProduct' } & Pick<
+                        GroupProduct,
+                        'id' | 'slug' | 'name'
                       > & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
@@ -26859,17 +27273,6 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
-                    | ({ __typename?: 'GroupProduct' } & Pick<
-                        GroupProduct,
-                        'id' | 'slug' | 'name'
-                      > & {
-                          image?: Maybe<
-                            { __typename?: 'MediaItem' } & Pick<
-                              MediaItem,
-                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                            >
-                          >;
-                        })
                     | ({ __typename?: 'SimpleProduct' } & Pick<
                         SimpleProduct,
                         'price' | 'stockStatus' | 'id' | 'slug' | 'name'
@@ -26881,141 +27284,9 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
-                  >
-                >
-              >;
-            }
-          >;
-          seo?: Maybe<
-            { __typename?: 'SEO' } & Pick<
-              Seo,
-              | 'title'
-              | 'description'
-              | 'canonicalUrl'
-              | 'openGraphTitle'
-              | 'openGraphDescription'
-              | 'twitterTitle'
-              | 'twitterDescription'
-            > & {
-                socialImage?: Maybe<
-                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
-                      mediaDetails?: Maybe<
-                        { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
-                      >;
-                    }
-                >;
-              }
-          >;
-        })
-    | ({ __typename?: 'GroupProduct' } & Pick<
-        GroupProduct,
-        | 'id'
-        | 'databaseId'
-        | 'slug'
-        | 'name'
-        | 'shortDescription'
-        | 'description'
-        | 'deliveryTime'
-        | 'sku'
-      > & {
-          image?: Maybe<
-            { __typename?: 'MediaItem' } & Pick<
-              MediaItem,
-              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-            >
-          >;
-          galleryImages?: Maybe<
-            { __typename?: 'ProductToMediaItemConnection' } & {
-              nodes?: Maybe<
-                Array<
-                  Maybe<
-                    { __typename?: 'MediaItem' } & Pick<
-                      MediaItem,
-                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                    >
-                  >
-                >
-              >;
-            }
-          >;
-          productCategories?: Maybe<
-            { __typename?: 'ProductToProductCategoryConnection' } & {
-              nodes?: Maybe<
-                Array<
-                  Maybe<
-                    { __typename?: 'ProductCategory' } & Pick<
-                      ProductCategory,
-                      'id' | 'slug' | 'name'
-                    >
-                  >
-                >
-              >;
-            }
-          >;
-          productTags?: Maybe<
-            { __typename?: 'ProductToProductTagConnection' } & {
-              nodes?: Maybe<
-                Array<
-                  Maybe<{ __typename?: 'ProductTag' } & Pick<ProductTag, 'id' | 'slug' | 'name'>>
-                >
-              >;
-            }
-          >;
-          paMaterials?: Maybe<
-            { __typename?: 'ProductToPaMaterialConnection' } & {
-              nodes?: Maybe<
-                Array<Maybe<{ __typename?: 'PaMaterial' } & Pick<PaMaterial, 'id' | 'name'>>>
-              >;
-            }
-          >;
-          paPaperWeights?: Maybe<
-            { __typename?: 'ProductToPaPaperWeightConnection' } & {
-              nodes?: Maybe<
-                Array<Maybe<{ __typename?: 'PaPaperWeight' } & Pick<PaPaperWeight, 'id' | 'name'>>>
-              >;
-            }
-          >;
-          related?: Maybe<
-            { __typename?: 'ProductToProductConnection' } & {
-              nodes?: Maybe<
-                Array<
-                  Maybe<
-                    | ({ __typename?: 'VariableProduct' } & Pick<
-                        VariableProduct,
-                        'price' | 'id' | 'slug' | 'name'
-                      > & {
-                          image?: Maybe<
-                            { __typename?: 'MediaItem' } & Pick<
-                              MediaItem,
-                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                            >
-                          >;
-                        })
-                    | ({ __typename?: 'ExternalProduct' } & Pick<
-                        ExternalProduct,
-                        'price' | 'id' | 'slug' | 'name'
-                      > & {
-                          image?: Maybe<
-                            { __typename?: 'MediaItem' } & Pick<
-                              MediaItem,
-                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                            >
-                          >;
-                        })
                     | ({ __typename?: 'GroupProduct' } & Pick<
                         GroupProduct,
                         'id' | 'slug' | 'name'
-                      > & {
-                          image?: Maybe<
-                            { __typename?: 'MediaItem' } & Pick<
-                              MediaItem,
-                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                            >
-                          >;
-                        })
-                    | ({ __typename?: 'SimpleProduct' } & Pick<
-                        SimpleProduct,
-                        'price' | 'stockStatus' | 'id' | 'slug' | 'name'
                       > & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
@@ -27153,6 +27424,17 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
+                    | ({ __typename?: 'SimpleProduct' } & Pick<
+                        SimpleProduct,
+                        'price' | 'stockStatus' | 'id' | 'slug' | 'name'
+                      > & {
+                          image?: Maybe<
+                            { __typename?: 'MediaItem' } & Pick<
+                              MediaItem,
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                            >
+                          >;
+                        })
                     | ({ __typename?: 'GroupProduct' } & Pick<
                         GroupProduct,
                         'id' | 'slug' | 'name'
@@ -27164,9 +27446,141 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                             >
                           >;
                         })
+                  >
+                >
+              >;
+            }
+          >;
+          seo?: Maybe<
+            { __typename?: 'SEO' } & Pick<
+              Seo,
+              | 'title'
+              | 'description'
+              | 'canonicalUrl'
+              | 'openGraphTitle'
+              | 'openGraphDescription'
+              | 'twitterTitle'
+              | 'twitterDescription'
+            > & {
+                socialImage?: Maybe<
+                  { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
+                      mediaDetails?: Maybe<
+                        { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
+                      >;
+                    }
+                >;
+              }
+          >;
+        })
+    | ({ __typename?: 'GroupProduct' } & Pick<
+        GroupProduct,
+        | 'id'
+        | 'databaseId'
+        | 'slug'
+        | 'name'
+        | 'shortDescription'
+        | 'description'
+        | 'deliveryTime'
+        | 'sku'
+      > & {
+          image?: Maybe<
+            { __typename?: 'MediaItem' } & Pick<
+              MediaItem,
+              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+            >
+          >;
+          galleryImages?: Maybe<
+            { __typename?: 'ProductToMediaItemConnection' } & {
+              nodes?: Maybe<
+                Array<
+                  Maybe<
+                    { __typename?: 'MediaItem' } & Pick<
+                      MediaItem,
+                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                    >
+                  >
+                >
+              >;
+            }
+          >;
+          productCategories?: Maybe<
+            { __typename?: 'ProductToProductCategoryConnection' } & {
+              nodes?: Maybe<
+                Array<
+                  Maybe<
+                    { __typename?: 'ProductCategory' } & Pick<
+                      ProductCategory,
+                      'id' | 'slug' | 'name'
+                    >
+                  >
+                >
+              >;
+            }
+          >;
+          productTags?: Maybe<
+            { __typename?: 'ProductToProductTagConnection' } & {
+              nodes?: Maybe<
+                Array<
+                  Maybe<{ __typename?: 'ProductTag' } & Pick<ProductTag, 'id' | 'slug' | 'name'>>
+                >
+              >;
+            }
+          >;
+          paMaterials?: Maybe<
+            { __typename?: 'ProductToPaMaterialConnection' } & {
+              nodes?: Maybe<
+                Array<Maybe<{ __typename?: 'PaMaterial' } & Pick<PaMaterial, 'id' | 'name'>>>
+              >;
+            }
+          >;
+          paPaperWeights?: Maybe<
+            { __typename?: 'ProductToPaPaperWeightConnection' } & {
+              nodes?: Maybe<
+                Array<Maybe<{ __typename?: 'PaPaperWeight' } & Pick<PaPaperWeight, 'id' | 'name'>>>
+              >;
+            }
+          >;
+          related?: Maybe<
+            { __typename?: 'ProductToProductConnection' } & {
+              nodes?: Maybe<
+                Array<
+                  Maybe<
+                    | ({ __typename?: 'VariableProduct' } & Pick<
+                        VariableProduct,
+                        'price' | 'id' | 'slug' | 'name'
+                      > & {
+                          image?: Maybe<
+                            { __typename?: 'MediaItem' } & Pick<
+                              MediaItem,
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                            >
+                          >;
+                        })
+                    | ({ __typename?: 'ExternalProduct' } & Pick<
+                        ExternalProduct,
+                        'price' | 'id' | 'slug' | 'name'
+                      > & {
+                          image?: Maybe<
+                            { __typename?: 'MediaItem' } & Pick<
+                              MediaItem,
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                            >
+                          >;
+                        })
                     | ({ __typename?: 'SimpleProduct' } & Pick<
                         SimpleProduct,
                         'price' | 'stockStatus' | 'id' | 'slug' | 'name'
+                      > & {
+                          image?: Maybe<
+                            { __typename?: 'MediaItem' } & Pick<
+                              MediaItem,
+                              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                            >
+                          >;
+                        })
+                    | ({ __typename?: 'GroupProduct' } & Pick<
+                        GroupProduct,
+                        'id' | 'slug' | 'name'
                       > & {
                           image?: Maybe<
                             { __typename?: 'MediaItem' } & Pick<
@@ -27219,6 +27633,20 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                 VariableProduct,
                 'price' | 'id' | 'slug' | 'name'
               > & {
+                  variations?: Maybe<
+                    { __typename?: 'VariableProductToProductVariationConnection' } & {
+                      nodes?: Maybe<
+                        Array<
+                          Maybe<
+                            { __typename?: 'ProductVariation' } & Pick<
+                              ProductVariation,
+                              'stockStatus'
+                            >
+                          >
+                        >
+                      >;
+                    }
+                  >;
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
@@ -27237,14 +27665,6 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                     >
                   >;
                 })
-            | ({ __typename?: 'GroupProduct' } & Pick<GroupProduct, 'id' | 'slug' | 'name'> & {
-                  image?: Maybe<
-                    { __typename?: 'MediaItem' } & Pick<
-                      MediaItem,
-                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
-                    >
-                  >;
-                })
             | ({ __typename?: 'SimpleProduct' } & Pick<
                 SimpleProduct,
                 'price' | 'stockStatus' | 'id' | 'slug' | 'name'
@@ -27256,10 +27676,28 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
                     >
                   >;
                 })
+            | ({ __typename?: 'GroupProduct' } & Pick<GroupProduct, 'id' | 'slug' | 'name'> & {
+                  image?: Maybe<
+                    { __typename?: 'MediaItem' } & Pick<
+                      MediaItem,
+                      'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                    >
+                  >;
+                })
           >
         >
       >;
     }
+  >;
+};
+
+export type RefreshAuthTokenMutationVariables = Exact<{
+  refreshToken: Scalars['String'];
+}>;
+
+export type RefreshAuthTokenMutation = { __typename?: 'RootMutation' } & {
+  refreshJwtAuthToken?: Maybe<
+    { __typename?: 'RefreshJwtAuthTokenPayload' } & Pick<RefreshJwtAuthTokenPayload, 'authToken'>
   >;
 };
 
@@ -27405,32 +27843,36 @@ export const CartDocument = gql`
         nodes {
           key
           product {
-            id
-            slug
-            name
-            sku
-            image {
-              altText
-              sizes(size: SHOP_CATALOG)
-              sourceUrl(size: SHOP_CATALOG)
-              srcSet(size: SHOP_CATALOG)
-            }
-            ... on SimpleProduct {
-              price
-              stockQuantity
-            }
-            ... on VariableProduct {
-              price
-              stockQuantity
+            node {
+              id
+              slug
+              name
+              sku
+              image {
+                altText
+                sizes(size: SHOP_CATALOG)
+                sourceUrl(size: SHOP_CATALOG)
+                srcSet(size: SHOP_CATALOG)
+              }
+              ... on SimpleProduct {
+                price
+                stockQuantity
+              }
+              ... on VariableProduct {
+                price
+                stockQuantity
+              }
             }
           }
           variation {
-            stockQuantity
-            attributes {
-              nodes {
-                id
-                name
-                value
+            node {
+              stockQuantity
+              attributes {
+                nodes {
+                  id
+                  name
+                  value
+                }
               }
             }
           }
@@ -27609,6 +28051,7 @@ export type CheckoutMutationOptions = Apollo.BaseMutationOptions<
 export const CustomerDocument = gql`
   query Customer {
     customer {
+      username
       billing {
         firstName
         lastName
@@ -27797,7 +28240,7 @@ export const OrderDocument = gql`
  * });
  */
 export function useOrderQuery(
-  baseOptions?: Apollo.QueryHookOptions<OrderQuery, OrderQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<OrderQuery, OrderQueryVariables>,
 ) {
   return Apollo.useQuery<OrderQuery, OrderQueryVariables>(OrderDocument, baseOptions);
 }
@@ -27859,7 +28302,7 @@ export const PageDocument = gql`
  *   },
  * });
  */
-export function usePageQuery(baseOptions?: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
+export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
   return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, baseOptions);
 }
 export function usePageLazyQuery(
@@ -27952,7 +28395,7 @@ export const PreviewDocument = gql`
  * });
  */
 export function usePreviewQuery(
-  baseOptions?: Apollo.QueryHookOptions<PreviewQuery, PreviewQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<PreviewQuery, PreviewQueryVariables>,
 ) {
   return Apollo.useQuery<PreviewQuery, PreviewQueryVariables>(PreviewDocument, baseOptions);
 }
@@ -28115,7 +28558,7 @@ export const ProductDocument = gql`
  * });
  */
 export function useProductQuery(
-  baseOptions?: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>,
 ) {
   return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, baseOptions);
 }
@@ -28149,6 +28592,11 @@ export const ProductsDocument = gql`
         }
         ... on VariableProduct {
           price
+          variations {
+            nodes {
+              stockStatus
+            }
+          }
         }
         ... on ExternalProduct {
           price
@@ -28188,6 +28636,54 @@ export function useProductsLazyQuery(
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const RefreshAuthTokenDocument = gql`
+  mutation RefreshAuthToken($refreshToken: String!) {
+    refreshJwtAuthToken(
+      input: { clientMutationId: "RefreshAuthToken", jwtRefreshToken: $refreshToken }
+    ) {
+      authToken
+    }
+  }
+`;
+export type RefreshAuthTokenMutationFn = Apollo.MutationFunction<
+  RefreshAuthTokenMutation,
+  RefreshAuthTokenMutationVariables
+>;
+
+/**
+ * __useRefreshAuthTokenMutation__
+ *
+ * To run a mutation, you first call `useRefreshAuthTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshAuthTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshAuthTokenMutation, { data, loading, error }] = useRefreshAuthTokenMutation({
+ *   variables: {
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useRefreshAuthTokenMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RefreshAuthTokenMutation,
+    RefreshAuthTokenMutationVariables
+  >,
+) {
+  return Apollo.useMutation<RefreshAuthTokenMutation, RefreshAuthTokenMutationVariables>(
+    RefreshAuthTokenDocument,
+    baseOptions,
+  );
+}
+export type RefreshAuthTokenMutationHookResult = ReturnType<typeof useRefreshAuthTokenMutation>;
+export type RefreshAuthTokenMutationResult = Apollo.MutationResult<RefreshAuthTokenMutation>;
+export type RefreshAuthTokenMutationOptions = Apollo.BaseMutationOptions<
+  RefreshAuthTokenMutation,
+  RefreshAuthTokenMutationVariables
+>;
 export const RegisterUserDocument = gql`
   mutation RegisterUser($username: String!, $email: String!, $password: String!) {
     registerUser(
@@ -28478,9 +28974,7 @@ export function useUpdateShippingMethodMutation(
 export type UpdateShippingMethodMutationHookResult = ReturnType<
   typeof useUpdateShippingMethodMutation
 >;
-export type UpdateShippingMethodMutationResult = Apollo.MutationResult<
-  UpdateShippingMethodMutation
->;
+export type UpdateShippingMethodMutationResult = Apollo.MutationResult<UpdateShippingMethodMutation>;
 export type UpdateShippingMethodMutationOptions = Apollo.BaseMutationOptions<
   UpdateShippingMethodMutation,
   UpdateShippingMethodMutationVariables
@@ -28513,7 +29007,7 @@ export const UserDocument = gql`
  *   },
  * });
  */
-export function useUserQuery(baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
   return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
 }
 export function useUserLazyQuery(

@@ -1,6 +1,6 @@
 declare module '*.svg' {
-  const content: React.ElementType<React.SVGProps<SVGSVGElement>>;
-  export default content;
+  const Component: React.ElementType<React.SVGProps<SVGSVGElement>>;
+  export default Component;
 }
 
 declare const paypal: unknown;

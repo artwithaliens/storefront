@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@material-ui/core';
+import { ManagedUIContext } from '@components/ui/context';
+import { CssBaseline } from '@material-ui/core';
 import { NextComponentType } from 'next';
 import { DefaultSeo } from 'next-seo';
 import NextApp, { AppContext, AppInitialProps, AppProps as NextAppProps } from 'next/app';
@@ -10,7 +11,6 @@ import ReactGA from 'react-ga';
 import { useMount } from 'react-use';
 import createClient from '../apollo';
 import SettingsProvider, { SettingsContext } from '../components/core/settings-provider';
-import theme from '../theme';
 import absoluteURL from '../utils/absolute-url';
 
 type Props = NextAppProps & {
@@ -44,41 +44,39 @@ const App: NextComponentType<AppContext, AppInitialProps, Props> = ({
   });
 
   return (
-    <>
+    <ApolloProvider client={apollo ?? createClient({ initialState: apolloState?.data })}>
       <Head>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
         />
       </Head>
-      <ApolloProvider client={apollo ?? createClient({ initialState: apolloState?.data })}>
-        <SettingsProvider>
-          <SettingsContext.Consumer>
-            {(settings) => (
-              <DefaultSeo
-                title={settings.title ?? undefined}
-                description={settings.description ?? undefined}
-                canonical={absoluteURL(router.asPath)}
-                openGraph={{
-                  type: 'website',
-                  locale: 'en_US',
-                  url: absoluteURL(router.asPath),
-                  site_name: settings.title ?? undefined,
-                }}
-                twitter={{
-                  handle: '@artwithaliens',
-                  cardType: 'summary_large_image',
-                }}
-              />
-            )}
-          </SettingsContext.Consumer>
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </MuiThemeProvider>
-        </SettingsProvider>
-      </ApolloProvider>
-    </>
+      <SettingsProvider>
+        <SettingsContext.Consumer>
+          {(settings) => (
+            <DefaultSeo
+              title={settings.title ?? undefined}
+              description={settings.description ?? undefined}
+              canonical={absoluteURL(router.asPath)}
+              openGraph={{
+                type: 'website',
+                locale: 'en_US',
+                url: absoluteURL(router.asPath),
+                site_name: settings.title ?? undefined,
+              }}
+              twitter={{
+                handle: '@artwithaliens',
+                cardType: 'summary_large_image',
+              }}
+            />
+          )}
+        </SettingsContext.Consumer>
+        <ManagedUIContext>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ManagedUIContext>
+      </SettingsProvider>
+    </ApolloProvider>
   );
 };
 
