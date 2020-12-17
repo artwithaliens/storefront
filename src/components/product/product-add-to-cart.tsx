@@ -78,7 +78,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
       <Button
         color="primary"
         variant="contained"
-        disabled={product.stockStatus !== StockStatusEnum.IN_STOCK}
+        disabled={product.stockStatus === StockStatusEnum.OUT_OF_STOCK}
         loading={loading}
         onClick={handleAddToCartClick}
       >
@@ -107,8 +107,13 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
             (attribute) =>
               attribute?.value != null &&
               variation?.databaseId != null && (
-                <option key={variation.id} value={variation.databaseId}>
+                <option
+                  key={variation.id}
+                  disabled={variation.stockStatus === StockStatusEnum.OUT_OF_STOCK}
+                  value={variation.databaseId}
+                >
                   {attribute.value}
+                  {variation.stockStatus === StockStatusEnum.OUT_OF_STOCK && ' (Sold out)'}
                 </option>
               ),
           ),
