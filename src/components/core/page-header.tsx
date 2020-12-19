@@ -66,6 +66,7 @@ const PageHeader: React.VFC<Props> = ({ fullHeight, image, title }) => {
         <Image
           className={clsx(styles.image, fullHeight && styles.imageContain)}
           mediaItem={image}
+          next={false}
           loading="lazy"
         />
       )}

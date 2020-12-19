@@ -42,6 +42,7 @@ const CategoryGrid: React.VFC = () => {
                   <Image
                     className={styles.categoryImage}
                     mediaItem={category.image}
+                    next={false}
                     loading="lazy"
                   />
                   <Box sx={{ mt: 2 }}>

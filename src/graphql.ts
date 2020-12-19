@@ -26937,7 +26937,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'ProductVariation' } & Pick<
                       ProductVariation,
-                      'id' | 'databaseId' | 'name' | 'manageStock' | 'stockQuantity' | 'stockStatus'
+                      'id' | 'databaseId' | 'name' | 'stockQuantity' | 'stockStatus'
                     > & {
                         attributes?: Maybe<
                           { __typename?: 'ProductVariationToVariationAttributeConnection' } & {
@@ -27238,7 +27238,6 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
         })
     | ({ __typename?: 'SimpleProduct' } & Pick<
         SimpleProduct,
-        | 'manageStock'
         | 'stockQuantity'
         | 'stockStatus'
         | 'price'
@@ -28339,8 +28338,16 @@ export const ProductDocument = gql`
         sourceUrl(size: SHOP_SINGLE)
         srcSet(size: SHOP_SINGLE)
       }
+      galleryImages {
+        nodes {
+          id
+          altText
+          sizes(size: SHOP_SINGLE)
+          sourceUrl(size: SHOP_SINGLE)
+          srcSet(size: SHOP_SINGLE)
+        }
+      }
       ... on SimpleProduct {
-        manageStock
         stockQuantity
         stockStatus
         price
@@ -28356,7 +28363,6 @@ export const ProductDocument = gql`
             id
             databaseId
             name
-            manageStock
             stockQuantity
             stockStatus
             attributes {
@@ -28376,15 +28382,6 @@ export const ProductDocument = gql`
       ... on ExternalProduct {
         price
         externalUrl
-      }
-      galleryImages {
-        nodes {
-          id
-          altText
-          sizes(size: SHOP_SINGLE)
-          sourceUrl(size: SHOP_SINGLE)
-          srcSet(size: SHOP_SINGLE)
-        }
       }
       productCategories {
         nodes {

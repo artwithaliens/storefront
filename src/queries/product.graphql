@@ -14,8 +14,16 @@ query Product($slug: ID!) {
       sourceUrl(size: SHOP_SINGLE)
       srcSet(size: SHOP_SINGLE)
     }
+    galleryImages {
+      nodes {
+        id
+        altText
+        sizes(size: SHOP_SINGLE)
+        sourceUrl(size: SHOP_SINGLE)
+        srcSet(size: SHOP_SINGLE)
+      }
+    }
     ... on SimpleProduct {
-      manageStock
       stockQuantity
       stockStatus
       price
@@ -31,7 +39,6 @@ query Product($slug: ID!) {
           id
           databaseId
           name
-          manageStock
           stockQuantity
           stockStatus
           attributes {
@@ -51,15 +58,6 @@ query Product($slug: ID!) {
     ... on ExternalProduct {
       price
       externalUrl
-    }
-    galleryImages {
-      nodes {
-        id
-        altText
-        sizes(size: SHOP_SINGLE)
-        sourceUrl(size: SHOP_SINGLE)
-        srcSet(size: SHOP_SINGLE)
-      }
     }
     productCategories {
       nodes {

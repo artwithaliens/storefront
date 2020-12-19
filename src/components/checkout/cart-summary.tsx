@@ -64,8 +64,10 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                     <TableCell>
                       <Image
                         className={styles.image}
-                        mediaItem={item.product?.node?.image}
+                        height={80}
                         loading="lazy"
+                        mediaItem={item.product?.node?.image}
+                        width={64}
                       />
                     </TableCell>
                     <TableCell>{item.product?.node?.name}</TableCell>

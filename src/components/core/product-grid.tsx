@@ -52,13 +52,7 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
                       href={`/product/${product.slug}`}
                       underline="none"
                     >
-                      <Image
-                        next
-                        height={673}
-                        loading="lazy"
-                        mediaItem={product.image}
-                        width={538}
-                      />
+                      <Image height={673} loading="lazy" mediaItem={product.image} width={538} />
                       <Box sx={{ p: 2 }}>
                         <Typography gutterBottom variant="h4">
                           {product.name}

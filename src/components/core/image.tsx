@@ -18,7 +18,7 @@ const Image: React.VFC<Props> = ({
   height: heightProp,
   loading,
   mediaItem,
-  next = false,
+  next = true,
   width: widthProp,
 }) => {
   const { height = heightProp, width = widthProp } = mediaItem?.mediaDetails ?? {};
@@ -26,7 +26,7 @@ const Image: React.VFC<Props> = ({
   return mediaItem?.sourceUrl != null ? (
     next ? (
       <NextImage
-        {...(height == null || width == null ? { unsized: true } : { height, width })}
+        {...(height == null || width == null ? { layout: 'fill' } : { height, width })}
         alt={mediaItem.altText ?? alt ?? ''}
         className={className}
         loading={loading}

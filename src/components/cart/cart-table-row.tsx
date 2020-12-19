@@ -34,7 +34,7 @@ const useStyles = makeStyles(
 
     image: {
       boxSizing: 'content-box',
-      width: 70,
+      width: 64,
 
       [breakpoints.down('sm')]: {
         borderBottom: 0,
@@ -141,7 +141,7 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
   return (
     <TableRow className={clsx(styles.root, loading && styles.loading)}>
       <TableCell className={styles.image}>
-        <Image mediaItem={item.product?.node?.image} loading="lazy" />
+        <Image height={80} loading="lazy" mediaItem={item.product?.node?.image} width={64} />
       </TableCell>
       <TableCell className={styles.description}>
         <Typography gutterBottom variant="h5">

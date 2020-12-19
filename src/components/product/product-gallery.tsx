@@ -49,13 +49,21 @@ const ProductGallery: React.VFC<Props> = ({ product }) => {
             onChangeIndex={(index) => setActiveStep(index)}
           >
             <div>
-              <Image className={styles.galleryStepperImage} mediaItem={product.image} />
+              <Image
+                className={styles.galleryStepperImage}
+                mediaItem={product.image}
+                next={false}
+              />
             </div>
             {product.galleryImages?.nodes?.map(
               (mediaItem) =>
                 mediaItem != null && (
                   <div key={mediaItem.id}>
-                    <Image className={styles.galleryStepperImage} mediaItem={mediaItem} />
+                    <Image
+                      className={styles.galleryStepperImage}
+                      mediaItem={mediaItem}
+                      next={false}
+                    />
                   </div>
                 ),
             )}
@@ -72,11 +80,16 @@ const ProductGallery: React.VFC<Props> = ({ product }) => {
       </Hidden>
       <Hidden mdDown>
         <div className={styles.gallery}>
-          <Image className={styles.galleryImage} mediaItem={product.image} />
+          <Image className={styles.galleryImage} mediaItem={product.image} next={false} />
           {product.galleryImages?.nodes?.map(
             (mediaItem) =>
               mediaItem != null && (
-                <Image key={mediaItem.id} className={styles.galleryImage} mediaItem={mediaItem} />
+                <Image
+                  key={mediaItem.id}
+                  className={styles.galleryImage}
+                  mediaItem={mediaItem}
+                  next={false}
+                />
               ),
           )}
         </div>
