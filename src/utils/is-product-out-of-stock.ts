@@ -1,3 +1,4 @@
+import { PartialDeep } from 'type-fest';
 import {
   ExternalProduct,
   GroupProduct,
@@ -6,12 +7,8 @@ import {
   VariableProduct,
 } from '../graphql';
 
-type DeepPartial<T> = {
-  [P in keyof T]?: DeepPartial<T[P]>;
-};
-
 export default function isProductOutOfStock(
-  product: DeepPartial<ExternalProduct | GroupProduct | SimpleProduct | VariableProduct>,
+  product: PartialDeep<ExternalProduct | GroupProduct | SimpleProduct | VariableProduct>,
 ) {
   return (
     (product.__typename === 'SimpleProduct' &&

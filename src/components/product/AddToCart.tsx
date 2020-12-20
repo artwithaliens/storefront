@@ -5,6 +5,7 @@ import { Box, makeStyles, TextField } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React, { useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
+import Stock from './Stock';
 
 const useStyles = makeStyles(
   ({ spacing }) => ({
@@ -19,7 +20,7 @@ type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
-const ProductAddToCart: React.VFC<Props> = ({ product }) => {
+const AddToCart: React.VFC<Props> = ({ product }) => {
   const styles = useStyles();
   const { addAlert } = useUI();
 
@@ -52,9 +53,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
 
   /** Handles changing the variation. */
   const handleVariationChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (ev.target.value !== '') {
-      setVariationId(parseInt(ev.target.value, 10));
-    }
+    setVariationId(ev.target.value !== '' ? parseInt(ev.target.value, 10) : undefined);
   };
 
   const viewCart = showViewCart && (
@@ -75,6 +74,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
     </Button>
   ) : product.__typename === 'SimpleProduct' ? (
     <>
+      <Stock product={product} />
       <Button
         color="primary"
         variant="contained"
@@ -106,7 +106,7 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
           variation?.attributes?.nodes?.map(
             (attribute) =>
               attribute?.value != null &&
-              variation?.databaseId != null && (
+              variation.databaseId != null && (
                 <option
                   key={variation.id}
                   disabled={variation.stockStatus === StockStatusEnum.OUT_OF_STOCK}
@@ -119,20 +119,25 @@ const ProductAddToCart: React.VFC<Props> = ({ product }) => {
           ),
         )}
       </TextField>
-      <Box sx={{ mt: 2 }}>
-        <Button
-          color="primary"
-          variant="contained"
-          disabled={!variationId}
-          loading={loading}
-          onClick={handleAddToCartClick}
-        >
-          Add to cart
-        </Button>
-        {viewCart}
+      <Box sx={{ mt: 1 }}>
+        <Stock
+          variation={product.variations?.nodes?.find(
+            (variation) => variation?.databaseId === variationId,
+          )}
+        />
       </Box>
+      <Button
+        color="primary"
+        variant="contained"
+        disabled={!variationId}
+        loading={loading}
+        onClick={handleAddToCartClick}
+      >
+        Add to cart
+      </Button>
+      {viewCart}
     </>
   ) : null;
 };
 
-export default ProductAddToCart;
+export default AddToCart;

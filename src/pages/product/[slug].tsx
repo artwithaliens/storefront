@@ -1,6 +1,6 @@
 import { PageWrapper, ProductGrid, RichText } from '@components/core';
 import {
-  ProductAddToCart,
+  AddToCart,
   ProductAttributes,
   ProductGallery,
   ProductJSON,
@@ -80,7 +80,7 @@ const Product: NextPage = () => {
                 <Grid item xs={12} md={6}>
                   <Box sx={{ position: 'sticky', top: 48 }}>
                     <ProductSummary product={product} />
-                    <ProductAddToCart product={product} />
+                    <AddToCart product={product} />
                     <ProductMeta product={product} />
                   </Box>
                 </Grid>

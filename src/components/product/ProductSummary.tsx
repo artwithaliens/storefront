@@ -2,7 +2,7 @@ import { Price, RichText } from '@components/core';
 import { Link } from '@components/ui';
 import { Typography } from '@material-ui/core';
 import React from 'react';
-import { ProductQuery, StockStatusEnum } from '../../graphql';
+import { ProductQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
 import isProductOutOfStock from '../../utils/is-product-out-of-stock';
 
@@ -28,20 +28,7 @@ const ProductSummary: React.VFC<Props> = ({ product }) => (
     <RichText>
       {isBlank(product.shortDescription) ? product.description : product.shortDescription}
     </RichText>
-    {isProductOutOfStock(product) ? (
-      <Typography gutterBottom color="error" variant="h5">
-        Sold out
-      </Typography>
-    ) : (product.__typename === 'SimpleProduct' &&
-        product.stockStatus === StockStatusEnum.ON_BACKORDER) ||
-      (product.__typename === 'VariableProduct' &&
-        product.variations?.nodes?.some?.(
-          (variation) => variation?.stockStatus === StockStatusEnum.ON_BACKORDER,
-        )) ? (
-      <Typography gutterBottom variant="h5">
-        Preorder now
-      </Typography>
-    ) : (
+    {!isProductOutOfStock(product) && (
       <Typography gutterBottom variant="body2">
         Deliverable in {isBlank(product.deliveryTime) ? '2-3 working days' : product.deliveryTime}
       </Typography>

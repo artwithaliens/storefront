@@ -1,6 +1,6 @@
-export { default as ProductAddToCart } from './product-add-to-cart';
-export { default as ProductAttributes } from './product-attributes';
-export { default as ProductGallery } from './product-gallery';
-export { default as ProductJSON } from './product-json';
-export { default as ProductMeta } from './product-meta';
-export { default as ProductSummary } from './product-summary';
+export { default as AddToCart } from './AddToCart';
+export { default as ProductAttributes } from './ProductAttributes';
+export { default as ProductGallery } from './ProductGallery';
+export { default as ProductJSON } from './ProductJSON';
+export { default as ProductMeta } from './ProductMeta';
+export { default as ProductSummary } from './ProductSummary';

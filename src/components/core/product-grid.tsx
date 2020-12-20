@@ -61,7 +61,7 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
                           product.__typename === 'VariableProduct') &&
                           (isProductOutOfStock(product) ? (
                             <Typography color="error" variant="h5">
-                              Sold out
+                              Out of stock
                             </Typography>
                           ) : (
                             <Price color="primary" variant="h5">
