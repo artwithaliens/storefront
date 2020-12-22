@@ -26917,6 +26917,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
     | ({ __typename?: 'VariableProduct' } & Pick<
         VariableProduct,
         | 'price'
+        | 'stockStatus'
         | 'weight'
         | 'length'
         | 'width'
@@ -26937,7 +26938,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'ProductVariation' } & Pick<
                       ProductVariation,
-                      'id' | 'databaseId' | 'name' | 'stockQuantity' | 'stockStatus'
+                      'id' | 'databaseId' | 'name' | 'stockStatus'
                     > & {
                         attributes?: Maybe<
                           { __typename?: 'ProductVariationToVariationAttributeConnection' } & {
@@ -27238,9 +27239,8 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
         })
     | ({ __typename?: 'SimpleProduct' } & Pick<
         SimpleProduct,
-        | 'stockQuantity'
-        | 'stockStatus'
         | 'price'
+        | 'stockStatus'
         | 'weight'
         | 'length'
         | 'width'
@@ -27545,22 +27545,8 @@ export type ProductsQuery = { __typename?: 'RootQuery' } & {
           Maybe<
             | ({ __typename?: 'VariableProduct' } & Pick<
                 VariableProduct,
-                'price' | 'id' | 'slug' | 'name'
+                'price' | 'stockStatus' | 'id' | 'slug' | 'name'
               > & {
-                  variations?: Maybe<
-                    { __typename?: 'VariableProductToProductVariationConnection' } & {
-                      nodes?: Maybe<
-                        Array<
-                          Maybe<
-                            { __typename?: 'ProductVariation' } & Pick<
-                              ProductVariation,
-                              'stockStatus'
-                            >
-                          >
-                        >
-                      >;
-                    }
-                  >;
                   image?: Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
@@ -28348,9 +28334,8 @@ export const ProductDocument = gql`
         }
       }
       ... on SimpleProduct {
-        stockQuantity
-        stockStatus
         price
+        stockStatus
         weight
         length
         width
@@ -28358,12 +28343,12 @@ export const ProductDocument = gql`
       }
       ... on VariableProduct {
         price
+        stockStatus
         variations {
           nodes {
             id
             databaseId
             name
-            stockQuantity
             stockStatus
             attributes {
               nodes {
@@ -28504,11 +28489,7 @@ export const ProductsDocument = gql`
         }
         ... on VariableProduct {
           price
-          variations {
-            nodes {
-              stockStatus
-            }
-          }
+          stockStatus
         }
         ... on ExternalProduct {
           price

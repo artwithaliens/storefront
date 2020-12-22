@@ -191,7 +191,7 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
       </TableCell>
       <TableCell className={styles.delete}>
         <IconButton aria-label="Delete" onClick={handleRemoveItem}>
-          <Delete fontSize="small" />
+          <Delete />
         </IconButton>
       </TableCell>
     </TableRow>

@@ -2,8 +2,7 @@ import { Image, Price } from '@components/core';
 import { Link } from '@components/ui';
 import { Box, Grid, makeStyles, Paper, Skeleton, Typography } from '@material-ui/core';
 import React from 'react';
-import { ProductsQuery } from '../../graphql';
-import isProductOutOfStock from '../../utils/is-product-out-of-stock';
+import { ProductsQuery, StockStatusEnum } from '../../graphql';
 import rangeMap from '../../utils/range-map';
 
 const useStyles = makeStyles(
@@ -59,7 +58,7 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
                         </Typography>
                         {(product.__typename === 'SimpleProduct' ||
                           product.__typename === 'VariableProduct') &&
-                          (isProductOutOfStock(product) ? (
+                          (product.stockStatus === StockStatusEnum.OUT_OF_STOCK ? (
                             <Typography color="error" variant="h5">
                               Out of stock
                             </Typography>

@@ -1,27 +1,17 @@
 import { ApolloError } from '@apollo/client';
-import { Button } from '@components/ui';
+import { Button, Stack } from '@components/ui';
 import { useUI } from '@components/ui/context';
-import { Box, makeStyles, TextField } from '@material-ui/core';
+import { Box, TextField } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React, { useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
 import Stock from './Stock';
-
-const useStyles = makeStyles(
-  ({ spacing }) => ({
-    viewCartButton: {
-      marginLeft: spacing(1),
-    },
-  }),
-  { name: 'ProductAddToCart' },
-);
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;
 };
 
 const AddToCart: React.VFC<Props> = ({ product }) => {
-  const styles = useStyles();
   const { addAlert } = useUI();
 
   const [showViewCart, setShowViewCart] = useState(false);
@@ -57,7 +47,7 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
   };
 
   const viewCart = showViewCart && (
-    <Button color="secondary" href="/cart" className={styles.viewCartButton}>
+    <Button color="secondary" href="/cart">
       View cart
     </Button>
   );
@@ -75,16 +65,18 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
   ) : product.__typename === 'SimpleProduct' ? (
     <>
       <Stock product={product} />
-      <Button
-        color="primary"
-        variant="contained"
-        disabled={product.stockStatus === StockStatusEnum.OUT_OF_STOCK}
-        loading={loading}
-        onClick={handleAddToCartClick}
-      >
-        Add to cart
-      </Button>
-      {viewCart}
+      <Stack spacing={1}>
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={product.stockStatus === StockStatusEnum.OUT_OF_STOCK}
+          loading={loading}
+          onClick={handleAddToCartClick}
+        >
+          Add to cart
+        </Button>
+        {viewCart}
+      </Stack>
     </>
   ) : product.__typename === 'VariableProduct' ? (
     <>
@@ -121,21 +113,24 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
       </TextField>
       <Box sx={{ mt: 1 }}>
         <Stock
+          product={product}
           variation={product.variations?.nodes?.find(
             (variation) => variation?.databaseId === variationId,
           )}
         />
       </Box>
-      <Button
-        color="primary"
-        variant="contained"
-        disabled={!variationId}
-        loading={loading}
-        onClick={handleAddToCartClick}
-      >
-        Add to cart
-      </Button>
-      {viewCart}
+      <Stack spacing={1}>
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={!variationId}
+          loading={loading}
+          onClick={handleAddToCartClick}
+        >
+          Add to cart
+        </Button>
+        {viewCart}
+      </Stack>
     </>
   ) : null;
 };

@@ -24,9 +24,8 @@ query Product($slug: ID!) {
       }
     }
     ... on SimpleProduct {
-      stockQuantity
-      stockStatus
       price
+      stockStatus
       weight
       length
       width
@@ -34,12 +33,12 @@ query Product($slug: ID!) {
     }
     ... on VariableProduct {
       price
+      stockStatus
       variations {
         nodes {
           id
           databaseId
           name
-          stockQuantity
           stockStatus
           attributes {
             nodes {

@@ -13,7 +13,7 @@ export type InstagramMedia = {
 export default async function fetchInstagramMedia({
   discardVideos = false,
   numberOfMediaElements = 6,
-}): Promise<InstagramMedia[]> {
+} = {}): Promise<InstagramMedia[]> {
   const html = await (await fetch('https://www.instagram.com/artwithaliens/')).text();
 
   const sharedData: {

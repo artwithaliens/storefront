@@ -6,5 +6,6 @@ export { default as Link } from './Link';
 export { default as Loader } from './Loader';
 export { default as Logo } from './Logo';
 export { default as QuantityInput } from './QuantityInput';
+export { default as Stack } from './Stack';
 export { default as Step } from './Step';
 export { default as Stepper } from './Stepper';

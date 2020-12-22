@@ -1,6 +1,6 @@
 import { Minus, Plus } from '@components/icons';
 import { IconButton } from '@components/ui';
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import React from 'react';
 import { useCounter, useUpdateEffect } from 'react-use';
 
@@ -29,20 +29,22 @@ const QuantityInput: React.VFC<QuantityInputProps> = ({
     <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
       <IconButton
         aria-label="Minus"
-        size="small"
+        // size="small"
         disabled={disabled || value === min}
         onClick={() => dec()}
       >
-        <Minus fontSize="inherit" />
+        <Minus />
       </IconButton>
-      <Box sx={{ mx: 1 }}>{value}</Box>
+      <Box sx={{ mx: 1 }}>
+        <Typography variant="body2">{value}</Typography>
+      </Box>
       <IconButton
         aria-label="Plus"
-        size="small"
+        // size="small"
         disabled={disabled || value === max}
         onClick={() => inc()}
       >
-        <Plus fontSize="inherit" />
+        <Plus />
       </IconButton>
     </Box>
   );

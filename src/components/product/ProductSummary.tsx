@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
-import isProductOutOfStock from '../../utils/is-product-out-of-stock';
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;
@@ -12,7 +11,7 @@ type Props = {
 
 const ProductSummary: React.VFC<Props> = ({ product }) => (
   <>
-    <Typography component="h1" variant="h2">
+    <Typography gutterBottom component="h1" variant="h2">
       {product.name}
     </Typography>
     {(product.__typename === 'SimpleProduct' ||
@@ -28,11 +27,6 @@ const ProductSummary: React.VFC<Props> = ({ product }) => (
     <RichText>
       {isBlank(product.shortDescription) ? product.description : product.shortDescription}
     </RichText>
-    {!isProductOutOfStock(product) && (
-      <Typography gutterBottom variant="body2">
-        Deliverable in {isBlank(product.deliveryTime) ? '2-3 working days' : product.deliveryTime}
-      </Typography>
-    )}
   </>
 );
 
