@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client';
+import { isApolloError } from '@apollo/client';
 import { Button, Link, Logo } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Alert, Box, TextField } from '@material-ui/core';
@@ -28,22 +28,23 @@ const LoginView: React.VFC = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      login({
-        variables: values,
-      })
-        .then(({ data }) => {
-          if (data?.login?.authToken != null) {
-            localStorage.setItem('authToken', data.login.authToken);
-          }
-          if (data?.login?.refreshToken != null) {
-            localStorage.setItem('refreshToken', data.login.refreshToken);
-          }
-          closeModal();
-        })
-        .catch((error: ApolloError) => {
-          setAlert(error.graphQLErrors[0].message);
+    onSubmit: async (values) => {
+      try {
+        const { data } = await login({
+          variables: values,
         });
+        if (data?.login?.authToken != null) {
+          localStorage.setItem('authToken', data.login.authToken);
+        }
+        if (data?.login?.refreshToken != null) {
+          localStorage.setItem('refreshToken', data.login.refreshToken);
+        }
+        closeModal();
+      } catch (error) {
+        if (isApolloError(error)) {
+          setAlert(error.graphQLErrors[0].message);
+        }
+      }
     },
   });
 

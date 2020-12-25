@@ -45,25 +45,24 @@ const PaymentMethods: React.VFC<Props> = ({
     loading: paymentGatewaysLoading,
   } = usePaymentGatewaysQuery();
 
-  const handleSubmitCreditCard = (values: CreditCardInput) => {
+  const handleSubmitCreditCard = async (values: CreditCardInput) => {
     setLoading(true);
-    makePayment(process.env.BRAINTREE_TOKENIZATION_KEY, {
+    const data = await makePayment(process.env.BRAINTREE_TOKENIZATION_KEY, {
       billingAddress: {
         postalCode: customer.billing?.postcode ?? undefined,
       },
       cvv: values.ccCsc,
       expirationDate: values.ccExp,
       number: values.ccNumber,
-    }).then((data) => {
-      setLoading(false);
-      onSubmit({
-        creditCard: {
-          cardType: data.cardType,
-          lastFour: data.lastFour,
-        },
-        paymentMethod,
-        paymentNonce: data.nonce,
-      });
+    });
+    setLoading(false);
+    onSubmit({
+      creditCard: {
+        cardType: data.cardType,
+        lastFour: data.lastFour,
+      },
+      paymentMethod,
+      paymentNonce: data.nonce,
     });
   };
 

@@ -48,74 +48,69 @@ const PaypalButton: React.VFC<Props> = ({
   const styles = useStyles();
   const [loading, setLoading] = useState(true);
 
-  useMount(() => {
+  useMount(async () => {
     if (process.browser && loading && document.querySelector('#paypal-button') != null) {
-      import('braintree-web').then((braintree) =>
-        createClient(paymentClientToken)
-          .then((client) => braintree.paypalCheckout.create({ client }))
-          .then((paypalCheckoutInstance) => {
-            paypal.Button.render(
-              {
-                // @ts-ignore
-                env: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-                client:
-                  process.env.NODE_ENV === 'production'
-                    ? {
-                        production: process.env.PAYPAL_CLIENT_ID,
-                      }
-                    : {
-                        sandbox: process.env.PAYPAL_CLIENT_ID,
-                      },
-                locale: 'en_US',
-                style: {
-                  // @ts-ignore
-                  color: 'gold',
-                  // @ts-ignore
-                  label: 'pay',
-                  // @ts-ignore
-                  shape: 'pill',
-                  // @ts-ignore
-                  size: 'responsive',
-                  tagline: false,
-                },
-                payment: () =>
-                  paypalCheckoutInstance.createPayment({
-                    // @ts-ignore
-                    flow: 'checkout',
-                    amount: cart.total == null ? undefined : parseFloat(cart.total),
-                    currency: 'EUR',
-                    enableShippingAddress: true,
-                    shippingAddressEditable: false,
-                    shippingAddressOverride: {
-                      recipientName: `${shipping?.firstName} ${shipping?.lastName}`.trim(),
-                      line1: shipping?.address1 ?? '',
-                      line2: shipping?.address2 ?? '',
-                      city: shipping?.city ?? '',
-                      countryCode: shipping?.country ?? '',
-                      postalCode: shipping?.postcode ?? '',
-                      state: shipping?.state ?? '',
-                    },
-                  }),
-                // validate: () => {
-                //   // We can enable or disable the button here, but without visual feedback
-                //   actions.disable();
-                // },
-                onAuthorize: (data) =>
-                  paypalCheckoutInstance.tokenizePayment(data).then((payload) => {
-                    onAuthorize(payload.nonce);
-                    return payload;
-                  }),
-                onError: () => {
-                  // Show an error page here, when an error occurs
-                },
-              },
-              '#paypal-button',
+      const braintree = await import('braintree-web');
+      const client = await createClient(paymentClientToken);
+      const paypalCheckout = await braintree.paypalCheckout.create({ client });
+      const env = process.env.NODE_ENV === 'production' ? 'production' : 'sandbox';
+
+      paypal.Button.render(
+        {
+          // @ts-ignore
+          env,
+          client: {
+            [env]: process.env.PAYPAL_CLIENT_ID,
+          },
+          locale: 'en_US',
+          style: {
+            // @ts-ignore
+            color: 'gold',
+            // @ts-ignore
+            label: 'pay',
+            // @ts-ignore
+            shape: 'pill',
+            // @ts-ignore
+            size: 'responsive',
+            tagline: false,
+          },
+          payment: () =>
+            paypalCheckout.createPayment({
               // @ts-ignore
-            ).then(() => {
-              setLoading(false);
-            });
-          }),
-      );
+              flow: 'checkout',
+              amount: cart.total == null ? undefined : parseFloat(cart.total),
+              currency: 'EUR',
+              enableShippingAddress: true,
+              shippingAddressEditable: false,
+              shippingAddressOverride: {
+                recipientName: `${shipping?.firstName} ${shipping?.lastName}`.trim(),
+                line1: shipping?.address1 ?? '',
+                line2: shipping?.address2 ?? '',
+                city: shipping?.city ?? '',
+                countryCode: shipping?.country ?? '',
+                postalCode: shipping?.postcode ?? '',
+                state: shipping?.state ?? '',
+              },
+            }),
+          // validate: () => {
+          //   // We can enable or disable the button here, but without visual feedback
+          //   actions.disable();
+          // },
+          onAuthorize: async (data) => {
+            const payload = await paypalCheckout.tokenizePayment(data);
+            onAuthorize(payload.nonce);
+            return payload;
+          },
+          onError: () => {
+            // Show an error page here, when an error occurs
+          },
+        },
+        '#paypal-button',
+        // @ts-ignore
+        // eslint-disable-next-line promise/prefer-await-to-then
+      ).then(() => {
+        setLoading(false);
+      });
     }
   });
 

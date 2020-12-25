@@ -60,23 +60,19 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
         state: initialValues?.state ?? '',
       },
       validationSchema,
-      onSubmit: (values) => {
-        updateCustomer({ variables: { shipping: values, shippingSameAsBilling } }).then((data) => {
-          formik.setSubmitting(false);
-          onSubmit();
-        });
+      onSubmit: async (values) => {
+        await updateCustomer({ variables: { shipping: values, shippingSameAsBilling } });
+        formik.setSubmitting(false);
+        onSubmit();
       },
       enableReinitialize: true,
     });
 
-    const handleShippingSameAsBillingChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const handleShippingSameAsBillingChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
       const nextShippingSameAsBilling = ev.target.checked;
-      updateCustomer({ variables: { shippingSameAsBilling: nextShippingSameAsBilling } }).then(
-        () => {
-          setShippingSameAsBilling(nextShippingSameAsBilling);
-          onShippingSameAsBillingChange(nextShippingSameAsBilling);
-        },
-      );
+      await updateCustomer({ variables: { shippingSameAsBilling: nextShippingSameAsBilling } });
+      setShippingSameAsBilling(nextShippingSameAsBilling);
+      onShippingSameAsBillingChange(nextShippingSameAsBilling);
     };
 
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {

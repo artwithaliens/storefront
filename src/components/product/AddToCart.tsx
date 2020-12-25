@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client';
+import { isApolloError } from '@apollo/client';
 import { Button, Stack } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Box, TextField } from '@material-ui/core';
@@ -23,21 +23,20 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
   });
 
   /** Handles adding items to the cart. */
-  const handleAddToCartClick = () => {
-    if (product.databaseId != null) {
-      addToCart({
+  const handleAddToCartClick = async () => {
+    try {
+      await addToCart({
         variables: {
           productId: product.databaseId,
           variationId,
         },
-      })
-        .then(() => {
-          // Show View Cart Button
-          setShowViewCart(true);
-        })
-        .catch((error: ApolloError) => {
-          addAlert(error.message, { severity: 'error' });
-        });
+      });
+      // Show View Cart Button
+      setShowViewCart(true);
+    } catch (error) {
+      if (isApolloError(error)) {
+        addAlert(error.message, { severity: 'error' });
+      }
     }
   };
 

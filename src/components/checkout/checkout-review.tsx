@@ -52,8 +52,8 @@ const CheckoutReview: React.VFC<Props> = ({
   const [customerNote, setCustomerNote] = useState<string>();
   const [acceptTerms, setAcceptsTerms] = useState(false);
 
-  const [{ loading: paymentLoading }, handlePayment] = useAsyncFn((nonce?: string) =>
-    fetch('/api/payment', {
+  const [{ loading: paymentLoading }, handlePayment] = useAsyncFn(async (nonce?: string) => {
+    const response = await fetch('/api/payment', {
       method: 'post',
       credentials: 'include',
       headers: {
@@ -63,29 +63,27 @@ const CheckoutReview: React.VFC<Props> = ({
         nonce,
         total: cart.total == null ? undefined : parseFloat(cart.total),
       }),
-    })
-      .then((response) => response.json() as Promise<PaymentResponse>)
-      .then((data) =>
-        onSubmit({
-          customerNote,
-          metaData: [
-            {
-              key: '_merchant_account_id',
-              value: process.env.BRAINTREE_MERCHANT_ID,
-            },
-            {
-              key: '_wc_braintree_environment',
-              value: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-            },
-            {
-              key: '_transaction_status',
-              value: data.transaction.status,
-            },
-          ],
-          transactionId: data.transaction.id,
-        }),
-      ),
-  );
+    });
+    const data = (await response.json()) as PaymentResponse;
+    onSubmit({
+      customerNote,
+      metaData: [
+        {
+          key: '_merchant_account_id',
+          value: process.env.BRAINTREE_MERCHANT_ID,
+        },
+        {
+          key: '_wc_braintree_environment',
+          value: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
+        },
+        {
+          key: '_transaction_status',
+          value: data.transaction.status,
+        },
+      ],
+      transactionId: data.transaction.id,
+    });
+  });
 
   const handleSubmit = () => {
     handlePayment(paymentNonce);

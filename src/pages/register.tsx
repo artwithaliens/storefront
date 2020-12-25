@@ -1,10 +1,9 @@
-import { ApolloError } from '@apollo/client';
+import { isApolloError } from '@apollo/client';
 import { PageWrapper } from '@components/core';
 import { Button } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Alert, Box, Container, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
-import { ExecutionResult } from 'graphql';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -40,10 +39,10 @@ const Register: NextPage = () => {
   /**
    * Handle registration success.
    *
-   * @param result Result received
+   * @param data Result data received
    */
-  const handleRegisterUserSuccess = (result: ExecutionResult<RegisterUserMutation>) => {
-    if (result.data?.registerUser?.user?.email != null) {
+  const handleRegisterUserSuccess = (data: RegisterUserMutation) => {
+    if (data.registerUser?.user?.email != null) {
       localStorage.setItem('registration-success', 'yes');
 
       // Set form field values to empty.
@@ -66,15 +65,18 @@ const Register: NextPage = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: ({ username, email, password }) => {
-      if (process.browser) {
-        registerUser({
+    onSubmit: async ({ username, email, password }) => {
+      try {
+        const { data } = await registerUser({
           variables: { username, email, password },
-        })
-          .then((response) => response && handleRegisterUserSuccess(response))
-          .catch((error: ApolloError) =>
-            addAlert(error.graphQLErrors[0].message, { severity: 'error' }),
-          );
+        });
+        if (data != null) {
+          handleRegisterUserSuccess(data);
+        }
+      } catch (error) {
+        if (isApolloError(error)) {
+          addAlert(error.graphQLErrors[0].message, { severity: 'error' });
+        }
       }
     },
   });

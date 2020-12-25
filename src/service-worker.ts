@@ -81,11 +81,12 @@ async function setCache(request: Request, response: Response) {
 
 async function staleWhileRevalidate(event: FetchEvent) {
   const cachedResponse = await getCache(event.request.clone());
+  // eslint-disable-next-line promise/prefer-await-to-then
   const fetchPromise = fetch(event.request.clone()).then((response) => {
     setCache(event.request.clone(), response.clone());
     return response;
   });
-  return cachedResponse ? Promise.resolve(cachedResponse) : fetchPromise;
+  return cachedResponse != null ? Promise.resolve(cachedResponse) : fetchPromise;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

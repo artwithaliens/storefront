@@ -1,9 +1,9 @@
-export function createClient(paymentClientToken?: string) {
-  return import('braintree-web').then((braintree) =>
-    braintree.client.create({
-      authorization: paymentClientToken ?? '',
-    }),
-  );
+export async function createClient(paymentClientToken?: string) {
+  const braintree = await import('braintree-web');
+
+  return braintree.client.create({
+    authorization: paymentClientToken ?? '',
+  });
 }
 
 type CreditCardData = {
@@ -20,6 +20,7 @@ type CreditCardData = {
 
 export function makePayment(paymentClientToken: string, creditCard: CreditCardData) {
   return new Promise<{ cardType: string; lastFour: string; nonce: string }>((resolve, reject) => {
+    // eslint-disable-next-line promise/prefer-await-to-then
     createClient(paymentClientToken).then((client) => {
       client.request(
         {

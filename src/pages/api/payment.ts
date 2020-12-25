@@ -62,6 +62,7 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
         },
       },
     })
+    // eslint-disable-next-line promise/prefer-await-to-then
     .then((data) => {
       res.status(200).json({
         transaction: {

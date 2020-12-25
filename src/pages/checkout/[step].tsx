@@ -36,13 +36,13 @@ const Checkout: NextPage = () => {
     }
   }, [cart, cartLoading, checkoutCalled, router]);
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: Pick<
       CheckoutMutationVariables,
       'customerNote' | 'metaData' | 'paymentMethod' | 'shipToDifferentAddress' | 'transactionId'
     >,
   ) => {
-    checkout({
+    await checkout({
       variables: {
         ...values,
         billing: omit(customer?.billing, '__typename'),
@@ -50,9 +50,8 @@ const Checkout: NextPage = () => {
         shipping: omit(customer?.shipping, '__typename'),
         shippingMethod: cart?.chosenShippingMethod,
       },
-    }).then(() => {
-      router.push('/order-confirmation');
     });
+    router.push('/order-confirmation');
   };
 
   return (

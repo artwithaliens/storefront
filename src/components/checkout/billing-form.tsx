@@ -47,10 +47,9 @@ const BillingForm = React.forwardRef<HTMLFormElement, Props>(({ initialValues, o
       email: initialValues?.email ?? '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      updateCustomer({ variables: { billing: values } }).then((data) => {
-        onSubmit();
-      });
+    onSubmit: async (values) => {
+      await updateCustomer({ variables: { billing: values } });
+      onSubmit();
     },
     enableReinitialize: true,
   });

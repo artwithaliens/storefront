@@ -28,15 +28,18 @@ const validationSchema = object({
 });
 
 const ContactForm: React.VFC = () => {
-  const [{ loading }, contact] = useAsyncFn((values?: ContactInput) =>
-    fetch('/api/contact', {
-      method: 'post',
-      credentials: 'include',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    }).then((response) => response.json() as Promise<ContactResponse>),
+  const [{ loading }, contact] = useAsyncFn(
+    async (values?: ContactInput) =>
+      (
+        await fetch('/api/contact', {
+          method: 'post',
+          credentials: 'include',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        })
+      ).json() as Promise<ContactResponse>,
   );
 
   const formik = useFormik<ContactInput>({
@@ -50,10 +53,9 @@ const ContactForm: React.VFC = () => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values) => {
-      contact(values).then(() => {
-        formik.setSubmitting(false);
-      });
+    onSubmit: async (values) => {
+      await contact(values);
+      formik.setSubmitting(false);
     },
   });
 

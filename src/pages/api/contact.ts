@@ -36,6 +36,7 @@ ${req.body.message}`,
       ],
     }),
   })
+    // eslint-disable-next-line promise/prefer-await-to-then
     .then((response) => {
       res.status(200).json({
         status: response.status > 400 ? 'validation_failed' : 'mail_sent',
