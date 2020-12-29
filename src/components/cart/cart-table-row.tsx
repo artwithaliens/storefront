@@ -5,7 +5,7 @@ import { Hidden, makeStyles, TableCell, TableRow, Typography } from '@material-u
 import clsx from 'clsx';
 import startCase from 'lodash/startCase';
 import React from 'react';
-import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
+import { CartQuery, StockStatusEnum, UpdateCartMutationVariables } from '../../graphql';
 
 const useStyles = makeStyles(
   ({ breakpoints }) => ({
@@ -175,9 +175,13 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           min={0}
           max={
             (item.product?.node?.__typename === 'SimpleProduct'
-              ? item.product.node.stockQuantity
+              ? item.product.node.stockStatus === StockStatusEnum.IN_STOCK
+                ? item.product.node.stockQuantity
+                : 999
               : item.product?.node?.__typename === 'VariableProduct'
-              ? item.variation?.node?.stockQuantity
+              ? item.variation?.node?.stockStatus === StockStatusEnum.IN_STOCK
+                ? item.variation.node.stockQuantity
+                : 999
               : item.quantity) ?? undefined
           }
           onChange={handleQuantityChange}

@@ -19,16 +19,19 @@ query Cart {
             ... on SimpleProduct {
               price
               stockQuantity
+              stockStatus
             }
             ... on VariableProduct {
               price
               stockQuantity
+              stockStatus
             }
           }
         }
         variation {
           node {
             stockQuantity
+            stockStatus
             attributes {
               nodes {
                 id

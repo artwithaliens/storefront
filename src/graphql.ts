@@ -26571,7 +26571,13 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                             node?: Maybe<
                               | ({ __typename?: 'VariableProduct' } & Pick<
                                   VariableProduct,
-                                  'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
+                                  | 'price'
+                                  | 'stockQuantity'
+                                  | 'stockStatus'
+                                  | 'id'
+                                  | 'slug'
+                                  | 'name'
+                                  | 'sku'
                                 > & {
                                     image?: Maybe<
                                       { __typename?: 'MediaItem' } & Pick<
@@ -26593,7 +26599,13 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                                   })
                               | ({ __typename?: 'SimpleProduct' } & Pick<
                                   SimpleProduct,
-                                  'price' | 'stockQuantity' | 'id' | 'slug' | 'name' | 'sku'
+                                  | 'price'
+                                  | 'stockQuantity'
+                                  | 'stockStatus'
+                                  | 'id'
+                                  | 'slug'
+                                  | 'name'
+                                  | 'sku'
                                 > & {
                                     image?: Maybe<
                                       { __typename?: 'MediaItem' } & Pick<
@@ -26621,7 +26633,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                             node?: Maybe<
                               { __typename?: 'ProductVariation' } & Pick<
                                 ProductVariation,
-                                'stockQuantity'
+                                'stockQuantity' | 'stockStatus'
                               > & {
                                   attributes?: Maybe<
                                     {
@@ -27601,13 +27613,13 @@ export type RefreshAuthTokenMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
-export type RegisterUserMutationVariables = Exact<{
+export type RegisterMutationVariables = Exact<{
   username: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-export type RegisterUserMutation = { __typename?: 'RootMutation' } & {
+export type RegisterMutation = { __typename?: 'RootMutation' } & {
   registerUser?: Maybe<
     { __typename?: 'RegisterUserPayload' } & {
       user?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'name' | 'email' | 'nicename'>>;
@@ -27757,16 +27769,19 @@ export const CartDocument = gql`
               ... on SimpleProduct {
                 price
                 stockQuantity
+                stockStatus
               }
               ... on VariableProduct {
                 price
                 stockQuantity
+                stockStatus
               }
             }
           }
           variation {
             node {
               stockQuantity
+              stockStatus
               attributes {
                 nodes {
                   id
@@ -28577,8 +28592,8 @@ export type RefreshAuthTokenMutationOptions = Apollo.BaseMutationOptions<
   RefreshAuthTokenMutation,
   RefreshAuthTokenMutationVariables
 >;
-export const RegisterUserDocument = gql`
-  mutation RegisterUser($username: String!, $email: String!, $password: String!) {
+export const RegisterDocument = gql`
+  mutation Register($username: String!, $email: String!, $password: String!) {
     registerUser(
       input: {
         clientMutationId: "CreateUser"
@@ -28596,23 +28611,23 @@ export const RegisterUserDocument = gql`
     }
   }
 `;
-export type RegisterUserMutationFn = Apollo.MutationFunction<
-  RegisterUserMutation,
-  RegisterUserMutationVariables
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
 >;
 
 /**
- * __useRegisterUserMutation__
+ * __useRegisterMutation__
  *
- * To run a mutation, you first call `useRegisterUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterUserMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [registerUserMutation, { data, loading, error }] = useRegisterUserMutation({
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
  *   variables: {
  *      username: // value for 'username'
  *      email: // value for 'email'
@@ -28620,19 +28635,19 @@ export type RegisterUserMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<RegisterUserMutation, RegisterUserMutationVariables>,
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>,
 ) {
-  return Apollo.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(
-    RegisterUserDocument,
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
     baseOptions,
   );
 }
-export type RegisterUserMutationHookResult = ReturnType<typeof useRegisterUserMutation>;
-export type RegisterUserMutationResult = Apollo.MutationResult<RegisterUserMutation>;
-export type RegisterUserMutationOptions = Apollo.BaseMutationOptions<
-  RegisterUserMutation,
-  RegisterUserMutationVariables
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
 >;
 export const SettingsDocument = gql`
   query Settings {

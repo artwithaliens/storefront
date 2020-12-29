@@ -1,4 +1,4 @@
-mutation RegisterUser($username: String!, $email: String!, $password: String!) {
+mutation Register($username: String!, $email: String!, $password: String!) {
   registerUser(
     input: {
       clientMutationId: "CreateUser"
