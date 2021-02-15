@@ -6,7 +6,7 @@ import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
 import { CustomerQuery, usePaymentGatewaysQuery } from '../../graphql';
 import isBlank from '../../utils/is-blank';
-import CreditCardForm, { CreditCardInput } from './credit-card-form';
+import CreditCardForm, { CreditCardFormData } from './CreditCardForm';
 
 const PaymentMethodsLabel = styled('label')(({ theme }) => ({
   alignItems: 'center',
@@ -45,7 +45,7 @@ const PaymentMethods: React.VFC<Props> = ({
     loading: paymentGatewaysLoading,
   } = usePaymentGatewaysQuery();
 
-  const handleSubmitCreditCard = async (values: CreditCardInput) => {
+  const handleSubmitCreditCard = async (values: CreditCardFormData) => {
     setLoading(true);
     const data = await makePayment(process.env.BRAINTREE_TOKENIZATION_KEY, {
       billingAddress: {

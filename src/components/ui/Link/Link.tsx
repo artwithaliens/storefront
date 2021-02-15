@@ -23,7 +23,7 @@ const Link: React.FC<LinkProps> = ({
     );
   };
 
-  return href.toString().match(/^https:?/) ? (
+  return /^https:?/.test(href.toString()) ? (
     <MuiLink href={href.toString()} onClick={handleTrack} {...passProps}>
       {children}
     </MuiLink>

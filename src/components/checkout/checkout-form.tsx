@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
 import isShippingSameAsBilling from '../../utils/is-shipping-same-as-billing';
-import BillingForm from './billing-form';
+import BillingForm from './BillingForm';
 import CartSummary from './cart-summary';
 import CheckoutReview from './checkout-review';
 import PaymentMethods from './payment-methods';
-import ShippingForm from './shipping-form';
 import ShippingMethods from './shipping-methods';
+import ShippingForm from './ShippingForm';
 
 type Props = {
   cart: NonNullable<CartQuery['cart']>;
@@ -96,11 +96,11 @@ const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) =
         >
           {({ handleNext }) => [
             <Step key="billing-address">
-              <BillingForm initialValues={customer.billing} onSubmit={handleNext} />
+              <BillingForm defaultValues={customer.billing} onSubmit={handleNext} />
             </Step>,
             <Step key="shipping-address">
               <ShippingForm
-                initialValues={customer.shipping}
+                defaultValues={customer.shipping}
                 shipToDifferentAddress={shipToDifferentAddress}
                 onShippingSameAsBillingChange={handleShippingSameAsBillingChange}
                 onSubmit={handleNext}

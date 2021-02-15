@@ -12,7 +12,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 const errorLink = onError(({ graphQLErrors }) => {
   graphQLErrors?.forEach(({ message }) => {
-    if (message.match(/Expired token/)) {
+    if (/Expired token/.test(message)) {
       localStorage.removeItem('session');
     }
   });

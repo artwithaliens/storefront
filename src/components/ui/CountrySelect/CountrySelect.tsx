@@ -9,25 +9,25 @@ function countryToFlag(isoCode: string) {
     .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397));
 }
 
-export type CountrySelectProps = Omit<TextFieldProps, 'value'> & {
-  value?: keyof typeof CountriesEnum | null;
+export type CountrySelectProps = Omit<TextFieldProps, 'defaultValue' | 'select'> & {
+  defaultValue?: keyof typeof CountriesEnum | null;
 };
 
-const CountrySelect: React.VFC<CountrySelectProps> = ({ value, ...props }) => (
+const CountrySelect = React.forwardRef<HTMLDivElement, CountrySelectProps>((props, ref) => (
   <TextField
+    ref={ref}
     {...props}
     select
-    value={value}
     SelectProps={{
       native: true,
     }}
   >
     {countries.map((country) => (
-      <option value={country.code}>
+      <option key={country.code} value={country.code}>
         {country.label} {countryToFlag(country.code)}
       </option>
     ))}
   </TextField>
-);
+));
 
 export default CountrySelect;

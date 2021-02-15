@@ -1,35 +1,36 @@
 import { Button } from '@components/ui';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@material-ui/core';
-import { useFormik } from 'formik';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useAsyncFn } from 'react-use';
-import { boolean, object, string } from 'yup';
+import { boolean, object, SchemaOf, string } from 'yup';
 
-type ContactInput = {
+type ContactFormData = {
   acceptance: boolean;
   email: string;
   fullName: string;
   message: string;
-  phone?: string;
-  subject?: string;
+  phone?: string | null;
+  subject?: string | null;
 };
 
 type ContactResponse = {
   status: 'mail_sent' | 'validation_failed';
 };
 
-const validationSchema = object({
-  acceptance: boolean().required().oneOf([true]),
+const validationSchema: SchemaOf<ContactFormData> = object({
+  acceptance: boolean().isTrue().required(),
   email: string().label('Email').email().min(11).max(254).required(),
   fullName: string().label('Name').max(70).required(),
   message: string().label('Message').required(),
-  phone: string().label('Phone number').min(10).max(15),
-  subject: string().label('Subject').max(254),
+  phone: string().label('Phone number').max(15).nullable(),
+  subject: string().label('Subject').max(254).nullable(),
 });
 
 const ContactForm: React.VFC = () => {
   const [{ loading }, contact] = useAsyncFn(
-    async (values?: ContactInput) =>
+    async (values?: ContactFormData) =>
       (
         await fetch('/api/contact', {
           method: 'post',
@@ -42,8 +43,8 @@ const ContactForm: React.VFC = () => {
       ).json() as Promise<ContactResponse>,
   );
 
-  const formik = useFormik<ContactInput>({
-    initialValues: {
+  const { control, errors, handleSubmit } = useForm<ContactFormData>({
+    defaultValues: {
       acceptance: false,
       email: '',
       fullName: '',
@@ -51,101 +52,91 @@ const ContactForm: React.VFC = () => {
       phone: '',
       subject: '',
     },
-    validationSchema,
-    validateOnChange: false,
-    onSubmit: async (values) => {
-      await contact(values);
-      formik.setSubmitting(false);
-    },
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = handleSubmit(async (values) => {
+    await contact(values);
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={onSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {/* Name */}
-          <TextField
+          <Controller
             required
+            as={TextField}
+            control={control}
+            error={'fullName' in errors}
+            helperText={errors.fullName?.message}
             label="Name"
-            value={formik.values.fullName}
-            type="text"
             name="fullName"
-            error={'fullName' in formik.errors}
-            helperText={formik.errors.fullName}
-            onChange={formik.handleChange}
+            type="text"
           />
         </Grid>
         <Grid item xs={6}>
           {/* Email */}
-          <TextField
+          <Controller
             required
+            as={TextField}
+            control={control}
+            error={'email' in errors}
+            helperText={errors.email?.message}
             label="Email"
-            value={formik.values.email}
-            type="email"
             name="email"
-            error={'email' in formik.errors}
-            helperText={formik.errors.email}
-            onChange={formik.handleChange}
+            type="email"
           />
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           {/* Phone */}
-          <TextField
+          <Controller
+            as={TextField}
+            control={control}
+            error={'phone' in errors}
+            helperText={errors.phone?.message}
             label="Phone"
-            value={formik.values.phone}
-            type="text"
             name="phone"
-            error={'phone' in formik.errors}
-            helperText={formik.errors.phone}
-            onChange={formik.handleChange}
+            type="text"
           />
         </Grid>
         <Grid item xs={6}>
           {/* Subject */}
-          <TextField
+          <Controller
+            as={TextField}
+            control={control}
+            error={'subject' in errors}
+            helperText={errors.subject?.message}
             label="Subject"
-            value={formik.values.subject}
-            type="text"
             name="subject"
-            error={'subject' in formik.errors}
-            helperText={formik.errors.subject}
-            onChange={formik.handleChange}
+            type="text"
           />
         </Grid>
       </Grid>
       {/* Message */}
-      <TextField
-        required
+      <Controller
         multiline
+        required
+        as={TextField}
+        control={control}
+        error={'message' in errors}
+        helperText={errors.message?.message}
         label="Message"
-        value={formik.values.message}
-        rows={6}
         name="message"
-        error={'message' in formik.errors}
-        helperText={formik.errors.message}
-        onChange={formik.handleChange}
+        rows={6}
       />
       {/* Acceptance */}
       <FormGroup>
         <FormControlLabel
           control={
-            <Checkbox
-              name="acceptance"
-              checked={formik.values.acceptance}
-              onChange={formik.handleChange}
-            />
+            <Controller as={Checkbox} control={control} defaultValue={false} name="acceptance" />
           }
           label="I agree that my submitted data is being collected and stored."
         />
       </FormGroup>
-      <Button
-        type="submit"
-        color="primary"
-        disabled={!formik.values.acceptance}
-        loading={loading || formik.isSubmitting}
-      >
+      <Button color="primary" disabled={false} loading={loading} type="submit">
         Submit
       </Button>
     </form>

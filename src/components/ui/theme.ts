@@ -125,19 +125,28 @@ export default createMuiTheme({
           padding: '14px 20px',
         },
         outlined: {
+          borderWidth: 2,
           padding: '12px 18px',
 
-          '&, &$disabled': {
+          '&$disabled': {
             borderWidth: 2,
           },
         },
         outlinedPrimary: {
-          '&, &:hover, &$disabled': {
+          '&, &:hover': {
+            borderWidth: 2,
+          },
+
+          '&$disabled': {
             borderWidth: 2,
           },
         },
         outlinedSecondary: {
-          '&, &:hover, &$disabled': {
+          '&, &:hover': {
+            borderWidth: 2,
+          },
+
+          '&$disabled': {
             borderWidth: 2,
           },
         },
@@ -208,8 +217,10 @@ export default createMuiTheme({
           },
         },
         input: {
+          padding: '16.5px 14px !important',
+
           '&:-webkit-autofill': {
-            WebkitBoxShadow: `0 0 0 100px ${palette.background.paper} inset`,
+            WebkitBoxShadow: `0 0 0 100px ${palette.background.paper} inset !important`,
             caretColor: palette.text.primary,
           },
         },

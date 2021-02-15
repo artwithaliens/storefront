@@ -1,3 +1,4 @@
+import { decode } from 'js-base64';
 import { NextApiRequest, NextApiResponse } from 'next';
 import isBlank from '../../utils/is-blank';
 
@@ -15,12 +16,12 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
     body: JSON.stringify({
       personalizations: [
         {
-          to: [{ email: atob('ZW1pbHlAYXJ0d2l0aGFsaWVucy5jb20=') }],
+          to: [{ email: decode('ZW1pbHlAYXJ0d2l0aGFsaWVucy5jb20=') }],
           subject: isBlank(req.body.subject) ? 'Contact Form' : req.body.subject,
         },
       ],
       from: {
-        email: atob('c2hvcEBhcnR3aXRoYWxpZW5zLmNvbQ=='),
+        email: decode('c2hvcEBhcnR3aXRoYWxpZW5zLmNvbQ=='),
         name: req.body.fullName,
       },
       content: [

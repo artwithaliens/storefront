@@ -1,4 +1,4 @@
-import * as idbKeyval from 'idb-keyval';
+import { createStore, get, set } from 'idb-keyval';
 
 self.importScripts('https://cdn.jsdelivr.net/npm/workbox-sw@5/build/workbox-sw.min.js');
 
@@ -13,7 +13,7 @@ type PostResponsesStore = {
   timestamp: number;
 };
 
-const store = new idbKeyval.Store('GraphQL-Cache', 'PostResponses');
+const store = createStore('GraphQL-Cache', 'PostResponses');
 
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
@@ -47,7 +47,7 @@ async function getCache(request: Request) {
     const body: { query: string[]; variables: unknown } = await request.json();
     const id = body.query.toString() + JSON.stringify(body.variables);
 
-    const data = await idbKeyval.get<PostResponsesStore>(id, store);
+    const data = await get<PostResponsesStore>(id, store);
     if (!data) {
       return null;
     }
@@ -76,7 +76,7 @@ async function setCache(request: Request, response: Response) {
     response: await serializeResponse(response),
     timestamp: Date.now(),
   };
-  idbKeyval.set(id, entry, store);
+  set(id, entry, store);
 }
 
 async function staleWhileRevalidate(event: FetchEvent) {

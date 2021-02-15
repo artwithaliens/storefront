@@ -35,7 +35,7 @@ const Button = (({ as, children, href, loading, prefetch, ...props }: ButtonProp
     >
       {children}
     </LoadingButton>
-  ) : href.toString().match(/^https?:/) ? (
+  ) : /^https?:/.test(href.toString()) ? (
     <LoadingButton href={href.toString()} onClick={handleTrack} {...(props as ButtonProps<'a'>)}>
       {children}
     </LoadingButton>
