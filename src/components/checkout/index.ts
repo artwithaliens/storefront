@@ -1,4 +1,4 @@
-export { default as AddressSummary } from './address-summary';
+export { default as AddressSummary } from './AddressSummary';
 export { default as BillingForm } from './BillingForm';
 export { default as CartSummary } from './cart-summary';
 export { default as CheckoutForm } from './checkout-form';

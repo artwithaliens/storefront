@@ -5,12 +5,12 @@ import { CartQuery } from '../../graphql';
 
 type Props = {
   availableShippingMethods: NonNullable<CartQuery['cart']>['availableShippingMethods'];
-  chosenShippingMethod: NonNullable<CartQuery['cart']>['chosenShippingMethod'];
+  chosenShippingMethods: NonNullable<CartQuery['cart']>['chosenShippingMethods'];
 };
 
-const ShippingSummary: React.VFC<Props> = ({ availableShippingMethods, chosenShippingMethod }) => {
+const ShippingSummary: React.VFC<Props> = ({ availableShippingMethods, chosenShippingMethods }) => {
   const shippingMethod = availableShippingMethods?.[0]?.rates?.find(
-    (rate) => rate?.id === chosenShippingMethod,
+    (rate) => rate != null && chosenShippingMethods?.includes(rate.id),
   );
 
   return (

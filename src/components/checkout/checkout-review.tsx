@@ -13,7 +13,7 @@ import {
 import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
-import AddressSummary from './address-summary';
+import AddressSummary from './AddressSummary';
 import PaymentSummary from './payment-summary';
 import PaypalButton from './paypal-button';
 import ShippingSummary from './shipping-summary';
@@ -155,7 +155,7 @@ const CheckoutReview: React.VFC<Props> = ({
           <Box sx={{ mt: 2 }}>
             <ShippingSummary
               availableShippingMethods={cart.availableShippingMethods}
-              chosenShippingMethod={cart.chosenShippingMethod}
+              chosenShippingMethods={cart.chosenShippingMethods}
             />
           </Box>
         </Grid>

@@ -15,13 +15,13 @@ const ShippingMethodsLabel = styled('label')(({ theme }) => ({
 
 type Props = {
   availableShippingMethods: NonNullable<CartQuery['cart']>['availableShippingMethods'];
-  chosenShippingMethod: NonNullable<CartQuery['cart']>['chosenShippingMethod'];
+  chosenShippingMethods: NonNullable<CartQuery['cart']>['chosenShippingMethods'];
   onSubmit: () => void;
 };
 
 const ShippingMethods: React.VFC<Props> = ({
   availableShippingMethods,
-  chosenShippingMethod,
+  chosenShippingMethods,
   onSubmit,
 }) => {
   const [updateShippingMethod, { loading }] = useUpdateShippingMethodMutation({
@@ -36,7 +36,7 @@ const ShippingMethods: React.VFC<Props> = ({
     <>
       <RadioGroup
         name="shippingMethod"
-        value={chosenShippingMethod ?? undefined}
+        value={chosenShippingMethods?.[0] ?? undefined}
         onChange={handleChange}
       >
         <Grid container spacing={2}>
@@ -62,7 +62,7 @@ const ShippingMethods: React.VFC<Props> = ({
         <Button
           type="submit"
           color="primary"
-          disabled={chosenShippingMethod == null}
+          disabled={chosenShippingMethods == null}
           loading={loading}
           onClick={onSubmit}
         >

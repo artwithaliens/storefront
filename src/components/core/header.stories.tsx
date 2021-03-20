@@ -47,7 +47,7 @@ export const Base: Story = () => (
               subtotal: null,
               total: null,
               availableShippingMethods: null,
-              chosenShippingMethod: null,
+              chosenShippingMethods: null,
             },
           },
         },

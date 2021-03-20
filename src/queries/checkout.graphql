@@ -6,7 +6,7 @@ mutation Checkout(
   $paymentMethod: String
   $shipToDifferentAddress: Boolean = false
   $shipping: CustomerAddressInput
-  $shippingMethod: String
+  $shippingMethod: [String]
   $transactionId: String
 ) {
   checkout(
@@ -19,7 +19,7 @@ mutation Checkout(
       paymentMethod: $paymentMethod
       shipToDifferentAddress: $shipToDifferentAddress
       shipping: $shipping
-      shippingMethod: [$shippingMethod]
+      shippingMethod: $shippingMethod
       transactionId: $transactionId
     }
   ) {

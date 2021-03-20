@@ -48,7 +48,7 @@ const Checkout: NextPage = () => {
         billing: omit(customer?.billing, '__typename'),
         isPaid: true,
         shipping: omit(customer?.shipping, '__typename'),
-        shippingMethod: cart?.chosenShippingMethod,
+        shippingMethod: cart?.chosenShippingMethods,
       },
     });
     router.push('/order-confirmation');

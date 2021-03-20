@@ -56,6 +56,6 @@ query Cart {
         label
       }
     }
-    chosenShippingMethod
+    chosenShippingMethods
   }
 }

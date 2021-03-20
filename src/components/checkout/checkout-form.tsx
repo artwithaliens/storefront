@@ -109,7 +109,7 @@ const CheckoutForm: React.VFC<Props> = ({ cart, customer, loading, onSubmit }) =
             <Step key="shipping-options">
               <ShippingMethods
                 availableShippingMethods={cart.availableShippingMethods}
-                chosenShippingMethod={cart.chosenShippingMethod}
+                chosenShippingMethods={cart.chosenShippingMethods}
                 onSubmit={handleNext}
               />
             </Step>,

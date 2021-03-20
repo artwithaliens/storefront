@@ -93,7 +93,7 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                 <Price>
                   {
                     cart.availableShippingMethods?.[0]?.rates?.find(
-                      (rate) => rate?.id === cart.chosenShippingMethod,
+                      (rate) => rate != null && cart.chosenShippingMethods?.includes(rate.id),
                     )?.cost
                   }
                 </Price>
