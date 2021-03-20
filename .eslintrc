@@ -13,6 +13,7 @@
     "promise/prefer-await-to-then": "error",
     "unicorn/filename-case": "off",
     "@next/next/no-css-tags": "error",
-    "@next/next/no-sync-scripts": "error"
+    "@next/next/no-sync-scripts": "error",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
