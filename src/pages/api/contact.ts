@@ -1,6 +1,6 @@
 import { decode } from 'js-base64';
 import { NextApiRequest, NextApiResponse } from 'next';
-import isBlank from '../../utils/is-blank';
+import isBlank from '../../utils/isBlank';
 
 type Data = {
   status?: 'mail_sent' | 'validation_failed';

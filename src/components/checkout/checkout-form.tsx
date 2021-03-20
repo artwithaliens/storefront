@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
-import isShippingSameAsBilling from '../../utils/is-shipping-same-as-billing';
+import isShippingSameAsBilling from '../../utils/isShippingSameAsBilling';
 import BillingForm from './BillingForm';
 import CartSummary from './cart-summary';
 import CheckoutReview from './checkout-review';

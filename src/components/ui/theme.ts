@@ -216,6 +216,12 @@ export default createMuiTheme({
             borderWidth: 2,
           },
         },
+        notchedOutline: {
+          fieldset: {
+            borderColor: 'rgba(255, 255, 255, 0.23)',
+            borderWidth: 2,
+          },
+        },
         input: {
           padding: '16.5px 14px !important',
 

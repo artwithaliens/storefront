@@ -11,7 +11,7 @@ import ReactGA from 'react-ga';
 import { useMount } from 'react-use';
 import createClient from '../apollo';
 import SettingsProvider, { SettingsContext } from '../components/core/settings-provider';
-import absoluteURL from '../utils/absolute-url';
+import absoluteURL from '../utils/absoluteURL';
 
 type Props = NextAppProps & {
   apollo?: ApolloClient<NormalizedCacheObject>;

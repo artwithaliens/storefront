@@ -3,7 +3,7 @@ import { Link } from '@components/ui';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductQuery } from '../../graphql';
-import isBlank from '../../utils/is-blank';
+import isBlank from '../../utils/isBlank';
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;

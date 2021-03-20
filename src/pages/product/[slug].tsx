@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { useProductQuery } from '../../graphql';
-import isBlank from '../../utils/is-blank';
+import isBlank from '../../utils/isBlank';
 
 const Product: NextPage = () => {
   const router = useRouter();

@@ -1,8 +1,8 @@
 import { Typography } from '@material-ui/core';
 import React from 'react';
-import isBlank from 'src/utils/is-blank';
 import { PartialDeep } from 'type-fest';
 import { ProductVariation, SimpleProduct, StockStatusEnum, VariableProduct } from '../../graphql';
+import isBlank from '../../utils/isBlank';
 
 type Props = {
   product?: PartialDeep<SimpleProduct | VariableProduct>;

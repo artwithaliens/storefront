@@ -3,7 +3,7 @@ import { Link } from '@components/ui';
 import { Box, Grid, makeStyles, Paper, Skeleton, Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../graphql';
-import rangeMap from '../../utils/range-map';
+import rangeMap from '../../utils/rangeMap';
 
 const useStyles = makeStyles(
   {

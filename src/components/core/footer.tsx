@@ -4,8 +4,8 @@ import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react';
 import { useAsync } from 'react-use';
 import { MenuLocationEnum, useMenuQuery } from '../../graphql';
-import fetchInstagramMedia from '../../utils/fetch-instagram-media';
-import relativeURL from '../../utils/relative-url';
+import fetchInstagramMedia from '../../utils/fetchInstagramMedia';
+import relativeURL from '../../utils/relativeURL';
 
 const useStyles = makeStyles(
   ({ spacing, palette, breakpoints, typography }) => ({

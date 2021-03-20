@@ -5,8 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { LoginMutationVariables, useLoginMutation } from 'src/graphql';
 import { object, SchemaOf, string } from 'yup';
+import { LoginMutationVariables, useLoginMutation } from '../../graphql';
 
 const validationSchema: SchemaOf<LoginMutationVariables> = object({
   password: string().label('Password').min(8).max(35).required(),
