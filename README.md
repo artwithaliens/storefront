@@ -1,6 +1,6 @@
 # Art With Aliens :alien:
 
-This is a React theme boilerplate for WordPress, built with Next JS, Webpack, Babel, Node, Express.
+This is a React theme for WordPress, built with Next.js, Webpack, Babel, Node.
 
 ## Live demo site.
 
@@ -27,8 +27,6 @@ development purposes.
    - [wp-graphql-jwt-authentication](https://github.com/wp-graphql/wp-graphql-jwt-authentication)
      This plugin extends the [wp-graphql](https://github.com/wp-graphql/wp-graphql) plugin to
      provide authentication using JWT.
-   - [wp-graphiql](https://github.com/wp-graphql/wp-graphiql) Provides GraphiQL IDE (playground) to
-     the WP-Admin
    - [wp-graphql-woocommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) Adds Woocommerce
      functionality to a WPGraphQL schema
 
