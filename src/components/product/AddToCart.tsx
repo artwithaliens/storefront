@@ -1,7 +1,7 @@
 import { isApolloError } from '@apollo/client';
-import { Button, Stack } from '@components/ui';
+import { Button } from '@components/ui';
 import { useUI } from '@components/ui/context';
-import { Box, TextField } from '@material-ui/core';
+import { Box, TextField, Stack } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React, { useState } from 'react';
 import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
@@ -64,7 +64,7 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
   ) : product.__typename === 'SimpleProduct' ? (
     <>
       <Stock product={product} />
-      <Stack spacing={1}>
+      <Stack direction="row" spacing={1}>
         <Button
           color="primary"
           variant="contained"
@@ -118,7 +118,7 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
           )}
         />
       </Box>
-      <Stack spacing={1}>
+      <Stack direction="row" spacing={1}>
         <Button
           color="primary"
           variant="contained"

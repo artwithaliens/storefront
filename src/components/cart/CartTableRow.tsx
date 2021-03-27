@@ -1,111 +1,10 @@
 import { Image, Price } from '@components/core';
 import { Delete } from '@components/icons';
 import { IconButton, Link, QuantityInput } from '@components/ui';
-import { Hidden, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core';
-import clsx from 'clsx';
+import { Hidden, TableCell, TableRow, Typography } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React from 'react';
 import { CartQuery, StockStatusEnum, UpdateCartMutationVariables } from '../../graphql';
-
-const useStyles = makeStyles(
-  ({ breakpoints }) => ({
-    root: {
-      [breakpoints.down('sm')]: {
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    },
-
-    loading: {
-      '& td': {
-        opacity: 0.45,
-        position: 'relative',
-
-        '&::after': {
-          content: '""',
-          height: '100%',
-          left: 0,
-          position: 'absolute',
-          top: 0,
-          width: '100%',
-        },
-      },
-    },
-
-    image: {
-      boxSizing: 'content-box',
-      width: 64,
-
-      [breakpoints.down('sm')]: {
-        borderBottom: 0,
-        order: 1,
-        paddingLeft: 0,
-        paddingRight: 0,
-      },
-
-      '& img': {
-        height: 'auto',
-        width: '100%',
-      },
-    },
-
-    description: {
-      [breakpoints.down('sm')]: {
-        borderBottom: 0,
-        order: 2,
-        width: 'calc(100% - 70px)',
-      },
-    },
-
-    delete: {
-      boxSizing: 'content-box',
-      textAlign: 'center',
-      width: 70,
-
-      [breakpoints.down('sm')]: {
-        borderBottom: 0,
-        order: 3,
-        paddingLeft: 0,
-        paddingRight: 0,
-      },
-    },
-
-    price: {
-      textAlign: 'center',
-      width: '15%',
-
-      [breakpoints.down('sm')]: {
-        borderBottom: 0,
-        order: 4,
-        textAlign: 'left',
-        width: 'calc(50% - 70px)',
-      },
-    },
-
-    quantity: {
-      textAlign: 'center',
-      width: '15%',
-
-      [breakpoints.down('sm')]: {
-        borderBottom: 0,
-        order: 5,
-        width: '50%',
-      },
-    },
-
-    total: {
-      textAlign: 'center',
-      width: '15%',
-
-      [breakpoints.down('sm')]: {
-        order: 6,
-        textAlign: 'right',
-        width: '100%',
-      },
-    },
-  }),
-  { name: 'CartTableRow' },
-);
 
 type Props = {
   item: NonNullable<
@@ -116,8 +15,6 @@ type Props = {
 };
 
 const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
-  const styles = useStyles({ loading });
-
   /**
    * When user changes the quantity from product input update the cart.
    *
@@ -139,11 +36,51 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
   };
 
   return (
-    <TableRow className={clsx(styles.root, loading && styles.loading)}>
-      <TableCell className={styles.image}>
+    <TableRow
+      sx={{
+        display: ['flex', 'table-row'],
+        flexWrap: 'wrap',
+
+        ...(loading && {
+          '& td': {
+            opacity: 0.45,
+            position: 'relative',
+
+            '&::after': {
+              content: '""',
+              height: '100%',
+              left: 0,
+              position: 'absolute',
+              top: 0,
+              width: '100%',
+            },
+          },
+        }),
+      }}
+    >
+      <TableCell
+        sx={{
+          borderBottomWidth: { xs: 0, sm: 1 },
+          boxSizing: 'content-box',
+          order: 1,
+          px: { xs: 0, sm: 2 },
+          width: 64,
+
+          '& img': {
+            height: 'auto',
+            width: '100%',
+          },
+        }}
+      >
         <Image height={80} loading="lazy" mediaItem={item.product?.node?.image} width={64} />
       </TableCell>
-      <TableCell className={styles.description}>
+      <TableCell
+        sx={{
+          borderBottomWidth: { xs: 0, sm: 1 },
+          order: 2,
+          width: { xs: 'calc(100% - 70px)', sm: 'auto' },
+        }}
+      >
         <Typography gutterBottom variant="h5">
           <Link href={`/product/${item.product?.node?.slug}`} underline="none">
             {item.product?.node?.name}
@@ -159,7 +96,14 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           )}
         </Typography>
       </TableCell>
-      <TableCell className={styles.price}>
+      <TableCell
+        sx={{
+          borderBottomWidth: { xs: 0, sm: 1 },
+          order: 4,
+          textAlign: { xs: 'left', sm: 'center' },
+          width: { xs: 'calc(50% - 70px)', sm: '15%' },
+        }}
+      >
         <Hidden smUp>
           <Typography variant="body2">Price:</Typography>
         </Hidden>
@@ -168,7 +112,14 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           <Price>{item.product.node.price}</Price>
         )}
       </TableCell>
-      <TableCell className={styles.quantity}>
+      <TableCell
+        align="center"
+        sx={{
+          borderBottomWidth: { xs: 0, sm: 1 },
+          order: 5,
+          width: { xs: '50%', sm: '15%' },
+        }}
+      >
         <QuantityInput
           value={item.quantity}
           disabled={loading}
@@ -187,13 +138,27 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           onChange={handleQuantityChange}
         />
       </TableCell>
-      <TableCell className={styles.total}>
+      <TableCell
+        sx={{
+          order: 6,
+          textAlign: { xs: 'right', sm: 'center' },
+          width: { xs: '100%', sm: '15%' },
+        }}
+      >
         <Hidden smUp>
           <Typography variant="body2">Total Price:</Typography>
         </Hidden>
         <Price>{item.total}</Price>
       </TableCell>
-      <TableCell className={styles.delete}>
+      <TableCell
+        align="center"
+        sx={{
+          borderBottomWidth: { xs: 0, sm: 1 },
+          order: 3,
+          px: { xs: 0, sm: 2 },
+          width: 64,
+        }}
+      >
         <IconButton aria-label="Delete" onClick={handleRemoveItem}>
           <Delete />
         </IconButton>

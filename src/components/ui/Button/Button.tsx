@@ -1,6 +1,11 @@
-import { CircularProgress, ExtendButton, ExtendButtonTypeMap } from '@material-ui/core';
+import {
+  Box,
+  Button as MuiButton,
+  CircularProgress,
+  ExtendButton,
+  ExtendButtonTypeMap,
+} from '@material-ui/core';
 import { OverrideProps } from '@material-ui/core/OverridableComponent';
-import { LoadingButton } from '@material-ui/lab';
 import Link, { LinkProps } from 'next/link';
 import React from 'react';
 import ReactGA from 'react-ga';
@@ -19,7 +24,15 @@ export type ButtonProps<
   P = {}
 > = OverrideProps<TypeMap<P, D>, D>;
 
-const Button = (({ as, children, href, loading, prefetch, ...props }: ButtonProps) => {
+const Button = (({
+  as,
+  children,
+  disabled = false,
+  href,
+  loading = false,
+  prefetch,
+  ...props
+}: ButtonProps) => {
   const handleTrack = () => {
     ReactGA.outboundLink(
       { label: typeof children === 'string' ? `Clicked ${children}` : 'Clicked link' },
@@ -28,22 +41,33 @@ const Button = (({ as, children, href, loading, prefetch, ...props }: ButtonProp
   };
 
   return href == null ? (
-    <LoadingButton
-      pending={loading}
-      pendingIndicator={<CircularProgress color="inherit" size={26} />}
-      {...props}
-    >
-      {children}
-    </LoadingButton>
+    <MuiButton disabled={disabled || loading} {...props}>
+      {loading && (
+        <Box
+          sx={{
+            display: 'flex',
+            left: '50%',
+            position: 'absolute',
+            transform: 'translate(-50%)',
+            visibility: 'visible',
+          }}
+        >
+          <CircularProgress color="inherit" size={26} />
+        </Box>
+      )}
+      <Box component="span" sx={loading ? { visibility: 'hidden' } : {}}>
+        {children}
+      </Box>
+    </MuiButton>
   ) : /^https?:/.test(href.toString()) ? (
-    <LoadingButton href={href.toString()} onClick={handleTrack} {...(props as ButtonProps<'a'>)}>
+    <MuiButton href={href.toString()} onClick={handleTrack} {...(props as ButtonProps<'a'>)}>
       {children}
-    </LoadingButton>
+    </MuiButton>
   ) : (
     <Link passHref as={as} href={href} prefetch={prefetch}>
-      <LoadingButton component="a" {...(props as ButtonProps<'a'>)}>
+      <MuiButton component="a" {...(props as ButtonProps<'a'>)}>
         {children}
-      </LoadingButton>
+      </MuiButton>
     </Link>
   );
 }) as ExtendButton<TypeMap>;

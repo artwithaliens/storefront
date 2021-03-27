@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, UpdateCartMutationVariables } from '../../graphql';
-import CartTableRow from './cart-table-row';
+import CartTableRow from './CartTableRow';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette }) => ({
