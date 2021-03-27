@@ -17,9 +17,10 @@ const ProductJSON: React.VFC<Props> = ({ product }) => {
     <ProductJsonLd
       productName={product?.name ?? ''}
       images={
-        [product?.image?.sourceUrl]
-          .concat(product?.galleryImages?.nodes?.map((mediaItem) => mediaItem?.sourceUrl))
-          .filter((sourceUrl) => sourceUrl != null) as string[]
+        [
+          product?.image?.sourceUrl,
+          ...(product?.galleryImages?.nodes?.map((mediaItem) => mediaItem?.sourceUrl) ?? []),
+        ].filter((sourceUrl) => sourceUrl != null) as string[]
       }
       description={product?.seo?.description ?? ''}
       offers={
