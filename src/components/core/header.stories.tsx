@@ -43,7 +43,6 @@ export const Base: Story = () => (
                 itemCount: 1,
                 nodes: [null],
               },
-              contentsTotal: null,
               subtotal: null,
               total: null,
               availableShippingMethods: null,

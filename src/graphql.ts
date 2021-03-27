@@ -19700,6 +19700,16 @@ export type ShippingMethodError = CartError & {
   type: CartErrorType;
 };
 
+export type AddCouponMutationVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+export type AddCouponMutation = { __typename?: 'RootMutation' } & {
+  applyCoupon?: Maybe<
+    { __typename?: 'ApplyCouponPayload' } & Pick<ApplyCouponPayload, 'clientMutationId'>
+  >;
+};
+
 export type AddToCartMutationVariables = Exact<{
   productId: Scalars['Int'];
   variationId?: Maybe<Scalars['Int']>;
@@ -19720,7 +19730,7 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
   cart?: Maybe<
     { __typename?: 'Cart' } & Pick<
       Cart,
-      'contentsTotal' | 'subtotal' | 'total' | 'chosenShippingMethods'
+      'chosenShippingMethods' | 'discountTotal' | 'subtotal' | 'total'
     > & {
         contents?: Maybe<
           { __typename?: 'CartToCartItemConnection' } & Pick<
@@ -19730,7 +19740,10 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
               nodes?: Maybe<
                 Array<
                   Maybe<
-                    { __typename?: 'CartItem' } & Pick<CartItem, 'key' | 'quantity' | 'total'> & {
+                    { __typename?: 'CartItem' } & Pick<
+                      CartItem,
+                      'key' | 'quantity' | 'subtotal' | 'total'
+                    > & {
                         product?: Maybe<
                           { __typename?: 'CartItemToProductConnectionEdge' } & {
                             node?: Maybe<
@@ -19842,6 +19855,11 @@ export type CartQuery = { __typename?: 'RootQuery' } & {
                   >;
                 }
             >
+          >
+        >;
+        appliedCoupons?: Maybe<
+          Array<
+            Maybe<{ __typename?: 'AppliedCoupon' } & Pick<AppliedCoupon, 'code' | 'discountAmount'>>
           >
         >;
       }
@@ -20792,6 +20810,16 @@ export type RegisterMutation = { __typename?: 'RootMutation' } & {
   >;
 };
 
+export type RemoveCouponMutationVariables = Exact<{
+  code: Scalars['String'];
+}>;
+
+export type RemoveCouponMutation = { __typename?: 'RootMutation' } & {
+  removeCoupons?: Maybe<
+    { __typename?: 'RemoveCouponsPayload' } & Pick<RemoveCouponsPayload, 'clientMutationId'>
+  >;
+};
+
 export type SettingsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SettingsQuery = { __typename?: 'RootQuery' } & {
@@ -20857,6 +20885,50 @@ export type UserQuery = { __typename?: 'RootQuery' } & {
   >;
 };
 
+export const AddCouponDocument = gql`
+  mutation AddCoupon($code: String!) {
+    applyCoupon(input: { clientMutationId: "AddCoupon", code: $code }) {
+      clientMutationId
+    }
+  }
+`;
+export type AddCouponMutationFn = Apollo.MutationFunction<
+  AddCouponMutation,
+  AddCouponMutationVariables
+>;
+
+/**
+ * __useAddCouponMutation__
+ *
+ * To run a mutation, you first call `useAddCouponMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCouponMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCouponMutation, { data, loading, error }] = useAddCouponMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useAddCouponMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddCouponMutation, AddCouponMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddCouponMutation, AddCouponMutationVariables>(
+    AddCouponDocument,
+    options,
+  );
+}
+export type AddCouponMutationHookResult = ReturnType<typeof useAddCouponMutation>;
+export type AddCouponMutationResult = Apollo.MutationResult<AddCouponMutation>;
+export type AddCouponMutationOptions = Apollo.BaseMutationOptions<
+  AddCouponMutation,
+  AddCouponMutationVariables
+>;
 export const AddToCartDocument = gql`
   mutation AddToCart($productId: Int!, $variationId: Int, $quantity: Int) {
     addToCart(
@@ -20915,7 +20987,7 @@ export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const CartDocument = gql`
   query Cart {
-    cart {
+    cart(recalculateTotals: true) {
       contents(first: 50) {
         itemCount
         nodes {
@@ -20958,12 +21030,10 @@ export const CartDocument = gql`
             }
           }
           quantity
+          subtotal
           total
         }
       }
-      contentsTotal
-      subtotal
-      total
       availableShippingMethods {
         packageDetails
         rates {
@@ -20973,6 +21043,13 @@ export const CartDocument = gql`
         }
       }
       chosenShippingMethods
+      appliedCoupons {
+        code
+        discountAmount
+      }
+      discountTotal
+      subtotal
+      total
     }
   }
 `;
@@ -21829,6 +21906,50 @@ export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
+>;
+export const RemoveCouponDocument = gql`
+  mutation RemoveCoupon($code: String!) {
+    removeCoupons(input: { clientMutationId: "RemoveCoupon", codes: [$code] }) {
+      clientMutationId
+    }
+  }
+`;
+export type RemoveCouponMutationFn = Apollo.MutationFunction<
+  RemoveCouponMutation,
+  RemoveCouponMutationVariables
+>;
+
+/**
+ * __useRemoveCouponMutation__
+ *
+ * To run a mutation, you first call `useRemoveCouponMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveCouponMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeCouponMutation, { data, loading, error }] = useRemoveCouponMutation({
+ *   variables: {
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useRemoveCouponMutation(
+  baseOptions?: Apollo.MutationHookOptions<RemoveCouponMutation, RemoveCouponMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RemoveCouponMutation, RemoveCouponMutationVariables>(
+    RemoveCouponDocument,
+    options,
+  );
+}
+export type RemoveCouponMutationHookResult = ReturnType<typeof useRemoveCouponMutation>;
+export type RemoveCouponMutationResult = Apollo.MutationResult<RemoveCouponMutation>;
+export type RemoveCouponMutationOptions = Apollo.BaseMutationOptions<
+  RemoveCouponMutation,
+  RemoveCouponMutationVariables
 >;
 export const SettingsDocument = gql`
   query Settings {

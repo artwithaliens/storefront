@@ -148,7 +148,7 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
         <Hidden smUp>
           <Typography variant="body2">Total Price:</Typography>
         </Hidden>
-        <Price>{item.total}</Price>
+        <Price>{item.subtotal}</Price>
       </TableCell>
       <TableCell
         align="center"

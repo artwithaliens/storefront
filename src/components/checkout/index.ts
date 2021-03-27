@@ -1,8 +1,8 @@
 export { default as AddressSummary } from './AddressSummary';
 export { default as BillingForm } from './BillingForm';
-export { default as CartSummary } from './cart-summary';
-export { default as CheckoutForm } from './checkout-form';
-export { default as CheckoutReview } from './checkout-review';
+export { default as CartSummary } from './CartSummary';
+export { default as CheckoutForm } from './CheckoutForm';
+export { default as CheckoutReview } from './CheckoutReview';
 export { default as CreditCardForm } from './CreditCardForm';
 export { default as PaymentMethods } from './payment-methods';
 export { default as PaymentSummary } from './payment-summary';

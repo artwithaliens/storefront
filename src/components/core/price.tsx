@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {
   children: string | null | undefined;
-  color?: 'inherit' | 'primary' | 'textPrimary' | 'textSecondary';
+  color?: 'inherit' | 'primary' | 'error' | 'textPrimary' | 'textSecondary';
   component?: 'p' | 'span';
   variant?: 'body1' | 'h5' | 'h4' | 'h3';
 };

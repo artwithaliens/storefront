@@ -1,5 +1,5 @@
 query Cart {
-  cart {
+  cart(recalculateTotals: true) {
     contents(first: 50) {
       itemCount
       nodes {
@@ -42,12 +42,10 @@ query Cart {
           }
         }
         quantity
+        subtotal
         total
       }
     }
-    contentsTotal
-    subtotal
-    total
     availableShippingMethods {
       packageDetails
       rates {
@@ -57,5 +55,12 @@ query Cart {
       }
     }
     chosenShippingMethods
+    appliedCoupons {
+      code
+      discountAmount
+    }
+    discountTotal
+    subtotal
+    total
   }
 }

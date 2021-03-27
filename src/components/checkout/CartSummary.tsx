@@ -72,7 +72,7 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                     </TableCell>
                     <TableCell>{item.product?.node?.name}</TableCell>
                     <TableCell>
-                      <Price>{item.total}</Price>
+                      <Price>{item.subtotal}</Price>
                     </TableCell>
                   </TableRow>
                 ),
@@ -97,6 +97,14 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                     )?.cost
                   }
                 </Price>
+              </TableCell>
+            </TableRow>
+            <TableRow className={styles.tableRow}>
+              <TableCell className={styles.total} colSpan={2}>
+                Discount
+              </TableCell>
+              <TableCell className={styles.total}>
+                <Price color="error">{`-${cart.discountTotal}`}</Price>
               </TableCell>
             </TableRow>
             <TableRow className={styles.tableRow}>

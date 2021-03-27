@@ -1,0 +1,5 @@
+mutation RemoveCoupon($code: String!) {
+  removeCoupons(input: { clientMutationId: "RemoveCoupon", codes: [$code] }) {
+    clientMutationId
+  }
+}

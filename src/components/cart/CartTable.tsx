@@ -28,14 +28,6 @@ const useStyles = makeStyles(
       },
     },
 
-    body: {
-      display: 'block',
-
-      [breakpoints.up('sm')]: {
-        display: 'table-row-group',
-      },
-    },
-
     footer: {
       display: 'block',
 
@@ -90,7 +82,11 @@ const CartTable: React.VFC<Props> = ({ cart, loading, onUpdate }) => {
           </TableRow>
         </TableHead>
       </Hidden>
-      <TableBody className={styles.body}>
+      <TableBody
+        sx={{
+          display: { xs: 'block', sm: 'table-row-group' },
+        }}
+      >
         {cart.contents?.nodes?.map(
           (item) =>
             item != null && (
@@ -105,9 +101,20 @@ const CartTable: React.VFC<Props> = ({ cart, loading, onUpdate }) => {
             <Typography>Subtotal</Typography>
           </TableCell>
           <TableCell colSpan={2}>
-            <Price>{cart.contentsTotal}</Price>
+            <Price>{cart.subtotal}</Price>
           </TableCell>
         </TableRow>
+        {(cart.appliedCoupons?.length ?? 0) > 0 && (
+          <TableRow>
+            <TableCell colSpan={3} />
+            <TableCell>
+              <Typography>Discount</Typography>
+            </TableCell>
+            <TableCell colSpan={2}>
+              <Price color="error">{`-${cart.discountTotal}`}</Price>
+            </TableCell>
+          </TableRow>
+        )}
       </TableFooter>
     </Table>
   );

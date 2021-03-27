@@ -1,0 +1,5 @@
+mutation AddCoupon($code: String!) {
+  applyCoupon(input: { clientMutationId: "AddCoupon", code: $code }) {
+    clientMutationId
+  }
+}
