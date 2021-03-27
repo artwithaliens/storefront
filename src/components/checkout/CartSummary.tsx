@@ -99,14 +99,16 @@ const CartSummary: React.VFC<Props> = ({ cart }) => {
                 </Price>
               </TableCell>
             </TableRow>
-            <TableRow className={styles.tableRow}>
-              <TableCell className={styles.total} colSpan={2}>
-                Discount
-              </TableCell>
-              <TableCell className={styles.total}>
-                <Price color="error">{`-${cart.discountTotal}`}</Price>
-              </TableCell>
-            </TableRow>
+            {(cart.appliedCoupons?.length ?? 0) > 0 && (
+              <TableRow className={styles.tableRow}>
+                <TableCell className={styles.total} colSpan={2}>
+                  Discount
+                </TableCell>
+                <TableCell className={styles.total}>
+                  <Price color="error">{`-${cart.discountTotal}`}</Price>
+                </TableCell>
+              </TableRow>
+            )}
             <TableRow className={styles.tableRow}>
               <TableCell className={styles.total} colSpan={2}>
                 Total
