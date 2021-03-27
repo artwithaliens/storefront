@@ -1,12 +1,2 @@
-export { default as AddressSummary } from './AddressSummary';
-export { default as BillingForm } from './BillingForm';
-export { default as CartSummary } from './CartSummary';
+// eslint-disable-next-line import/prefer-default-export
 export { default as CheckoutForm } from './CheckoutForm';
-export { default as CheckoutReview } from './CheckoutReview';
-export { default as CreditCardForm } from './CreditCardForm';
-export { default as PaymentMethods } from './payment-methods';
-export { default as PaymentSummary } from './payment-summary';
-export { default as PaypalButton } from './paypal-button';
-export { default as ShippingMethods } from './shipping-methods';
-export { default as ShippingSummary } from './shipping-summary';
-export { default as ShippingForm } from './ShippingForm';

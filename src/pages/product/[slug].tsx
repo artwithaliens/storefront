@@ -52,19 +52,19 @@ const Product: NextPage = () => {
         <>
           <NextSeo
             title={product.seo?.title ?? undefined}
-            description={product.seo?.description ?? undefined}
+            description={product.seo?.metaDesc ?? undefined}
             openGraph={{
-              title: product.seo?.openGraphTitle ?? undefined,
-              description: product.seo?.openGraphDescription ?? undefined,
+              title: product.seo?.opengraphTitle ?? undefined,
+              description: product.seo?.opengraphDescription ?? undefined,
               type: 'product',
               images:
-                product.seo?.socialImage?.sourceUrl != null
+                product.seo?.opengraphImage?.sourceUrl != null
                   ? [
                       {
-                        url: product.seo.socialImage.sourceUrl,
-                        alt: product.seo.socialImage.altText ?? undefined,
-                        width: product.seo.socialImage.mediaDetails?.width ?? undefined,
-                        height: product.seo.socialImage.mediaDetails?.height ?? undefined,
+                        url: product.seo.opengraphImage.sourceUrl,
+                        alt: product.seo.opengraphImage.altText ?? undefined,
+                        width: product.seo.opengraphImage.mediaDetails?.width ?? undefined,
+                        height: product.seo.opengraphImage.mediaDetails?.height ?? undefined,
                       },
                     ]
                   : undefined,

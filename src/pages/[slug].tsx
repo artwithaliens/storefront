@@ -19,10 +19,10 @@ const Page: NextPage<Props> = ({ page }) => {
     <PageWrapper>
       <NextSeo
         title={page.seo?.title ?? ''}
-        description={page.seo?.description ?? ''}
+        description={page.seo?.metaDesc ?? ''}
         openGraph={{
-          title: page.seo?.openGraphTitle ?? '',
-          description: page.seo?.openGraphDescription ?? '',
+          title: page.seo?.opengraphTitle ?? '',
+          description: page.seo?.opengraphDescription ?? '',
         }}
       />
       <PageHeader image={page.featuredImage?.node} title={page.title} />

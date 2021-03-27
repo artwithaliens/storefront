@@ -8,8 +8,8 @@ import isShippingSameAsBilling from '../../utils/isShippingSameAsBilling';
 import BillingForm from './BillingForm';
 import CartSummary from './CartSummary';
 import CheckoutReview from './CheckoutReview';
-import PaymentMethods from './payment-methods';
-import ShippingMethods from './shipping-methods';
+import PaymentMethods from './PaymentMethods';
+import ShippingMethods from './ShippingMethods';
 import ShippingForm from './ShippingForm';
 
 type Props = {

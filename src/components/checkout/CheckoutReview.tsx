@@ -14,9 +14,9 @@ import React, { useState } from 'react';
 import { useAsyncFn } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
 import AddressSummary from './AddressSummary';
-import PaymentSummary from './payment-summary';
-import PaypalButton from './paypal-button';
-import ShippingSummary from './shipping-summary';
+import PaymentSummary from './PaymentSummary';
+import PaypalButton from './PaypalButton';
+import ShippingSummary from './ShippingSummary';
 
 type PaymentResponse = {
   transaction: {

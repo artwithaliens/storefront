@@ -109,13 +109,11 @@ query Product($slug: ID!) {
     }
     seo {
       title
-      description
-      canonicalUrl
-      openGraphTitle
-      openGraphDescription
-      twitterTitle
-      twitterDescription
-      socialImage {
+      metaDesc
+      canonical
+      opengraphTitle
+      opengraphDescription
+      opengraphImage {
         sourceUrl
         altText
         mediaDetails {
@@ -123,6 +121,8 @@ query Product($slug: ID!) {
           width
         }
       }
+      twitterTitle
+      twitterDescription
     }
   }
 }

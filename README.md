@@ -29,6 +29,8 @@ development purposes.
      provide authentication using JWT.
    - [wp-graphql-woocommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) Adds Woocommerce
      functionality to a WPGraphQL schema
+   - [wp-graphql-yoast-seo](https://github.com/ashhitch/wp-graphql-yoast-seo) Adds SEO data to
+     WPGraphQL schema
 
 2. You can also import default wooCommerce products that come with wooCommerce Plugin for
    development ( if you don't have any products in your WordPress install ) WP Dashboard > Tools >

@@ -73,6 +73,7 @@ export type RootQuery = {
   menus?: Maybe<RootQueryToMenuConnection>;
   /** Fetches an object given its ID */
   node?: Maybe<Node>;
+  /** Fetches an object given its Unique Resource Identifier */
   nodeByUri?: Maybe<UniformResourceIdentifiable>;
   /** A order object */
   order?: Maybe<Order>;
@@ -151,6 +152,8 @@ export type RootQuery = {
   registeredStylesheets?: Maybe<RootQueryToEnqueuedStylesheetConnection>;
   /** Connection between the RootQuery type and the ContentRevisionUnion type */
   revisions?: Maybe<RootQueryToContentRevisionUnionConnection>;
+  /** Returns seo site data */
+  seo?: Maybe<SeoConfig>;
   /** A 0bject */
   shippingClass?: Maybe<ShippingClass>;
   /** Connection between the RootQuery type and the shippingClass type */
@@ -1077,8 +1080,8 @@ export type Product = {
   reviews?: Maybe<ProductToCommentConnection>;
   /** If reviews are allowed */
   reviewsAllowed?: Maybe<Scalars['Boolean']>;
-  /** The SEO data of the Product */
-  seo?: Maybe<Seo>;
+  /** The Yoast SEO data of the Product */
+  seo?: Maybe<PostTypeSeo>;
   /** Connection between the Product type and the shippingClass type */
   shippingClasses?: Maybe<ProductToShippingClassConnection>;
   /** Product short description */
@@ -1318,8 +1321,22 @@ export type WpPageInfo = {
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'];
+  /** Raw schema for page */
+  seo?: Maybe<SeoPostTypePageInfo>;
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']>;
+};
+
+/** The page info SEO details */
+export type SeoPostTypePageInfo = {
+  __typename?: 'SEOPostTypePageInfo';
+  schema?: Maybe<SeoPageInfoSchema>;
+};
+
+/** The Schema for post type */
+export type SeoPageInfoSchema = {
+  __typename?: 'SEOPageInfoSchema';
+  raw?: Maybe<Scalars['String']>;
 };
 
 /** Product catalog visibility enumeration */
@@ -1376,7 +1393,9 @@ export type ProductToMediaItemConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -1424,105 +1443,197 @@ export type DateInput = {
 
 /** The column to use when filtering by date */
 export enum PostObjectsConnectionDateColumnEnum {
+  /** The date the comment was created in local time. */
   DATE = 'DATE',
+  /** The most recent modification date of the comment. */
   MODIFIED = 'MODIFIED',
 }
 
 /** The logical relation between each item in the array when there are more than one. */
 export enum RelationEnum {
+  /** The logical AND condition returns true if both operands are true, otherwise, it returns false. */
   AND = 'AND',
+  /** The logical OR condition returns false if both operands are false, otherwise, it returns true. */
   OR = 'OR',
 }
 
 /** The MimeType of the object */
 export enum MimeTypeEnum {
+  /** MimeType application/java */
   APPLICATION_JAVA = 'APPLICATION_JAVA',
+  /** MimeType application/msword */
   APPLICATION_MSWORD = 'APPLICATION_MSWORD',
+  /** MimeType application/octet-stream */
   APPLICATION_OCTET_STREAM = 'APPLICATION_OCTET_STREAM',
+  /** MimeType application/onenote */
   APPLICATION_ONENOTE = 'APPLICATION_ONENOTE',
+  /** MimeType application/oxps */
   APPLICATION_OXPS = 'APPLICATION_OXPS',
+  /** MimeType application/pdf */
   APPLICATION_PDF = 'APPLICATION_PDF',
+  /** MimeType application/rar */
   APPLICATION_RAR = 'APPLICATION_RAR',
+  /** MimeType application/rtf */
   APPLICATION_RTF = 'APPLICATION_RTF',
+  /** MimeType application/ttaf+xml */
   APPLICATION_TTAF_XML = 'APPLICATION_TTAF_XML',
+  /** MimeType application/vnd.apple.keynote */
   APPLICATION_VND_APPLE_KEYNOTE = 'APPLICATION_VND_APPLE_KEYNOTE',
+  /** MimeType application/vnd.apple.numbers */
   APPLICATION_VND_APPLE_NUMBERS = 'APPLICATION_VND_APPLE_NUMBERS',
+  /** MimeType application/vnd.apple.pages */
   APPLICATION_VND_APPLE_PAGES = 'APPLICATION_VND_APPLE_PAGES',
+  /** MimeType application/vnd.ms-access */
   APPLICATION_VND_MS_ACCESS = 'APPLICATION_VND_MS_ACCESS',
+  /** MimeType application/vnd.ms-excel */
   APPLICATION_VND_MS_EXCEL = 'APPLICATION_VND_MS_EXCEL',
+  /** MimeType application/vnd.ms-excel.addin.macroEnabled.12 */
   APPLICATION_VND_MS_EXCEL_ADDIN_MACROENABLED_12 = 'APPLICATION_VND_MS_EXCEL_ADDIN_MACROENABLED_12',
+  /** MimeType application/vnd.ms-excel.sheet.binary.macroEnabled.12 */
   APPLICATION_VND_MS_EXCEL_SHEET_BINARY_MACROENABLED_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_BINARY_MACROENABLED_12',
+  /** MimeType application/vnd.ms-excel.sheet.macroEnabled.12 */
   APPLICATION_VND_MS_EXCEL_SHEET_MACROENABLED_12 = 'APPLICATION_VND_MS_EXCEL_SHEET_MACROENABLED_12',
+  /** MimeType application/vnd.ms-excel.template.macroEnabled.12 */
   APPLICATION_VND_MS_EXCEL_TEMPLATE_MACROENABLED_12 = 'APPLICATION_VND_MS_EXCEL_TEMPLATE_MACROENABLED_12',
+  /** MimeType application/vnd.ms-powerpoint */
   APPLICATION_VND_MS_POWERPOINT = 'APPLICATION_VND_MS_POWERPOINT',
+  /** MimeType application/vnd.ms-powerpoint.addin.macroEnabled.12 */
   APPLICATION_VND_MS_POWERPOINT_ADDIN_MACROENABLED_12 = 'APPLICATION_VND_MS_POWERPOINT_ADDIN_MACROENABLED_12',
+  /** MimeType application/vnd.ms-powerpoint.presentation.macroEnabled.12 */
   APPLICATION_VND_MS_POWERPOINT_PRESENTATION_MACROENABLED_12 = 'APPLICATION_VND_MS_POWERPOINT_PRESENTATION_MACROENABLED_12',
+  /** MimeType application/vnd.ms-powerpoint.slideshow.macroEnabled.12 */
   APPLICATION_VND_MS_POWERPOINT_SLIDESHOW_MACROENABLED_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDESHOW_MACROENABLED_12',
+  /** MimeType application/vnd.ms-powerpoint.slide.macroEnabled.12 */
   APPLICATION_VND_MS_POWERPOINT_SLIDE_MACROENABLED_12 = 'APPLICATION_VND_MS_POWERPOINT_SLIDE_MACROENABLED_12',
+  /** MimeType application/vnd.ms-powerpoint.template.macroEnabled.12 */
   APPLICATION_VND_MS_POWERPOINT_TEMPLATE_MACROENABLED_12 = 'APPLICATION_VND_MS_POWERPOINT_TEMPLATE_MACROENABLED_12',
+  /** MimeType application/vnd.ms-project */
   APPLICATION_VND_MS_PROJECT = 'APPLICATION_VND_MS_PROJECT',
+  /** MimeType application/vnd.ms-word.document.macroEnabled.12 */
   APPLICATION_VND_MS_WORD_DOCUMENT_MACROENABLED_12 = 'APPLICATION_VND_MS_WORD_DOCUMENT_MACROENABLED_12',
+  /** MimeType application/vnd.ms-word.template.macroEnabled.12 */
   APPLICATION_VND_MS_WORD_TEMPLATE_MACROENABLED_12 = 'APPLICATION_VND_MS_WORD_TEMPLATE_MACROENABLED_12',
+  /** MimeType application/vnd.ms-write */
   APPLICATION_VND_MS_WRITE = 'APPLICATION_VND_MS_WRITE',
+  /** MimeType application/vnd.ms-xpsdocument */
   APPLICATION_VND_MS_XPSDOCUMENT = 'APPLICATION_VND_MS_XPSDOCUMENT',
+  /** MimeType application/vnd.oasis.opendocument.chart */
   APPLICATION_VND_OASIS_OPENDOCUMENT_CHART = 'APPLICATION_VND_OASIS_OPENDOCUMENT_CHART',
+  /** MimeType application/vnd.oasis.opendocument.database */
   APPLICATION_VND_OASIS_OPENDOCUMENT_DATABASE = 'APPLICATION_VND_OASIS_OPENDOCUMENT_DATABASE',
+  /** MimeType application/vnd.oasis.opendocument.formula */
   APPLICATION_VND_OASIS_OPENDOCUMENT_FORMULA = 'APPLICATION_VND_OASIS_OPENDOCUMENT_FORMULA',
+  /** MimeType application/vnd.oasis.opendocument.graphics */
   APPLICATION_VND_OASIS_OPENDOCUMENT_GRAPHICS = 'APPLICATION_VND_OASIS_OPENDOCUMENT_GRAPHICS',
+  /** MimeType application/vnd.oasis.opendocument.presentation */
   APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION = 'APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION',
+  /** MimeType application/vnd.oasis.opendocument.spreadsheet */
   APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET = 'APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET',
+  /** MimeType application/vnd.oasis.opendocument.text */
   APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT = 'APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT',
+  /** MimeType application/vnd.openxmlformats-officedocument.presentationml.presentation */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION',
+  /** MimeType application/vnd.openxmlformats-officedocument.presentationml.slide */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDE',
+  /** MimeType application/vnd.openxmlformats-officedocument.presentationml.slideshow */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_SLIDESHOW',
+  /** MimeType application/vnd.openxmlformats-officedocument.presentationml.template */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_TEMPLATE',
+  /** MimeType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET',
+  /** MimeType application/vnd.openxmlformats-officedocument.spreadsheetml.template */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_TEMPLATE',
+  /** MimeType application/vnd.openxmlformats-officedocument.wordprocessingml.document */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT',
+  /** MimeType application/vnd.openxmlformats-officedocument.wordprocessingml.template */
   APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE = 'APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_TEMPLATE',
+  /** MimeType application/wordperfect */
   APPLICATION_WORDPERFECT = 'APPLICATION_WORDPERFECT',
+  /** MimeType application/x-7z-compressed */
   APPLICATION_X_7Z_COMPRESSED = 'APPLICATION_X_7Z_COMPRESSED',
+  /** MimeType application/x-gzip */
   APPLICATION_X_GZIP = 'APPLICATION_X_GZIP',
+  /** MimeType application/x-tar */
   APPLICATION_X_TAR = 'APPLICATION_X_TAR',
+  /** MimeType application/zip */
   APPLICATION_ZIP = 'APPLICATION_ZIP',
+  /** MimeType audio/aac */
   AUDIO_AAC = 'AUDIO_AAC',
+  /** MimeType audio/flac */
   AUDIO_FLAC = 'AUDIO_FLAC',
+  /** MimeType audio/midi */
   AUDIO_MIDI = 'AUDIO_MIDI',
+  /** MimeType audio/mpeg */
   AUDIO_MPEG = 'AUDIO_MPEG',
+  /** MimeType audio/ogg */
   AUDIO_OGG = 'AUDIO_OGG',
+  /** MimeType audio/wav */
   AUDIO_WAV = 'AUDIO_WAV',
+  /** MimeType audio/x-matroska */
   AUDIO_X_MATROSKA = 'AUDIO_X_MATROSKA',
+  /** MimeType audio/x-ms-wax */
   AUDIO_X_MS_WAX = 'AUDIO_X_MS_WAX',
+  /** MimeType audio/x-ms-wma */
   AUDIO_X_MS_WMA = 'AUDIO_X_MS_WMA',
+  /** MimeType audio/x-realaudio */
   AUDIO_X_REALAUDIO = 'AUDIO_X_REALAUDIO',
+  /** MimeType image/bmp */
   IMAGE_BMP = 'IMAGE_BMP',
+  /** MimeType image/gif */
   IMAGE_GIF = 'IMAGE_GIF',
+  /** MimeType image/heic */
   IMAGE_HEIC = 'IMAGE_HEIC',
+  /** MimeType image/jpeg */
   IMAGE_JPEG = 'IMAGE_JPEG',
+  /** MimeType image/png */
   IMAGE_PNG = 'IMAGE_PNG',
+  /** MimeType image/tiff */
   IMAGE_TIFF = 'IMAGE_TIFF',
+  /** MimeType image/x-icon */
   IMAGE_X_ICON = 'IMAGE_X_ICON',
+  /** MimeType text/calendar */
   TEXT_CALENDAR = 'TEXT_CALENDAR',
+  /** MimeType text/css */
   TEXT_CSS = 'TEXT_CSS',
+  /** MimeType text/csv */
   TEXT_CSV = 'TEXT_CSV',
+  /** MimeType text/plain */
   TEXT_PLAIN = 'TEXT_PLAIN',
+  /** MimeType text/richtext */
   TEXT_RICHTEXT = 'TEXT_RICHTEXT',
+  /** MimeType text/tab-separated-values */
   TEXT_TAB_SEPARATED_VALUES = 'TEXT_TAB_SEPARATED_VALUES',
+  /** MimeType text/vtt */
   TEXT_VTT = 'TEXT_VTT',
+  /** MimeType video/3gpp */
   VIDEO_3GPP = 'VIDEO_3GPP',
+  /** MimeType video/3gpp2 */
   VIDEO_3GPP2 = 'VIDEO_3GPP2',
+  /** MimeType video/avi */
   VIDEO_AVI = 'VIDEO_AVI',
+  /** MimeType video/divx */
   VIDEO_DIVX = 'VIDEO_DIVX',
+  /** MimeType video/mp4 */
   VIDEO_MP4 = 'VIDEO_MP4',
+  /** MimeType video/mpeg */
   VIDEO_MPEG = 'VIDEO_MPEG',
+  /** MimeType video/ogg */
   VIDEO_OGG = 'VIDEO_OGG',
+  /** MimeType video/quicktime */
   VIDEO_QUICKTIME = 'VIDEO_QUICKTIME',
+  /** MimeType video/webm */
   VIDEO_WEBM = 'VIDEO_WEBM',
+  /** MimeType video/x-flv */
   VIDEO_X_FLV = 'VIDEO_X_FLV',
+  /** MimeType video/x-matroska */
   VIDEO_X_MATROSKA = 'VIDEO_X_MATROSKA',
+  /** MimeType video/x-ms-asf */
   VIDEO_X_MS_ASF = 'VIDEO_X_MS_ASF',
+  /** MimeType video/x-ms-wm */
   VIDEO_X_MS_WM = 'VIDEO_X_MS_WM',
+  /** MimeType video/x-ms-wmv */
   VIDEO_X_MS_WMV = 'VIDEO_X_MS_WMV',
+  /** MimeType video/x-ms-wmx */
   VIDEO_X_MS_WMX = 'VIDEO_X_MS_WMX',
 }
 
@@ -1560,7 +1671,9 @@ export enum PostObjectsConnectionOrderbyEnum {
 
 /** The cardinality of the connection order */
 export enum OrderEnum {
+  /** Sort the query result set in an ascending order */
   ASC = 'ASC',
+  /** Sort the query result set in a descending order */
   DESC = 'DESC',
 }
 
@@ -1722,8 +1835,8 @@ export type MediaItem = Node &
     previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
     /** Whether the object is a node in the preview state */
     previewRevisionId?: Maybe<Scalars['ID']>;
-    /** The SEO data of the MediaItem */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the mediaItem */
+    seo?: Maybe<PostTypeSeo>;
     /** The sizes attribute value for an image. */
     sizes?: Maybe<Scalars['String']>;
     /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
@@ -2113,7 +2226,9 @@ export type ContentTypeToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -2267,6 +2382,8 @@ export type User = Node &
     revisions?: Maybe<UserToContentRevisionUnionConnection>;
     /** Connection between the User type and the UserRole type */
     roles?: Maybe<UserToUserRoleConnection>;
+    /** The Yoast SEO data of a user */
+    seo?: Maybe<SeoUser>;
     /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
     slug?: Maybe<Scalars['String']>;
     /** The unique resource identifier path */
@@ -2519,7 +2636,9 @@ export enum CommentsConnectionOrderbyEnum {
   COMMENT_AUTHOR_URL = 'COMMENT_AUTHOR_URL',
   /** Order by the comment contents. */
   COMMENT_CONTENT = 'COMMENT_CONTENT',
+  /** Order by date/time timestamp of the comment. */
   COMMENT_DATE = 'COMMENT_DATE',
+  /** Order by GMT timezone date/time timestamp of the comment. */
   COMMENT_DATE_GMT = 'COMMENT_DATE_GMT',
   /** Order by the globally unique identifier for the comment object */
   COMMENT_ID = 'COMMENT_ID',
@@ -2531,7 +2650,7 @@ export enum CommentsConnectionOrderbyEnum {
   COMMENT_PARENT = 'COMMENT_PARENT',
   /** Order by the post object ID. */
   COMMENT_POST_ID = 'COMMENT_POST_ID',
-  /** Order by the The type of comment, such as 'comment', 'pingback', or 'trackback'. */
+  /** Order by the the type of comment, such as 'comment', 'pingback', or 'trackback'. */
   COMMENT_TYPE = 'COMMENT_TYPE',
   /** Order by the user ID. */
   USER_ID = 'USER_ID',
@@ -2922,7 +3041,9 @@ export type UserToMediaItemConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -2986,7 +3107,9 @@ export type UserToPageConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -3117,8 +3240,8 @@ export type Page = Node &
     revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
     /** Connection between the page type and the page type */
     revisions?: Maybe<PageToRevisionConnection>;
-    /** The SEO data of the Page */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the page */
+    seo?: Maybe<PostTypeSeo>;
     /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
     slug?: Maybe<Scalars['String']>;
     /** The current status of the object */
@@ -3352,7 +3475,9 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -3408,7 +3533,9 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -3625,7 +3752,9 @@ export type PageToRevisionConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -3651,17 +3780,46 @@ export type PageToRevisionConnectionEdge = {
   node?: Maybe<Page>;
 };
 
-export type Seo = {
-  __typename?: 'SEO';
-  canonicalUrl?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  openGraphDescription?: Maybe<Scalars['String']>;
-  openGraphTitle?: Maybe<Scalars['String']>;
-  robotsMeta?: Maybe<Array<Maybe<Scalars['String']>>>;
-  socialImage?: Maybe<MediaItem>;
+export type PostTypeSeo = {
+  __typename?: 'PostTypeSEO';
+  breadcrumbs?: Maybe<Array<Maybe<SeoPostTypeBreadcrumbs>>>;
+  canonical?: Maybe<Scalars['String']>;
+  cornerstone?: Maybe<Scalars['Boolean']>;
+  focuskw?: Maybe<Scalars['String']>;
+  metaDesc?: Maybe<Scalars['String']>;
+  metaKeywords?: Maybe<Scalars['String']>;
+  metaRobotsNofollow?: Maybe<Scalars['String']>;
+  metaRobotsNoindex?: Maybe<Scalars['String']>;
+  opengraphAuthor?: Maybe<Scalars['String']>;
+  opengraphDescription?: Maybe<Scalars['String']>;
+  opengraphImage?: Maybe<MediaItem>;
+  opengraphModifiedTime?: Maybe<Scalars['String']>;
+  opengraphPublishedTime?: Maybe<Scalars['String']>;
+  opengraphPublisher?: Maybe<Scalars['String']>;
+  opengraphSiteName?: Maybe<Scalars['String']>;
+  opengraphTitle?: Maybe<Scalars['String']>;
+  opengraphType?: Maybe<Scalars['String']>;
+  opengraphUrl?: Maybe<Scalars['String']>;
+  readingTime?: Maybe<Scalars['Float']>;
+  schema?: Maybe<SeoPostTypeSchema>;
   title?: Maybe<Scalars['String']>;
   twitterDescription?: Maybe<Scalars['String']>;
+  twitterImage?: Maybe<MediaItem>;
   twitterTitle?: Maybe<Scalars['String']>;
+};
+
+export type SeoPostTypeBreadcrumbs = {
+  __typename?: 'SEOPostTypeBreadcrumbs';
+  text?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** The Schema types */
+export type SeoPostTypeSchema = {
+  __typename?: 'SEOPostTypeSchema';
+  articleType?: Maybe<Array<Maybe<Scalars['String']>>>;
+  pageType?: Maybe<Array<Maybe<Scalars['String']>>>;
+  raw?: Maybe<Scalars['String']>;
 };
 
 /** Arguments for filtering the UserToPostConnection connection */
@@ -3710,7 +3868,9 @@ export type UserToPostConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -3847,8 +4007,8 @@ export type Post = Node &
     revisionOf?: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
     /** Connection between the post type and the post type */
     revisions?: Maybe<PostToRevisionConnection>;
-    /** The SEO data of the Post */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the post */
+    seo?: Maybe<PostTypeSeo>;
     /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
     slug?: Maybe<Scalars['String']>;
     /** The current status of the object */
@@ -4017,12 +4177,19 @@ export type PostToCategoryConnectionWhereArgs = {
 
 /** Options for ordering the connection by */
 export enum TermObjectsConnectionOrderbyEnum {
+  /** Order the connection by item count. */
   COUNT = 'COUNT',
+  /** Order the connection by description. */
   DESCRIPTION = 'DESCRIPTION',
+  /** Order the connection by name. */
   NAME = 'NAME',
+  /** Order the connection by slug. */
   SLUG = 'SLUG',
+  /** Order the connection by term group. */
   TERM_GROUP = 'TERM_GROUP',
+  /** Order the connection by term id. */
   TERM_ID = 'TERM_ID',
+  /** Order the connection by term order. */
   TERM_ORDER = 'TERM_ORDER',
 }
 
@@ -4042,6 +4209,8 @@ export type PostToCategoryConnectionEdge = {
   __typename?: 'PostToCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary category */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<Category>;
 };
@@ -4091,6 +4260,8 @@ export type Category = Node &
     parentId?: Maybe<Scalars['ID']>;
     /** Connection between the category type and the post type */
     posts?: Maybe<CategoryToPostConnection>;
+    /** The Yoast SEO data of the Categories taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the category type and the Taxonomy type */
@@ -4360,7 +4531,9 @@ export type CategoryToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -4439,7 +4612,9 @@ export type CategoryToPostConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -4475,6 +4650,39 @@ export type CategoryToPostConnectionEdge = {
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
   node?: Maybe<Post>;
+};
+
+export type TaxonomySeo = {
+  __typename?: 'TaxonomySEO';
+  breadcrumbs?: Maybe<Array<Maybe<SeoPostTypeBreadcrumbs>>>;
+  canonical?: Maybe<Scalars['String']>;
+  cornerstone?: Maybe<Scalars['Boolean']>;
+  focuskw?: Maybe<Scalars['String']>;
+  metaDesc?: Maybe<Scalars['String']>;
+  metaKeywords?: Maybe<Scalars['String']>;
+  metaRobotsNofollow?: Maybe<Scalars['String']>;
+  metaRobotsNoindex?: Maybe<Scalars['String']>;
+  opengraphAuthor?: Maybe<Scalars['String']>;
+  opengraphDescription?: Maybe<Scalars['String']>;
+  opengraphImage?: Maybe<MediaItem>;
+  opengraphModifiedTime?: Maybe<Scalars['String']>;
+  opengraphPublishedTime?: Maybe<Scalars['String']>;
+  opengraphPublisher?: Maybe<Scalars['String']>;
+  opengraphSiteName?: Maybe<Scalars['String']>;
+  opengraphTitle?: Maybe<Scalars['String']>;
+  opengraphType?: Maybe<Scalars['String']>;
+  opengraphUrl?: Maybe<Scalars['String']>;
+  schema?: Maybe<SeoTaxonomySchema>;
+  title?: Maybe<Scalars['String']>;
+  twitterDescription?: Maybe<Scalars['String']>;
+  twitterImage?: Maybe<MediaItem>;
+  twitterTitle?: Maybe<Scalars['String']>;
+};
+
+/** The Schema types for Taxonomy */
+export type SeoTaxonomySchema = {
+  __typename?: 'SEOTaxonomySchema';
+  raw?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the category type and the Taxonomy type */
@@ -4661,6 +4869,8 @@ export type PostFormat = Node &
     postFormatId?: Maybe<Scalars['Int']>;
     /** Connection between the postFormat type and the post type */
     posts?: Maybe<PostFormatToPostConnection>;
+    /** The Yoast SEO data of the Formats taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the postFormat type and the Taxonomy type */
@@ -4737,7 +4947,9 @@ export type PostFormatToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -4809,7 +5021,9 @@ export type PostFormatToPostConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -4907,7 +5121,9 @@ export type PostToRevisionConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -5036,6 +5252,8 @@ export type Tag = Node &
     name?: Maybe<Scalars['String']>;
     /** Connection between the tag type and the post type */
     posts?: Maybe<TagToPostConnection>;
+    /** The Yoast SEO data of the Tags taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /**
@@ -5117,7 +5335,9 @@ export type TagToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -5189,7 +5409,9 @@ export type TagToPostConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -5280,17 +5502,29 @@ export type PostToTermNodeConnectionWhereArgs = {
 
 /** Allowed taxonomies */
 export enum TaxonomyEnum {
+  /** Taxonomy enum category */
   CATEGORY = 'CATEGORY',
+  /** Taxonomy enum pa_color */
   PACOLOR = 'PACOLOR',
+  /** Taxonomy enum pa_material */
   PAMATERIAL = 'PAMATERIAL',
+  /** Taxonomy enum pa_paper-weight */
   PAPAPERWEIGHT = 'PAPAPERWEIGHT',
+  /** Taxonomy enum pa_size */
   PASIZE = 'PASIZE',
+  /** Taxonomy enum post_format */
   POSTFORMAT = 'POSTFORMAT',
+  /** Taxonomy enum product_cat */
   PRODUCTCATEGORY = 'PRODUCTCATEGORY',
+  /** Taxonomy enum product_tag */
   PRODUCTTAG = 'PRODUCTTAG',
+  /** Taxonomy enum product_type */
   PRODUCTTYPE = 'PRODUCTTYPE',
+  /** Taxonomy enum product_shipping_class */
   SHIPPINGCLASS = 'SHIPPINGCLASS',
+  /** Taxonomy enum post_tag */
   TAG = 'TAG',
+  /** Taxonomy enum product_visibility */
   VISIBLEPRODUCT = 'VISIBLEPRODUCT',
 }
 
@@ -5344,7 +5578,9 @@ export type UserToContentRevisionUnionConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -5370,6 +5606,7 @@ export type UserToContentRevisionUnionConnectionEdge = {
   node?: Maybe<ContentRevisionUnion>;
 };
 
+/** A union of Content Node Types that support revisions */
 export type ContentRevisionUnion = Post | Page;
 
 /** Connection between the User type and the UserRole type */
@@ -5405,6 +5642,35 @@ export type UserRole = Node & {
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** The registered name of the role */
   name?: Maybe<Scalars['String']>;
+};
+
+export type SeoUser = {
+  __typename?: 'SEOUser';
+  metaDesc?: Maybe<Scalars['String']>;
+  metaRobotsNofollow?: Maybe<Scalars['String']>;
+  metaRobotsNoindex?: Maybe<Scalars['String']>;
+  schema?: Maybe<SeoUserSchema>;
+  social?: Maybe<SeoUserSocial>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** The Schema types for User */
+export type SeoUserSchema = {
+  __typename?: 'SEOUserSchema';
+  raw?: Maybe<Scalars['String']>;
+};
+
+export type SeoUserSocial = {
+  __typename?: 'SEOUserSocial';
+  facebook?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  linkedIn?: Maybe<Scalars['String']>;
+  mySpace?: Maybe<Scalars['String']>;
+  pinterest?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  wikipedia?: Maybe<Scalars['String']>;
+  youTube?: Maybe<Scalars['String']>;
 };
 
 /** Arguments for filtering the MediaItemToCommentConnection connection */
@@ -5520,10 +5786,11 @@ export enum MediaItemSizeEnum {
 /** File details for a Media Item */
 export type MediaDetails = {
   __typename?: 'MediaDetails';
-  /** The height of the mediaItem */
+  /** The filename of the mediaItem */
   file?: Maybe<Scalars['String']>;
   /** The height of the mediaItem */
   height?: Maybe<Scalars['Int']>;
+  /** Meta information associated with the mediaItem */
   meta?: Maybe<MediaItemMeta>;
   /** The available sizes of the mediaItem */
   sizes?: Maybe<Array<Maybe<MediaSize>>>;
@@ -5534,36 +5801,48 @@ export type MediaDetails = {
 /** Meta connected to a MediaItem */
 export type MediaItemMeta = {
   __typename?: 'MediaItemMeta';
+  /** Aperture measurement of the media item. */
   aperture?: Maybe<Scalars['Float']>;
+  /** Information about the camera used to create the media item. */
   camera?: Maybe<Scalars['String']>;
+  /** The text string description associated with the media item. */
   caption?: Maybe<Scalars['String']>;
+  /** Copyright information associated with the media item. */
   copyright?: Maybe<Scalars['String']>;
+  /** The date/time when the media was created. */
   createdTimestamp?: Maybe<Scalars['Int']>;
+  /** The original creator of the media item. */
   credit?: Maybe<Scalars['String']>;
+  /** The focal length value of the media item. */
   focalLength?: Maybe<Scalars['Float']>;
+  /** The ISO (International Organization for Standardization) value of the media item. */
   iso?: Maybe<Scalars['Int']>;
+  /** List of keywords used to describe or identfy the media item. */
   keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** The vertical or horizontal aspect of the media item. */
   orientation?: Maybe<Scalars['String']>;
+  /** The shutter speed information of the media item. */
   shutterSpeed?: Maybe<Scalars['Float']>;
+  /** A useful title for the media item. */
   title?: Maybe<Scalars['String']>;
 };
 
 /** Details of an available size for a media item */
 export type MediaSize = {
   __typename?: 'MediaSize';
-  /** The file of the for the referenced size */
+  /** The filename of the referenced size */
   file?: Maybe<Scalars['String']>;
   /** The filesize of the resource */
   fileSize?: Maybe<Scalars['Int']>;
-  /** The height of the for the referenced size */
+  /** The height of the referenced size */
   height?: Maybe<Scalars['String']>;
-  /** The mime type of the resource */
+  /** The mime type of the referenced size */
   mimeType?: Maybe<Scalars['String']>;
   /** The referenced size name */
   name?: Maybe<Scalars['String']>;
-  /** The url of the for the referenced size */
+  /** The url of the referenced size */
   sourceUrl?: Maybe<Scalars['String']>;
-  /** The width of the for the referenced size */
+  /** The width of the referenced size */
   width?: Maybe<Scalars['String']>;
 };
 
@@ -5834,6 +6113,8 @@ export type PaColor = Node &
     paColorId?: Maybe<Scalars['Int']>;
     /** Connection between the PaColor type and the Product type */
     products?: Maybe<PaColorToProductConnection>;
+    /** The Yoast SEO data of the Product Color taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the paColor type and the Taxonomy type */
@@ -5921,7 +6202,9 @@ export type PaColorToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -6667,8 +6950,8 @@ export type VariableProduct = Node &
     reviewsAllowed?: Maybe<Scalars['Boolean']>;
     /** Product&#039;s sale price */
     salePrice?: Maybe<Scalars['String']>;
-    /** The SEO data of the Product */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the Product */
+    seo?: Maybe<PostTypeSeo>;
     /** shipping class ID */
     shippingClassId?: Maybe<Scalars['Int']>;
     /** Connection between the Product type and the shippingClass type */
@@ -7150,6 +7433,8 @@ export type PaMaterial = Node &
     paMaterialId?: Maybe<Scalars['Int']>;
     /** Connection between the PaMaterial type and the Product type */
     products?: Maybe<PaMaterialToProductConnection>;
+    /** The Yoast SEO data of the Product Material taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the paMaterial type and the Taxonomy type */
@@ -7237,7 +7522,9 @@ export type PaMaterialToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -7560,6 +7847,8 @@ export type PaPaperWeight = Node &
     paPaperWeightId?: Maybe<Scalars['Int']>;
     /** Connection between the PaPaperWeight type and the Product type */
     products?: Maybe<PaPaperWeightToProductConnection>;
+    /** The Yoast SEO data of the Product Paper Weight taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the paPaperWeight type and the Taxonomy type */
@@ -7647,7 +7936,9 @@ export type PaPaperWeightToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -7970,6 +8261,8 @@ export type PaSize = Node &
     paSizeId?: Maybe<Scalars['Int']>;
     /** Connection between the PaSize type and the Product type */
     products?: Maybe<PaSizeToProductConnection>;
+    /** The Yoast SEO data of the Product Size taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the paSize type and the Taxonomy type */
@@ -8057,7 +8350,9 @@ export type PaSizeToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -8350,6 +8645,8 @@ export type ProductToProductCategoryConnectionEdge = {
   __typename?: 'ProductToProductCategoryConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary product_cat */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<ProductCategory>;
 };
@@ -8405,6 +8702,8 @@ export type ProductCategory = Node &
     productCategoryId?: Maybe<Scalars['Int']>;
     /** Connection between the ProductCategory type and the Product type */
     products?: Maybe<ProductCategoryToProductConnection>;
+    /** The Yoast SEO data of the Product categories taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the productCategory type and the Taxonomy type */
@@ -8580,7 +8879,9 @@ export type ProductCategoryToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -8826,6 +9127,8 @@ export type ProductTag = Node &
     productTagId?: Maybe<Scalars['Int']>;
     /** Connection between the ProductTag type and the Product type */
     products?: Maybe<ProductTagToProductConnection>;
+    /** The Yoast SEO data of the Product tags taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the productTag type and the Taxonomy type */
@@ -8902,7 +9205,9 @@ export type ProductTagToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -9125,6 +9430,8 @@ export type ProductType = Node &
      * @deprecated Deprecated in favor of databaseId
      */
     productTypeId?: Maybe<Scalars['Int']>;
+    /** The Yoast SEO data of the Product type taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the productType type and the Taxonomy type */
@@ -9192,7 +9499,9 @@ export type ProductTypeToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -9499,6 +9808,8 @@ export type ShippingClass = Node &
     link?: Maybe<Scalars['String']>;
     /** The human friendly name of the object. */
     name?: Maybe<Scalars['String']>;
+    /** The Yoast SEO data of the Product shipping classes taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /**
      * The id field matches the WP_Post-&gt;ID field.
      * @deprecated Deprecated in favor of databaseId
@@ -9571,7 +9882,9 @@ export type ShippingClassToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -9904,6 +10217,8 @@ export type VisibleProduct = Node &
     link?: Maybe<Scalars['String']>;
     /** The human friendly name of the object. */
     name?: Maybe<Scalars['String']>;
+    /** The Yoast SEO data of the Product visibility taxonomy. */
+    seo?: Maybe<TaxonomySeo>;
     /** An alphanumeric identifier for the object unique to its type. */
     slug?: Maybe<Scalars['String']>;
     /** Connection between the visibleProduct type and the Taxonomy type */
@@ -9976,7 +10291,9 @@ export type VisibleProductToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -10372,7 +10689,9 @@ export type RootQueryToContentNodeConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -10910,11 +11229,21 @@ export enum CustomerConnectionOrderbyEnum {
 
 /** Names of available user roles */
 export enum UserRoleEnum {
+  /** User role with specific capabilities */
   AUTHOR = 'AUTHOR',
+  /** User role with specific capabilities */
   CONTRIBUTOR = 'CONTRIBUTOR',
+  /** User role with specific capabilities */
   CUSTOMER = 'CUSTOMER',
+  /** User role with specific capabilities */
   EDITOR = 'EDITOR',
+  /** User role with specific capabilities */
+  SEO_EDITOR = 'SEO_EDITOR',
+  /** User role with specific capabilities */
+  SEO_MANAGER = 'SEO_MANAGER',
+  /** User role with specific capabilities */
   SHOP_MANAGER = 'SHOP_MANAGER',
+  /** User role with specific capabilities */
   SUBSCRIBER = 'SUBSCRIBER',
 }
 
@@ -12508,8 +12837,8 @@ export type ExternalProduct = Node &
     reviewsAllowed?: Maybe<Scalars['Boolean']>;
     /** Product&#039;s sale price */
     salePrice?: Maybe<Scalars['String']>;
-    /** The SEO data of the Product */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the Product */
+    seo?: Maybe<PostTypeSeo>;
     /** Connection between the Product type and the shippingClass type */
     shippingClasses?: Maybe<ProductToShippingClassConnection>;
     /** Product short description */
@@ -12792,12 +13121,12 @@ export enum MediaItemIdType {
   DATABASE_ID = 'DATABASE_ID',
   /** Identify a resource by the (hashed) Global ID. */
   ID = 'ID',
-  /** Identify a resource by the URI. */
-  URI = 'URI',
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   SLUG = 'SLUG',
   /** Identify a media item by its source url */
   SOURCE_URL = 'SOURCE_URL',
+  /** Identify a resource by the URI. */
+  URI = 'URI',
 }
 
 /** Arguments for filtering the RootQueryToMediaItemConnection connection */
@@ -12838,7 +13167,9 @@ export type RootQueryToMediaItemConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -12886,6 +13217,7 @@ export type Menu = Node &
     id: Scalars['ID'];
     /** Whether the object is restricted from the current viewer */
     isRestricted?: Maybe<Scalars['Boolean']>;
+    /** The locations a menu is assigned to */
     locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
     /**
      * WP ID of the nav menu.
@@ -12911,7 +13243,9 @@ export type MenuMenuItemsArgs = {
 
 /** Registered menu locations */
 export enum MenuLocationEnum {
+  /** Put the menu in the footer_navigation location */
   FOOTER_NAVIGATION = 'FOOTER_NAVIGATION',
+  /** Put the menu in the primary_navigation location */
   PRIMARY_NAVIGATION = 'PRIMARY_NAVIGATION',
 }
 
@@ -12974,6 +13308,7 @@ export type MenuItem = Node &
     label?: Maybe<Scalars['String']>;
     /** Link relationship (XFN) of the menu item. */
     linkRelationship?: Maybe<Scalars['String']>;
+    /** The locations the menu item&#039;s Menu is assigned to */
     locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
     /** The Menu a MenuItem is part of */
     menu?: Maybe<MenuItemToMenuConnectionEdge>;
@@ -13536,7 +13871,9 @@ export type RootQueryToPageConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -13650,10 +13987,10 @@ export enum PostIdType {
   DATABASE_ID = 'DATABASE_ID',
   /** Identify a resource by the (hashed) Global ID. */
   ID = 'ID',
-  /** Identify a resource by the URI. */
-  URI = 'URI',
   /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
   SLUG = 'SLUG',
+  /** Identify a resource by the URI. */
+  URI = 'URI',
 }
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -13778,7 +14115,9 @@ export type RootQueryToPostConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Tag Slug */
   tag?: Maybe<Scalars['String']>;
@@ -14279,7 +14618,9 @@ export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
   password?: Maybe<Scalars['String']>;
   /** Show Posts based on a keyword search */
   search?: Maybe<Scalars['String']>;
+  /** Retrieve posts where post status is in an array. */
   stati?: Maybe<Array<Maybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
   status?: Maybe<PostStatusEnum>;
   /** Title of the object */
   title?: Maybe<Scalars['String']>;
@@ -14303,6 +14644,173 @@ export type RootQueryToContentRevisionUnionConnectionEdge = {
   cursor?: Maybe<Scalars['String']>;
   /** The item at the end of the edge */
   node?: Maybe<ContentRevisionUnion>;
+};
+
+/** The Yoast SEO site level configuration data */
+export type SeoConfig = {
+  __typename?: 'SEOConfig';
+  breadcrumbs?: Maybe<SeoBreadcrumbs>;
+  contentTypes?: Maybe<SeoContentTypes>;
+  openGraph?: Maybe<SeoOpenGraph>;
+  redirects?: Maybe<Array<Maybe<SeoRedirect>>>;
+  schema?: Maybe<SeoSchema>;
+  social?: Maybe<SeoSocial>;
+  webmaster?: Maybe<SeoWebmaster>;
+};
+
+/** The Yoast SEO breadcrumb config */
+export type SeoBreadcrumbs = {
+  __typename?: 'SEOBreadcrumbs';
+  archivePrefix?: Maybe<Scalars['String']>;
+  boldLast?: Maybe<Scalars['Boolean']>;
+  enabled?: Maybe<Scalars['Boolean']>;
+  homeText?: Maybe<Scalars['String']>;
+  notFoundText?: Maybe<Scalars['String']>;
+  prefix?: Maybe<Scalars['String']>;
+  searchPrefix?: Maybe<Scalars['String']>;
+  separator?: Maybe<Scalars['String']>;
+  showBlogPage?: Maybe<Scalars['Boolean']>;
+};
+
+/** The Yoast SEO search appearance content types */
+export type SeoContentTypes = {
+  __typename?: 'SEOContentTypes';
+  mediaItem?: Maybe<SeoContentType>;
+  page?: Maybe<SeoContentType>;
+  post?: Maybe<SeoContentType>;
+  product?: Maybe<SeoContentType>;
+};
+
+/** he Yoast SEO search appearance content types fields */
+export type SeoContentType = {
+  __typename?: 'SEOContentType';
+  archive?: Maybe<SeoContentTypeArchive>;
+  metaDesc?: Maybe<Scalars['String']>;
+  metaRobotsNoindex?: Maybe<Scalars['Boolean']>;
+  schema?: Maybe<SeoPageInfoSchema>;
+  schemaType?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** he Yoast SEO search appearance content types fields */
+export type SeoContentTypeArchive = {
+  __typename?: 'SEOContentTypeArchive';
+  archiveLink?: Maybe<Scalars['String']>;
+  breadcrumbTitle?: Maybe<Scalars['String']>;
+  hasArchive?: Maybe<Scalars['Boolean']>;
+  metaDesc?: Maybe<Scalars['String']>;
+  metaRobotsNoindex?: Maybe<Scalars['Boolean']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** The Open Graph data */
+export type SeoOpenGraph = {
+  __typename?: 'SEOOpenGraph';
+  defaultImage?: Maybe<MediaItem>;
+  frontPage?: Maybe<SeoOpenGraphFrontPage>;
+};
+
+/** The Open Graph Front page data */
+export type SeoOpenGraphFrontPage = {
+  __typename?: 'SEOOpenGraphFrontPage';
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<MediaItem>;
+  title?: Maybe<Scalars['String']>;
+};
+
+/** The Yoast redirect data  (Yoast Premium only) */
+export type SeoRedirect = {
+  __typename?: 'SEORedirect';
+  format?: Maybe<Scalars['String']>;
+  origin?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['Int']>;
+};
+
+/** The Yoast SEO schema data */
+export type SeoSchema = {
+  __typename?: 'SEOSchema';
+  companyLogo?: Maybe<MediaItem>;
+  companyName?: Maybe<Scalars['String']>;
+  companyOrPerson?: Maybe<Scalars['String']>;
+  inLanguage?: Maybe<Scalars['String']>;
+  logo?: Maybe<MediaItem>;
+  personLogo?: Maybe<MediaItem>;
+  personName?: Maybe<Scalars['String']>;
+  siteName?: Maybe<Scalars['String']>;
+  siteUrl?: Maybe<Scalars['String']>;
+  wordpressSiteName?: Maybe<Scalars['String']>;
+};
+
+/** The Yoast SEO Social media links */
+export type SeoSocial = {
+  __typename?: 'SEOSocial';
+  facebook?: Maybe<SeoSocialFacebook>;
+  instagram?: Maybe<SeoSocialInstagram>;
+  linkedIn?: Maybe<SeoSocialLinkedIn>;
+  mySpace?: Maybe<SeoSocialMySpace>;
+  pinterest?: Maybe<SeoSocialPinterest>;
+  twitter?: Maybe<SeoSocialTwitter>;
+  wikipedia?: Maybe<SeoSocialWikipedia>;
+  youTube?: Maybe<SeoSocialYoutube>;
+};
+
+export type SeoSocialFacebook = {
+  __typename?: 'SEOSocialFacebook';
+  defaultImage?: Maybe<MediaItem>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialInstagram = {
+  __typename?: 'SEOSocialInstagram';
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialLinkedIn = {
+  __typename?: 'SEOSocialLinkedIn';
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialMySpace = {
+  __typename?: 'SEOSocialMySpace';
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialPinterest = {
+  __typename?: 'SEOSocialPinterest';
+  metaTag?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialTwitter = {
+  __typename?: 'SEOSocialTwitter';
+  cardType?: Maybe<SeoCardType>;
+  username?: Maybe<Scalars['String']>;
+};
+
+/** Types of cards */
+export enum SeoCardType {
+  SUMMARY = 'summary',
+  SUMMARY_LARGE_IMAGE = 'summary_large_image',
+}
+
+export type SeoSocialWikipedia = {
+  __typename?: 'SEOSocialWikipedia';
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SeoSocialYoutube = {
+  __typename?: 'SEOSocialYoutube';
+  url?: Maybe<Scalars['String']>;
+};
+
+/** The Yoast SEO  webmaster fields */
+export type SeoWebmaster = {
+  __typename?: 'SEOWebmaster';
+  baiduVerify?: Maybe<Scalars['String']>;
+  googleVerify?: Maybe<Scalars['String']>;
+  msVerify?: Maybe<Scalars['String']>;
+  yandexVerify?: Maybe<Scalars['String']>;
 };
 
 /** The Type of Identifier used to fetch a single resource. Default is ID. */
@@ -14556,8 +15064,8 @@ export type SimpleProduct = Node &
     reviewsAllowed?: Maybe<Scalars['Boolean']>;
     /** Product&#039;s sale price */
     salePrice?: Maybe<Scalars['String']>;
-    /** The SEO data of the Product */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the Product */
+    seo?: Maybe<PostTypeSeo>;
     /** shipping class ID */
     shippingClassId?: Maybe<Scalars['Int']>;
     /** Connection between the Product type and the shippingClass type */
@@ -15315,12 +15823,17 @@ export enum UsersConnectionOrderbyEnum {
   URL = 'URL',
 }
 
-/** Column used for searching for users */
+/** Column used for searching for users. */
 export enum UsersConnectionSearchColumnEnum {
+  /** The user's email address. */
   EMAIL = 'EMAIL',
+  /** The globally unique ID. */
   ID = 'ID',
+  /** The username the User uses to login with. */
   LOGIN = 'LOGIN',
+  /** A URL-friendly name for the user. The default is the user's username. */
   NICENAME = 'NICENAME',
+  /** The URL of the user\s website. */
   URL = 'URL',
 }
 
@@ -15548,6 +16061,7 @@ export type RootMutation = {
   emptyCart?: Maybe<EmptyCartPayload>;
   /** The payload for the fillCart mutation */
   fillCart?: Maybe<FillCartPayload>;
+  /** Increase the count. */
   increaseCount?: Maybe<Scalars['Int']>;
   /** The payload for the login mutation */
   login?: Maybe<LoginPayload>;
@@ -16006,6 +16520,7 @@ export type RootMutationWriteReviewArgs = {
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the category object */
   description?: Maybe<Scalars['String']>;
@@ -16024,6 +16539,7 @@ export type UpdateCategoryPayload = {
   __typename?: 'UpdateCategoryPayload';
   /** The created category */
   category?: Maybe<Category>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -16031,6 +16547,7 @@ export type UpdateCategoryPayload = {
 export type UpdatePaColorInput = {
   /** The slug that the pa_color will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_color object */
   description?: Maybe<Scalars['String']>;
@@ -16045,6 +16562,7 @@ export type UpdatePaColorInput = {
 /** The payload for the UpdatePaColor mutation */
 export type UpdatePaColorPayload = {
   __typename?: 'UpdatePaColorPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_color */
   paColor?: Maybe<PaColor>;
@@ -16054,6 +16572,7 @@ export type UpdatePaColorPayload = {
 export type UpdatePaMaterialInput = {
   /** The slug that the pa_material will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_material object */
   description?: Maybe<Scalars['String']>;
@@ -16068,6 +16587,7 @@ export type UpdatePaMaterialInput = {
 /** The payload for the UpdatePaMaterial mutation */
 export type UpdatePaMaterialPayload = {
   __typename?: 'UpdatePaMaterialPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_material */
   paMaterial?: Maybe<PaMaterial>;
@@ -16077,6 +16597,7 @@ export type UpdatePaMaterialPayload = {
 export type UpdatePaPaperWeightInput = {
   /** The slug that the pa_paper-weight will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_paper-weight object */
   description?: Maybe<Scalars['String']>;
@@ -16091,6 +16612,7 @@ export type UpdatePaPaperWeightInput = {
 /** The payload for the UpdatePaPaperWeight mutation */
 export type UpdatePaPaperWeightPayload = {
   __typename?: 'UpdatePaPaperWeightPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_paper-weight */
   paPaperWeight?: Maybe<PaPaperWeight>;
@@ -16100,6 +16622,7 @@ export type UpdatePaPaperWeightPayload = {
 export type UpdatePaSizeInput = {
   /** The slug that the pa_size will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_size object */
   description?: Maybe<Scalars['String']>;
@@ -16114,6 +16637,7 @@ export type UpdatePaSizeInput = {
 /** The payload for the UpdatePaSize mutation */
 export type UpdatePaSizePayload = {
   __typename?: 'UpdatePaSizePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_size */
   paSize?: Maybe<PaSize>;
@@ -16123,6 +16647,7 @@ export type UpdatePaSizePayload = {
 export type UpdatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_format object */
   description?: Maybe<Scalars['String']>;
@@ -16137,6 +16662,7 @@ export type UpdatePostFormatInput = {
 /** The payload for the UpdatePostFormat mutation */
 export type UpdatePostFormatPayload = {
   __typename?: 'UpdatePostFormatPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created post_format */
   postFormat?: Maybe<PostFormat>;
@@ -16146,6 +16672,7 @@ export type UpdatePostFormatPayload = {
 export type UpdateProductCategoryInput = {
   /** The slug that the product_cat will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_cat object */
   description?: Maybe<Scalars['String']>;
@@ -16162,6 +16689,7 @@ export type UpdateProductCategoryInput = {
 /** The payload for the UpdateProductCategory mutation */
 export type UpdateProductCategoryPayload = {
   __typename?: 'UpdateProductCategoryPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_cat */
   productCategory?: Maybe<ProductCategory>;
@@ -16171,6 +16699,7 @@ export type UpdateProductCategoryPayload = {
 export type UpdateProductTagInput = {
   /** The slug that the product_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_tag object */
   description?: Maybe<Scalars['String']>;
@@ -16185,6 +16714,7 @@ export type UpdateProductTagInput = {
 /** The payload for the UpdateProductTag mutation */
 export type UpdateProductTagPayload = {
   __typename?: 'UpdateProductTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_tag */
   productTag?: Maybe<ProductTag>;
@@ -16194,6 +16724,7 @@ export type UpdateProductTagPayload = {
 export type UpdateProductTypeInput = {
   /** The slug that the product_type will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_type object */
   description?: Maybe<Scalars['String']>;
@@ -16208,6 +16739,7 @@ export type UpdateProductTypeInput = {
 /** The payload for the UpdateProductType mutation */
 export type UpdateProductTypePayload = {
   __typename?: 'UpdateProductTypePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_type */
   productType?: Maybe<ProductType>;
@@ -16217,6 +16749,7 @@ export type UpdateProductTypePayload = {
 export type UpdateShippingClassInput = {
   /** The slug that the product_shipping_class will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_shipping_class object */
   description?: Maybe<Scalars['String']>;
@@ -16231,6 +16764,7 @@ export type UpdateShippingClassInput = {
 /** The payload for the UpdateShippingClass mutation */
 export type UpdateShippingClassPayload = {
   __typename?: 'UpdateShippingClassPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_shipping_class */
   shippingClass?: Maybe<ShippingClass>;
@@ -16240,6 +16774,7 @@ export type UpdateShippingClassPayload = {
 export type UpdateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_tag object */
   description?: Maybe<Scalars['String']>;
@@ -16254,6 +16789,7 @@ export type UpdateTagInput = {
 /** The payload for the UpdateTag mutation */
 export type UpdateTagPayload = {
   __typename?: 'UpdateTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created post_tag */
   tag?: Maybe<Tag>;
@@ -16263,6 +16799,7 @@ export type UpdateTagPayload = {
 export type UpdateVisibleProductInput = {
   /** The slug that the product_visibility will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_visibility object */
   description?: Maybe<Scalars['String']>;
@@ -16277,6 +16814,7 @@ export type UpdateVisibleProductInput = {
 /** The payload for the UpdateVisibleProduct mutation */
 export type UpdateVisibleProductPayload = {
   __typename?: 'UpdateVisibleProductPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_visibility */
   visibleProduct?: Maybe<VisibleProduct>;
@@ -16284,6 +16822,7 @@ export type UpdateVisibleProductPayload = {
 
 /** Input for the addCartItems mutation */
 export type AddCartItemsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Cart items to be added */
   items?: Maybe<Array<Maybe<CartItemInput>>>;
@@ -16315,6 +16854,7 @@ export type AddCartItemsPayload = {
   added?: Maybe<Array<Maybe<CartItem>>>;
   cart?: Maybe<Cart>;
   cartErrors?: Maybe<Array<Maybe<CartItemError>>>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -16365,6 +16905,7 @@ export type ProductAttributeOutput = {
 export type AddFeeInput = {
   /** Fee amount */
   amount?: Maybe<Scalars['Float']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Unique name for the fee. */
   name: Scalars['String'];
@@ -16379,11 +16920,13 @@ export type AddFeePayload = {
   __typename?: 'AddFeePayload';
   cart?: Maybe<Cart>;
   cartFee?: Maybe<CartFee>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the addToCart mutation */
 export type AddToCartInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** JSON string representation of extra cart item data */
   extraData?: Maybe<Scalars['String']>;
@@ -16402,11 +16945,13 @@ export type AddToCartPayload = {
   __typename?: 'AddToCartPayload';
   cart?: Maybe<Cart>;
   cartItem?: Maybe<CartItem>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the applyCoupon mutation */
 export type ApplyCouponInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Code of coupon being applied */
   code: Scalars['String'];
@@ -16417,6 +16962,7 @@ export type ApplyCouponPayload = {
   __typename?: 'ApplyCouponPayload';
   applied?: Maybe<AppliedCoupon>;
   cart?: Maybe<Cart>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -16426,6 +16972,7 @@ export type CheckoutInput = {
   account?: Maybe<CreateAccountInput>;
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Order customer note */
   customerNote?: Maybe<Scalars['String']>;
@@ -16492,6 +17039,7 @@ export type MetaDataInput = {
 /** The payload for the checkout mutation */
 export type CheckoutPayload = {
   __typename?: 'CheckoutPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
   order?: Maybe<Order>;
@@ -16503,6 +17051,7 @@ export type CheckoutPayload = {
 export type CreateCategoryInput = {
   /** The slug that the category will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the category object */
   description?: Maybe<Scalars['String']>;
@@ -16519,6 +17068,7 @@ export type CreateCategoryPayload = {
   __typename?: 'CreateCategoryPayload';
   /** The created category */
   category?: Maybe<Category>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -16532,6 +17082,7 @@ export type CreateCommentInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
@@ -16548,6 +17099,7 @@ export type CreateCommentInput = {
 /** The payload for the createComment mutation */
 export type CreateCommentPayload = {
   __typename?: 'CreateCommentPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment that was created */
   comment?: Maybe<Comment>;
@@ -16563,6 +17115,7 @@ export type CreateMediaItemInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** The caption for the mediaItem */
   caption?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the mediaItem */
   commentStatus?: Maybe<Scalars['String']>;
@@ -16603,7 +17156,9 @@ export enum MediaItemStatusEnum {
 /** The payload for the createMediaItem mutation */
 export type CreateMediaItemPayload = {
   __typename?: 'CreateMediaItemPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The MediaItem object mutation type. */
   mediaItem?: Maybe<MediaItem>;
 };
 
@@ -16611,6 +17166,7 @@ export type CreateMediaItemPayload = {
 export type CreateOrderInput = {
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Coupons codes to be applied to order */
   coupons?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -16703,6 +17259,7 @@ export type ShippingLineInput = {
 /** The payload for the createOrder mutation */
 export type CreateOrderPayload = {
   __typename?: 'CreateOrderPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   order?: Maybe<Order>;
   orderId?: Maybe<Scalars['Int']>;
@@ -16712,6 +17269,7 @@ export type CreateOrderPayload = {
 export type CreatePaColorInput = {
   /** The slug that the pa_color will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_color object */
   description?: Maybe<Scalars['String']>;
@@ -16724,6 +17282,7 @@ export type CreatePaColorInput = {
 /** The payload for the createPaColor mutation */
 export type CreatePaColorPayload = {
   __typename?: 'CreatePaColorPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_color */
   paColor?: Maybe<PaColor>;
@@ -16733,6 +17292,7 @@ export type CreatePaColorPayload = {
 export type CreatePaMaterialInput = {
   /** The slug that the pa_material will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_material object */
   description?: Maybe<Scalars['String']>;
@@ -16745,6 +17305,7 @@ export type CreatePaMaterialInput = {
 /** The payload for the createPaMaterial mutation */
 export type CreatePaMaterialPayload = {
   __typename?: 'CreatePaMaterialPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_material */
   paMaterial?: Maybe<PaMaterial>;
@@ -16754,6 +17315,7 @@ export type CreatePaMaterialPayload = {
 export type CreatePaPaperWeightInput = {
   /** The slug that the pa_paper-weight will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_paper-weight object */
   description?: Maybe<Scalars['String']>;
@@ -16766,6 +17328,7 @@ export type CreatePaPaperWeightInput = {
 /** The payload for the createPaPaperWeight mutation */
 export type CreatePaPaperWeightPayload = {
   __typename?: 'CreatePaPaperWeightPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_paper-weight */
   paPaperWeight?: Maybe<PaPaperWeight>;
@@ -16775,6 +17338,7 @@ export type CreatePaPaperWeightPayload = {
 export type CreatePaSizeInput = {
   /** The slug that the pa_size will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the pa_size object */
   description?: Maybe<Scalars['String']>;
@@ -16787,6 +17351,7 @@ export type CreatePaSizeInput = {
 /** The payload for the createPaSize mutation */
 export type CreatePaSizePayload = {
   __typename?: 'CreatePaSizePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created pa_size */
   paSize?: Maybe<PaSize>;
@@ -16796,6 +17361,7 @@ export type CreatePaSizePayload = {
 export type CreatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
@@ -16820,7 +17386,9 @@ export type CreatePageInput = {
 /** The payload for the createPage mutation */
 export type CreatePagePayload = {
   __typename?: 'CreatePagePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
   page?: Maybe<Page>;
 };
 
@@ -16830,6 +17398,7 @@ export type CreatePostInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** Set connections between the post and categories */
   categories?: Maybe<PostCategoriesInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
@@ -16865,6 +17434,7 @@ export type CreatePostInput = {
 export type PostCategoriesInput = {
   /** If true, this will append the category to existing related categories. If false, this will replace existing relationships. Default true. */
   append?: Maybe<Scalars['Boolean']>;
+  /** The input list of items to set. */
   nodes?: Maybe<Array<Maybe<PostCategoriesNodeInput>>>;
 };
 
@@ -16884,6 +17454,7 @@ export type PostCategoriesNodeInput = {
 export type PostPostFormatsInput = {
   /** If true, this will append the postFormat to existing related postFormats. If false, this will replace existing relationships. Default true. */
   append?: Maybe<Scalars['Boolean']>;
+  /** The input list of items to set. */
   nodes?: Maybe<Array<Maybe<PostPostFormatsNodeInput>>>;
 };
 
@@ -16903,6 +17474,7 @@ export type PostPostFormatsNodeInput = {
 export type PostTagsInput = {
   /** If true, this will append the tag to existing related tags. If false, this will replace existing relationships. Default true. */
   append?: Maybe<Scalars['Boolean']>;
+  /** The input list of items to set. */
   nodes?: Maybe<Array<Maybe<PostTagsNodeInput>>>;
 };
 
@@ -16921,7 +17493,9 @@ export type PostTagsNodeInput = {
 /** The payload for the createPost mutation */
 export type CreatePostPayload = {
   __typename?: 'CreatePostPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
   post?: Maybe<Post>;
 };
 
@@ -16929,6 +17503,7 @@ export type CreatePostPayload = {
 export type CreatePostFormatInput = {
   /** The slug that the post_format will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_format object */
   description?: Maybe<Scalars['String']>;
@@ -16941,6 +17516,7 @@ export type CreatePostFormatInput = {
 /** The payload for the createPostFormat mutation */
 export type CreatePostFormatPayload = {
   __typename?: 'CreatePostFormatPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created post_format */
   postFormat?: Maybe<PostFormat>;
@@ -16950,6 +17526,7 @@ export type CreatePostFormatPayload = {
 export type CreateProductCategoryInput = {
   /** The slug that the product_cat will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_cat object */
   description?: Maybe<Scalars['String']>;
@@ -16964,6 +17541,7 @@ export type CreateProductCategoryInput = {
 /** The payload for the createProductCategory mutation */
 export type CreateProductCategoryPayload = {
   __typename?: 'CreateProductCategoryPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_cat */
   productCategory?: Maybe<ProductCategory>;
@@ -16973,6 +17551,7 @@ export type CreateProductCategoryPayload = {
 export type CreateProductTagInput = {
   /** The slug that the product_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_tag object */
   description?: Maybe<Scalars['String']>;
@@ -16985,6 +17564,7 @@ export type CreateProductTagInput = {
 /** The payload for the createProductTag mutation */
 export type CreateProductTagPayload = {
   __typename?: 'CreateProductTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_tag */
   productTag?: Maybe<ProductTag>;
@@ -16994,6 +17574,7 @@ export type CreateProductTagPayload = {
 export type CreateProductTypeInput = {
   /** The slug that the product_type will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_type object */
   description?: Maybe<Scalars['String']>;
@@ -17006,6 +17587,7 @@ export type CreateProductTypeInput = {
 /** The payload for the createProductType mutation */
 export type CreateProductTypePayload = {
   __typename?: 'CreateProductTypePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_type */
   productType?: Maybe<ProductType>;
@@ -17015,6 +17597,7 @@ export type CreateProductTypePayload = {
 export type CreateShippingClassInput = {
   /** The slug that the product_shipping_class will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_shipping_class object */
   description?: Maybe<Scalars['String']>;
@@ -17027,6 +17610,7 @@ export type CreateShippingClassInput = {
 /** The payload for the createShippingClass mutation */
 export type CreateShippingClassPayload = {
   __typename?: 'CreateShippingClassPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_shipping_class */
   shippingClass?: Maybe<ShippingClass>;
@@ -17036,6 +17620,7 @@ export type CreateShippingClassPayload = {
 export type CreateTagInput = {
   /** The slug that the post_tag will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the post_tag object */
   description?: Maybe<Scalars['String']>;
@@ -17048,6 +17633,7 @@ export type CreateTagInput = {
 /** The payload for the createTag mutation */
 export type CreateTagPayload = {
   __typename?: 'CreateTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created post_tag */
   tag?: Maybe<Tag>;
@@ -17057,6 +17643,7 @@ export type CreateTagPayload = {
 export type CreateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
@@ -17099,7 +17686,9 @@ export type CreateUserInput = {
 /** The payload for the createUser mutation */
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The User object mutation type. */
   user?: Maybe<User>;
 };
 
@@ -17107,6 +17696,7 @@ export type CreateUserPayload = {
 export type CreateVisibleProductInput = {
   /** The slug that the product_visibility will be an alias of */
   aliasOf?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The description of the product_visibility object */
   description?: Maybe<Scalars['String']>;
@@ -17119,6 +17709,7 @@ export type CreateVisibleProductInput = {
 /** The payload for the createVisibleProduct mutation */
 export type CreateVisibleProductPayload = {
   __typename?: 'CreateVisibleProductPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The created product_visibility */
   visibleProduct?: Maybe<VisibleProduct>;
@@ -17126,6 +17717,7 @@ export type CreateVisibleProductPayload = {
 
 /** Input for the deleteCategory mutation */
 export type DeleteCategoryInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the category to delete */
   id: Scalars['ID'];
@@ -17136,6 +17728,7 @@ export type DeleteCategoryPayload = {
   __typename?: 'DeleteCategoryPayload';
   /** The deteted term object */
   category?: Maybe<Category>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17143,6 +17736,7 @@ export type DeleteCategoryPayload = {
 
 /** Input for the deleteComment mutation */
 export type DeleteCommentInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the comment should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17153,6 +17747,7 @@ export type DeleteCommentInput = {
 /** The payload for the deleteComment mutation */
 export type DeleteCommentPayload = {
   __typename?: 'DeleteCommentPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The deleted comment object */
   comment?: Maybe<Comment>;
@@ -17162,6 +17757,7 @@ export type DeleteCommentPayload = {
 
 /** Input for the deleteMediaItem mutation */
 export type DeleteMediaItemInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the mediaItem should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17172,6 +17768,7 @@ export type DeleteMediaItemInput = {
 /** The payload for the deleteMediaItem mutation */
 export type DeleteMediaItemPayload = {
   __typename?: 'DeleteMediaItemPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted mediaItem */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17181,6 +17778,7 @@ export type DeleteMediaItemPayload = {
 
 /** Input for the deleteOrder mutation */
 export type DeleteOrderInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Delete or simply place in trash. */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17193,12 +17791,14 @@ export type DeleteOrderInput = {
 /** The payload for the deleteOrder mutation */
 export type DeleteOrderPayload = {
   __typename?: 'DeleteOrderPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   order?: Maybe<Order>;
 };
 
 /** Input for the deleteOrderItems mutation */
 export type DeleteOrderItemsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Order global ID */
   id?: Maybe<Scalars['ID']>;
@@ -17211,12 +17811,14 @@ export type DeleteOrderItemsInput = {
 /** The payload for the deleteOrderItems mutation */
 export type DeleteOrderItemsPayload = {
   __typename?: 'DeleteOrderItemsPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   order?: Maybe<Order>;
 };
 
 /** Input for the deletePaColor mutation */
 export type DeletePaColorInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paColor to delete */
   id: Scalars['ID'];
@@ -17225,6 +17827,7 @@ export type DeletePaColorInput = {
 /** The payload for the deletePaColor mutation */
 export type DeletePaColorPayload = {
   __typename?: 'DeletePaColorPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17234,6 +17837,7 @@ export type DeletePaColorPayload = {
 
 /** Input for the deletePaMaterial mutation */
 export type DeletePaMaterialInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paMaterial to delete */
   id: Scalars['ID'];
@@ -17242,6 +17846,7 @@ export type DeletePaMaterialInput = {
 /** The payload for the deletePaMaterial mutation */
 export type DeletePaMaterialPayload = {
   __typename?: 'DeletePaMaterialPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17251,6 +17856,7 @@ export type DeletePaMaterialPayload = {
 
 /** Input for the deletePaPaperWeight mutation */
 export type DeletePaPaperWeightInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paPaperWeight to delete */
   id: Scalars['ID'];
@@ -17259,6 +17865,7 @@ export type DeletePaPaperWeightInput = {
 /** The payload for the deletePaPaperWeight mutation */
 export type DeletePaPaperWeightPayload = {
   __typename?: 'DeletePaPaperWeightPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17268,6 +17875,7 @@ export type DeletePaPaperWeightPayload = {
 
 /** Input for the deletePaSize mutation */
 export type DeletePaSizeInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the paSize to delete */
   id: Scalars['ID'];
@@ -17276,6 +17884,7 @@ export type DeletePaSizeInput = {
 /** The payload for the deletePaSize mutation */
 export type DeletePaSizePayload = {
   __typename?: 'DeletePaSizePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17285,6 +17894,7 @@ export type DeletePaSizePayload = {
 
 /** Input for the deletePage mutation */
 export type DeletePageInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17295,6 +17905,7 @@ export type DeletePageInput = {
 /** The payload for the deletePage mutation */
 export type DeletePagePayload = {
   __typename?: 'DeletePagePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17304,6 +17915,7 @@ export type DeletePagePayload = {
 
 /** Input for the deletePost mutation */
 export type DeletePostInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the object should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17314,6 +17926,7 @@ export type DeletePostInput = {
 /** The payload for the deletePost mutation */
 export type DeletePostPayload = {
   __typename?: 'DeletePostPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17323,6 +17936,7 @@ export type DeletePostPayload = {
 
 /** Input for the deletePostFormat mutation */
 export type DeletePostFormatInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the postFormat to delete */
   id: Scalars['ID'];
@@ -17331,6 +17945,7 @@ export type DeletePostFormatInput = {
 /** The payload for the deletePostFormat mutation */
 export type DeletePostFormatPayload = {
   __typename?: 'DeletePostFormatPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17340,6 +17955,7 @@ export type DeletePostFormatPayload = {
 
 /** Input for the deleteProductCategory mutation */
 export type DeleteProductCategoryInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productCategory to delete */
   id: Scalars['ID'];
@@ -17348,6 +17964,7 @@ export type DeleteProductCategoryInput = {
 /** The payload for the deleteProductCategory mutation */
 export type DeleteProductCategoryPayload = {
   __typename?: 'DeleteProductCategoryPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17357,6 +17974,7 @@ export type DeleteProductCategoryPayload = {
 
 /** Input for the deleteProductTag mutation */
 export type DeleteProductTagInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productTag to delete */
   id: Scalars['ID'];
@@ -17365,6 +17983,7 @@ export type DeleteProductTagInput = {
 /** The payload for the deleteProductTag mutation */
 export type DeleteProductTagPayload = {
   __typename?: 'DeleteProductTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17374,6 +17993,7 @@ export type DeleteProductTagPayload = {
 
 /** Input for the deleteProductType mutation */
 export type DeleteProductTypeInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the productType to delete */
   id: Scalars['ID'];
@@ -17382,6 +18002,7 @@ export type DeleteProductTypeInput = {
 /** The payload for the deleteProductType mutation */
 export type DeleteProductTypePayload = {
   __typename?: 'DeleteProductTypePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17391,6 +18012,7 @@ export type DeleteProductTypePayload = {
 
 /** Input for the deleteReview mutation */
 export type DeleteReviewInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Whether the product review should be force deleted instead of being moved to the trash */
   forceDelete?: Maybe<Scalars['Boolean']>;
@@ -17403,6 +18025,7 @@ export type DeleteReviewPayload = {
   __typename?: 'DeleteReviewPayload';
   /** The affected product review ID */
   affectedId?: Maybe<Scalars['ID']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The product rating of the affected product review */
   rating?: Maybe<Scalars['Float']>;
@@ -17412,6 +18035,7 @@ export type DeleteReviewPayload = {
 
 /** Input for the deleteShippingClass mutation */
 export type DeleteShippingClassInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the shippingClass to delete */
   id: Scalars['ID'];
@@ -17420,6 +18044,7 @@ export type DeleteShippingClassInput = {
 /** The payload for the deleteShippingClass mutation */
 export type DeleteShippingClassPayload = {
   __typename?: 'DeleteShippingClassPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17429,6 +18054,7 @@ export type DeleteShippingClassPayload = {
 
 /** Input for the deleteTag mutation */
 export type DeleteTagInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the tag to delete */
   id: Scalars['ID'];
@@ -17437,6 +18063,7 @@ export type DeleteTagInput = {
 /** The payload for the deleteTag mutation */
 export type DeleteTagPayload = {
   __typename?: 'DeleteTagPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17446,6 +18073,7 @@ export type DeleteTagPayload = {
 
 /** Input for the deleteUser mutation */
 export type DeleteUserInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the user you want to delete */
   id: Scalars['ID'];
@@ -17456,6 +18084,7 @@ export type DeleteUserInput = {
 /** The payload for the deleteUser mutation */
 export type DeleteUserPayload = {
   __typename?: 'DeleteUserPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the user that you just deleted */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17465,6 +18094,7 @@ export type DeleteUserPayload = {
 
 /** Input for the deleteVisibleProduct mutation */
 export type DeleteVisibleProductInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the visibleProduct to delete */
   id: Scalars['ID'];
@@ -17473,6 +18103,7 @@ export type DeleteVisibleProductInput = {
 /** The payload for the deleteVisibleProduct mutation */
 export type DeleteVisibleProductPayload = {
   __typename?: 'DeleteVisibleProductPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the deleted object */
   deletedId?: Maybe<Scalars['ID']>;
@@ -17483,6 +18114,7 @@ export type DeleteVisibleProductPayload = {
 /** Input for the emptyCart mutation */
 export type EmptyCartInput = {
   clearPersistentCart?: Maybe<Scalars['Boolean']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -17490,12 +18122,14 @@ export type EmptyCartInput = {
 export type EmptyCartPayload = {
   __typename?: 'EmptyCartPayload';
   cart?: Maybe<Cart>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   deletedCart?: Maybe<Cart>;
 };
 
 /** Input for the fillCart mutation */
 export type FillCartInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Coupons to be applied to the cart */
   coupons?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -17513,11 +18147,13 @@ export type FillCartPayload = {
   cart?: Maybe<Cart>;
   cartErrors?: Maybe<Array<Maybe<CartError>>>;
   chosenShippingMethods?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the login mutation */
 export type LoginInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The plain-text password for the user logging in. */
   password: Scalars['String'];
@@ -17530,6 +18166,7 @@ export type LoginPayload = {
   __typename?: 'LoginPayload';
   /** JWT Token that can be used in future requests for Authentication */
   authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Customer object of authenticated user. */
   customer?: Maybe<Customer>;
@@ -17543,6 +18180,7 @@ export type LoginPayload = {
 
 /** Input for the refreshJwtAuthToken mutation */
 export type RefreshJwtAuthTokenInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
   jwtRefreshToken: Scalars['String'];
@@ -17553,6 +18191,7 @@ export type RefreshJwtAuthTokenPayload = {
   __typename?: 'RefreshJwtAuthTokenPayload';
   /** JWT Token that can be used in future requests for Authentication */
   authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -17562,6 +18201,7 @@ export type RegisterCustomerInput = {
   aim?: Maybe<Scalars['String']>;
   /** Customer billing information */
   billing?: Maybe<CustomerAddressInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
@@ -17606,6 +18246,7 @@ export type RegisterCustomerPayload = {
   __typename?: 'RegisterCustomerPayload';
   /** JWT Token that can be used in future requests for Authentication */
   authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
   /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
@@ -17617,6 +18258,7 @@ export type RegisterCustomerPayload = {
 export type RegisterUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
@@ -17657,12 +18299,15 @@ export type RegisterUserInput = {
 /** The payload for the registerUser mutation */
 export type RegisterUserPayload = {
   __typename?: 'RegisterUserPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The User object mutation type. */
   user?: Maybe<User>;
 };
 
 /** Input for the removeCoupons mutation */
 export type RemoveCouponsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Code of coupon being applied */
   codes?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -17672,6 +18317,7 @@ export type RemoveCouponsInput = {
 export type RemoveCouponsPayload = {
   __typename?: 'RemoveCouponsPayload';
   cart?: Maybe<Cart>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -17679,6 +18325,7 @@ export type RemoveCouponsPayload = {
 export type RemoveItemsFromCartInput = {
   /** Remove all cart items */
   all?: Maybe<Scalars['Boolean']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Item keys of the items being removed */
   keys?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -17689,11 +18336,13 @@ export type RemoveItemsFromCartPayload = {
   __typename?: 'RemoveItemsFromCartPayload';
   cart?: Maybe<Cart>;
   cartItems?: Maybe<Array<Maybe<CartItem>>>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the resetUserPassword mutation */
 export type ResetUserPasswordInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Password reset key */
   key?: Maybe<Scalars['String']>;
@@ -17706,12 +18355,15 @@ export type ResetUserPasswordInput = {
 /** The payload for the resetUserPassword mutation */
 export type ResetUserPasswordPayload = {
   __typename?: 'ResetUserPasswordPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The User object mutation type. */
   user?: Maybe<User>;
 };
 
 /** Input for the restoreCartItems mutation */
 export type RestoreCartItemsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Cart item key of the item being removed */
   keys?: Maybe<Array<Maybe<Scalars['ID']>>>;
@@ -17722,11 +18374,13 @@ export type RestoreCartItemsPayload = {
   __typename?: 'RestoreCartItemsPayload';
   cart?: Maybe<Cart>;
   cartItems?: Maybe<Array<Maybe<CartItem>>>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the restoreComment mutation */
 export type RestoreCommentInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the comment to be restored */
   id: Scalars['ID'];
@@ -17735,6 +18389,7 @@ export type RestoreCommentInput = {
 /** The payload for the restoreComment mutation */
 export type RestoreCommentPayload = {
   __typename?: 'RestoreCommentPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The restored comment object */
   comment?: Maybe<Comment>;
@@ -17744,6 +18399,7 @@ export type RestoreCommentPayload = {
 
 /** Input for the restoreReview mutation */
 export type RestoreReviewInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the target product review */
   id: Scalars['ID'];
@@ -17754,6 +18410,7 @@ export type RestoreReviewPayload = {
   __typename?: 'RestoreReviewPayload';
   /** The affected product review ID */
   affectedId?: Maybe<Scalars['ID']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The product rating of the affected product review */
   rating?: Maybe<Scalars['Float']>;
@@ -17763,6 +18420,7 @@ export type RestoreReviewPayload = {
 
 /** Input for the sendPasswordResetEmail mutation */
 export type SendPasswordResetEmailInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string that contains the user's username or email address. */
   username: Scalars['String'];
@@ -17771,6 +18429,7 @@ export type SendPasswordResetEmailInput = {
 /** The payload for the sendPasswordResetEmail mutation */
 export type SendPasswordResetEmailPayload = {
   __typename?: 'SendPasswordResetEmailPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The user that the password reset email was sent to */
   user?: Maybe<User>;
@@ -17786,6 +18445,7 @@ export type UpdateCommentInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
@@ -17804,6 +18464,7 @@ export type UpdateCommentInput = {
 /** The payload for the updateComment mutation */
 export type UpdateCommentPayload = {
   __typename?: 'UpdateCommentPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment that was created */
   comment?: Maybe<Comment>;
@@ -17817,6 +18478,7 @@ export type UpdateCustomerInput = {
   aim?: Maybe<Scalars['String']>;
   /** Customer billing information */
   billing?: Maybe<CustomerAddressInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
@@ -17863,6 +18525,7 @@ export type UpdateCustomerPayload = {
   __typename?: 'UpdateCustomerPayload';
   /** JWT Token that can be used in future requests for Authentication */
   authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
   /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
@@ -17871,6 +18534,7 @@ export type UpdateCustomerPayload = {
 
 /** Input for the updateItemQuantities mutation */
 export type UpdateItemQuantitiesInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Cart item being updated */
   items?: Maybe<Array<Maybe<CartItemQuantityInput>>>;
@@ -17888,6 +18552,7 @@ export type CartItemQuantityInput = {
 export type UpdateItemQuantitiesPayload = {
   __typename?: 'UpdateItemQuantitiesPayload';
   cart?: Maybe<Cart>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   items?: Maybe<Array<Maybe<CartItem>>>;
   removed?: Maybe<Array<Maybe<CartItem>>>;
@@ -17902,6 +18567,7 @@ export type UpdateMediaItemInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** The caption for the mediaItem */
   caption?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the mediaItem */
   commentStatus?: Maybe<Scalars['String']>;
@@ -17932,7 +18598,9 @@ export type UpdateMediaItemInput = {
 /** The payload for the updateMediaItem mutation */
 export type UpdateMediaItemPayload = {
   __typename?: 'UpdateMediaItemPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The MediaItem object mutation type. */
   mediaItem?: Maybe<MediaItem>;
 };
 
@@ -17940,6 +18608,7 @@ export type UpdateMediaItemPayload = {
 export type UpdateOrderInput = {
   /** Order billing address */
   billing?: Maybe<CustomerAddressInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Coupons codes to be applied to order */
   coupons?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -17980,6 +18649,7 @@ export type UpdateOrderInput = {
 /** The payload for the updateOrder mutation */
 export type UpdateOrderPayload = {
   __typename?: 'UpdateOrderPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   order?: Maybe<Order>;
 };
@@ -17988,6 +18658,7 @@ export type UpdateOrderPayload = {
 export type UpdatePageInput = {
   /** The userId to assign as the author of the object */
   authorId?: Maybe<Scalars['ID']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
@@ -18014,7 +18685,9 @@ export type UpdatePageInput = {
 /** The payload for the updatePage mutation */
 export type UpdatePagePayload = {
   __typename?: 'UpdatePagePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
   page?: Maybe<Page>;
 };
 
@@ -18024,6 +18697,7 @@ export type UpdatePostInput = {
   authorId?: Maybe<Scalars['ID']>;
   /** Set connections between the post and categories */
   categories?: Maybe<PostCategoriesInput>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The comment status for the object */
   commentStatus?: Maybe<Scalars['String']>;
@@ -18060,7 +18734,9 @@ export type UpdatePostInput = {
 /** The payload for the updatePost mutation */
 export type UpdatePostPayload = {
   __typename?: 'UpdatePostPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The Post object mutation type. */
   post?: Maybe<Post>;
 };
 
@@ -18074,6 +18750,7 @@ export type UpdateReviewInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
@@ -18092,6 +18769,7 @@ export type UpdateReviewInput = {
 /** The payload for the updateReview mutation */
 export type UpdateReviewPayload = {
   __typename?: 'UpdateReviewPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The product rating of the review that was created */
   rating?: Maybe<Scalars['Float']>;
@@ -18101,6 +18779,7 @@ export type UpdateReviewPayload = {
 
 /** Input for the updateSettings mutation */
 export type UpdateSettingsInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Allow people to submit comments on new posts. */
   discussionSettingsDefaultCommentStatus?: Maybe<Scalars['String']>;
@@ -18137,16 +18816,23 @@ export type UpdateSettingsInput = {
 /** The payload for the updateSettings mutation */
 export type UpdateSettingsPayload = {
   __typename?: 'UpdateSettingsPayload';
+  /** Update all settings. */
   allSettings?: Maybe<Settings>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Update the discussion setting. */
   discussionSettings?: Maybe<DiscussionSettings>;
+  /** Update the general setting. */
   generalSettings?: Maybe<GeneralSettings>;
+  /** Update the reading setting. */
   readingSettings?: Maybe<ReadingSettings>;
+  /** Update the writing setting. */
   writingSettings?: Maybe<WritingSettings>;
 };
 
 /** Input for the updateShippingMethod mutation */
 export type UpdateShippingMethodInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   shippingMethods?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
@@ -18155,6 +18841,7 @@ export type UpdateShippingMethodInput = {
 export type UpdateShippingMethodPayload = {
   __typename?: 'UpdateShippingMethodPayload';
   cart?: Maybe<Cart>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
@@ -18162,6 +18849,7 @@ export type UpdateShippingMethodPayload = {
 export type UpdateUserInput = {
   /** User's AOL IM account. */
   aim?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** A string containing content about the user. */
   description?: Maybe<Scalars['String']>;
@@ -18204,7 +18892,9 @@ export type UpdateUserInput = {
 /** The payload for the updateUser mutation */
 export type UpdateUserPayload = {
   __typename?: 'UpdateUserPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The User object mutation type. */
   user?: Maybe<User>;
 };
 
@@ -18218,6 +18908,7 @@ export type WriteReviewInput = {
   authorEmail?: Maybe<Scalars['String']>;
   /** The url of the comment's author. */
   authorUrl?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The ID of the post object the comment belongs to. */
   commentOn?: Maybe<Scalars['Int']>;
@@ -18234,6 +18925,7 @@ export type WriteReviewInput = {
 /** The payload for the writeReview mutation */
 export type WriteReviewPayload = {
   __typename?: 'WriteReviewPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** The product rating of the review that was created */
   rating?: Maybe<Scalars['Float']>;
@@ -19181,8 +19873,10 @@ export type MenuItemsWhereArgs = {
   location?: Maybe<MenuLocationEnum>;
 };
 
+/** Union between the post, page and media item types */
 export type PostObjectUnion = Post | Page | MediaItem;
 
+/** Union between the Category, Tag and PostFormatPost types */
 export type TermObjectUnion =
   | Category
   | Tag
@@ -19333,8 +20027,8 @@ export type GroupProduct = Node &
     reviews?: Maybe<ProductToCommentConnection>;
     /** If reviews are allowed */
     reviewsAllowed?: Maybe<Scalars['Boolean']>;
-    /** The SEO data of the Product */
-    seo?: Maybe<Seo>;
+    /** The Yoast SEO data of the Product */
+    seo?: Maybe<PostTypeSeo>;
     /** Connection between the Product type and the shippingClass type */
     shippingClasses?: Maybe<ProductToShippingClassConnection>;
     /** Product short description */
@@ -20044,17 +20738,17 @@ export type PageQuery = { __typename?: 'RootQuery' } & {
           }
         >;
         seo?: Maybe<
-          { __typename?: 'SEO' } & Pick<
-            Seo,
+          { __typename?: 'PostTypeSEO' } & Pick<
+            PostTypeSeo,
             | 'title'
-            | 'description'
-            | 'canonicalUrl'
-            | 'openGraphTitle'
-            | 'openGraphDescription'
+            | 'metaDesc'
+            | 'canonical'
+            | 'opengraphTitle'
+            | 'opengraphDescription'
             | 'twitterTitle'
             | 'twitterDescription'
           > & {
-              socialImage?: Maybe<
+              opengraphImage?: Maybe<
                 { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
                     mediaDetails?: Maybe<
                       { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
@@ -20267,17 +20961,17 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
             }
           >;
           seo?: Maybe<
-            { __typename?: 'SEO' } & Pick<
-              Seo,
+            { __typename?: 'PostTypeSEO' } & Pick<
+              PostTypeSeo,
               | 'title'
-              | 'description'
-              | 'canonicalUrl'
-              | 'openGraphTitle'
-              | 'openGraphDescription'
+              | 'metaDesc'
+              | 'canonical'
+              | 'opengraphTitle'
+              | 'opengraphDescription'
               | 'twitterTitle'
               | 'twitterDescription'
             > & {
-                socialImage?: Maybe<
+                opengraphImage?: Maybe<
                   { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
                       mediaDetails?: Maybe<
                         { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
@@ -20412,17 +21106,17 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
             }
           >;
           seo?: Maybe<
-            { __typename?: 'SEO' } & Pick<
-              Seo,
+            { __typename?: 'PostTypeSEO' } & Pick<
+              PostTypeSeo,
               | 'title'
-              | 'description'
-              | 'canonicalUrl'
-              | 'openGraphTitle'
-              | 'openGraphDescription'
+              | 'metaDesc'
+              | 'canonical'
+              | 'opengraphTitle'
+              | 'opengraphDescription'
               | 'twitterTitle'
               | 'twitterDescription'
             > & {
-                socialImage?: Maybe<
+                opengraphImage?: Maybe<
                   { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
                       mediaDetails?: Maybe<
                         { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
@@ -20561,17 +21255,17 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
             }
           >;
           seo?: Maybe<
-            { __typename?: 'SEO' } & Pick<
-              Seo,
+            { __typename?: 'PostTypeSEO' } & Pick<
+              PostTypeSeo,
               | 'title'
-              | 'description'
-              | 'canonicalUrl'
-              | 'openGraphTitle'
-              | 'openGraphDescription'
+              | 'metaDesc'
+              | 'canonical'
+              | 'opengraphTitle'
+              | 'opengraphDescription'
               | 'twitterTitle'
               | 'twitterDescription'
             > & {
-                socialImage?: Maybe<
+                opengraphImage?: Maybe<
                   { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
                       mediaDetails?: Maybe<
                         { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
@@ -20704,17 +21398,17 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
             }
           >;
           seo?: Maybe<
-            { __typename?: 'SEO' } & Pick<
-              Seo,
+            { __typename?: 'PostTypeSEO' } & Pick<
+              PostTypeSeo,
               | 'title'
-              | 'description'
-              | 'canonicalUrl'
-              | 'openGraphTitle'
-              | 'openGraphDescription'
+              | 'metaDesc'
+              | 'canonical'
+              | 'opengraphTitle'
+              | 'opengraphDescription'
               | 'twitterTitle'
               | 'twitterDescription'
             > & {
-                socialImage?: Maybe<
+                opengraphImage?: Maybe<
                   { __typename?: 'MediaItem' } & Pick<MediaItem, 'sourceUrl' | 'altText'> & {
                       mediaDetails?: Maybe<
                         { __typename?: 'MediaDetails' } & Pick<MediaDetails, 'height' | 'width'>
@@ -21431,13 +22125,11 @@ export const PageDocument = gql`
       }
       seo {
         title
-        description
-        canonicalUrl
-        openGraphTitle
-        openGraphDescription
-        twitterTitle
-        twitterDescription
-        socialImage {
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage {
           sourceUrl
           altText
           mediaDetails {
@@ -21445,6 +22137,8 @@ export const PageDocument = gql`
             width
           }
         }
+        twitterTitle
+        twitterDescription
       }
     }
   }
@@ -21689,13 +22383,11 @@ export const ProductDocument = gql`
       }
       seo {
         title
-        description
-        canonicalUrl
-        openGraphTitle
-        openGraphDescription
-        twitterTitle
-        twitterDescription
-        socialImage {
+        metaDesc
+        canonical
+        opengraphTitle
+        opengraphDescription
+        opengraphImage {
           sourceUrl
           altText
           mediaDetails {
@@ -21703,6 +22395,8 @@ export const ProductDocument = gql`
             width
           }
         }
+        twitterTitle
+        twitterDescription
       }
     }
   }
