@@ -22,7 +22,7 @@ const ProductJSON: React.VFC<Props> = ({ product }) => {
           ...(product?.galleryImages?.nodes?.map((mediaItem) => mediaItem?.sourceUrl) ?? []),
         ].filter((sourceUrl) => sourceUrl != null) as string[]
       }
-      description={product?.seo?.description ?? ''}
+      description={product?.seo?.metaDesc ?? ''}
       offers={
         product?.__typename === 'SimpleProduct'
           ? {
