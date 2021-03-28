@@ -1,6 +1,6 @@
 export { default as BlockRenderer } from './block-renderer';
 export { default as CategoryGrid } from './category-grid';
-export { default as ContactForm } from './contact-form';
+export { default as ContactForm } from './ContactForm';
 export { default as CookieBanner } from './cookie-banner';
 export { default as Footer } from './footer';
 export { default as Header } from './header';

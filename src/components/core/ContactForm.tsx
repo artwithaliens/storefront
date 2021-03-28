@@ -1,62 +1,59 @@
+import { isApolloError } from '@apollo/client';
 import { Button } from '@components/ui';
+import { useUI } from '@components/ui/context';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useAsyncFn } from 'react-use';
 import { boolean, object, SchemaOf, string } from 'yup';
+import { ContactMutationVariables, useContactMutation } from '../../graphql';
 
-type ContactFormData = {
+type ContactFormData = ContactMutationVariables & {
   acceptance: boolean;
-  email: string;
-  fullName: string;
-  message: string;
-  phone?: string | null;
-  subject?: string | null;
-};
-
-type ContactResponse = {
-  status: 'mail_sent' | 'validation_failed';
 };
 
 const validationSchema: SchemaOf<ContactFormData> = object({
   acceptance: boolean().isTrue().required(),
   email: string().label('Email').email().min(11).max(254).required(),
-  fullName: string().label('Name').max(70).required(),
+  name: string().label('Name').max(70).required(),
   message: string().label('Message').required(),
   phone: string().label('Phone number').max(15).nullable(),
   subject: string().label('Subject').max(254).nullable(),
 });
 
 const ContactForm: React.VFC = () => {
-  const [{ loading }, contact] = useAsyncFn(
-    async (values?: ContactFormData) =>
-      (
-        await fetch('/api/contact', {
-          method: 'post',
-          credentials: 'include',
-          headers: {
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        })
-      ).json() as Promise<ContactResponse>,
-  );
+  const { addAlert } = useUI();
+  const [shouldSend, setShouldSend] = useState(true);
 
-  const { control, errors, handleSubmit } = useForm<ContactFormData>({
+  const [contact, { loading }] = useContactMutation();
+
+  const { control, errors, formState, handleSubmit, reset } = useForm<ContactFormData>({
     defaultValues: {
       acceptance: false,
       email: '',
-      fullName: '',
+      name: '',
       message: '',
       phone: '',
       subject: '',
     },
+    mode: 'onChange',
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = handleSubmit(async (values) => {
-    await contact(values);
+    if (shouldSend) {
+      try {
+        const { data } = await contact({ variables: values });
+        if (data?.contact?.message != null) {
+          addAlert(data.contact.message);
+          reset();
+        }
+      } catch (error) {
+        if (isApolloError(error)) {
+          addAlert(error.message, { severity: 'error' });
+        }
+      }
+    }
   });
 
   return (
@@ -68,10 +65,10 @@ const ContactForm: React.VFC = () => {
             required
             as={TextField}
             control={control}
-            error={'fullName' in errors}
-            helperText={errors.fullName?.message}
+            error={'name' in errors}
+            helperText={errors.name?.message}
             label="Name"
-            name="fullName"
+            name="name"
             type="text"
           />
         </Grid>
@@ -131,12 +128,31 @@ const ContactForm: React.VFC = () => {
       <FormGroup>
         <FormControlLabel
           control={
-            <Controller as={Checkbox} control={control} defaultValue={false} name="acceptance" />
+            <Controller
+              control={control}
+              name="acceptance"
+              render={({ onChange, onBlur, value, name, ref }) => (
+                <Checkbox
+                  checked={value}
+                  inputRef={ref}
+                  name={name}
+                  onBlur={onBlur}
+                  onChange={(e) => onChange(e.target.checked)}
+                />
+              )}
+            />
           }
           label="I agree that my submitted data is being collected and stored."
         />
       </FormGroup>
-      <Button color="primary" disabled={false} loading={loading} type="submit">
+      {/* Acceptance */}
+      <FormGroup>
+        <FormControlLabel
+          control={<Checkbox onChange={(e) => setShouldSend(!e.target.checked)} />}
+          label="If you are a spambot, you should check this."
+        />
+      </FormGroup>
+      <Button type="submit" color="primary" disabled={!formState.isValid} loading={loading}>
         Submit
       </Button>
     </form>

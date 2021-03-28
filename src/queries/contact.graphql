@@ -1,0 +1,21 @@
+mutation Contact(
+  $email: String!
+  $name: String!
+  $phone: String
+  $subject: String
+  $message: String!
+) {
+  contact(
+    input: {
+      clientMutationId: "Contact"
+      email: $email
+      name: $name
+      phone: $phone
+      subject: $subject
+      message: $message
+    }
+  ) {
+    sent
+    message
+  }
+}

@@ -15981,6 +15981,8 @@ export type RootMutation = {
   applyCoupon?: Maybe<ApplyCouponPayload>;
   /** The payload for the checkout mutation */
   checkout?: Maybe<CheckoutPayload>;
+  /** The payload for the contact mutation */
+  contact?: Maybe<ContactPayload>;
   /** The payload for the createCategory mutation */
   createCategory?: Maybe<CreateCategoryPayload>;
   /** The payload for the createComment mutation */
@@ -16194,6 +16196,11 @@ export type RootMutationApplyCouponArgs = {
 /** The root mutation */
 export type RootMutationCheckoutArgs = {
   input: CheckoutInput;
+};
+
+/** The root mutation */
+export type RootMutationContactArgs = {
+  input: ContactInput;
 };
 
 /** The root mutation */
@@ -17045,6 +17052,33 @@ export type CheckoutPayload = {
   order?: Maybe<Order>;
   redirect?: Maybe<Scalars['String']>;
   result?: Maybe<Scalars['String']>;
+};
+
+/** Input for the contact mutation */
+export type ContactInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Who to send the email from */
+  email?: Maybe<Scalars['String']>;
+  /** Message of the email */
+  message?: Maybe<Scalars['String']>;
+  /** Who to send the email from */
+  name?: Maybe<Scalars['String']>;
+  /** Phone number for contact */
+  phone?: Maybe<Scalars['String']>;
+  /** Subject of the email */
+  subject?: Maybe<Scalars['String']>;
+};
+
+/** The payload for the contact mutation */
+export type ContactPayload = {
+  __typename?: 'ContactPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Message */
+  message?: Maybe<Scalars['String']>;
+  /** Was the email sent */
+  sent?: Maybe<Scalars['Boolean']>;
 };
 
 /** Input for the createCategory mutation */
@@ -20599,6 +20633,18 @@ export type CheckoutMutation = { __typename?: 'RootMutation' } & {
   checkout?: Maybe<{ __typename?: 'CheckoutPayload' } & Pick<CheckoutPayload, 'redirect'>>;
 };
 
+export type ContactMutationVariables = Exact<{
+  email: Scalars['String'];
+  name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
+}>;
+
+export type ContactMutation = { __typename?: 'RootMutation' } & {
+  contact?: Maybe<{ __typename?: 'ContactPayload' } & Pick<ContactPayload, 'sent' | 'message'>>;
+};
+
 export type CustomerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CustomerQuery = { __typename?: 'RootQuery' } & {
@@ -21898,6 +21944,64 @@ export type CheckoutMutationResult = Apollo.MutationResult<CheckoutMutation>;
 export type CheckoutMutationOptions = Apollo.BaseMutationOptions<
   CheckoutMutation,
   CheckoutMutationVariables
+>;
+export const ContactDocument = gql`
+  mutation Contact(
+    $email: String!
+    $name: String!
+    $phone: String
+    $subject: String
+    $message: String!
+  ) {
+    contact(
+      input: {
+        clientMutationId: "Contact"
+        email: $email
+        name: $name
+        phone: $phone
+        subject: $subject
+        message: $message
+      }
+    ) {
+      sent
+      message
+    }
+  }
+`;
+export type ContactMutationFn = Apollo.MutationFunction<ContactMutation, ContactMutationVariables>;
+
+/**
+ * __useContactMutation__
+ *
+ * To run a mutation, you first call `useContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContactMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [contactMutation, { data, loading, error }] = useContactMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      phone: // value for 'phone'
+ *      subject: // value for 'subject'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useContactMutation(
+  baseOptions?: Apollo.MutationHookOptions<ContactMutation, ContactMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<ContactMutation, ContactMutationVariables>(ContactDocument, options);
+}
+export type ContactMutationHookResult = ReturnType<typeof useContactMutation>;
+export type ContactMutationResult = Apollo.MutationResult<ContactMutation>;
+export type ContactMutationOptions = Apollo.BaseMutationOptions<
+  ContactMutation,
+  ContactMutationVariables
 >;
 export const CustomerDocument = gql`
   query Customer {
