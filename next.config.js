@@ -37,6 +37,9 @@ module.exports = withBundleAnalyzer(
         destination: '/checkout/billing-address',
       },
     ],
+    future: {
+      webpack5: true,
+    },
     experimental: {
       plugins: true,
     },
