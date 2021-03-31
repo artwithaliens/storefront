@@ -1,5 +1,5 @@
 import { Grid, TextField } from '@material-ui/core';
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import NumberFormat from 'react-number-format';
 
@@ -14,12 +14,24 @@ type Props = {
 };
 
 const CreditCardForm = React.forwardRef<HTMLFormElement, Props>(({ onSubmit }, ref) => {
+  const innerRef = useRef<HTMLFormElement>(null);
+
   const { control, errors, handleSubmit } = useForm<CreditCardFormData>({
     defaultValues: { ccNumber: '', ccExp: '', ccCsc: '' },
   });
 
+  // Override standard form methods, this works for now:
+  useImperativeHandle(ref, () => ({
+    ...(innerRef.current ?? new HTMLFormElement()),
+    checkValidity: () => innerRef.current?.checkValidity() ?? false,
+    reportValidity: () => innerRef.current?.reportValidity() ?? false,
+    submit: () => {
+      handleSubmit(onSubmit)();
+    },
+  }));
+
   return (
-    <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+    <form ref={innerRef} onSubmit={handleSubmit(onSubmit)}>
       <Controller
         fullWidth
         required

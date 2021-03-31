@@ -69,7 +69,10 @@ const PaymentMethods: React.VFC<Props> = ({
   const handleSubmit = () => {
     if (creditCardFormRef.current != null) {
       if (creditCardFormRef.current.checkValidity()) {
-        creditCardFormRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
+        // The following line is not working anymore for some reason:
+        // creditCardFormRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
+        // So I have overridden the `submit` method, see in `CreditCardForm`
+        creditCardFormRef.current.submit();
       } else {
         creditCardFormRef.current.reportValidity();
       }
