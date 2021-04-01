@@ -8,6 +8,9 @@ const palette = {
   secondary: {
     main: '#aeaeae',
   },
+  error: {
+    main: '#df3d3d',
+  },
   common: {
     white: '#feffff',
     black: '#060409',
