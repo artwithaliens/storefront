@@ -4,7 +4,6 @@ mutation Login($username: String!, $password: String!) {
     refreshToken
     user {
       id
-      userId
       name
       email
       nicename

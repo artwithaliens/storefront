@@ -20692,9 +20692,7 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = { __typename?: 'RootMutation' } & {
   login?: Maybe<
     { __typename?: 'LoginPayload' } & Pick<LoginPayload, 'authToken' | 'refreshToken'> & {
-        user?: Maybe<
-          { __typename?: 'User' } & Pick<User, 'id' | 'userId' | 'name' | 'email' | 'nicename'>
-        >;
+        user?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'name' | 'email' | 'nicename'>>;
       }
   >;
 };
@@ -21620,9 +21618,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 export type UserQuery = { __typename?: 'RootQuery' } & {
-  user?: Maybe<
-    { __typename?: 'User' } & Pick<User, 'id' | 'userId' | 'firstName' | 'lastName' | 'nicename'>
-  >;
+  user?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'firstName' | 'lastName' | 'nicename'>>;
 };
 
 export const AddCouponDocument = gql`
@@ -22072,7 +22068,6 @@ export const LoginDocument = gql`
       refreshToken
       user {
         id
-        userId
         name
         email
         nicename
@@ -22997,7 +22992,6 @@ export const UserDocument = gql`
   query User($id: ID!) {
     user(id: $id, idType: ID) {
       id
-      userId
       firstName
       lastName
       nicename
