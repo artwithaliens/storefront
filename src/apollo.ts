@@ -6,7 +6,7 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import introspectionResult from './fragment-types';
+import introspectionResult from './fragmentTypes';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
@@ -51,8 +51,11 @@ export default function createClient({
 }: { initialState?: NormalizedCacheObject } = {}) {
   if (apolloClient == null) {
     apolloClient = new ApolloClient({
+      // eslint-disable-next-line unicorn/prefer-spread
       link: errorLink.concat(
+        // eslint-disable-next-line unicorn/prefer-spread
         authLink.concat(
+          // eslint-disable-next-line unicorn/prefer-spread
           afterware.concat(
             createHttpLink({
               uri: process.env.GRAPHQL_URL,
