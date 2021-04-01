@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A WordPress decoupled application in React built with Next.js",
   "scripts": {
-    "analyze:bundle": "ANALYZE_BUNDLE=true yarn build",
+    "analyze": "ANALYZE_BUNDLE=true yarn build",
     "build": "next build",
     "dev": "concurrently \"next dev\" \"yarn generate --watch\"",
     "format": "prettier --write \"{src,types}/**/*.{ts,tsx}\" *.{js,json,md,ts}",
@@ -37,7 +37,7 @@
     "@material-ui/styles": "^5.0.0-alpha.28",
     "@next/bundle-analyzer": "^10.1.2",
     "@next/plugin-sentry": "^10.1.2",
-    "braintree-web": "^3.76.0",
+    "braintree-web": "^3.76.1",
     "clsx": "^1.1.1",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
