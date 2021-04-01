@@ -15,7 +15,7 @@ module.exports = withBundleAnalyzer(
       swDest: 'static/service-worker.js',
     },
     env: {
-      SITE_URL: process.env.SITE_URL,
+      VERCEL_URL: process.env.VERCEL_URL,
       GRAPHQL_URL: process.env.GRAPHQL_URL,
       SENTRY_DSN: process.env.SENTRY_DSN,
       SENTRY_RELEASE: version,

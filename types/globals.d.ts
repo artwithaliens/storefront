@@ -7,7 +7,7 @@ declare const paypal: unknown;
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly SITE_URL: string;
+    readonly VERCEL_URL: string;
     readonly GRAPHQL_URL: string;
     readonly BRAINTREE_MERCHANT_ID: string;
     readonly BRAINTREE_API_KEY: string;

@@ -61,7 +61,6 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 - Rename `.env.example` to `.env` and update your React Site URL
 
 ```ini
-SITE_URL=http://localhost:3000
 GRAPHQL_URL=http://wordpressSiteUrl/graphql
 ```
 
