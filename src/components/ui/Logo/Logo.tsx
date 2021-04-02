@@ -6,6 +6,8 @@ const useStyles = makeStyles(
   ({ palette }) => ({
     root: {
       fill: palette.common.white,
+      height: 'auto',
+      maxWidth: '100%',
       verticalAlign: 'middle',
     },
   }),

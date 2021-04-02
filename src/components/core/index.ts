@@ -2,7 +2,7 @@ export { default as BlockRenderer } from './block-renderer';
 export { default as CategoryGrid } from './category-grid';
 export { default as ContactForm } from './ContactForm';
 export { default as CookieBanner } from './cookie-banner';
-export { default as Footer } from './footer';
+export { default as Footer } from './Footer';
 export { default as Header } from './header';
 export { default as Image } from './image';
 export { default as PageHeader } from './page-header';

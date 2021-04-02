@@ -160,6 +160,14 @@ export default createMuiTheme({
         color: 'primary',
       },
     },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 24,
+          paddingRight: 24,
+        },
+      },
+    },
     MuiDialogContent: {
       styleOverrides: {
         root: {
