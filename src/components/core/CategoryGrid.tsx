@@ -5,13 +5,7 @@ import React from 'react';
 import { useCategoriesQuery } from '../../graphql';
 
 const useStyles = makeStyles({
-  category: {
-    display: 'block',
-    height: '100%',
-    textDecoration: 'none',
-  },
-
-  categoryImage: {
+  image: {
     height: 430,
     objectFit: 'cover',
     verticalAlign: 'middle',
@@ -35,12 +29,15 @@ const CategoryGrid: React.VFC = () => {
             category != null && (
               <Grid key={category.id} item xs={12} md={6}>
                 <Link
-                  className={styles.category}
                   href={`/product-category/${category.slug}`}
                   underline="none"
+                  sx={{
+                    display: 'block',
+                    height: '100%',
+                  }}
                 >
                   <Image
-                    className={styles.categoryImage}
+                    className={styles.image}
                     mediaItem={category.image}
                     next={false}
                     loading="lazy"

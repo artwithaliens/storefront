@@ -1,5 +1,6 @@
 import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/client';
 import { getDataFromTree } from '@apollo/client/react/ssr';
+import { SettingsContext, SettingsProvider } from '@components/core/context';
 import { ManagedUIContext } from '@components/ui/context';
 import { CssBaseline } from '@material-ui/core';
 import { NextComponentType } from 'next';
@@ -10,7 +11,6 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import { useMount } from 'react-use';
 import createClient from '../apollo';
-import SettingsProvider, { SettingsContext } from '../components/core/settings-provider';
 import absoluteURL from '../utils/absoluteURL';
 
 type Props = NextAppProps & {
@@ -45,30 +45,38 @@ const App: NextComponentType<AppContext, AppInitialProps, Props> = ({
 
   return (
     <ApolloProvider client={apollo ?? createClient({ initialState: apolloState?.data })}>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-        />
-      </Head>
       <SettingsProvider>
         <SettingsContext.Consumer>
-          {(settings) => (
-            <DefaultSeo
-              title={settings.title ?? undefined}
-              description={settings.description ?? undefined}
-              canonical={absoluteURL(router.asPath)}
-              openGraph={{
-                type: 'website',
-                locale: 'en_US',
-                url: absoluteURL(router.asPath),
-                site_name: settings.title ?? undefined,
-              }}
-              twitter={{
-                handle: '@artwithaliens',
-                cardType: 'summary_large_image',
-              }}
-            />
+          {({ settings, seo }) => (
+            <>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+                />
+                {seo.webmaster?.googleVerify != null && (
+                  <meta name="google-site-verification" content={seo.webmaster.googleVerify} />
+                )}
+                {seo.webmaster?.msVerify != null && (
+                  <meta name="msvalidate.01" content={seo.webmaster.msVerify} />
+                )}
+              </Head>
+              <DefaultSeo
+                title={settings.title ?? undefined}
+                description={settings.description ?? undefined}
+                canonical={absoluteURL(router.asPath)}
+                openGraph={{
+                  type: 'website',
+                  locale: 'en_US',
+                  url: absoluteURL(router.asPath),
+                  site_name: settings.title ?? undefined,
+                }}
+                twitter={{
+                  handle: '@artwithaliens',
+                  cardType: 'summary_large_image',
+                }}
+              />
+            </>
           )}
         </SettingsContext.Consumer>
         <ManagedUIContext>

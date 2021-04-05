@@ -1,24 +1,16 @@
 import { Cart, Menu } from '@components/icons';
 import { IconButton, Link, Logo } from '@components/ui';
 import { AppBar, Badge, Box, Collapse, Hidden, makeStyles, Toolbar } from '@material-ui/core';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useToggle } from 'react-use';
-import { MenuLocationEnum, useCartQuery, useMenuQuery } from '../../graphql';
-import HeaderMenu from './header-menu';
-import { SettingsContext } from './settings-provider';
+import { MenuLocationEnum, useCartQuery, useMenuQuery } from '../../../graphql';
+import { useSettings } from '../context';
+import HeaderMenu from './HeaderMenu';
 
 const useStyles = makeStyles(
   ({ breakpoints }) => ({
     toolbar: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
       maxWidth: breakpoints.values.lg,
-      minHeight: 60,
-      width: '100%',
-
-      [breakpoints.up('md')]: {
-        minHeight: 110,
-      },
     },
 
     logo: {
@@ -35,7 +27,7 @@ const useStyles = makeStyles(
 
 const Header: React.VFC = () => {
   const styles = useStyles();
-  const settings = useContext(SettingsContext);
+  const { settings } = useSettings();
   const [open, toggleOpen] = useToggle(false);
 
   const { data: menu } = useMenuQuery({
@@ -49,7 +41,7 @@ const Header: React.VFC = () => {
 
   return (
     <AppBar color="default" position="relative">
-      <Toolbar className={styles.toolbar}>
+      <Toolbar className={styles.toolbar} sx={{ minHeight: { xs: 60, md: 110 }, mx: 'auto' }}>
         <Hidden mdUp implementation="css">
           <Box sx={{ flexGrow: 1 }}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>

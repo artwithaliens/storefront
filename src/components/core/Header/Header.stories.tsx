@@ -1,8 +1,8 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { CartDocument, MenuDocument, MenuLocationEnum } from '../../graphql';
-import Header from './header';
+import { CartDocument, MenuDocument, MenuLocationEnum } from '../../../graphql';
+import Header from './Header';
 
 export default {
   title: 'Header',

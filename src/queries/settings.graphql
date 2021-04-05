@@ -4,4 +4,10 @@ query Settings {
     language
     title
   }
+  seo {
+    webmaster {
+      googleVerify
+      msVerify
+    }
+  }
 }

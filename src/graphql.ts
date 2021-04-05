@@ -4159,6 +4159,8 @@ export type PostToCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -4465,6 +4467,8 @@ export type CategoryToCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -4800,6 +4804,8 @@ export type PostToPostFormatConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -4832,6 +4838,8 @@ export type PostToPostFormatConnectionEdge = {
   __typename?: 'PostToPostFormatConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary post_format */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<PostFormat>;
 };
@@ -5187,6 +5195,8 @@ export type PostToTagConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -5219,6 +5229,8 @@ export type PostToTagConnectionEdge = {
   __typename?: 'PostToTagConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary post_tag */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<Tag>;
 };
@@ -5482,6 +5494,8 @@ export type PostToTermNodeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -5934,6 +5948,8 @@ export type GlobalProductAttributeToTermNodeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -6045,6 +6061,8 @@ export type ProductToPaColorConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -6077,6 +6095,8 @@ export type ProductToPaColorConnectionEdge = {
   __typename?: 'ProductToPaColorConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary pa_color */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<PaColor>;
 };
@@ -7365,6 +7385,8 @@ export type ProductToPaMaterialConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -7397,6 +7419,8 @@ export type ProductToPaMaterialConnectionEdge = {
   __typename?: 'ProductToPaMaterialConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary pa_material */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<PaMaterial>;
 };
@@ -7779,6 +7803,8 @@ export type ProductToPaPaperWeightConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -7811,6 +7837,8 @@ export type ProductToPaPaperWeightConnectionEdge = {
   __typename?: 'ProductToPaPaperWeightConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary pa_paper-weight */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<PaPaperWeight>;
 };
@@ -8193,6 +8221,8 @@ export type ProductToPaSizeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -8225,6 +8255,8 @@ export type ProductToPaSizeConnectionEdge = {
   __typename?: 'ProductToPaSizeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary pa_size */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<PaSize>;
 };
@@ -8613,6 +8645,8 @@ export type ProductToProductCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -8813,6 +8847,8 @@ export type ProductCategoryToProductCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -9057,6 +9093,8 @@ export type ProductToProductTagConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -9089,6 +9127,8 @@ export type ProductToProductTagConnectionEdge = {
   __typename?: 'ProductToProductTagConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary product_tag */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<ProductTag>;
 };
@@ -9364,6 +9404,8 @@ export type ProductToProductTypeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -9396,6 +9438,8 @@ export type ProductToProductTypeConnectionEdge = {
   __typename?: 'ProductToProductTypeConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary product_type */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<ProductType>;
 };
@@ -9746,6 +9790,8 @@ export type ProductToShippingClassConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -9778,6 +9824,8 @@ export type ProductToShippingClassConnectionEdge = {
   __typename?: 'ProductToShippingClassConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary product_shipping_class */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<ShippingClass>;
 };
@@ -10156,6 +10204,8 @@ export type ProductToVisibleProductConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -10188,6 +10238,8 @@ export type ProductToVisibleProductConnectionEdge = {
   __typename?: 'ProductToVisibleProductConnectionEdge';
   /** A cursor for use in pagination */
   cursor?: Maybe<Scalars['String']>;
+  /** The Yoast SEO Primary product_visibility */
+  isPrimary?: Maybe<Scalars['Boolean']>;
   /** The item at the end of the edge */
   node?: Maybe<VisibleProduct>;
 };
@@ -10352,6 +10404,8 @@ export type ProductVariationToShippingClassConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -10414,6 +10468,8 @@ export type ProductVariationToVisibleProductConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -10515,6 +10571,8 @@ export type RootQueryToCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -10895,6 +10953,8 @@ export type CouponToExcludedProductCategoriesConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -11055,6 +11115,8 @@ export type CouponToProductCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -13559,6 +13621,8 @@ export type RootQueryToPaColorConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -13635,6 +13699,8 @@ export type RootQueryToPaMaterialConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -13711,6 +13777,8 @@ export type RootQueryToPaPaperWeightConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -13787,6 +13855,8 @@ export type RootQueryToPaSizeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -14033,6 +14103,8 @@ export type RootQueryToPostFormatConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -14181,6 +14253,8 @@ export type RootQueryToProductCategoryConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -14271,6 +14345,8 @@ export type RootQueryToProductTagConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -14347,6 +14423,8 @@ export type RootQueryToProductTypeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -14853,6 +14931,8 @@ export type RootQueryToShippingClassConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -15484,6 +15564,8 @@ export type RootQueryToTagConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -15640,6 +15722,8 @@ export type RootQueryToTermNodeConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -15897,6 +15981,8 @@ export type RootQueryToVisibleProductConnectionWhereArgs = {
   nameLike?: Maybe<Scalars['String']>;
   /** Array of object IDs. Results will be limited to terms associated with these objects. */
   objectIds?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  /** Direction the connection should be ordered in */
+  order?: Maybe<OrderEnum>;
   /** Field(s) to order terms by. Defaults to 'name'. */
   orderby?: Maybe<TermObjectsConnectionOrderbyEnum>;
   /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
@@ -21564,6 +21650,13 @@ export type SettingsQuery = { __typename?: 'RootQuery' } & {
   settings?: Maybe<
     { __typename?: 'GeneralSettings' } & Pick<GeneralSettings, 'description' | 'language' | 'title'>
   >;
+  seo?: Maybe<
+    { __typename?: 'SEOConfig' } & {
+      webmaster?: Maybe<
+        { __typename?: 'SEOWebmaster' } & Pick<SeoWebmaster, 'googleVerify' | 'msVerify'>
+      >;
+    }
+  >;
 };
 
 export type UpdateCartMutationVariables = Exact<{
@@ -22750,6 +22843,12 @@ export const SettingsDocument = gql`
       description
       language
       title
+    }
+    seo {
+      webmaster {
+        googleVerify
+        msVerify
+      }
     }
   }
 `;

@@ -1,13 +1,12 @@
 export { default as BlockRenderer } from './block-renderer';
-export { default as CategoryGrid } from './category-grid';
+export { default as CategoryGrid } from './CategoryGrid';
 export { default as ContactForm } from './ContactForm';
 export { default as CookieBanner } from './cookie-banner';
 export { default as Footer } from './Footer';
-export { default as Header } from './header';
+export { default as Header } from './Header';
 export { default as Image } from './image';
 export { default as PageHeader } from './page-header';
 export { default as PageWrapper } from './page-wrapper';
 export { default as Price } from './price';
 export { default as ProductGrid } from './product-grid';
 export { default as RichText } from './rich-text';
-export { default as SettingsProvider } from './settings-provider';

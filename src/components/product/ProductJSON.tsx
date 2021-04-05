@@ -1,9 +1,9 @@
+import { useSettings } from '@components/core/context';
 import { ProductJsonLd } from 'next-seo';
 import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
+import React from 'react';
 import { ProductQuery, StockStatusEnum } from '../../graphql';
 import absoluteURL from '../../utils/absoluteURL';
-import { SettingsContext } from '../core/settings-provider';
 
 type Props = {
   product: ProductQuery['product'];
@@ -11,7 +11,7 @@ type Props = {
 
 const ProductJSON: React.VFC<Props> = ({ product }) => {
   const router = useRouter();
-  const settings = useContext(SettingsContext);
+  const { settings } = useSettings();
 
   return (
     <ProductJsonLd

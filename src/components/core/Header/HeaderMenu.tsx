@@ -2,8 +2,8 @@ import { Button } from '@components/ui';
 import { makeStyles } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { MenuQuery, useCustomerQuery } from '../../graphql';
-import relativeURL from '../../utils/relativeURL';
+import { MenuQuery, useCustomerQuery } from '../../../graphql';
+import relativeURL from '../../../utils/relativeURL';
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, spacing }) => ({
