@@ -1,6 +1,4 @@
-import { AlertProps, jssPreset, StyledEngineProvider, ThemeProvider } from '@material-ui/core';
-import { StylesProvider } from '@material-ui/core/styles';
-import { create } from 'jss';
+import { AlertProps, ThemeProvider } from '@material-ui/core';
 import uniqueId from 'lodash/uniqueId';
 import React, { useContext, useMemo, useReducer } from 'react';
 import theme from './theme';
@@ -139,14 +137,8 @@ export function useUI() {
   return context;
 }
 
-const jss = create({ plugins: [...jssPreset().plugins] });
-
 export const ManagedUIContext: React.FC = ({ children }) => (
   <UIProvider>
-    <StyledEngineProvider injectFirst>
-      <StylesProvider jss={jss}>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </StylesProvider>
-    </StyledEngineProvider>
+    <ThemeProvider theme={theme}>{children}</ThemeProvider>
   </UIProvider>
 );

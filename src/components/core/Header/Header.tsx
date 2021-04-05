@@ -41,7 +41,14 @@ const Header: React.VFC = () => {
 
   return (
     <AppBar color="default" position="relative">
-      <Toolbar className={styles.toolbar} sx={{ minHeight: { xs: 60, md: 110 }, mx: 'auto' }}>
+      <Toolbar
+        className={styles.toolbar}
+        sx={{
+          minHeight: { xs: 60, md: 110 },
+          mx: 'auto',
+          width: '100%',
+        }}
+      >
         <Hidden mdUp implementation="css">
           <Box sx={{ flexGrow: 1 }}>
             <IconButton aria-label="Menu" onClick={toggleOpen}>
