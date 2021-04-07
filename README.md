@@ -2,9 +2,9 @@
 
 This is a React theme for WordPress, built with Next.js, Webpack, Babel, Node.
 
-## Live demo site.
+## Live Site
 
-[Live Demo](https://artwithaliens.com)
+https://artwithaliens.com
 
 ## Getting Started :surfer:
 
