@@ -31,7 +31,7 @@ const BillingForm = React.forwardRef<HTMLFormElement, Props>(
       refetchQueries: ['Cart', 'Customer'],
     });
 
-    const { control, errors, handleSubmit } = useForm<CustomerAddressInput>({
+    const { control, formState, handleSubmit } = useForm<CustomerAddressInput>({
       defaultValues: {
         address1: defaultValues?.address1 ?? '',
         address2: defaultValues?.address2 ?? '',
@@ -63,155 +63,188 @@ const BillingForm = React.forwardRef<HTMLFormElement, Props>(
             <Grid item xs={6}>
               {/* First Name */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="given-name"
                 control={control}
-                defaultValue=""
-                error={'firstName' in errors}
-                helperText={errors.firstName?.message}
-                label="First name"
                 name="firstName"
-                type="text"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="given-name"
+                    error={'firstName' in formState.errors}
+                    helperText={formState.errors.firstName?.message}
+                    label="First name"
+                    type="text"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={6}>
               {/* Last Name */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="family-name"
                 control={control}
-                defaultValue=""
-                error={'lastName' in errors}
-                helperText={errors.lastName?.message}
-                label="Last name"
                 name="lastName"
-                type="text"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="family-name"
+                    error={'lastName' in formState.errors}
+                    helperText={formState.errors.lastName?.message}
+                    label="Last name"
+                    type="text"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
           </Grid>
           {/* Company */}
           <Controller
-            as={TextField}
-            autoComplete="organization"
             control={control}
-            defaultValue=""
-            error={'company' in errors}
-            helperText={errors.company?.message}
-            label="Company"
             name="company"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                autoComplete="organization"
+                error={'company' in formState.errors}
+                helperText={formState.errors.company?.message}
+                label="Company"
+                type="text"
+                {...field}
+              />
+            )}
           />
           {/* Country */}
           <Controller
-            required
-            as={CountrySelect}
             control={control}
-            defaultValue={CountriesEnum.DE}
-            error={'country' in errors}
-            helperText={errors.country?.message}
-            label="Country"
             name="country"
+            render={({ field }) => (
+              <CountrySelect
+                required
+                error={'country' in formState.errors}
+                helperText={formState.errors.country?.message}
+                label="Country"
+                {...field}
+              />
+            )}
           />
           {/* Address */}
           <Controller
-            required
-            as={TextField}
-            autoComplete="address-line1"
             control={control}
-            defaultValue=""
-            error={'address1' in errors}
-            helperText={errors.address1?.message}
-            label="Street address"
             name="address1"
-            placeholder="House number and street name"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                required
+                autoComplete="address-line1"
+                error={'address1' in formState.errors}
+                helperText={formState.errors.address1?.message}
+                label="Street address"
+                placeholder="House number and street name"
+                type="text"
+                {...field}
+              />
+            )}
           />
           <Controller
-            as={TextField}
-            autoComplete="address-line2"
             control={control}
-            defaultValue=""
-            error={'address2' in errors}
-            helperText={errors.address2?.message}
             name="address2"
-            placeholder="Apartment, suite, unit etc. (optional)"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                autoComplete="address-line2"
+                error={'address2' in formState.errors}
+                helperText={formState.errors.address2?.message}
+                placeholder="Apartment, suite, unit etc. (optional)"
+                type="text"
+                {...field}
+              />
+            )}
           />
           <Grid container spacing={2}>
             <Grid item xs={3}>
               {/* Postcode */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="postal-code"
                 control={control}
-                defaultValue=""
-                error={'postcode' in errors}
-                helperText={errors.postcode?.message}
-                label="Postcode"
                 name="postcode"
-                type="text"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="postal-code"
+                    error={'postcode' in formState.errors}
+                    helperText={formState.errors.postcode?.message}
+                    label="Postcode"
+                    type="text"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={9}>
               {/* City */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="address-level2"
                 control={control}
-                defaultValue=""
-                error={'city' in errors}
-                helperText={errors.city?.message}
-                label="City"
                 name="city"
-                type="text"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="address-level2"
+                    error={'city' in formState.errors}
+                    helperText={formState.errors.city?.message}
+                    label="City"
+                    type="text"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
           </Grid>
           {/* State */}
           <Controller
-            as={TextField}
-            autoComplete="address-level1"
             control={control}
-            defaultValue=""
-            error={'state' in errors}
-            helperText={errors.state?.message}
-            label="State"
             name="state"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                autoComplete="address-level1"
+                error={'state' in formState.errors}
+                helperText={formState.errors.state?.message}
+                label="State"
+                type="text"
+                {...field}
+              />
+            )}
           />
           <Grid container spacing={2}>
             <Grid item xs={6}>
               {/* Phone */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="tel"
                 control={control}
-                defaultValue=""
-                error={'phone' in errors}
-                helperText={errors.phone?.message}
-                label="Phone"
                 name="phone"
-                type="text"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="tel"
+                    error={'phone' in formState.errors}
+                    helperText={formState.errors.phone?.message}
+                    label="Phone"
+                    type="text"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={6}>
               {/* Email */}
               <Controller
-                required
-                as={TextField}
-                autoComplete="email"
                 control={control}
-                defaultValue=""
-                error={'email' in errors}
-                helperText={errors.email?.message}
-                label="Email"
                 name="email"
-                type="email"
+                render={({ field }) => (
+                  <TextField
+                    required
+                    autoComplete="email"
+                    error={'email' in formState.errors}
+                    helperText={formState.errors.email?.message}
+                    label="Email"
+                    type="email"
+                    {...field}
+                  />
+                )}
               />
             </Grid>
           </Grid>

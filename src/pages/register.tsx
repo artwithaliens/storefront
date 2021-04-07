@@ -52,7 +52,7 @@ const Register: NextPage = () => {
     }
   };
 
-  const { control, handleSubmit, errors } = useForm<RegisterFormData>({
+  const { control, formState, handleSubmit } = useForm<RegisterFormData>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -87,39 +87,51 @@ const Register: NextPage = () => {
           <form onSubmit={onSubmit}>
             {/* Username */}
             <Controller
-              required
-              as={TextField}
-              autoComplete="username"
               control={control}
-              error={'username' in errors}
-              helperText={errors.username?.message}
-              label="Username"
               name="username"
-              type="text"
+              render={({ field }) => (
+                <TextField
+                  required
+                  autoComplete="username"
+                  error={'username' in formState.errors}
+                  helperText={formState.errors.username?.message}
+                  label="Username"
+                  type="text"
+                  {...field}
+                />
+              )}
             />
             {/* Email */}
             <Controller
-              required
-              as={TextField}
-              autoComplete="email"
               control={control}
-              error={'email' in errors}
-              helperText={errors.email?.message}
-              label="Email"
               name="email"
-              type="email"
+              render={({ field }) => (
+                <TextField
+                  required
+                  autoComplete="email"
+                  error={'email' in formState.errors}
+                  helperText={formState.errors.email?.message}
+                  label="Email"
+                  type="email"
+                  {...field}
+                />
+              )}
             />
             {/* Password */}
             <Controller
-              required
-              as={TextField}
-              autoComplete="new-password"
               control={control}
-              error={'password' in errors}
-              helperText={errors.password?.message}
-              label="Password"
               name="password"
-              type="password"
+              render={({ field }) => (
+                <TextField
+                  required
+                  autoComplete="new-password"
+                  error={'password' in formState.errors}
+                  helperText={formState.errors.password?.message}
+                  label="Password"
+                  type="password"
+                  {...field}
+                />
+              )}
             />
             <Box sx={{ mt: 2 }}>
               <Button type="submit" color="primary" loading={loading}>

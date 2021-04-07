@@ -27,7 +27,7 @@ const ContactForm: React.VFC = () => {
 
   const [contact, { loading }] = useContactMutation();
 
-  const { control, errors, formState, handleSubmit, reset } = useForm<ContactFormData>({
+  const { control, formState, handleSubmit, reset } = useForm<ContactFormData>({
     defaultValues: {
       acceptance: false,
       email: '',
@@ -62,27 +62,35 @@ const ContactForm: React.VFC = () => {
         <Grid item xs={6}>
           {/* Name */}
           <Controller
-            required
-            as={TextField}
             control={control}
-            error={'name' in errors}
-            helperText={errors.name?.message}
-            label="Name"
             name="name"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                required
+                error={'name' in formState.errors}
+                helperText={formState.errors.name?.message}
+                label="Name"
+                type="text"
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={6}>
           {/* Email */}
           <Controller
-            required
-            as={TextField}
             control={control}
-            error={'email' in errors}
-            helperText={errors.email?.message}
-            label="Email"
             name="email"
-            type="email"
+            render={({ field }) => (
+              <TextField
+                required
+                error={'email' in formState.errors}
+                helperText={formState.errors.email?.message}
+                label="Email"
+                type="email"
+                {...field}
+              />
+            )}
           />
         </Grid>
       </Grid>
@@ -90,39 +98,51 @@ const ContactForm: React.VFC = () => {
         <Grid item xs={6}>
           {/* Phone */}
           <Controller
-            as={TextField}
             control={control}
-            error={'phone' in errors}
-            helperText={errors.phone?.message}
-            label="Phone"
             name="phone"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                error={'phone' in formState.errors}
+                helperText={formState.errors.phone?.message}
+                label="Phone"
+                type="text"
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={6}>
           {/* Subject */}
           <Controller
-            as={TextField}
             control={control}
-            error={'subject' in errors}
-            helperText={errors.subject?.message}
-            label="Subject"
             name="subject"
-            type="text"
+            render={({ field }) => (
+              <TextField
+                error={'subject' in formState.errors}
+                helperText={formState.errors.subject?.message}
+                label="Subject"
+                type="text"
+                {...field}
+              />
+            )}
           />
         </Grid>
       </Grid>
       {/* Message */}
       <Controller
-        multiline
-        required
-        as={TextField}
         control={control}
-        error={'message' in errors}
-        helperText={errors.message?.message}
-        label="Message"
         name="message"
-        rows={6}
+        render={({ field }) => (
+          <TextField
+            multiline
+            required
+            error={'message' in formState.errors}
+            helperText={formState.errors.message?.message}
+            label="Message"
+            rows={6}
+            {...field}
+          />
+        )}
       />
       {/* Acceptance */}
       <FormGroup>
@@ -131,13 +151,13 @@ const ContactForm: React.VFC = () => {
             <Controller
               control={control}
               name="acceptance"
-              render={({ onChange, onBlur, value, name, ref }) => (
+              render={({ field }) => (
                 <Checkbox
-                  checked={value}
-                  inputRef={ref}
-                  name={name}
-                  onBlur={onBlur}
-                  onChange={(e) => onChange(e.target.checked)}
+                  checked={field.value}
+                  inputRef={field.ref}
+                  name={field.name}
+                  onBlur={() => field.onBlur()}
+                  onChange={(e) => field.onChange(e.target.checked)}
                 />
               )}
             />

@@ -18,7 +18,7 @@ const LoginView: React.VFC = () => {
   const { closeModal } = useUI();
   const [login, { loading }] = useLoginMutation();
 
-  const { control, errors, handleSubmit } = useForm<LoginMutationVariables>({
+  const { control, formState, handleSubmit } = useForm<LoginMutationVariables>({
     resolver: yupResolver(validationSchema),
   });
 
@@ -53,27 +53,35 @@ const LoginView: React.VFC = () => {
         )}
         {/* Username or email */}
         <Controller
-          required
-          as={TextField}
-          autoCapitalize="off"
-          autoCorrect="off"
           control={control}
-          error={'username' in errors}
-          helperText={errors.username?.message}
-          label="Username or email"
           name="username"
-          type="text"
+          render={({ field }) => (
+            <TextField
+              required
+              autoCapitalize="off"
+              autoCorrect="off"
+              error={'username' in formState.errors}
+              helperText={formState.errors.username?.message}
+              label="Username or email"
+              type="text"
+              {...field}
+            />
+          )}
         />
         {/* Password */}
         <Controller
-          required
-          as={TextField}
           control={control}
-          error={'password' in errors}
-          helperText={errors.password?.message}
-          label="Password"
           name="password"
-          type="password"
+          render={({ field }) => (
+            <TextField
+              required
+              error={'password' in formState.errors}
+              helperText={formState.errors.password?.message}
+              label="Password"
+              type="password"
+              {...field}
+            />
+          )}
         />
         <Box sx={{ mt: 1 }}>
           <Button fullWidth type="submit" color="primary" loading={loading}>

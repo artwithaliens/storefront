@@ -52,7 +52,7 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
 
     const [shippingSameAsBilling, setShippingSameAsBilling] = useState(!shipToDifferentAddress);
 
-    const { control, errors, handleSubmit, reset } = useForm<CustomerAddressInput>({
+    const { control, formState, handleSubmit, reset } = useForm<CustomerAddressInput>({
       defaultValues: {
         address1: defaultValues?.address1 ?? '',
         address2: defaultValues?.address2 ?? '',
@@ -132,17 +132,16 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
               <Controller
                 control={control}
                 name="firstName"
-                render={({ onChange, onBlur, value }) => (
+                render={({ field }) => (
                   <TextField
                     required
                     autoComplete="given-name"
-                    error={'firstName' in errors}
-                    helperText={errors.firstName?.message}
+                    error={'firstName' in formState.errors}
+                    helperText={formState.errors.firstName?.message}
                     label="First name"
                     type="text"
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={handleChange(onChange)}
+                    {...field}
+                    onChange={handleChange(field.onChange)}
                   />
                 )}
               />
@@ -152,17 +151,16 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
               <Controller
                 control={control}
                 name="lastName"
-                render={({ onChange, onBlur, value }) => (
+                render={({ field }) => (
                   <TextField
                     required
                     autoComplete="family-name"
-                    error={'lastName' in errors}
-                    helperText={errors.lastName?.message}
+                    error={'lastName' in formState.errors}
+                    helperText={formState.errors.lastName?.message}
                     label="Last name"
                     type="text"
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={handleChange(onChange)}
+                    {...field}
+                    onChange={handleChange(field.onChange)}
                   />
                 )}
               />
@@ -172,16 +170,15 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
           <Controller
             control={control}
             name="company"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field }) => (
               <TextField
                 autoComplete="organization"
-                error={'company' in errors}
-                helperText={errors.company?.message}
+                error={'company' in formState.errors}
+                helperText={formState.errors.company?.message}
                 label="Company"
                 type="text"
-                value={value}
-                onBlur={onBlur}
-                onChange={handleChange(onChange)}
+                {...field}
+                onChange={handleChange(field.onChange)}
               />
             )}
           />
@@ -189,15 +186,14 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
           <Controller
             control={control}
             name="country"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field }) => (
               <CountrySelect
                 required
-                error={'country' in errors}
-                helperText={errors.country?.message}
+                error={'country' in formState.errors}
+                helperText={formState.errors.country?.message}
                 label="Country"
-                value={value}
-                onBlur={onBlur}
-                onChange={handleChange(onChange)}
+                {...field}
+                onChange={handleChange(field.onChange)}
               />
             )}
           />
@@ -205,34 +201,32 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
           <Controller
             control={control}
             name="address1"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field }) => (
               <TextField
                 required
                 autoComplete="address-line1"
-                error={'address1' in errors}
-                helperText={errors.address1?.message}
+                error={'address1' in formState.errors}
+                helperText={formState.errors.address1?.message}
                 label="Street address"
                 placeholder="House number and street name"
                 type="text"
-                value={value}
-                onBlur={onBlur}
-                onChange={handleChange(onChange)}
+                {...field}
+                onChange={handleChange(field.onChange)}
               />
             )}
           />
           <Controller
             control={control}
             name="address2"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field }) => (
               <TextField
                 autoComplete="address-line2"
-                error={'address2' in errors}
-                helperText={errors.address2?.message}
+                error={'address2' in formState.errors}
+                helperText={formState.errors.address2?.message}
                 placeholder="Apartment, suite, unit etc. (optional)"
                 type="text"
-                value={value}
-                onBlur={onBlur}
-                onChange={handleChange(onChange)}
+                {...field}
+                onChange={handleChange(field.onChange)}
               />
             )}
           />
@@ -242,17 +236,16 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
               <Controller
                 control={control}
                 name="postcode"
-                render={({ onChange, onBlur, value }) => (
+                render={({ field }) => (
                   <TextField
                     required
                     autoComplete="postal-code"
-                    error={'postcode' in errors}
-                    helperText={errors.postcode?.message}
+                    error={'postcode' in formState.errors}
+                    helperText={formState.errors.postcode?.message}
                     label="Postcode"
                     type="text"
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={handleChange(onChange)}
+                    {...field}
+                    onChange={handleChange(field.onChange)}
                   />
                 )}
               />
@@ -262,17 +255,16 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
               <Controller
                 control={control}
                 name="city"
-                render={({ onChange, onBlur, value }) => (
+                render={({ field }) => (
                   <TextField
                     required
                     autoComplete="address-level2"
-                    error={'city' in errors}
-                    helperText={errors.city?.message}
+                    error={'city' in formState.errors}
+                    helperText={formState.errors.city?.message}
                     label="City"
                     type="text"
-                    value={value}
-                    onBlur={onBlur}
-                    onChange={handleChange(onChange)}
+                    {...field}
+                    onChange={handleChange(field.onChange)}
                   />
                 )}
               />
@@ -282,16 +274,15 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
           <Controller
             control={control}
             name="state"
-            render={({ onChange, onBlur, value }) => (
+            render={({ field }) => (
               <TextField
                 autoComplete="address-level1"
-                error={'state' in errors}
-                helperText={errors.state?.message}
+                error={'state' in formState.errors}
+                helperText={formState.errors.state?.message}
                 label="State"
                 type="text"
-                value={value}
-                onBlur={onBlur}
-                onChange={handleChange(onChange)}
+                {...field}
+                onChange={handleChange(field.onChange)}
               />
             )}
           />

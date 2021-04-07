@@ -16,7 +16,7 @@ type Props = {
 const CreditCardForm = React.forwardRef<HTMLFormElement, Props>(({ onSubmit }, ref) => {
   const innerRef = useRef<HTMLFormElement>(null);
 
-  const { control, errors, handleSubmit } = useForm<CreditCardFormData>({
+  const { control, formState, handleSubmit } = useForm<CreditCardFormData>({
     defaultValues: { ccNumber: '', ccExp: '', ccCsc: '' },
   });
 
@@ -33,47 +33,59 @@ const CreditCardForm = React.forwardRef<HTMLFormElement, Props>(({ onSubmit }, r
   return (
     <form ref={innerRef} onSubmit={handleSubmit(onSubmit)}>
       <Controller
-        fullWidth
-        required
-        as={NumberFormat}
-        autoComplete="cc-number"
         control={control}
-        customInput={TextField}
-        error={'ccNumber' in errors}
-        format="#### #### #### ####"
-        label="Number"
-        margin="normal"
         name="ccNumber"
+        render={({ field }) => (
+          <NumberFormat
+            fullWidth
+            required
+            autoComplete="cc-number"
+            customInput={TextField}
+            error={'ccNumber' in formState.errors}
+            format="#### #### #### ####"
+            label="Number"
+            margin="normal"
+            {...field}
+          />
+        )}
       />
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Controller
-            fullWidth
-            required
-            as={NumberFormat}
-            autoComplete="cc-csc"
             control={control}
-            customInput={TextField}
-            error={'ccExp' in errors}
-            format="## / ##"
-            label="Expiry date"
-            margin="normal"
             name="ccExp"
+            render={({ field }) => (
+              <NumberFormat
+                fullWidth
+                required
+                autoComplete="cc-csc"
+                customInput={TextField}
+                error={'ccExp' in formState.errors}
+                format="## / ##"
+                label="Expiry date"
+                margin="normal"
+                {...field}
+              />
+            )}
           />
         </Grid>
         <Grid item xs={6}>
           <Controller
-            fullWidth
-            required
-            as={NumberFormat}
-            autoComplete="cc-csc"
             control={control}
-            customInput={TextField}
-            error={'ccCsc' in errors}
-            format="###"
-            label="CVC"
-            margin="normal"
             name="ccCsc"
+            render={({ field }) => (
+              <NumberFormat
+                fullWidth
+                required
+                autoComplete="cc-csc"
+                customInput={TextField}
+                error={'ccCsc' in formState.errors}
+                format="###"
+                label="CVC"
+                margin="normal"
+                {...field}
+              />
+            )}
           />
         </Grid>
       </Grid>
