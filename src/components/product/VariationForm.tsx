@@ -1,8 +1,9 @@
-import { TextField } from '@material-ui/core';
+import { Button } from '@components/ui';
+import { Box, Stack, Typography } from '@material-ui/core';
 import mapValues from 'lodash/mapValues';
 import startCase from 'lodash/startCase';
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useSetState } from 'react-use';
 import { PartialDeep } from 'type-fest';
 import { ProductVariation, VariableProduct } from '../../graphql';
 import getVariations from '../../utils/getVariations';
@@ -15,53 +16,42 @@ type Props = {
 const VariationForm: React.VFC<Props> = ({ onChange, product }) => {
   const variations = getVariations(product);
 
-  const { control, watch } = useForm({
-    defaultValues: mapValues(variations, () => ''),
-    mode: 'onChange',
-  });
+  const [formState, setFormState] = useSetState(mapValues(variations, () => undefined));
 
-  watch((values) => {
+  useEffect(() => {
     const variation = product.variations?.nodes?.find((variation) =>
       variation?.attributes?.nodes?.every(
-        (attribute) => attribute?.name != null && attribute.value === values[attribute.name],
+        (attribute) => attribute?.name != null && attribute.value === formState[attribute.name],
       ),
     );
     onChange(variation ?? undefined);
-  });
+  }, [formState, onChange, product]);
 
   return (
-    <form>
-      {Object.entries(getVariations(product)).map(([name, attribute]) => (
-        <Controller
-          key={name}
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <TextField
-              select
-              margin="normal"
-              label={startCase(name.replace(/^pa_/, ''))}
-              SelectProps={{
-                native: true,
-              }}
-              {...field}
-            >
-              <option value="">Select a {name.replace(/^pa_/, '')}...</option>
-              {attribute.options.map((option) => (
-                <option
-                  key={option}
-                  // disabled={variation.stockStatus === StockStatusEnum.OUT_OF_STOCK}
-                  value={option}
-                >
-                  {option}
-                  {/* {variation.stockStatus === StockStatusEnum.OUT_OF_STOCK && ' (Sold out)'} */}
-                </option>
-              ))}
-            </TextField>
-          )}
-        />
+    <div>
+      {Object.entries(variations).map(([name, attribute]) => (
+        <Box key={name} sx={{ my: 2 }}>
+          <Typography gutterBottom sx={{ display: 'none' }}>
+            {startCase(name.replace(/^pa_/, ''))}
+          </Typography>
+          <Stack direction="row" spacing={1}>
+            {attribute.options.map((option) => (
+              <Button
+                key={option}
+                circle
+                color={option === formState[name] ? 'primary' : 'secondary'}
+                variant={option === formState[name] ? 'contained' : 'outlined'}
+                onClick={() => {
+                  setFormState({ [name]: option });
+                }}
+              >
+                {option}
+              </Button>
+            ))}
+          </Stack>
+        </Box>
       ))}
-    </form>
+    </div>
   );
 };
 

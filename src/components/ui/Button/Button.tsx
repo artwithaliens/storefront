@@ -13,6 +13,7 @@ import ReactGA from 'react-ga';
 type TypeMap<P = {}, D extends React.ElementType = 'button'> = ExtendButtonTypeMap<{
   props: P &
     Pick<LinkProps, 'as' | 'prefetch'> & {
+      circle?: boolean;
       href?: LinkProps['href'];
       loading?: boolean;
     };
@@ -27,10 +28,12 @@ export type ButtonProps<
 const Button = (({
   as,
   children,
+  circle = false,
   disabled = false,
   href,
   loading = false,
   prefetch,
+  sx: sxProp,
   ...props
 }: ButtonProps) => {
   const handleTrack = () => {
@@ -40,8 +43,19 @@ const Button = (({
     );
   };
 
+  const sx: typeof sxProp = {
+    ...sxProp,
+    ...(circle && {
+      borderRadius: 22,
+      height: 44,
+      minWidth: 44,
+      px: 0,
+      width: 44,
+    }),
+  };
+
   return href == null ? (
-    <MuiButton disabled={disabled || loading} {...props}>
+    <MuiButton disabled={disabled || loading} sx={sx} {...props}>
       {loading && (
         <Box
           sx={{
@@ -60,12 +74,17 @@ const Button = (({
       </Box>
     </MuiButton>
   ) : /^https?:/.test(href.toString()) ? (
-    <MuiButton href={href.toString()} onClick={handleTrack} {...(props as ButtonProps<'a'>)}>
+    <MuiButton
+      href={href.toString()}
+      sx={sx}
+      onClick={handleTrack}
+      {...(props as ButtonProps<'a'>)}
+    >
       {children}
     </MuiButton>
   ) : (
     <Link passHref as={as} href={href} prefetch={prefetch}>
-      <MuiButton component="a" {...(props as ButtonProps<'a'>)}>
+      <MuiButton component="a" sx={sx} {...(props as ButtonProps<'a'>)}>
         {children}
       </MuiButton>
     </Link>
