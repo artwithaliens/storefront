@@ -2102,7 +2102,12 @@
   dependencies:
     promise-polyfill "^8.1.3"
 
-"@braintree/browser-detection@1.11.0", "@braintree/browser-detection@^1.10.0":
+"@braintree/browser-detection@1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@braintree/browser-detection/-/browser-detection-1.11.1.tgz#cc2e9acd1802b0263d00d03e1d81a8ff9abca894"
+  integrity sha512-jE5GRXNT2Ey3itbR7uTYdzbiLs9CP0kCInjTJFItApMFPj6F2Dm0Yb56C/69f7BL282gcCRqwhXVgaTeVwTWbw==
+
+"@braintree/browser-detection@^1.10.0":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@braintree/browser-detection/-/browser-detection-1.11.0.tgz#89670624b7287b058575fc7e345fcd145029b6f0"
   integrity sha512-A6G4DDygjLskhJkQvb6sURWSqL2sCkjKgnL6Pi2ZhiqOffiyyETmUpUSquCGthD8BKLGqVPpwHT4t883B9iZxw==
@@ -2782,10 +2787,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@hookform/resolvers@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.0.0.tgz#256414308d4584f2037d5c4349c119dbd66d11d6"
-  integrity sha512-picG6qjP516JNblvg/wuDc8JPfdm3aNbtPbfu+PXQWFXp6ED6dyBL2IoB/tDvPFaNwwqUEwb6UYVKMIFAH+aqQ==
+"@hookform/resolvers@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.0.1.tgz#4dda765e4a5350e0eec34c95ab499e72fe09f84c"
+  integrity sha512-iBkzeqKU+AgVETtsKHoVxBwUtWIjSnlBiFxduiOAfVAccGoCKUEqHQ2TuZZfAO14spGqUPBaESMNBl2FWs61Kg==
 
 "@iarna/toml@^2.2.5":
   version "2.2.5"
@@ -5720,13 +5725,13 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-braintree-web@^3.76.1:
-  version "3.76.1"
-  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.76.1.tgz#55570fc20886830a11f22cd9075406b149220072"
-  integrity sha512-H7ZnEji9NsS72yyk0mx4ZRbn/Cjxl2X7QxgUj8SogXGylSN+aY3zS3HpuqwpzuJ8ywyhfr0ik5Tm6+yHh0jYiw==
+braintree-web@^3.76.2:
+  version "3.76.2"
+  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.76.2.tgz#3b8eb9a8ffd552a1408f70c675991f34e7137874"
+  integrity sha512-WuKpW+FBSRfq94rfMmUR58eExjTGu3D4Y2atYNKcBl0rurwjesDZFjXuGSVgwsuod6AD655x+zTWm97karqoGQ==
   dependencies:
     "@braintree/asset-loader" "0.4.4"
-    "@braintree/browser-detection" "1.11.0"
+    "@braintree/browser-detection" "1.11.1"
     "@braintree/class-list" "0.2.0"
     "@braintree/event-emitter" "0.4.1"
     "@braintree/extended-promise" "0.4.1"

@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { BlockRenderer, PageHeader, PageWrapper } from '@components/core';
+import { BlockRenderer, PageWrapper } from '@components/core';
+import { Hero } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import { NextPage, NextPageContext } from 'next';
 import { NextSeo } from 'next-seo';
@@ -25,7 +26,7 @@ const Page: NextPage<Props> = ({ page }) => {
           description: page.seo?.opengraphDescription ?? '',
         }}
       />
-      <PageHeader image={page.featuredImage?.node} title={page.title} />
+      <Hero image={page.featuredImage?.node} title={page.title} />
       <Container>
         <Box sx={{ mb: 6, mt: 4 }}>
           <BlockRenderer>{page.content}</BlockRenderer>

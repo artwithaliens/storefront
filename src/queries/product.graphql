@@ -43,6 +43,7 @@ query Product($slug: ID!) {
           attributes {
             nodes {
               id
+              label
               name
               value
             }

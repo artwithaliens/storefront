@@ -1,11 +1,17 @@
 import { isApolloError } from '@apollo/client';
 import { Button } from '@components/ui';
 import { useUI } from '@components/ui/context';
-import { Box, TextField, Stack } from '@material-ui/core';
-import startCase from 'lodash/startCase';
+import { Box, Stack } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ProductQuery, StockStatusEnum, useAddToCartMutation } from '../../graphql';
+import { PartialDeep } from 'type-fest';
+import {
+  ProductQuery,
+  ProductVariation,
+  StockStatusEnum,
+  useAddToCartMutation,
+} from '../../graphql';
 import Stock from './Stock';
+import VariationForm from './VariationForm';
 
 type Props = {
   product: NonNullable<ProductQuery['product']>;
@@ -41,8 +47,8 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
   };
 
   /** Handles changing the variation. */
-  const handleVariationChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    setVariationId(ev.target.value !== '' ? parseInt(ev.target.value, 10) : undefined);
+  const handleVariationChange = (variation?: PartialDeep<ProductVariation>) => {
+    setVariationId(variation?.databaseId);
   };
 
   const viewCart = showViewCart && (
@@ -79,37 +85,7 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
     </>
   ) : product.__typename === 'VariableProduct' ? (
     <>
-      <TextField
-        select
-        margin="normal"
-        label={startCase(
-          product.variations?.nodes?.[0]?.attributes?.nodes?.[0]?.name?.replace(/^pa_/, '') ??
-            'Variation',
-        )}
-        name="variation"
-        SelectProps={{
-          native: true,
-        }}
-        onChange={handleVariationChange}
-      >
-        <option value="">Select a variation...</option>
-        {product.variations?.nodes?.map((variation) =>
-          variation?.attributes?.nodes?.map(
-            (attribute) =>
-              attribute?.value != null &&
-              variation.databaseId != null && (
-                <option
-                  key={variation.id}
-                  disabled={variation.stockStatus === StockStatusEnum.OUT_OF_STOCK}
-                  value={variation.databaseId}
-                >
-                  {attribute.value}
-                  {variation.stockStatus === StockStatusEnum.OUT_OF_STOCK && ' (Sold out)'}
-                </option>
-              ),
-          ),
-        )}
-      </TextField>
+      <VariationForm product={product} onChange={handleVariationChange} />
       <Box sx={{ mt: 1 }}>
         <Stock
           product={product}

@@ -1,32 +1,11 @@
 import { Image } from '@components/core';
-import { makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
-import { MediaItem } from '../../graphql';
+import { MediaItem } from '../../../graphql';
 
 const useStyles = makeStyles(
-  ({ breakpoints, palette, spacing }) => ({
-    root: {
-      alignItems: 'center',
-      backgroundColor: palette.background.paper,
-      boxSizing: 'border-box',
-      display: 'flex',
-      height: 210,
-      justifyContent: 'center',
-      overflow: 'hidden',
-      padding: spacing(10),
-      position: 'relative',
-    },
-
-    fullHeight: {
-      backgroundColor: '#000',
-      height: 'calc(100vh - 60px)',
-
-      [breakpoints.up('md')]: {
-        height: 'calc(100vh - 110px)',
-      },
-    },
-
+  () => ({
     image: {
       height: '100%',
       left: 0,
@@ -42,26 +21,33 @@ const useStyles = makeStyles(
       objectFit: 'contain',
       opacity: 1,
     },
-
-    content: {
-      position: 'relative',
-      zIndex: 2,
-    },
   }),
-  { name: 'PageHeader' },
+  { name: 'Hero' },
 );
 
-type Props = {
+export type HeroProps = {
   fullHeight?: boolean;
   image?: Partial<MediaItem> | null;
   title?: string | null;
 };
 
-const PageHeader: React.VFC<Props> = ({ fullHeight, image, title }) => {
+const Hero: React.VFC<HeroProps> = ({ fullHeight, image, title }) => {
   const styles = useStyles();
 
   return (
-    <Paper className={clsx(styles.root, fullHeight && styles.fullHeight)}>
+    <Paper
+      sx={{
+        alignItems: 'center',
+        bgcolor: fullHeight ? '#000' : 'background.paper',
+        boxSizing: 'border-box',
+        display: 'flex',
+        height: fullHeight ? { xs: 'calc(100vh - 60px)', md: 'calc(100vh - 110px)' } : 210,
+        justifyContent: 'center',
+        overflow: 'hidden',
+        p: 10,
+        position: 'relative',
+      }}
+    >
       {image?.sourceUrl != null && (
         <Image
           className={clsx(styles.image, fullHeight && styles.imageContain)}
@@ -71,16 +57,16 @@ const PageHeader: React.VFC<Props> = ({ fullHeight, image, title }) => {
         />
       )}
       {!fullHeight && (
-        <div className={styles.content}>
+        <Box sx={{ position: 'relative', zIndex: 2 }}>
           <Typography
             variant="h1"
             align="center"
             dangerouslySetInnerHTML={{ __html: title ?? '' }}
           />
-        </div>
+        </Box>
       )}
     </Paper>
   );
 };
 
-export default PageHeader;
+export default Hero;

@@ -1,4 +1,5 @@
-import { BlockRenderer, CategoryGrid, PageHeader, PageWrapper } from '@components/core';
+import { BlockRenderer, CategoryGrid, PageWrapper } from '@components/core';
+import { Hero } from '@components/ui';
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
@@ -13,7 +14,7 @@ const Index: NextPage = () => {
 
   return (
     <PageWrapper>
-      <PageHeader
+      <Hero
         fullHeight
         image={{
           sourceUrl: '/home.jpg',

@@ -1,10 +1,10 @@
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import PageHeader from './page-header';
+import Hero from './Hero';
 
 export default {
-  title: 'PageHeader',
-  component: PageHeader,
+  title: 'Hero',
+  component: Hero,
   argTypes: {
     fullHeight: { control: 'boolean' },
     title: { control: 'text' },
@@ -15,7 +15,7 @@ export default {
 } as Meta;
 
 export const Base: Story = (args) => (
-  <PageHeader
+  <Hero
     {...args}
     image={{
       sourceUrl: '/home.png',

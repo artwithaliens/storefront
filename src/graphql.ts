@@ -20966,7 +20966,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                                 Maybe<
                                   { __typename?: 'VariationAttribute' } & Pick<
                                     VariationAttribute,
-                                    'id' | 'name' | 'value'
+                                    'id' | 'label' | 'name' | 'value'
                                   >
                                 >
                               >
@@ -22509,6 +22509,7 @@ export const ProductDocument = gql`
             attributes {
               nodes {
                 id
+                label
                 name
                 value
               }

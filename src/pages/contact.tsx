@@ -1,12 +1,13 @@
-import { ContactForm, PageHeader, PageWrapper } from '@components/core';
+import { ContactForm, PageWrapper } from '@components/core';
 import { Pin } from '@components/icons';
+import { Hero } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 
 const Contact: NextPage = () => (
   <PageWrapper>
-    <PageHeader title="Contact" />
+    <Hero title="Contact" />
     <Container maxWidth="md">
       <Box sx={{ my: 6 }}>
         <ContactForm />

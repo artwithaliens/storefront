@@ -1,6 +1,7 @@
 export { default as Button } from './Button';
 export { default as CountrySelect } from './CountrySelect';
 export { default as Dialog } from './Dialog';
+export { default as Hero } from './Hero';
 export { default as IconButton } from './IconButton';
 export { default as Link } from './Link';
 export { default as Loader } from './Loader';
