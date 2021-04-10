@@ -1,6 +1,6 @@
-import { Image, Price } from '@components/core';
+import { Image } from '@components/core';
 import { Delete } from '@components/icons';
-import { IconButton, Link, QuantityInput } from '@components/ui';
+import { IconButton, Link, Price, QuantityInput } from '@components/ui';
 import { Hidden, TableCell, TableRow, Typography } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React from 'react';

@@ -6,7 +6,7 @@ import { Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@materia
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { boolean, object, SchemaOf, string } from 'yup';
-import { ContactMutationVariables, useContactMutation } from '../../graphql';
+import { ContactMutationVariables, useContactMutation } from '../../../graphql';
 
 type ContactFormData = ContactMutationVariables & {
   acceptance: boolean;

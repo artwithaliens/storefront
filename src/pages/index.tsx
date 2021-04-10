@@ -1,4 +1,4 @@
-import { BlockRenderer, CategoryGrid, PageWrapper } from '@components/core';
+import { BlockRenderer, Layout } from '@components/core';
 import { Hero } from '@components/ui';
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
@@ -13,7 +13,7 @@ const Index: NextPage = () => {
   });
 
   return (
-    <PageWrapper>
+    <Layout>
       <Hero
         fullHeight
         image={{
@@ -24,8 +24,7 @@ const Index: NextPage = () => {
       <Container>
         <BlockRenderer>{page?.content}</BlockRenderer>
       </Container>
-      <CategoryGrid />
-    </PageWrapper>
+    </Layout>
   );
 };
 

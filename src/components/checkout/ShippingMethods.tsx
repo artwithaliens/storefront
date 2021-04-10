@@ -1,5 +1,4 @@
-import { Price } from '@components/core';
-import { Button } from '@components/ui';
+import { Button, Price } from '@components/ui';
 import { Box, Grid, Radio, RadioGroup, styled, Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, useUpdateShippingMethodMutation } from '../../graphql';

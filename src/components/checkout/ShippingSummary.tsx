@@ -1,4 +1,4 @@
-import { Price } from '@components/core';
+import { Price } from '@components/ui';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery } from '../../graphql';

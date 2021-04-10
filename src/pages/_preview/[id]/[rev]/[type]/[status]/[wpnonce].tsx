@@ -1,4 +1,4 @@
-import { BlockRenderer, PageWrapper } from '@components/core';
+import { BlockRenderer, Layout } from '@components/core';
 import { Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -17,11 +17,11 @@ const Preview: NextPage = () => {
   });
 
   return (
-    <PageWrapper>
+    <Layout>
       <Container>
         <BlockRenderer>{page?.revisions?.nodes?.[0]?.content}</BlockRenderer>
       </Container>
-    </PageWrapper>
+    </Layout>
   );
 };
 

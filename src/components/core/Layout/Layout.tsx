@@ -1,11 +1,16 @@
 import { LoginView } from '@components/auth';
-import { CookieBanner, Footer, Header } from '@components/core';
-import { Dialog } from '@components/ui';
+import { Footer, Header } from '@components/core';
+import { Dialog, Loader } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Alert, Box, Snackbar } from '@material-ui/core';
+import dynamic from 'next/dynamic';
 import React from 'react';
 
-const PageWrapper: React.FC = ({ children }) => {
+const CookieBanner = dynamic(() => import('@components/core/CookieBanner'), {
+  loading: () => <Loader />,
+});
+
+const Layout: React.FC = ({ children }) => {
   const { alerts, closeModal, displayModal, modalView, removeAlert } = useUI();
 
   return (
@@ -33,4 +38,4 @@ const PageWrapper: React.FC = ({ children }) => {
   );
 };
 
-export default PageWrapper;
+export default Layout;

@@ -1,6 +1,6 @@
 import NextImage from 'next/image';
 import React from 'react';
-import { MediaItem } from '../../graphql';
+import { MediaItem } from '../../../graphql';
 
 type Props = {
   alt?: string;

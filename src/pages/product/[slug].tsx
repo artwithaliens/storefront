@@ -1,4 +1,4 @@
-import { PageWrapper, ProductGrid, RichText } from '@components/core';
+import { Layout, ProductGrid, RichText } from '@components/core';
 import {
   AddToCart,
   ProductAttributes,
@@ -45,7 +45,7 @@ const Product: NextPage = () => {
   }, [product]);
 
   return (
-    <PageWrapper>
+    <Layout>
       {loading || product == null ? (
         <Loader fullHeight />
       ) : (
@@ -106,7 +106,7 @@ const Product: NextPage = () => {
           </Container>
         </>
       )}
-    </PageWrapper>
+    </Layout>
   );
 };
 

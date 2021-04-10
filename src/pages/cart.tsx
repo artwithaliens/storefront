@@ -1,6 +1,6 @@
 import { isApolloError } from '@apollo/client';
 import { CartEmpty, CartTable } from '@components/cart';
-import { PageWrapper } from '@components/core';
+import { Layout } from '@components/core';
 import { Button, Loader } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Box, Chip, Container, Grid, Stack, TextField, Typography } from '@material-ui/core';
@@ -53,7 +53,7 @@ const Cart: NextPage = () => {
   };
 
   return (
-    <PageWrapper>
+    <Layout>
       <Container>
         <Box sx={{ mb: 2, mt: 6 }}>
           <Typography variant="h1">Cart</Typography>
@@ -116,7 +116,7 @@ const Cart: NextPage = () => {
           </>
         )}
       </Container>
-    </PageWrapper>
+    </Layout>
   );
 };
 

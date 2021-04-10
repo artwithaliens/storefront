@@ -1,11 +1,11 @@
-import { PageWrapper } from '@components/core';
+import { Layout } from '@components/core';
 import { Button } from '@components/ui';
 import { Box, Container, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
 import React from 'react';
 
 const OrderConfirmation: NextPage = () => (
-  <PageWrapper>
+  <Layout>
     <Container>
       <Box sx={{ p: 4, textAlign: 'center' }}>
         <Typography gutterBottom variant="h1">
@@ -23,7 +23,7 @@ const OrderConfirmation: NextPage = () => (
         </Box>
       </Box>
     </Container>
-  </PageWrapper>
+  </Layout>
 );
 
 export default OrderConfirmation;

@@ -1,5 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { BlockRenderer, PageWrapper } from '@components/core';
+import { BlockRenderer, Layout } from '@components/core';
 import { Hero } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import { NextPage, NextPageContext } from 'next';
@@ -17,7 +17,7 @@ const Page: NextPage<Props> = ({ page }) => {
     return <Error statusCode={404} />;
   }
   return (
-    <PageWrapper>
+    <Layout>
       <NextSeo
         title={page.seo?.title ?? ''}
         description={page.seo?.metaDesc ?? ''}
@@ -32,7 +32,7 @@ const Page: NextPage<Props> = ({ page }) => {
           <BlockRenderer>{page.content}</BlockRenderer>
         </Box>
       </Container>
-    </PageWrapper>
+    </Layout>
   );
 };
 

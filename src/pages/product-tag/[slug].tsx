@@ -1,4 +1,4 @@
-import { PageWrapper, ProductGrid } from '@components/core';
+import { Layout, ProductGrid } from '@components/core';
 import { Box, Container } from '@material-ui/core';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -15,13 +15,13 @@ const ProductTag: NextPage = () => {
   });
 
   return (
-    <PageWrapper>
+    <Layout>
       <Container>
         <Box sx={{ my: 6 }}>
           <ProductGrid loading={loading} products={products?.nodes ?? []} />
         </Box>
       </Container>
-    </PageWrapper>
+    </Layout>
   );
 };
 

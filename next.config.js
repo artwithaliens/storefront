@@ -5,8 +5,8 @@ module.exports = withOffline({
   target: 'serverless',
   generateSw: false,
   workboxOpts: {
-    swSrc: './src/service-worker.ts',
-    swDest: 'static/service-worker.js',
+    swSrc: './src/serviceWorker.ts',
+    swDest: 'static/serviceWorker.js',
   },
   env: {
     VERCEL_URL: process.env.VERCEL_URL,
@@ -23,8 +23,8 @@ module.exports = withOffline({
   },
   rewrites: async () => [
     {
-      source: '/service-worker.js',
-      destination: '/_next/static/service-worker.js',
+      source: '/serviceWorker.js',
+      destination: '/_next/static/serviceWorker.js',
     },
     {
       source: '/checkout',

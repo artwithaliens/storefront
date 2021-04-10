@@ -1,5 +1,5 @@
-import { Price, RichText } from '@components/core';
-import { Link } from '@components/ui';
+import { RichText } from '@components/core';
+import { Link, Price } from '@components/ui';
 import { Typography } from '@material-ui/core';
 import React from 'react';
 import { ProductQuery } from '../../graphql';

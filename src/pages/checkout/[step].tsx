@@ -1,5 +1,5 @@
 import { CheckoutForm } from '@components/checkout';
-import { PageWrapper } from '@components/core';
+import { Layout } from '@components/core';
 import { Loader } from '@components/ui';
 import { Box, Container } from '@material-ui/core';
 import omit from 'lodash/omit';
@@ -55,7 +55,7 @@ const Checkout: NextPage = () => {
   };
 
   return (
-    <PageWrapper>
+    <Layout>
       <Head>
         <script async data-version-4 src="https://www.paypalobjects.com/api/checkout.js" />
       </Head>
@@ -73,7 +73,7 @@ const Checkout: NextPage = () => {
           </Box>
         </Container>
       )}
-    </PageWrapper>
+    </Layout>
   );
 };
 

@@ -1,11 +1,9 @@
-export { default as BlockRenderer } from './block-renderer';
-export { default as CategoryGrid } from './CategoryGrid';
+export { default as BlockRenderer } from './BlockRenderer';
 export { default as ContactForm } from './ContactForm';
-export { default as CookieBanner } from './cookie-banner';
+export { default as CookieBanner } from './CookieBanner';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';
-export { default as Image } from './image';
-export { default as PageWrapper } from './page-wrapper';
-export { default as Price } from './price';
-export { default as ProductGrid } from './product-grid';
-export { default as RichText } from './rich-text';
+export { default as Image } from './Image';
+export { default as Layout } from './Layout';
+export { default as ProductGrid } from './ProductGrid';
+export { default as RichText } from './RichText';

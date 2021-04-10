@@ -1,7 +1,7 @@
 import { alpha, darken, makeStyles } from '@material-ui/core';
 import parse from 'html-react-parser';
 import React from 'react';
-import sentenceCase from '../../utils/sentenceCase';
+import sentenceCase from '../../../utils/sentenceCase';
 
 const useStyles = makeStyles(
   ({ palette, spacing, typography }) => ({

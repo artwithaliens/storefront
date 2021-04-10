@@ -1,25 +1,9 @@
-import { Image, Price } from '@components/core';
-import { Link } from '@components/ui';
-import { Box, Grid, makeStyles, Paper, Skeleton, Typography } from '@material-ui/core';
+import { Image } from '@components/core';
+import { Link, Price } from '@components/ui';
+import { Box, Grid, Paper, Skeleton, Typography } from '@material-ui/core';
 import React from 'react';
-import { ProductsQuery, StockStatusEnum } from '../../graphql';
-import rangeMap from '../../utils/rangeMap';
-
-const useStyles = makeStyles(
-  {
-    product: {
-      height: '100%',
-      textAlign: 'center',
-    },
-
-    productLink: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-    },
-  },
-  { name: 'ProductGrid' },
-);
+import { ProductsQuery, StockStatusEnum } from '../../../graphql';
+import rangeMap from '../../../utils/rangeMap';
 
 type Props = {
   loading?: boolean;
@@ -27,8 +11,6 @@ type Props = {
 };
 
 const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
-  const styles = useStyles();
-
   if (!loading && products.length === 0) {
     return <Typography>No products found.</Typography>;
   }
@@ -45,11 +27,11 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
             (product) =>
               product != null && (
                 <Grid key={product.id} item xs={6} md={3}>
-                  <Paper className={styles.product}>
+                  <Paper sx={{ height: '100%', textAlign: 'center' }}>
                     <Link
-                      className={styles.productLink}
                       href={`/product/${product.slug}`}
                       underline="none"
+                      sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
                     >
                       <Image height={673} loading="lazy" mediaItem={product.image} width={538} />
                       <Box sx={{ p: 2 }}>

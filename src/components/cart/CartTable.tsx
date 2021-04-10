@@ -1,4 +1,4 @@
-import { Price } from '@components/core';
+import { Price } from '@components/ui';
 import {
   alpha,
   darken,

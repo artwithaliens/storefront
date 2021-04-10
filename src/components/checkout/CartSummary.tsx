@@ -1,4 +1,5 @@
-import { Image, Price } from '@components/core';
+import { Image } from '@components/core';
+import { Price } from '@components/ui';
 import {
   alpha,
   Box,

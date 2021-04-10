@@ -1,4 +1,4 @@
-import { PageWrapper } from '@components/core';
+import { Layout } from '@components/core';
 import { Home } from '@components/icons';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import { NextPage } from 'next';
@@ -59,7 +59,7 @@ const MyAccount: NextPage = () => {
   }, [customer, router]);
 
   return (
-    <PageWrapper>
+    <Layout>
       {/* Only Show Content if user is logged in */}
       {showContent && (
         <Container className={styles.container}>
@@ -92,7 +92,7 @@ const MyAccount: NextPage = () => {
           </Box>
         </Container>
       )}
-    </PageWrapper>
+    </Layout>
   );
 };
 

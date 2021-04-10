@@ -1,5 +1,5 @@
 import { isApolloError } from '@apollo/client';
-import { PageWrapper } from '@components/core';
+import { Layout } from '@components/core';
 import { Button } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -72,7 +72,7 @@ const Register: NextPage = () => {
   });
 
   return (
-    <PageWrapper>
+    <Layout>
       <Container maxWidth="sm">
         <Box sx={{ mt: 6, pt: 6 }}>
           <Typography gutterBottom variant="h2">
@@ -141,7 +141,7 @@ const Register: NextPage = () => {
           </form>
         </Box>
       </Container>
-    </PageWrapper>
+    </Layout>
   );
 };
 
