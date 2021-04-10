@@ -1,7 +1,7 @@
 import { Button, makeStyles } from '@material-ui/core';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
-import { useLocalStorage } from 'react-use';
+import useAcceptCookies from '../../../utils/hooks/useAcceptCookies';
 
 const useStyles = makeStyles(
   ({ palette, spacing, typography }) => ({
@@ -30,13 +30,9 @@ const useStyles = makeStyles(
 
 const CookieBanner: React.VFC = () => {
   const styles = useStyles();
-  const [acceptCookies, setAcceptCookies] = useLocalStorage<boolean>('accept-cookies');
+  const { acceptedCookies, handleAcceptCookies } = useAcceptCookies();
 
-  const handleAccept = () => {
-    setAcceptCookies(true);
-  };
-
-  return !acceptCookies ? (
+  return !acceptedCookies ? (
     <CookieConsent
       disableStyles
       buttonText="I understand"
@@ -45,7 +41,7 @@ const CookieBanner: React.VFC = () => {
       contentClasses={styles.content}
       cookieName="accept-cookies"
       ButtonComponent={Button}
-      onAccept={handleAccept}
+      onAccept={handleAcceptCookies}
     >
       This website uses cookies to enhance the user experience. If you don’t like it, change
       website!
