@@ -1,9 +1,9 @@
 import { Image } from '@components/core';
 import { Link, Price } from '@components/ui';
 import { Box, Grid, Paper, Skeleton, Typography } from '@material-ui/core';
+import rangeMap from '@utils/rangeMap';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../../graphql';
-import rangeMap from '../../../utils/rangeMap';
 
 type Props = {
   loading?: boolean;

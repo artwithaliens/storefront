@@ -1,9 +1,9 @@
 import { Facebook, Github, Instagram } from '@components/icons';
 import { Link, Logo } from '@components/ui';
 import { Box, Container, Grid, IconButton, Stack, Typography } from '@material-ui/core';
+import relativeURL from '@utils/relativeURL';
 import React from 'react';
 import { MenuLocationEnum, useMenuQuery } from '../../../graphql';
-import relativeURL from '../../../utils/relativeURL';
 
 const Footer: React.VFC = () => {
   const { data: menu } = useMenuQuery({

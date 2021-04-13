@@ -4,6 +4,7 @@ import { Layout } from '@components/core';
 import { Button, Loader } from '@components/ui';
 import { useUI } from '@components/ui/context';
 import { Box, Chip, Container, Grid, Stack, TextField, Typography } from '@material-ui/core';
+import isBlank from '@utils/isBlank';
 import { NextPage } from 'next';
 import React, { useState } from 'react';
 import {
@@ -12,7 +13,6 @@ import {
   useRemoveCouponMutation,
   useUpdateCartMutation,
 } from '../graphql';
-import isBlank from '../utils/isBlank';
 
 const Cart: NextPage = () => {
   const { addAlert } = useUI();

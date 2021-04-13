@@ -3,6 +3,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 import { SettingsContext, SettingsProvider } from '@components/core/context';
 import { ManagedUIContext } from '@components/ui/context';
 import { CssBaseline } from '@material-ui/core';
+import absoluteURL from '@utils/absoluteURL';
 import { NextComponentType } from 'next';
 import { DefaultSeo } from 'next-seo';
 import NextApp, { AppContext, AppInitialProps, AppProps as NextAppProps } from 'next/app';
@@ -11,7 +12,6 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import { useMount } from 'react-use';
 import createClient from '../apollo';
-import absoluteURL from '../utils/absoluteURL';
 
 type Props = NextAppProps & {
   apollo?: ApolloClient<NormalizedCacheObject>;

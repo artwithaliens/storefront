@@ -1,16 +1,16 @@
 import { Step, Stepper } from '@components/ui';
 import { Grid } from '@material-ui/core';
+import isShippingSameAsBilling from '@utils/isShippingSameAsBilling';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
 import { CartQuery, CheckoutMutationVariables, CustomerQuery } from '../../graphql';
-import isShippingSameAsBilling from '../../utils/isShippingSameAsBilling';
 import BillingForm from './BillingForm';
 import CartSummary from './CartSummary';
 import CheckoutReview from './CheckoutReview';
 import PaymentMethods from './PaymentMethods';
-import ShippingMethods from './ShippingMethods';
 import ShippingForm from './ShippingForm';
+import ShippingMethods from './ShippingMethods';
 
 type Props = {
   cart: NonNullable<CartQuery['cart']>;

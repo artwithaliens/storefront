@@ -1,9 +1,9 @@
 import { useSettings } from '@components/core/context';
+import absoluteURL from '@utils/absoluteURL';
 import { ProductJsonLd } from 'next-seo';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ProductQuery, StockStatusEnum } from '../../graphql';
-import absoluteURL from '../../utils/absoluteURL';
 
 type Props = {
   product: ProductQuery['product'];

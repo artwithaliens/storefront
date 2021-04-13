@@ -9,13 +9,13 @@ import {
 } from '@components/product';
 import { Loader } from '@components/ui';
 import { Box, Container, Grid, Typography } from '@material-ui/core';
+import isBlank from '@utils/isBlank';
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import { useProductQuery } from '../../graphql';
-import isBlank from '../../utils/isBlank';
 
 const Product: NextPage = () => {
   const router = useRouter();

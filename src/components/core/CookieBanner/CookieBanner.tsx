@@ -1,7 +1,7 @@
 import { Button, makeStyles } from '@material-ui/core';
+import useAcceptCookies from '@utils/hooks/useAcceptCookies';
 import React from 'react';
 import CookieConsent from 'react-cookie-consent';
-import useAcceptCookies from '../../../utils/hooks/useAcceptCookies';
 
 const useStyles = makeStyles(
   ({ palette, spacing, typography }) => ({

@@ -1,12 +1,12 @@
 import { Button } from '@components/ui';
 import { Box, Stack, Typography } from '@material-ui/core';
+import getVariations from '@utils/getVariations';
 import mapValues from 'lodash/mapValues';
 import startCase from 'lodash/startCase';
 import React, { useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { PartialDeep } from 'type-fest';
 import { ProductVariation, VariableProduct } from '../../graphql';
-import getVariations from '../../utils/getVariations';
 
 type Props = {
   onChange: (variation?: PartialDeep<ProductVariation>) => void;
