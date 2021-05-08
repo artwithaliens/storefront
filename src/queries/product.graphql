@@ -10,6 +10,7 @@ query Product($slug: ID!) {
     sku
     image {
       altText
+      caption
       sizes(size: SHOP_SINGLE)
       sourceUrl(size: SHOP_SINGLE)
       srcSet(size: SHOP_SINGLE)
@@ -18,6 +19,7 @@ query Product($slug: ID!) {
       nodes {
         id
         altText
+        caption
         sizes(size: SHOP_SINGLE)
         sourceUrl(size: SHOP_SINGLE)
         srcSet(size: SHOP_SINGLE)

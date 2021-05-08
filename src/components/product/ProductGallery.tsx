@@ -22,9 +22,21 @@ const useStyles = makeStyles(
     },
 
     galleryImage: {
-      height: 'auto',
-      marginBottom: spacing(1),
-      maxWidth: '100%',
+      margin: spacing(0, 0, 1),
+      position: 'relative',
+
+      '& img': {
+        display: 'block',
+        height: 'auto',
+        maxWidth: '100%',
+      },
+
+      '& figcaption': {
+        backgroundColor: '#000',
+        float: 'right',
+        marginTop: -24,
+        position: 'relative',
+      },
     },
   }),
   { name: 'ProductGallery' },
@@ -80,16 +92,17 @@ const ProductGallery: React.VFC<Props> = ({ product }) => {
       </Hidden>
       <Hidden mdDown>
         <div className={styles.gallery}>
-          <Image className={styles.galleryImage} mediaItem={product.image} next={false} />
+          <figure className={styles.galleryImage}>
+            <Image mediaItem={product.image} next={false} />
+            <figcaption>{product.image?.caption}</figcaption>
+          </figure>
           {product.galleryImages?.nodes?.map(
             (mediaItem) =>
               mediaItem != null && (
-                <Image
-                  key={mediaItem.id}
-                  className={styles.galleryImage}
-                  mediaItem={mediaItem}
-                  next={false}
-                />
+                <figure className={styles.galleryImage}>
+                  <Image key={mediaItem.id} mediaItem={mediaItem} next={false} />
+                  <figcaption>{mediaItem.caption}</figcaption>
+                </figure>
               ),
           )}
         </div>

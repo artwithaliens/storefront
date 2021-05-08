@@ -1,5 +1,4 @@
 import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
 import mapValues from 'lodash/mapValues';
 import uniq from 'lodash/uniq';
 import { PartialDeep } from 'type-fest';
@@ -22,6 +21,6 @@ export default function getVariations(product: PartialDeep<VariableProduct>) {
   return mapValues(groupBy(varationAttributes, 'name'), (attribute) => ({
     label: attribute[0]?.label,
     name: attribute[0]?.name,
-    options: uniq(map(attribute, 'value')),
+    options: uniq(attribute.map((a) => a?.value)).filter(Boolean) as string[],
   }));
 }

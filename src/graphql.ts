@@ -3786,6 +3786,7 @@ export type PostTypeSeo = {
   canonical?: Maybe<Scalars['String']>;
   cornerstone?: Maybe<Scalars['Boolean']>;
   focuskw?: Maybe<Scalars['String']>;
+  fullHead?: Maybe<Scalars['String']>;
   metaDesc?: Maybe<Scalars['String']>;
   metaKeywords?: Maybe<Scalars['String']>;
   metaRobotsNofollow?: Maybe<Scalars['String']>;
@@ -4662,6 +4663,7 @@ export type TaxonomySeo = {
   canonical?: Maybe<Scalars['String']>;
   cornerstone?: Maybe<Scalars['Boolean']>;
   focuskw?: Maybe<Scalars['String']>;
+  fullHead?: Maybe<Scalars['String']>;
   metaDesc?: Maybe<Scalars['String']>;
   metaKeywords?: Maybe<Scalars['String']>;
   metaRobotsNofollow?: Maybe<Scalars['String']>;
@@ -5660,6 +5662,7 @@ export type UserRole = Node & {
 
 export type SeoUser = {
   __typename?: 'SEOUser';
+  fullHead?: Maybe<Scalars['String']>;
   metaDesc?: Maybe<Scalars['String']>;
   metaRobotsNofollow?: Maybe<Scalars['String']>;
   metaRobotsNoindex?: Maybe<Scalars['String']>;
@@ -14775,6 +14778,7 @@ export type SeoContentTypeArchive = {
   __typename?: 'SEOContentTypeArchive';
   archiveLink?: Maybe<Scalars['String']>;
   breadcrumbTitle?: Maybe<Scalars['String']>;
+  fullHead?: Maybe<Scalars['String']>;
   hasArchive?: Maybe<Scalars['Boolean']>;
   metaDesc?: Maybe<Scalars['String']>;
   metaRobotsNoindex?: Maybe<Scalars['Boolean']>;
@@ -20959,7 +20963,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
           image?: Maybe<
             { __typename?: 'MediaItem' } & Pick<
               MediaItem,
-              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+              'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
             >
           >;
           galleryImages?: Maybe<
@@ -20969,7 +20973,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                      'id' | 'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -21104,7 +21108,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
           image?: Maybe<
             { __typename?: 'MediaItem' } & Pick<
               MediaItem,
-              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+              'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
             >
           >;
           galleryImages?: Maybe<
@@ -21114,7 +21118,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                      'id' | 'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -21253,7 +21257,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
           image?: Maybe<
             { __typename?: 'MediaItem' } & Pick<
               MediaItem,
-              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+              'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
             >
           >;
           galleryImages?: Maybe<
@@ -21263,7 +21267,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                      'id' | 'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -21396,7 +21400,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
           image?: Maybe<
             { __typename?: 'MediaItem' } & Pick<
               MediaItem,
-              'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+              'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
             >
           >;
           galleryImages?: Maybe<
@@ -21406,7 +21410,7 @@ export type ProductQuery = { __typename?: 'RootQuery' } & {
                   Maybe<
                     { __typename?: 'MediaItem' } & Pick<
                       MediaItem,
-                      'id' | 'altText' | 'sizes' | 'sourceUrl' | 'srcSet'
+                      'id' | 'altText' | 'caption' | 'sizes' | 'sourceUrl' | 'srcSet'
                     >
                   >
                 >
@@ -22402,6 +22406,7 @@ export const ProductDocument = gql`
       sku
       image {
         altText
+        caption
         sizes(size: SHOP_SINGLE)
         sourceUrl(size: SHOP_SINGLE)
         srcSet(size: SHOP_SINGLE)
@@ -22410,6 +22415,7 @@ export const ProductDocument = gql`
         nodes {
           id
           altText
+          caption
           sizes(size: SHOP_SINGLE)
           sourceUrl(size: SHOP_SINGLE)
           srcSet(size: SHOP_SINGLE)

@@ -6,6 +6,7 @@ import startCase from 'lodash/startCase';
 import React, { useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { PartialDeep } from 'type-fest';
+import colors from '../../colors';
 import { ProductVariation, VariableProduct } from '../../graphql';
 
 type Props = {
@@ -16,7 +17,9 @@ type Props = {
 const VariationForm: React.VFC<Props> = ({ onChange, product }) => {
   const variations = getVariations(product);
 
-  const [formState, setFormState] = useSetState(mapValues(variations, () => undefined));
+  const [formState, setFormState] = useSetState<Record<string, string | undefined>>(
+    mapValues(variations, () => undefined),
+  );
 
   useEffect(() => {
     const variation = product.variations?.nodes?.find((variation) =>
@@ -31,23 +34,40 @@ const VariationForm: React.VFC<Props> = ({ onChange, product }) => {
     <div>
       {Object.entries(variations).map(([name, attribute]) => (
         <Box key={name} sx={{ my: 2 }}>
-          <Typography gutterBottom sx={{ display: 'none' }}>
+          <Typography gutterBottom variant="h4">
             {startCase(name.replace(/^pa_/, ''))}
           </Typography>
           <Stack direction="row" spacing={1}>
-            {attribute.options.map((option) => (
-              <Button
-                key={option}
-                circle
-                color={option === formState[name] ? 'primary' : 'secondary'}
-                variant={option === formState[name] ? 'contained' : 'outlined'}
-                onClick={() => {
-                  setFormState({ [name]: option });
-                }}
-              >
-                {option}
-              </Button>
-            ))}
+            {attribute.options.map((option) => {
+              const backgroundColor = colors.find(
+                (color) => name === 'pa_color' && color.label === option,
+              )?.code;
+
+              return (
+                <Button
+                  key={option}
+                  circle
+                  color={option === formState[name] ? 'primary' : 'secondary'}
+                  sx={
+                    name === 'pa_color'
+                      ? {
+                          backgroundColor: `${backgroundColor} !important`,
+                          borderColor: option === formState[name] ? '#feffff' : backgroundColor,
+                          borderStyle: 'solid',
+                          borderWidth: 2,
+                          color: 'transparent',
+                        }
+                      : {}
+                  }
+                  variant={option === formState[name] ? 'contained' : 'outlined'}
+                  onClick={() => {
+                    setFormState({ [name]: option });
+                  }}
+                >
+                  {option}
+                </Button>
+              );
+            })}
           </Stack>
         </Box>
       ))}
