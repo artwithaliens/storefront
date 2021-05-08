@@ -97,9 +97,10 @@ const AddToCart: React.VFC<Props> = ({ product }) => {
       <Stack direction="row" spacing={1}>
         <Button
           color="primary"
-          variant="contained"
           disabled={!variationId}
           loading={loading}
+          size="large"
+          variant="contained"
           onClick={handleAddToCartClick}
         >
           Add to cart

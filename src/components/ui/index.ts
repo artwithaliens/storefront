@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as ColorSwatch } from './ColorSwatch';
 export { default as CountrySelect } from './CountrySelect';
 export { default as Dialog } from './Dialog';
 export { default as Hero } from './Hero';

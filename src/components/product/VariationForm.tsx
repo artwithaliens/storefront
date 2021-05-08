@@ -1,4 +1,4 @@
-import { Button } from '@components/ui';
+import { Button, ColorSwatch } from '@components/ui';
 import { Box, Stack, Typography } from '@material-ui/core';
 import getVariations from '@utils/getVariations';
 import mapValues from 'lodash/mapValues';
@@ -6,7 +6,6 @@ import startCase from 'lodash/startCase';
 import React, { useEffect } from 'react';
 import { useSetState } from 'react-use';
 import { PartialDeep } from 'type-fest';
-import colors from '../../colors';
 import { ProductVariation, VariableProduct } from '../../graphql';
 
 type Props = {
@@ -38,27 +37,21 @@ const VariationForm: React.VFC<Props> = ({ onChange, product }) => {
             {startCase(name.replace(/^pa_/, ''))}
           </Typography>
           <Stack direction="row" spacing={1}>
-            {attribute.options.map((option) => {
-              const backgroundColor = colors.find(
-                (color) => name === 'pa_color' && color.label === option,
-              )?.code;
-
-              return (
+            {attribute.options.map((option) =>
+              name === 'pa_color' ? (
+                <ColorSwatch
+                  key={option}
+                  color={option}
+                  selected={option === formState[name]}
+                  onClick={() => {
+                    setFormState({ [name]: option });
+                  }}
+                />
+              ) : (
                 <Button
                   key={option}
                   circle
                   color={option === formState[name] ? 'primary' : 'secondary'}
-                  sx={
-                    name === 'pa_color'
-                      ? {
-                          backgroundColor: `${backgroundColor} !important`,
-                          borderColor: option === formState[name] ? '#feffff' : backgroundColor,
-                          borderStyle: 'solid',
-                          borderWidth: 2,
-                          color: 'transparent',
-                        }
-                      : {}
-                  }
                   variant={option === formState[name] ? 'contained' : 'outlined'}
                   onClick={() => {
                     setFormState({ [name]: option });
@@ -66,8 +59,8 @@ const VariationForm: React.VFC<Props> = ({ onChange, product }) => {
                 >
                   {option}
                 </Button>
-              );
-            })}
+              ),
+            )}
           </Stack>
         </Box>
       ))}
