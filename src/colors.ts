@@ -4,7 +4,9 @@ const colors: { code: string; label: string; slug: string }[] = [
   { code: '#393732', label: 'Dark Heather Grey', slug: 'dark-heather-grey' },
   { code: '#0d745c', label: 'Earth Green', slug: 'earth-green' },
   { code: '#b3b0ab', label: 'Heather Grey', slug: 'heather-grey' },
-  { code: '#5e5532', label: 'Khaki', slug: 'khaki' },
+  { code: '#4a4940', label: 'Khaki', slug: 'khaki' },
+  { code: '#5e5532', label: 'Mushroom', slug: 'mushroom' },
+  { code: '#0b6868', label: 'Ocean', slug: 'ocean' },
   { code: '#df3d3d', label: 'Red', slug: 'red' },
   { code: '#f5f5f5', label: 'White', slug: 'white' },
 ];
