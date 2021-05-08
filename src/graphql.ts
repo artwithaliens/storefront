@@ -22432,7 +22432,7 @@ export const ProductDocument = gql`
       ... on VariableProduct {
         price
         stockStatus
-        variations {
+        variations(first: 100) {
           nodes {
             id
             databaseId
