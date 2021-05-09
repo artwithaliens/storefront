@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-module */
 const withOffline = require('next-offline');
 const { version } = require('./package.json');
 

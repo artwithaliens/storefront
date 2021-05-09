@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, unicorn/prefer-module */
 const deploy = require('shipit-deploy');
 const shared = require('shipit-shared');
 
