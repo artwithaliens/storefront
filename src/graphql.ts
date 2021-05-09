@@ -23015,7 +23015,8 @@ export function useUpdateShippingMethodMutation(
 export type UpdateShippingMethodMutationHookResult = ReturnType<
   typeof useUpdateShippingMethodMutation
 >;
-export type UpdateShippingMethodMutationResult = Apollo.MutationResult<UpdateShippingMethodMutation>;
+export type UpdateShippingMethodMutationResult =
+  Apollo.MutationResult<UpdateShippingMethodMutation>;
 export type UpdateShippingMethodMutationOptions = Apollo.BaseMutationOptions<
   UpdateShippingMethodMutation,
   UpdateShippingMethodMutationVariables

@@ -21,10 +21,8 @@ const Checkout: NextPage = () => {
     fetchPolicy: 'no-cache',
     ssr: false,
   });
-  const {
-    data: { customer } = { customer: undefined },
-    loading: customerLoading,
-  } = useCustomerQuery({ ssr: false });
+  const { data: { customer } = { customer: undefined }, loading: customerLoading } =
+    useCustomerQuery({ ssr: false });
 
   const [checkout, { loading: checkoutLoading, called: checkoutCalled }] = useCheckoutMutation({
     refetchQueries: ['Cart', 'Customer'],

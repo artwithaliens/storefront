@@ -6,7 +6,7 @@ import { CountriesEnum } from '../../../graphql';
 function countryToFlag(isoCode: string) {
   return isoCode
     .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397));
+    .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127_397));
 }
 
 export type CountrySelectProps = Omit<TextFieldProps, 'defaultValue' | 'select'> & {

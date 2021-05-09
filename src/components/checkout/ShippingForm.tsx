@@ -15,19 +15,18 @@ import { Controller, useForm } from 'react-hook-form';
 import { mixed, object, SchemaOf, string } from 'yup';
 import { CountriesEnum, CustomerAddressInput, useUpdateCustomerMutation } from '../../graphql';
 
-const validationSchema: SchemaOf<
-  Omit<CustomerAddressInput, 'email' | 'overwrite' | 'phone'>
-> = object({
-  address1: string().label('Street address').max(100).required(),
-  address2: string().min(0).max(254),
-  city: string().label('City').max(25).required(),
-  company: string().label('Company').min(0).max(35),
-  country: mixed().label('Country').oneOf(Object.values(CountriesEnum)).required(),
-  firstName: string().label('First name').max(35).required(),
-  lastName: string().label('Last name').max(35).required(),
-  postcode: string().label('Postcode').min(2).max(9).required(),
-  state: string().label('State').min(0).max(254),
-});
+const validationSchema: SchemaOf<Omit<CustomerAddressInput, 'email' | 'overwrite' | 'phone'>> =
+  object({
+    address1: string().label('Street address').max(100).required(),
+    address2: string().min(0).max(254),
+    city: string().label('City').max(25).required(),
+    company: string().label('Company').min(0).max(35),
+    country: mixed().label('Country').oneOf(Object.values(CountriesEnum)).required(),
+    firstName: string().label('First name').max(35).required(),
+    lastName: string().label('Last name').max(35).required(),
+    postcode: string().label('Postcode').min(2).max(9).required(),
+    state: string().label('State').min(0).max(254),
+  });
 
 type Props = {
   defaultValues?: CustomerAddressInput | null;
@@ -94,16 +93,16 @@ const ShippingForm = React.forwardRef<HTMLFormElement, Props>(
       reset();
     };
 
-    const handleChange = (
-      onChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void,
-    ) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      onChange(event);
+    const handleChange =
+      (onChange: (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void) =>
+      (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        onChange(event);
 
-      if (shippingSameAsBilling) {
-        setShippingSameAsBilling(false);
-        onShippingSameAsBillingChange(false);
-      }
-    };
+        if (shippingSameAsBilling) {
+          setShippingSameAsBilling(false);
+          onShippingSameAsBillingChange(false);
+        }
+      };
 
     return (
       <>

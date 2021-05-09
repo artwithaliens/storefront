@@ -20,10 +20,8 @@ type TypeMap<P = {}, D extends React.ElementType = 'button'> = ExtendButtonTypeM
   defaultComponent: D;
 }>;
 
-export type ButtonProps<
-  D extends React.ElementType = TypeMap['defaultComponent'],
-  P = {}
-> = OverrideProps<TypeMap<P, D>, D>;
+export type ButtonProps<D extends React.ElementType = TypeMap['defaultComponent'], P = {}> =
+  OverrideProps<TypeMap<P, D>, D>;
 
 const Button = (({
   as,

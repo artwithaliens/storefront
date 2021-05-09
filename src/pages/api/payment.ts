@@ -71,6 +71,7 @@ export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
         },
       });
     })
+    // eslint-disable-next-line promise/prefer-await-to-then
     .catch((error) => {
       res.status(400).json({ error: error.message });
     });

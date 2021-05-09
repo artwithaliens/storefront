@@ -40,10 +40,8 @@ const PaymentMethods: React.VFC<Props> = ({
   const [paymentMethod, setPaymentMethod] = useState(initialPaymentMethod);
   const [loading, setLoading] = useState(false);
 
-  const {
-    data: { paymentGateways } = { data: undefined },
-    loading: paymentGatewaysLoading,
-  } = usePaymentGatewaysQuery();
+  const { data: { paymentGateways } = { data: undefined }, loading: paymentGatewaysLoading } =
+    usePaymentGatewaysQuery();
 
   const handleSubmitCreditCard = async (values: CreditCardFormData) => {
     setLoading(true);

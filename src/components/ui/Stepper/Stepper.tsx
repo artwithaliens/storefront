@@ -66,11 +66,13 @@ const Stepper: React.FC<StepperProps> = ({
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handlePrevious = (step = activeStep - 1) => () => {
-    if (step < activeStep && step >= 0) {
-      setActiveStep(step);
-    }
-  };
+  const handlePrevious =
+    (step = activeStep - 1) =>
+    () => {
+      if (step < activeStep && step >= 0) {
+        setActiveStep(step);
+      }
+    };
 
   return (
     <>

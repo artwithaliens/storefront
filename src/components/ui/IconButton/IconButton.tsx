@@ -17,10 +17,8 @@ type TypeMap<P = {}, D extends React.ElementType = 'button'> = ExtendButtonBaseT
   defaultComponent: D;
 }>;
 
-export type IconButtonProps<
-  D extends React.ElementType = TypeMap['defaultComponent'],
-  P = {}
-> = OverrideProps<TypeMap<P, D>, D>;
+export type IconButtonProps<D extends React.ElementType = TypeMap['defaultComponent'], P = {}> =
+  OverrideProps<TypeMap<P, D>, D>;
 
 const IconButton = (({ as, href, prefetch, ...props }: IconButtonProps) =>
   href == null ? (

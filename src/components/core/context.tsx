@@ -9,10 +9,11 @@ const defaultSettings = {
   seo: {},
 };
 
-export const SettingsContext = React.createContext<{
-  settings: Omit<NonNullable<SettingsQuery['settings']>, 'title'> & { title: string };
-  seo: NonNullable<SettingsQuery['seo']>;
-}>(defaultSettings);
+export const SettingsContext =
+  React.createContext<{
+    settings: Omit<NonNullable<SettingsQuery['settings']>, 'title'> & { title: string };
+    seo: NonNullable<SettingsQuery['seo']>;
+  }>(defaultSettings);
 
 export const SettingsProvider: React.FC = ({ children }) => {
   const { data = {} } = useSettingsQuery();

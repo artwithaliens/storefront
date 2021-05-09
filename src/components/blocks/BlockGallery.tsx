@@ -78,11 +78,12 @@ const useStyles = makeStyles(
 
           // Unset the right margin on every rightmost gallery item to ensure center balance.
           ...[1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
-            [`&.columns-${i} .blocks-gallery-image:nth-of-type(${i}n), &.columns-${i} .blocks-gallery-item:nth-of-type(${i}n)`]: {
-              [breakpoints.up('sm')]: {
-                marginRight: 0,
+            [`&.columns-${i} .blocks-gallery-image:nth-of-type(${i}n), &.columns-${i} .blocks-gallery-item:nth-of-type(${i}n)`]:
+              {
+                [breakpoints.up('sm')]: {
+                  marginRight: 0,
+                },
               },
-            },
           })),
         ),
 
