@@ -1,6 +1,6 @@
 import { Image } from '@components/core';
-import { Link, Price } from '@components/ui';
-import { Box, Grid, Paper, Skeleton, Typography } from '@material-ui/core';
+import { ColorSwatch, Link, Price } from '@components/ui';
+import { Box, Grid, Paper, Skeleton, Stack, Typography } from '@material-ui/core';
 import rangeMap from '@utils/rangeMap';
 import React from 'react';
 import { ProductsQuery, StockStatusEnum } from '../../../graphql';
@@ -35,6 +35,20 @@ const ProductGrid: React.VFC<Props> = ({ loading, products }) => {
                     >
                       <Image height={673} loading="lazy" mediaItem={product.image} width={538} />
                       <Box sx={{ p: 2 }}>
+                        {product.__typename === 'VariableProduct' && (
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            sx={{ justifyContent: 'center', mb: 2 }}
+                          >
+                            {product.paColors?.nodes?.map(
+                              (color) =>
+                                color?.name != null && (
+                                  <ColorSwatch key={color.id} color={color.name} size="small" />
+                                ),
+                            )}
+                          </Stack>
+                        )}
                         <Typography gutterBottom variant="h4">
                           {product.name}
                         </Typography>

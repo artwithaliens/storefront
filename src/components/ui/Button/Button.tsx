@@ -31,6 +31,7 @@ const Button = (({
   href,
   loading = false,
   prefetch,
+  size = 'medium',
   sx: sxProp,
   ...props
 }: ButtonProps) => {
@@ -44,16 +45,25 @@ const Button = (({
   const sx: typeof sxProp = {
     ...sxProp,
     ...(circle && {
-      borderRadius: 22,
-      height: 44,
-      minWidth: 44,
-      px: 0,
-      width: 44,
+      minWidth: 0,
+      p: 0,
+
+      ...(size === 'small'
+        ? {
+            borderRadius: 22,
+            height: 22,
+            width: 22,
+          }
+        : {
+            borderRadius: 44,
+            height: 44,
+            width: 44,
+          }),
     }),
   };
 
   return href == null ? (
-    <MuiButton disabled={disabled || loading} sx={sx} {...props}>
+    <MuiButton disabled={disabled || loading} size={size} sx={sx} {...props}>
       {loading && (
         <Box
           sx={{
@@ -74,6 +84,7 @@ const Button = (({
   ) : /^https?:/.test(href.toString()) ? (
     <MuiButton
       href={href.toString()}
+      size={size}
       sx={sx}
       onClick={handleTrack}
       {...(props as ButtonProps<'a'>)}
@@ -82,7 +93,7 @@ const Button = (({
     </MuiButton>
   ) : (
     <Link passHref as={as} href={href} prefetch={prefetch}>
-      <MuiButton component="a" sx={sx} {...(props as ButtonProps<'a'>)}>
+      <MuiButton component="a" size={size} sx={sx} {...(props as ButtonProps<'a'>)}>
         {children}
       </MuiButton>
     </Link>
