@@ -50,9 +50,9 @@ const Button = (({
 
       ...(size === 'small'
         ? {
-            borderRadius: 22,
-            height: 22,
-            width: 22,
+            borderRadius: 20,
+            height: 20,
+            width: 20,
           }
         : {
             borderRadius: 44,

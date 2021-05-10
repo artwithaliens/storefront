@@ -8,6 +8,7 @@ const colors: { code: string; label: string; slug: string }[] = [
   { code: '#5e5532', label: 'Mushroom', slug: 'mushroom' },
   { code: '#0b6868', label: 'Ocean', slug: 'ocean' },
   { code: '#df3d3d', label: 'Red', slug: 'red' },
+  { code: '#121f31', label: 'River Blue', slug: 'river-blue' },
   { code: '#f5f5f5', label: 'White', slug: 'white' },
 ];
 
