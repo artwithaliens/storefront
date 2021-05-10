@@ -2,7 +2,6 @@ import { Price } from '@components/ui';
 import {
   alpha,
   darken,
-  Hidden,
   makeStyles,
   Table,
   TableBody,
@@ -72,21 +71,15 @@ const CartTable: React.VFC<Props> = ({ cart, loading, onUpdate }) => {
 
   return (
     <Table className={styles.root}>
-      <Hidden smDown>
-        <TableHead>
-          <TableRow>
-            <TableCell colSpan={2}>Product</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell colSpan={2}>Total Price</TableCell>
-          </TableRow>
-        </TableHead>
-      </Hidden>
-      <TableBody
-        sx={{
-          display: { xs: 'block', sm: 'table-row-group' },
-        }}
-      >
+      <TableHead sx={{ display: { xs: 'none', sm: 'table-header-group' } }}>
+        <TableRow>
+          <TableCell colSpan={2}>Product</TableCell>
+          <TableCell>Price</TableCell>
+          <TableCell>Quantity</TableCell>
+          <TableCell colSpan={2}>Total Price</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody sx={{ display: { xs: 'block', sm: 'table-row-group' } }}>
         {cart.contents?.nodes?.map(
           (item) =>
             item != null && (

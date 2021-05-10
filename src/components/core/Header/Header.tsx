@@ -1,6 +1,6 @@
 import { Cart, Menu } from '@components/icons';
 import { IconButton, Link, Logo } from '@components/ui';
-import { AppBar, Badge, Box, Collapse, Hidden, makeStyles, Toolbar } from '@material-ui/core';
+import { AppBar, Badge, Box, Collapse, makeStyles, Toolbar } from '@material-ui/core';
 import React from 'react';
 import { useToggle } from 'react-use';
 import { MenuLocationEnum, useCartQuery, useMenuQuery } from '../../../graphql';
@@ -49,13 +49,11 @@ const Header: React.VFC = () => {
           width: '100%',
         }}
       >
-        <Hidden mdUp implementation="css">
-          <Box sx={{ flexGrow: 1 }}>
-            <IconButton aria-label="Menu" onClick={toggleOpen}>
-              <Menu />
-            </IconButton>
-          </Box>
-        </Hidden>
+        <Box sx={{ display: { md: 'none' }, flexGrow: 1 }}>
+          <IconButton aria-label="Menu" onClick={toggleOpen}>
+            <Menu />
+          </IconButton>
+        </Box>
         <Link href="/" underline="none">
           <Logo className={styles.logo} aria-label={settings.title} />
         </Link>
@@ -68,9 +66,9 @@ const Header: React.VFC = () => {
             justifyContent: 'flex-end',
           }}
         >
-          <Hidden mdDown>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>
             <HeaderMenu menu={menu} />
-          </Hidden>
+          </Box>
           <IconButton href="/cart" color="inherit" aria-label="Cart">
             <Badge badgeContent={cart?.contents?.itemCount}>
               <Cart />

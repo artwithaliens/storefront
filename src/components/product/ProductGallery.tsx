@@ -1,5 +1,5 @@
 import { Image } from '@components/core';
-import { Hidden, makeStyles, MobileStepper } from '@material-ui/core';
+import { makeStyles, MobileStepper, Theme, useMediaQuery } from '@material-ui/core';
 import React, { useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { ProductQuery } from '../../graphql';
@@ -48,66 +48,55 @@ type Props = {
 
 const ProductGallery: React.VFC<Props> = ({ product }) => {
   const styles = useStyles();
+  const mobile = useMediaQuery<Theme>((theme) => theme.breakpoints.down('md'));
+
   const [activeStep, setActiveStep] = useState(0);
 
-  return (
-    <>
-      <Hidden mdUp>
-        <div className={styles.galleryStepper}>
-          <SwipeableViews
-            enableMouseEvents
-            axis="x"
-            index={activeStep}
-            onChangeIndex={(index) => setActiveStep(index)}
-          >
-            <div>
-              <Image
-                className={styles.galleryStepperImage}
-                mediaItem={product.image}
-                next={false}
-              />
-            </div>
-            {product.galleryImages?.nodes?.map(
-              (mediaItem) =>
-                mediaItem != null && (
-                  <div key={mediaItem.id}>
-                    <Image
-                      className={styles.galleryStepperImage}
-                      mediaItem={mediaItem}
-                      next={false}
-                    />
-                  </div>
-                ),
-            )}
-          </SwipeableViews>
-          <MobileStepper
-            steps={(product.galleryImages?.nodes?.length ?? 0) + 1}
-            variant="dots"
-            position="static"
-            activeStep={activeStep}
-            nextButton={<div />}
-            backButton={<div />}
-          />
+  return mobile ? (
+    <div className={styles.galleryStepper}>
+      <SwipeableViews
+        enableMouseEvents
+        axis="x"
+        index={activeStep}
+        onChangeIndex={(index) => setActiveStep(index)}
+      >
+        <div>
+          <Image className={styles.galleryStepperImage} mediaItem={product.image} next={false} />
         </div>
-      </Hidden>
-      <Hidden mdDown>
-        <div className={styles.gallery}>
-          <figure className={styles.galleryImage}>
-            <Image mediaItem={product.image} next={false} />
-            <figcaption>{product.image?.caption}</figcaption>
-          </figure>
-          {product.galleryImages?.nodes?.map(
-            (mediaItem) =>
-              mediaItem != null && (
-                <figure className={styles.galleryImage}>
-                  <Image key={mediaItem.id} mediaItem={mediaItem} next={false} />
-                  <figcaption>{mediaItem.caption}</figcaption>
-                </figure>
-              ),
-          )}
-        </div>
-      </Hidden>
-    </>
+        {product.galleryImages?.nodes?.map(
+          (mediaItem) =>
+            mediaItem != null && (
+              <div key={mediaItem.id}>
+                <Image className={styles.galleryStepperImage} mediaItem={mediaItem} next={false} />
+              </div>
+            ),
+        )}
+      </SwipeableViews>
+      <MobileStepper
+        steps={(product.galleryImages?.nodes?.length ?? 0) + 1}
+        variant="dots"
+        position="static"
+        activeStep={activeStep}
+        nextButton={<div />}
+        backButton={<div />}
+      />
+    </div>
+  ) : (
+    <div className={styles.gallery}>
+      <figure className={styles.galleryImage}>
+        <Image mediaItem={product.image} next={false} />
+        <figcaption>{product.image?.caption}</figcaption>
+      </figure>
+      {product.galleryImages?.nodes?.map(
+        (mediaItem) =>
+          mediaItem != null && (
+            <figure className={styles.galleryImage}>
+              <Image key={mediaItem.id} mediaItem={mediaItem} next={false} />
+              <figcaption>{mediaItem.caption}</figcaption>
+            </figure>
+          ),
+      )}
+    </div>
   );
 };
 

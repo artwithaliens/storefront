@@ -1,7 +1,7 @@
 import { Image } from '@components/core';
 import { Delete } from '@components/icons';
 import { IconButton, Link, Price, QuantityInput } from '@components/ui';
-import { Hidden, TableCell, TableRow, Typography } from '@material-ui/core';
+import { TableCell, TableRow, Typography } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 import React from 'react';
 import { CartQuery, StockStatusEnum, UpdateCartMutationVariables } from '../../graphql';
@@ -104,9 +104,9 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           width: { xs: 'calc(50% - 70px)', sm: '15%' },
         }}
       >
-        <Hidden smUp>
-          <Typography variant="body2">Price:</Typography>
-        </Hidden>
+        <Typography variant="body2" sx={{ display: { xs: 'block', sm: 'none' } }}>
+          Price:
+        </Typography>
         {(item.product?.node?.__typename === 'SimpleProduct' ||
           item.product?.node?.__typename === 'VariableProduct') && (
           <Price>{item.product.node.price}</Price>
@@ -145,9 +145,9 @@ const CartTableRow: React.VFC<Props> = ({ item, loading, onUpdate }) => {
           width: { xs: '100%', sm: '15%' },
         }}
       >
-        <Hidden smUp>
-          <Typography variant="body2">Total Price:</Typography>
-        </Hidden>
+        <Typography variant="body2" sx={{ display: { xs: 'block', sm: 'none' } }}>
+          Total Price:
+        </Typography>
         <Price>{item.subtotal}</Price>
       </TableCell>
       <TableCell
