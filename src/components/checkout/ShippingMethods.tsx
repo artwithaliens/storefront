@@ -1,16 +1,7 @@
 import { Button, Price } from '@components/ui';
-import { Box, Grid, Radio, RadioGroup, styled, Typography } from '@material-ui/core';
+import { Box, Grid, Radio, RadioGroup, Typography } from '@material-ui/core';
 import React from 'react';
 import { CartQuery, useUpdateShippingMethodMutation } from '../../graphql';
-
-const ShippingMethodsLabel = styled('label')(({ theme }) => ({
-  alignItems: 'center',
-  backgroundColor: theme.palette.background.paper,
-  cursor: 'pointer',
-  display: 'flex',
-  flexDirection: 'row',
-  padding: theme.spacing(2),
-}));
 
 type Props = {
   availableShippingMethods: NonNullable<CartQuery['cart']>['availableShippingMethods'];
@@ -43,7 +34,18 @@ const ShippingMethods: React.VFC<Props> = ({
             (rate) =>
               rate != null && (
                 <Grid key={rate.id} item xs={12} lg={6}>
-                  <ShippingMethodsLabel htmlFor={`shippingMethod-${rate.id}`}>
+                  <Box
+                    component="label"
+                    htmlFor={`shippingMethod-${rate.id}`}
+                    sx={{
+                      alignItems: 'center',
+                      backgroundColor: 'background.paper',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      p: 2,
+                    }}
+                  >
                     <div>
                       <Radio value={rate.id} id={`shippingMethod-${rate.id}`} disabled={loading} />
                     </div>
@@ -51,7 +53,7 @@ const ShippingMethods: React.VFC<Props> = ({
                       <Typography>{rate.label}</Typography>
                       <Price>{rate.cost}</Price>
                     </Box>
-                  </ShippingMethodsLabel>
+                  </Box>
                 </Grid>
               ),
           )}

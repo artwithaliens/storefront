@@ -1,5 +1,5 @@
 import { Button } from '@components/ui';
-import { Box, Radio, RadioGroup, styled, SvgIcon, Typography } from '@material-ui/core';
+import { Box, Radio, RadioGroup, SvgIcon, Typography } from '@material-ui/core';
 import isBlank from '@utils/isBlank';
 import React, { useRef, useState } from 'react';
 import AmexSvg from '../../assets/payment-gateways/amex.svg';
@@ -7,15 +7,6 @@ import VisaSvg from '../../assets/payment-gateways/visa.svg';
 import { makePayment } from '../../braintree';
 import { CustomerQuery, usePaymentGatewaysQuery } from '../../graphql';
 import CreditCardForm, { CreditCardFormData } from './CreditCardForm';
-
-const PaymentMethodsLabel = styled('label')(({ theme }) => ({
-  alignItems: 'center',
-  backgroundColor: theme.palette.background.paper,
-  cursor: 'pointer',
-  display: 'flex',
-  marginBottom: theme.spacing(2),
-  padding: theme.spacing(2),
-}));
 
 type Props = {
   customer: NonNullable<CustomerQuery['customer']>;
@@ -90,9 +81,18 @@ const PaymentMethods: React.VFC<Props> = ({
         {paymentGateways?.nodes?.map(
           (paymentGateway) =>
             paymentGateway != null && (
-              <PaymentMethodsLabel
+              <Box
                 key={paymentGateway.id}
+                component="label"
                 htmlFor={`paymentMode-${paymentGateway.id}`}
+                sx={{
+                  alignItems: 'center',
+                  backgroundColor: 'background.paper',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  mb: 2,
+                  p: 2,
+                }}
               >
                 <div>
                   <Radio value={paymentGateway.id} id={`paymentMode-${paymentGateway.id}`} />
@@ -116,7 +116,7 @@ const PaymentMethods: React.VFC<Props> = ({
                     <CreditCardForm ref={creditCardFormRef} onSubmit={handleSubmitCreditCard} />
                   )}
                 </Box>
-              </PaymentMethodsLabel>
+              </Box>
             ),
         )}
       </RadioGroup>
